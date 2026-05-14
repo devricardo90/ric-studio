@@ -6,7 +6,7 @@ Local DONE
 
 ## Task
 
-RIC-STUDIO-001 - Define Local MVP Scope and Agent Roles
+RIC-STUDIO-002 - Validate Local Orchestrator Workflow With Controlled Smoke Tests
 
 ## Product mode
 
@@ -35,6 +35,8 @@ Documentation and operational control only.
 
 ## Review note
 
-Trigger review approved the documentation content for RIC-STUDIO-001.
+RIC-STUDIO-001 is Remote DONE and synchronized with `origin/main` at commit `aa8a6d3`.
 
-The next safe step is a controlled local commit. Push remains blocked until post-commit evidence is collected. No new READY task is opened.
+Review approved the RIC-STUDIO-002 documentation content.
+
+RIC-STUDIO-002 is in Local DONE. READY remains empty. Remote DONE for RIC-STUDIO-002 is blocked until commit, push, and post-push evidence.

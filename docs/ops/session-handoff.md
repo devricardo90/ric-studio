@@ -2,24 +2,25 @@
 
 ## Current handoff state
 
-RIC-STUDIO-001 is in Local DONE.
+RIC-STUDIO-002 is in Local DONE.
 
 ## What changed
 
-The repository now has an initial documentation baseline for:
+RIC-STUDIO-001 is Remote DONE and synchronized with `origin/main` at commit `aa8a6d3`.
 
-- Local-first product definition.
-- MVP scope.
-- Official agent roles.
-- Local architecture.
-- Model runtime strategy.
-- Operational status, backlog, execution log, and handoff.
+RIC-STUDIO-002 opens the next documentation-only validation task for:
+
+- Local orchestrator smoke-test decisions.
+- Commit gate validation cases.
+- Push gate validation cases.
+- Remote DONE gate validation cases.
+- READY blocking after Remote DONE without Discussion Gate.
 
 ## What remains
 
-Trigger review approved the documentation content. The next safe step is a controlled local commit.
+Review approved the RIC-STUDIO-002 documentation content. The next safe step is a controlled local commit for RIC-STUDIO-002.
 
-Push remains blocked until post-commit evidence is collected. No new READY task is opened. Remote DONE is not declared.
+READY remains empty. Remote DONE for RIC-STUDIO-002 is blocked until commit, push, and post-push evidence.
 
 ## Constraints to preserve
 
