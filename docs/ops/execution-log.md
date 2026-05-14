@@ -30,7 +30,7 @@ Closure:
 
 ## RIC-STUDIO-002
 
-State: Local DONE
+State: Remote DONE
 
 Summary:
 
@@ -40,7 +40,7 @@ Summary:
 - Kept READY empty.
 - Review approved the RIC-STUDIO-002 documentation content.
 - Closed RIC-STUDIO-002 operationally from REVIEW to Local DONE.
-- Did not declare Remote DONE for RIC-STUDIO-002.
+- RIC-STUDIO-002 is Remote DONE and synchronized with `origin/main` at commit `b81ac6b`.
 
 Evidence required before Trigger review:
 
@@ -49,8 +49,38 @@ Evidence required before Trigger review:
 - `git diff --check`.
 - Per-file diffs for the allowed documentation files.
 
+Closure:
+
+- RIC-STUDIO-002 is closed as Remote DONE.
+- RIC-STUDIO-002 is synchronized with `origin/main` at commit `b81ac6b`.
+
+## RIC-STUDIO-003A
+
+State: Local DONE
+
+Summary:
+
+- Opened the next controlled documentation-only plus manual local model testing task after Discussion Gate approval.
+- Tested `ric-orchestrator-runtime:latest` against LO-SMOKE-001, LO-SMOKE-003, LO-SMOKE-005, and LO-SMOKE-006.
+- Recorded raw test inputs, expected decisions, actual decisions, and PASS/FAIL results in `docs/validation/local-orchestrator-smoke-results.md`.
+- Batch result: 3 PASS, 1 FAIL.
+- PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006.
+- FAIL: LO-SMOKE-003.
+- Conclusion: `ric-orchestrator-runtime:latest` correctly blocked missing-evidence commit, allowed controlled push, and blocked Remote DONE when HEAD != origin/main, but failed the positive commit-allow scenario by overblocking.
+- Kept READY empty.
+- Review approved the RIC-STUDIO-003A batch result.
+- Closed RIC-STUDIO-003A operationally from REVIEW to Local DONE.
+- Did not declare Remote DONE for RIC-STUDIO-003A.
+- Did not change UI, app, scripts, model, Modelfile, Git automation, GitHub API, database, login, deploy, dependency, package, or IDE integration.
+
+Closure:
+
+- RIC-STUDIO-003A is closed as Local DONE.
+- Review approved the batch result with 3 PASS and 1 FAIL.
+- Remote DONE remains blocked until commit, push, and post-push evidence.
+
 Next safe step:
 
-- Controlled local commit for RIC-STUDIO-002.
+- Controlled local commit for RIC-STUDIO-003A.
 
-Remote DONE for RIC-STUDIO-002 remains blocked until commit, push, and post-push evidence. No new READY task is opened.
+Remote DONE for RIC-STUDIO-003A remains blocked until commit, push, and post-push evidence. No new READY task is opened.
