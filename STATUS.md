@@ -2,19 +2,19 @@
 
 ## Current state
 
-Local DONE
+REVIEW
 
 ## Active task
 
-RIC-STUDIO-005A - Build Candidate Runtime From Versioned Modelfile
+RIC-STUDIO-006A - Run Candidate Runtime Behavioral Smoke Tests
 
 ## Scope
 
-Controlled candidate runtime creation from the versioned Modelfile. This task creates and validates the local candidate tag without promotion or behavioral model testing.
+Controlled behavioral smoke testing against local candidate runtime `ric-orchestrator-candidate:005a`. This task documents model behavior and does not promote the candidate.
 
 ## Blocked in this task
 
-UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, unrelated Modelfile changes, model training, model tuning, model changes, official runtime promotion, runtime overwrite, runtime deletion, behavioral model tests, commit, and push are blocked.
+UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, model training, model tuning, model changes, official runtime promotion, runtime overwrite, runtime deletion, commit, and push are blocked.
 
 ## Gate status
 
@@ -40,8 +40,10 @@ During RIC-STUDIO-004B, no candidate model was created, no official runtime tag 
 
 The clean versioned runtime source was created at `runtime/ric-orchestrator/Modelfile`.
 
-Trigger review approved the candidate creation evidence and closed RIC-STUDIO-005A as Local DONE.
+RIC-STUDIO-005A is Remote DONE and synchronized with `origin/main` at commit `6610991`.
 
-RIC-STUDIO-005A is Local DONE. READY remains empty. Remote DONE for RIC-STUDIO-005A remains blocked until commit, push, and post-push evidence.
+Candidate runtime `ric-orchestrator-candidate:005a` was created from `runtime/ric-orchestrator/Modelfile` and validated locally. The official runtime was not promoted or overwritten.
 
-Candidate runtime `ric-orchestrator-candidate:005a` was created and validated locally. Official runtime was not promoted or overwritten. Behavioral model tests were not executed. Remote DONE remains blocked until commit, push, and post-push evidence.
+RIC-STUDIO-006A is in REVIEW. READY remains empty. Remote DONE is not declared for RIC-STUDIO-006A.
+
+Behavioral smoke tests against `ric-orchestrator-candidate:005a` completed with 6 PASS and 0 FAIL for the required gate decisions. The candidate fixed the previous positive commit-allow overblocking in the tested scenarios. The candidate was not promoted.

@@ -134,7 +134,7 @@ Closure:
 
 ## RIC-STUDIO-005A
 
-State: Local DONE
+State: Remote DONE
 
 Summary:
 
@@ -148,19 +148,42 @@ Summary:
 - Kept READY empty.
 - Trigger review approved the candidate creation evidence.
 - Closed RIC-STUDIO-005A as Local DONE.
-- Did not declare Remote DONE for RIC-STUDIO-005A.
 - Candidate runtime `ric-orchestrator-candidate:005a` was created and validated locally.
 - Official runtime was not promoted or overwritten.
 - Behavioral model tests were not executed.
-- Remote DONE remains blocked until commit, push, and post-push evidence.
 - Did not promote `ric-orchestrator-runtime:latest`, overwrite the official runtime, delete any runtime, run behavioral model tests, create scripts, create UI/app, add dependencies, create IDE integration, train or tune models, commit, or push.
+- RIC-STUDIO-005A is Remote DONE and synchronized with `origin/main` at commit `6610991`.
 
 Closure:
 
-- RIC-STUDIO-005A is closed as Local DONE.
+- RIC-STUDIO-005A is closed as Remote DONE.
 - READY remains empty.
-- Remote DONE remains blocked until commit, push, and post-push evidence.
+- RIC-STUDIO-005A is synchronized with `origin/main` at commit `6610991`.
 
-Next safe step:
+## RIC-STUDIO-006A
 
-- Controlled local commit for RIC-STUDIO-005A.
+State: REVIEW
+
+Summary:
+
+- Opened the next controlled behavioral smoke test task after RIC-STUDIO-005A reached Remote DONE.
+- Verified repository state before execution.
+- Verified candidate runtime `ric-orchestrator-candidate:005a` exists with `ollama list`.
+- Ran six manual behavioral smoke tests against `ric-orchestrator-candidate:005a`.
+- Recorded prompts, observed responses, expected decisions, and PASS/FAIL results in `docs/validation/runtime-candidate-smoke-006a.md`.
+- Batch result: 6 PASS, 0 FAIL.
+- PASS: missing per-file diff evidence commit block, clean positive commit allow, explicit-rule positive commit allow, controlled push allow, Remote DONE block when HEAD != origin/main, and untracked-file-without-audit commit block.
+- The candidate fixed the previous positive commit-allow overblocking in the tested scenarios.
+- Kept READY empty.
+- Did not declare Local DONE or Remote DONE for RIC-STUDIO-006A.
+- Did not promote `ric-orchestrator-runtime:latest`, overwrite or delete any runtime, change `runtime/ric-orchestrator/Modelfile`, create scripts, create UI/app, add dependencies, automate Git, commit, or push.
+
+Evidence required before Trigger review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `ollama list`.
+- Six `ollama run ric-orchestrator-candidate:005a` manual prompt outputs.
+- `git diff --stat`.
+- `git diff --name-status HEAD`.
+- `git diff --check`.

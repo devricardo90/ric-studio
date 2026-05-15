@@ -2,13 +2,11 @@
 
 ## REVIEW
 
-No task is in REVIEW.
+- RIC-STUDIO-006A - Run Candidate Runtime Behavioral Smoke Tests
 
 ## Local DONE
 
-- RIC-STUDIO-005A - Build Candidate Runtime From Versioned Modelfile
-  - Trigger review approved the candidate creation evidence.
-  - Remote DONE remains blocked until commit, push, and post-push evidence.
+No task is Local DONE.
 
 ## Remote DONE
 
@@ -17,6 +15,7 @@ No task is in REVIEW.
 - RIC-STUDIO-003A - Execute Local Orchestrator Smoke Tests Batch 1
 - RIC-STUDIO-003B - Diagnose Commit-Allow Overblocking
 - RIC-STUDIO-004B - Establish Clean Versioned Runtime Source
+- RIC-STUDIO-005A - Build Candidate Runtime From Versioned Modelfile
 
 ## READY
 
@@ -24,9 +23,11 @@ No task is READY.
 
 ## Next safe step
 
-Controlled local commit for RIC-STUDIO-005A.
+Trigger review for RIC-STUDIO-006A after raw evidence is reviewed.
 
-Candidate runtime `ric-orchestrator-candidate:005a` was created and validated locally. Official runtime was not promoted or overwritten. Behavioral model tests were not executed. Remote DONE remains blocked until commit, push, and post-push evidence.
+RIC-STUDIO-006A completed behavioral smoke tests against `ric-orchestrator-candidate:005a` with 6 PASS and 0 FAIL. The candidate fixed the previous positive commit-allow overblocking in the tested scenarios. Candidate promotion remains blocked.
+
+RIC-STUDIO-005A is Remote DONE and synchronized with `origin/main` at commit `6610991`.
 
 During RIC-STUDIO-004B, the clean versioned runtime source was created. No candidate model was created, no official runtime was promoted, and no behavioral model tests were executed in that task.
 
@@ -36,7 +37,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories are blocked for RIC-STUDIO-005A:
+The following categories are blocked for RIC-STUDIO-006A:
 
 - UI
 - Next.js app
@@ -47,12 +48,11 @@ The following categories are blocked for RIC-STUDIO-005A:
 - Login
 - Deploy
 - Scripts
-- Unrelated Modelfile changes
+- Runtime source changes
 - Model training or tuning
 - Model changes
 - Runtime promotion
 - Runtime overwrite or deletion
-- Behavioral model tests
 
 ## Future candidates
 

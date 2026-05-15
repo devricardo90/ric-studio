@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-005A is Local DONE.
+RIC-STUDIO-006A is in REVIEW.
 
 ## What changed
 
@@ -33,15 +33,19 @@ A future system prompt or Modelfile correction is recommended but was not execut
 
 RIC-STUDIO-004B created a clean versioned runtime source at `runtime/ric-orchestrator/Modelfile`, plus runtime source strategy and baseline validation documentation. During RIC-STUDIO-004B, no candidate model was created, no official runtime tag was promoted, and no behavioral model tests were run.
 
-RIC-STUDIO-005A created and validated local Ollama candidate runtime `ric-orchestrator-candidate:005a`. Official runtime was not promoted or overwritten. Behavioral model tests were not executed. Remote DONE remains blocked until commit, push, and post-push evidence.
+RIC-STUDIO-005A created and validated local Ollama candidate runtime `ric-orchestrator-candidate:005a`. Official runtime was not promoted or overwritten. RIC-STUDIO-005A is Remote DONE and synchronized with `origin/main` at commit `6610991`.
 
-Trigger review approved the candidate creation evidence and closed RIC-STUDIO-005A as Local DONE.
+RIC-STUDIO-006A ran controlled behavioral smoke tests against `ric-orchestrator-candidate:005a`.
+
+RIC-STUDIO-006A result: 6 PASS, 0 FAIL. The candidate fixed the previous positive commit-allow overblocking in the tested scenarios.
+
+The candidate was not promoted, no runtime was overwritten or deleted, no runtime source was changed, no scripts/UI/app/dependencies were added, and no commit or push occurred.
 
 ## What remains
 
-Controlled local commit for RIC-STUDIO-005A is the next safe step.
+Trigger review for RIC-STUDIO-006A is the next safe step.
 
-READY remains empty. Remote DONE for RIC-STUDIO-005A remains blocked until commit, push, and post-push evidence.
+READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-006A.
 
 ## Constraints to preserve
 
@@ -52,7 +56,6 @@ READY remains empty. Remote DONE for RIC-STUDIO-005A remains blocked until commi
 - Do not automate Git.
 - Do not promote runtime.
 - Do not overwrite or delete runtime.
-- Do not run behavioral model tests.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
