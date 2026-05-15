@@ -106,7 +106,7 @@ Closure:
 
 ## RIC-STUDIO-004B
 
-State: Local DONE
+State: Remote DONE
 
 Summary:
 
@@ -120,18 +120,47 @@ Summary:
 - Kept READY empty.
 - Review approved the RIC-STUDIO-004B runtime source baseline.
 - Closed RIC-STUDIO-004B operationally from REVIEW to Local DONE.
-- Did not declare Remote DONE for RIC-STUDIO-004B.
+- RIC-STUDIO-004B is Remote DONE and synchronized with `origin/main` at commit `bfa6519`.
 - Did not create a candidate model, promote `ric-orchestrator-runtime:latest`, run model tests, create scripts, create UI/app, add Git automation, add GitHub API integration, add database, login, deploy, dependency, package, training, or tuning.
 
 Closure:
 
-- RIC-STUDIO-004B is closed as Local DONE.
+- RIC-STUDIO-004B is closed as Remote DONE.
 - Clean versioned runtime source was created.
-- No candidate model was created.
+- During RIC-STUDIO-004B, no candidate model was created.
 - No official runtime was promoted.
 - No behavioral model tests were executed.
+- RIC-STUDIO-004B is synchronized with `origin/main` at commit `bfa6519`.
+
+## RIC-STUDIO-005A
+
+State: Local DONE
+
+Summary:
+
+- Opened the next controlled candidate runtime creation task after Discussion Gate approval.
+- Verified the repository was clean and synchronized with `origin/main`.
+- Verified `runtime/ric-orchestrator/Modelfile` exists.
+- Created local Ollama candidate tag `ric-orchestrator-candidate:005a` from the versioned Modelfile.
+- Validated the candidate exists locally with `ollama list`.
+- Inspected the candidate with `ollama show ric-orchestrator-candidate:005a --modelfile`.
+- Documented evidence in `docs/validation/runtime-candidate-005a.md`.
+- Kept READY empty.
+- Trigger review approved the candidate creation evidence.
+- Closed RIC-STUDIO-005A as Local DONE.
+- Did not declare Remote DONE for RIC-STUDIO-005A.
+- Candidate runtime `ric-orchestrator-candidate:005a` was created and validated locally.
+- Official runtime was not promoted or overwritten.
+- Behavioral model tests were not executed.
+- Remote DONE remains blocked until commit, push, and post-push evidence.
+- Did not promote `ric-orchestrator-runtime:latest`, overwrite the official runtime, delete any runtime, run behavioral model tests, create scripts, create UI/app, add dependencies, create IDE integration, train or tune models, commit, or push.
+
+Closure:
+
+- RIC-STUDIO-005A is closed as Local DONE.
+- READY remains empty.
 - Remote DONE remains blocked until commit, push, and post-push evidence.
 
 Next safe step:
 
-- Controlled local commit for RIC-STUDIO-004B.
+- Controlled local commit for RIC-STUDIO-005A.

@@ -6,7 +6,7 @@ Local DONE
 
 ## Task
 
-RIC-STUDIO-004B - Establish Clean Versioned Runtime Source
+RIC-STUDIO-005A - Build Candidate Runtime From Versioned Modelfile
 
 ## Product mode
 
@@ -51,10 +51,16 @@ Diagnosis result: 2 PASS, 3 FAIL. The model overblocked COMMIT-ALLOW-001, COMMIT
 
 A future system prompt or Modelfile correction is recommended but was not executed in this task.
 
-RIC-STUDIO-004B is in Local DONE. READY remains empty. Remote DONE for RIC-STUDIO-004B is blocked until commit, push, and post-push evidence.
+RIC-STUDIO-004B is Remote DONE and synchronized with `origin/main` at commit `bfa6519`.
 
-No candidate model was created, no official runtime tag was promoted, and no model behavior was tested in this task.
+During RIC-STUDIO-004B, no candidate model was created, no official runtime tag was promoted, and no model behavior was tested.
 
 The clean versioned runtime source was created at `runtime/ric-orchestrator/Modelfile`.
 
-UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, unrelated Modelfile changes, model training, model tuning, model changes, candidate model creation, and runtime promotion are blocked.
+Trigger review approved the candidate creation evidence and closed RIC-STUDIO-005A as Local DONE.
+
+RIC-STUDIO-005A is Local DONE. READY remains empty. Remote DONE for RIC-STUDIO-005A remains blocked until commit, push, and post-push evidence.
+
+Candidate runtime `ric-orchestrator-candidate:005a` was created and validated locally. Official runtime was not promoted or overwritten. Behavioral model tests were not executed. Remote DONE remains blocked until commit, push, and post-push evidence.
+
+UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, unrelated Modelfile changes, model training, model tuning, model changes, official runtime promotion, runtime overwrite, runtime deletion, behavioral model tests, commit, and push are blocked.

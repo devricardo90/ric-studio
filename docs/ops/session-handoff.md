@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-004B is in Local DONE.
+RIC-STUDIO-005A is Local DONE.
 
 ## What changed
 
@@ -13,6 +13,8 @@ RIC-STUDIO-002 is Remote DONE and synchronized with `origin/main` at commit `b81
 RIC-STUDIO-003A is Remote DONE and synchronized with `origin/main` at commit `07e11f1`.
 
 RIC-STUDIO-003B is Remote DONE and synchronized with `origin/main` at commit `e67a0e5`.
+
+RIC-STUDIO-004B is Remote DONE and synchronized with `origin/main` at commit `bfa6519`.
 
 RIC-STUDIO-003A executed manual local model smoke tests for:
 
@@ -29,13 +31,17 @@ RIC-STUDIO-003B diagnosed the overblocking behavior with five commit-gate prompt
 
 A future system prompt or Modelfile correction is recommended but was not executed in this task.
 
-RIC-STUDIO-004B created a clean versioned runtime source at `runtime/ric-orchestrator/Modelfile`, plus runtime source strategy and baseline validation documentation. No candidate model was created, no official runtime tag was promoted, and no behavioral model tests were run.
+RIC-STUDIO-004B created a clean versioned runtime source at `runtime/ric-orchestrator/Modelfile`, plus runtime source strategy and baseline validation documentation. During RIC-STUDIO-004B, no candidate model was created, no official runtime tag was promoted, and no behavioral model tests were run.
+
+RIC-STUDIO-005A created and validated local Ollama candidate runtime `ric-orchestrator-candidate:005a`. Official runtime was not promoted or overwritten. Behavioral model tests were not executed. Remote DONE remains blocked until commit, push, and post-push evidence.
+
+Trigger review approved the candidate creation evidence and closed RIC-STUDIO-005A as Local DONE.
 
 ## What remains
 
-Review approved the RIC-STUDIO-004B runtime source baseline. The next safe step is a controlled local commit for RIC-STUDIO-004B.
+Controlled local commit for RIC-STUDIO-005A is the next safe step.
 
-READY remains empty. Remote DONE for RIC-STUDIO-004B is blocked until commit, push, and post-push evidence.
+READY remains empty. Remote DONE for RIC-STUDIO-005A remains blocked until commit, push, and post-push evidence.
 
 ## Constraints to preserve
 
@@ -45,6 +51,8 @@ READY remains empty. Remote DONE for RIC-STUDIO-004B is blocked until commit, pu
 - Do not create scripts.
 - Do not automate Git.
 - Do not promote runtime.
+- Do not overwrite or delete runtime.
+- Do not run behavioral model tests.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
