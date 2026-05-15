@@ -6,15 +6,15 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion
+RIC-STUDIO-009A - Promote Candidate Runtime To Official Runtime
 
 ## Scope
 
-Runtime vocabulary standardization before promotion. This task updates the versioned Modelfile, builds `ric-orchestrator-candidate:008a`, runs focused vocabulary smoke tests, and does not promote the candidate.
+Local Ollama runtime promotion from `ric-orchestrator-candidate:008a` to `ric-orchestrator-runtime:latest`, followed by focused official runtime smoke tests.
 
 ## Blocked in this task
 
-UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, model training, model tuning, model changes, official runtime promotion, runtime overwrite, runtime deletion, commit, and push are blocked.
+UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, Modelfile edits, model training, model tuning, dependency changes, runtime deletion, commit, and push are blocked.
 
 ## Gate status
 
@@ -52,6 +52,10 @@ RIC-STUDIO-007A is Remote DONE and synchronized with `origin/main` at commit `f4
 
 Realistic workflow simulation against `ric-orchestrator-candidate:005a` completed with 7 PASS and 0 FAIL. The candidate was not promoted. Recommendation: promote the candidate in a separate controlled promotion task after Trigger review.
 
-RIC-STUDIO-008A is in REVIEW. READY remains empty. Remote DONE is not declared for RIC-STUDIO-008A.
+RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
 Versioned runtime vocabulary was standardized in `runtime/ric-orchestrator/Modelfile`. Candidate runtime `ric-orchestrator-candidate:008a` was created and passed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
+
+RIC-STUDIO-009A is in REVIEW. READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
+
+`ric-orchestrator-candidate:008a` was promoted locally to `ric-orchestrator-runtime:latest`. Official runtime smoke tests passed with 3 PASS and 0 FAIL. The Modelfile was not edited, candidates `005a` and `008a` were not deleted, and no scripts, dependencies, UI/app files, Git automation, commit, or push occurred.

@@ -2,7 +2,7 @@
 
 ## REVIEW
 
-- RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion.
+- RIC-STUDIO-009A - Promote Candidate Runtime To Official Runtime.
 
 ## READY
 
@@ -26,6 +26,7 @@ No task is Local DONE.
 - RIC-STUDIO-005A - Build Candidate Runtime From Versioned Modelfile.
 - RIC-STUDIO-006A - Run Candidate Runtime Behavioral Smoke Tests.
 - RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation.
+- RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion.
 
 ## Discussion Gate
 
@@ -33,9 +34,11 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Trigger review for RIC-STUDIO-008A after raw evidence is reviewed. No new READY task is opened.
+Trigger review for RIC-STUDIO-009A after raw evidence is reviewed. No new READY task is opened.
 
-RIC-STUDIO-008A standardized runtime gate vocabulary, built `ric-orchestrator-candidate:008a`, and completed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
+RIC-STUDIO-009A promoted `ric-orchestrator-candidate:008a` locally to `ric-orchestrator-runtime:latest` and completed official runtime smoke tests with 3 PASS and 0 FAIL. READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
+
+RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
 RIC-STUDIO-007A is Remote DONE and synchronized with `origin/main` at commit `f4a16cc`.
 
@@ -49,7 +52,7 @@ Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction i
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked for RIC-STUDIO-008A
+## Blocked for RIC-STUDIO-009A
 
 - UI.
 - Next.js app.
@@ -61,8 +64,10 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Deploy.
 - Scripts.
 - Runtime source changes.
+- Modelfile edits.
 - Model training.
 - Model tuning.
-- Model changes.
-- Runtime promotion.
-- Runtime overwrite or deletion.
+- Dependency changes.
+- Runtime deletion.
+- Commit.
+- Push.

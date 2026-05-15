@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-008A is in REVIEW.
+RIC-STUDIO-009A is in REVIEW.
 
 ## What changed
 
@@ -51,13 +51,19 @@ RIC-STUDIO-008A standardized the versioned runtime vocabulary in `runtime/ric-or
 
 RIC-STUDIO-008A result: 6 PASS, 0 FAIL. Exact labels passed for Remote DONE confirmed, Remote DONE blocked, commit allowed, push allowed, Local DONE confirmed, and push blocked as `PUSH AINDA BLOQUEADO`. The commit test used scoped `git add STATUS.md backlog.md docs/ops/status.md` and did not suggest `git add .`.
 
-The candidate was not promoted, no official runtime was overwritten or deleted, no scripts/UI/app/dependencies were added, and no commit or push occurred.
+RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
+
+RIC-STUDIO-009A promoted `ric-orchestrator-candidate:008a` locally to `ric-orchestrator-runtime:latest`.
+
+RIC-STUDIO-009A result: 3 PASS, 0 FAIL. Official runtime passed Remote DONE positive, push negative, and commit allowed with scoped `git add STATUS.md backlog.md docs/ops/status.md`.
+
+The Modelfile was not edited, candidates `005a` and `008a` were not deleted, no scripts/UI/app/dependencies were added, no Git automation was created, and no commit or push occurred.
 
 ## What remains
 
-Trigger review for RIC-STUDIO-008A is the next safe step.
+Trigger review for RIC-STUDIO-009A is the next safe step.
 
-READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-008A.
+READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
 
 ## Constraints to preserve
 
@@ -66,8 +72,8 @@ READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-
 - Do not install dependencies.
 - Do not create scripts.
 - Do not automate Git.
-- Do not promote runtime.
-- Do not overwrite or delete runtime.
+- Do not delete runtime candidates.
+- Do not edit the Modelfile.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.

@@ -211,7 +211,7 @@ Closure:
 
 ## RIC-STUDIO-008A
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -227,18 +227,53 @@ Summary:
 - Kept READY empty.
 - Did not declare Local DONE or Remote DONE for RIC-STUDIO-008A.
 - Did not create scripts, add dependencies, touch UI/app files, automate Git, commit, or push.
+- RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
+
+Closure:
+
+- RIC-STUDIO-008A is closed as Remote DONE.
+- RIC-STUDIO-008A is synchronized with `origin/main` at commit `54c7f78`.
+
+## RIC-STUDIO-009A
+
+State: REVIEW
+
+Summary:
+
+- Opened the official runtime promotion task after RIC-STUDIO-008A reached Remote DONE.
+- Verified the repository was clean and synchronized with `origin/main`.
+- Verified recent commits with `git log --oneline -3`.
+- Verified `ric-orchestrator-candidate:008a` and the pre-existing `ric-orchestrator-runtime:latest`.
+- Verified `ollama cp` availability with `ollama help cp`.
+- Promoted `ric-orchestrator-candidate:008a` locally to `ric-orchestrator-runtime:latest` with `ollama cp ric-orchestrator-candidate:008a ric-orchestrator-runtime:latest`.
+- Verified post-promotion runtime evidence: `ric-orchestrator-runtime:latest` and `ric-orchestrator-candidate:008a` now share model ID `be391f29a172`.
+- Ran three focused smoke tests against `ric-orchestrator-runtime:latest`.
+- Batch result: 3 PASS, 0 FAIL.
+- PASS: Remote DONE positive exact label `REMOTE DONE CONFIRMADO`, push negative exact label `PUSH AINDA BLOQUEADO`, and commit allowed exact label `COMMIT CONTROLADO LIBERADO` with scoped `git add STATUS.md backlog.md docs/ops/status.md`.
+- Candidate `ric-orchestrator-candidate:005a` was not deleted.
+- Candidate `ric-orchestrator-candidate:008a` was not deleted.
+- The Modelfile was not edited.
+- Kept READY empty.
+- Did not declare Local DONE or Remote DONE for RIC-STUDIO-009A.
+- Did not create scripts, add dependencies, touch UI/app files, automate Git, commit, or push.
 
 Evidence required before Trigger review:
 
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
+- `git log --oneline -3`.
 - `ollama list`.
-- `ollama create ric-orchestrator-candidate:008a -f runtime/ric-orchestrator/Modelfile`.
-- Six `ollama run ric-orchestrator-candidate:008a` focused vocabulary test outputs.
+- `ollama show ric-orchestrator-candidate:008a`.
+- `ollama show ric-orchestrator-runtime:latest`.
+- `ollama help cp`.
+- `ollama cp ric-orchestrator-candidate:008a ric-orchestrator-runtime:latest`.
+- `ollama list`.
+- `ollama show ric-orchestrator-runtime:latest`.
+- Three `ollama run ric-orchestrator-runtime:latest` focused smoke test outputs.
+- `git status --short --untracked-files=all`.
+- `git add -N docs/validation/runtime-promotion-009a.md`.
 - `git status --short --untracked-files=all`.
 - `git diff --name-status`.
 - `git diff --stat`.
 - `git diff --check`.
-- `git --no-pager diff -- runtime/ric-orchestrator/Modelfile docs/validation/runtime-vocabulary-standard-008a.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
-- `ollama list`.
-- `ollama show ric-orchestrator-candidate:008a`.
+- `git --no-pager diff -- docs/validation/runtime-promotion-009a.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
