@@ -14,13 +14,14 @@ No task is IN_PROGRESS.
 
 ## Local DONE
 
-- RIC-STUDIO-003B - Diagnose Commit-Allow Overblocking.
+- RIC-STUDIO-004B - Establish Clean Versioned Runtime Source.
 
 ## Remote DONE
 
 - RIC-STUDIO-001 - Define Local MVP Scope and Agent Roles.
 - RIC-STUDIO-002 - Validate Local Orchestrator Workflow With Controlled Smoke Tests.
 - RIC-STUDIO-003A - Execute Local Orchestrator Smoke Tests Batch 1.
+- RIC-STUDIO-003B - Diagnose Commit-Allow Overblocking.
 
 ## Discussion Gate
 
@@ -28,15 +29,17 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Controlled local commit for RIC-STUDIO-003B.
+Controlled local commit for RIC-STUDIO-004B.
 
-Remote DONE for RIC-STUDIO-003B remains blocked until commit, push, and post-push evidence. No new READY task is opened.
+Remote DONE for RIC-STUDIO-004B remains blocked until commit, push, and post-push evidence. No new READY task is opened.
+
+Clean versioned runtime source was created. No candidate model was created, no official runtime was promoted, and no behavioral model tests were executed.
 
 Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction is recommended but was not executed in this task.
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked for RIC-STUDIO-003B
+## Blocked for RIC-STUDIO-004B
 
 - UI.
 - Next.js app.
@@ -47,7 +50,9 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Login.
 - Deploy.
 - Scripts.
-- Modelfile changes.
+- Unrelated Modelfile changes.
 - Model training.
 - Model tuning.
 - Model changes.
+- Candidate model creation.
+- Runtime promotion.

@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-003B is in Local DONE.
+RIC-STUDIO-004B is in Local DONE.
 
 ## What changed
 
@@ -11,6 +11,8 @@ RIC-STUDIO-001 is Remote DONE and synchronized with `origin/main` at commit `aa8
 RIC-STUDIO-002 is Remote DONE and synchronized with `origin/main` at commit `b81ac6b`.
 
 RIC-STUDIO-003A is Remote DONE and synchronized with `origin/main` at commit `07e11f1`.
+
+RIC-STUDIO-003B is Remote DONE and synchronized with `origin/main` at commit `e67a0e5`.
 
 RIC-STUDIO-003A executed manual local model smoke tests for:
 
@@ -27,11 +29,13 @@ RIC-STUDIO-003B diagnosed the overblocking behavior with five commit-gate prompt
 
 A future system prompt or Modelfile correction is recommended but was not executed in this task.
 
+RIC-STUDIO-004B created a clean versioned runtime source at `runtime/ric-orchestrator/Modelfile`, plus runtime source strategy and baseline validation documentation. No candidate model was created, no official runtime tag was promoted, and no behavioral model tests were run.
+
 ## What remains
 
-Review approved the RIC-STUDIO-003B diagnosis. The next safe step is a controlled local commit for RIC-STUDIO-003B.
+Review approved the RIC-STUDIO-004B runtime source baseline. The next safe step is a controlled local commit for RIC-STUDIO-004B.
 
-READY remains empty. Remote DONE for RIC-STUDIO-003B is blocked until commit, push, and post-push evidence.
+READY remains empty. Remote DONE for RIC-STUDIO-004B is blocked until commit, push, and post-push evidence.
 
 ## Constraints to preserve
 
@@ -40,7 +44,7 @@ READY remains empty. Remote DONE for RIC-STUDIO-003B is blocked until commit, pu
 - Do not install dependencies.
 - Do not create scripts.
 - Do not automate Git.
-- Do not change Modelfile.
+- Do not promote runtime.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
