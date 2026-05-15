@@ -2,11 +2,11 @@
 
 ## REVIEW
 
-- RIC-STUDIO-009A - Promote Candidate Runtime To Official Runtime.
+No task is in REVIEW.
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-009A - Define Local Orchestrator Error Log.
 
 ## IN_PROGRESS
 
@@ -34,9 +34,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Trigger review for RIC-STUDIO-009A after raw evidence is reviewed. No new READY task is opened.
-
-RIC-STUDIO-009A promoted `ric-orchestrator-candidate:008a` locally to `ric-orchestrator-runtime:latest` and completed official runtime smoke tests with 3 PASS and 0 FAIL. READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
+Start RIC-STUDIO-009A documentation-only execution. Create `docs/validation/local-orchestrator-error-log.md` and update only the authorized operations files.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -65,6 +63,10 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Scripts.
 - Runtime source changes.
 - Modelfile edits.
+- Ollama model creation.
+- Runtime promotion.
+- Official runtime changes.
+- Candidate runtime changes.
 - Model training.
 - Model tuning.
 - Dependency changes.

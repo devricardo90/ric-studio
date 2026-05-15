@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Task
 
-RIC-STUDIO-009A - Promote Candidate Runtime To Official Runtime
+RIC-STUDIO-009A - Define Local Orchestrator Error Log
 
 ## Product mode
 
@@ -33,7 +33,7 @@ Documentation and operational control only.
 
 `ric-orchestrator-runtime:latest` is the official local orchestration runtime.
 
-## Review note
+## READY note
 
 RIC-STUDIO-001 is Remote DONE and synchronized with `origin/main` at commit `aa8a6d3`.
 
@@ -73,8 +73,8 @@ RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54
 
 Versioned runtime vocabulary was standardized in `runtime/ric-orchestrator/Modelfile`. Candidate runtime `ric-orchestrator-candidate:008a` was created and passed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
 
-RIC-STUDIO-009A is in REVIEW. READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
+RIC-STUDIO-009A is READY as a documentation-only task to define the local orchestrator error log.
 
-`ric-orchestrator-candidate:008a` was promoted locally to `ric-orchestrator-runtime:latest`. Official runtime smoke tests passed with 3 PASS and 0 FAIL. The Modelfile was not edited, candidates `005a` and `008a` were not deleted, and no scripts, dependencies, UI/app files, Git automation, commit, or push occurred.
+The task may create `docs/validation/local-orchestrator-error-log.md` and update the authorized operations files only.
 
-UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, Modelfile edits, model training, model tuning, dependency changes, runtime deletion, commit, and push are blocked.
+UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, Modelfile edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, model training, model tuning, dependency changes, runtime deletion, commit, and push are blocked.

@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-009A is in REVIEW.
+RIC-STUDIO-009A is READY as `Define Local Orchestrator Error Log`.
 
 ## What changed
 
@@ -59,11 +59,23 @@ RIC-STUDIO-009A result: 3 PASS, 0 FAIL. Official runtime passed Remote DONE posi
 
 The Modelfile was not edited, candidates `005a` and `008a` were not deleted, no scripts/UI/app/dependencies were added, no Git automation was created, and no commit or push occurred.
 
+RIC-STUDIO-009A is now opened as READY for documentation-only error-log definition.
+
+Authorized files:
+
+- `docs/validation/local-orchestrator-error-log.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
 ## What remains
 
-Trigger review for RIC-STUDIO-009A is the next safe step.
+Execute RIC-STUDIO-009A documentation-only work, then collect review evidence.
 
-READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
+Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
 
 ## Constraints to preserve
 
@@ -74,6 +86,10 @@ READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-
 - Do not automate Git.
 - Do not delete runtime candidates.
 - Do not edit the Modelfile.
+- Do not create an Ollama model.
+- Do not promote a runtime.
+- Do not change the official runtime.
+- Do not change a candidate runtime.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.

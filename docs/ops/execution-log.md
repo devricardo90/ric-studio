@@ -234,9 +234,9 @@ Closure:
 - RIC-STUDIO-008A is closed as Remote DONE.
 - RIC-STUDIO-008A is synchronized with `origin/main` at commit `54c7f78`.
 
-## RIC-STUDIO-009A
+## Historical Promotion Evidence For RIC-STUDIO-009A
 
-State: REVIEW
+State: REVIEW evidence retained from the prior promotion review.
 
 Summary:
 
@@ -277,3 +277,23 @@ Evidence required before Trigger review:
 - `git diff --stat`.
 - `git diff --check`.
 - `git --no-pager diff -- docs/validation/runtime-promotion-009a.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+
+## RIC-STUDIO-009A - Define Local Orchestrator Error Log
+
+State: READY
+
+Summary:
+
+- Opened RIC-STUDIO-009A as a documentation-only READY task.
+- Authorized creation of `docs/validation/local-orchestrator-error-log.md`.
+- Authorized updates to `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Defined that isolated non-critical local orchestrator errors must be logged before runtime improvements are proposed.
+- Defined that future runtime improvement may be proposed only after 3 to 5 matching occurrences, or after 1 critical operational safety error.
+- Blocked Modelfile edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, scripts, app/UI, packages, dependencies, Git automation, commit, and push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.
+- Raw per-file diffs for all authorized documentation files changed in this task.

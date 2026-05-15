@@ -2,19 +2,29 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-009A - Promote Candidate Runtime To Official Runtime
+RIC-STUDIO-009A - Define Local Orchestrator Error Log
 
 ## Scope
 
-Local Ollama runtime promotion from `ric-orchestrator-candidate:008a` to `ric-orchestrator-runtime:latest`, followed by focused official runtime smoke tests.
+Create an operational documentation file for recording real local orchestrator behavior errors and defining when repeated error patterns may become a future runtime improvement proposal.
+
+## Allowed files
+
+- `docs/validation/local-orchestrator-error-log.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
 
 ## Blocked in this task
 
-UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, Modelfile edits, model training, model tuning, dependency changes, runtime deletion, commit, and push are blocked.
+Runtime source changes, `runtime/ric-orchestrator/Modelfile` edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, scripts, app/UI, package or dependency changes, Git automation, commit, and push are blocked.
 
 ## Gate status
 
@@ -56,6 +66,6 @@ RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54
 
 Versioned runtime vocabulary was standardized in `runtime/ric-orchestrator/Modelfile`. Candidate runtime `ric-orchestrator-candidate:008a` was created and passed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
 
-RIC-STUDIO-009A is in REVIEW. READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
+RIC-STUDIO-009A is READY for documentation-only execution as `Define Local Orchestrator Error Log`.
 
-`ric-orchestrator-candidate:008a` was promoted locally to `ric-orchestrator-runtime:latest`. Official runtime smoke tests passed with 3 PASS and 0 FAIL. The Modelfile was not edited, candidates `005a` and `008a` were not deleted, and no scripts, dependencies, UI/app files, Git automation, commit, or push occurred.
+No runtime, Modelfile, Ollama model, script, app/UI, package, dependency, commit, or push action is authorized.
