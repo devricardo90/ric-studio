@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-006A - Run Candidate Runtime Behavioral Smoke Tests
+RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation
 
 ## Scope
 
-Controlled behavioral smoke testing against local candidate runtime `ric-orchestrator-candidate:005a`. This task documents model behavior and does not promote the candidate.
+Final realistic workflow simulation against local candidate runtime `ric-orchestrator-candidate:005a` before any promotion decision. This task documents model behavior and does not promote the candidate.
 
 ## Blocked in this task
 
@@ -44,6 +44,10 @@ RIC-STUDIO-005A is Remote DONE and synchronized with `origin/main` at commit `66
 
 Candidate runtime `ric-orchestrator-candidate:005a` was created from `runtime/ric-orchestrator/Modelfile` and validated locally. The official runtime was not promoted or overwritten.
 
-RIC-STUDIO-006A is in REVIEW. READY remains empty. Remote DONE is not declared for RIC-STUDIO-006A.
+RIC-STUDIO-006A is Remote DONE and synchronized with `origin/main` at commit `8e3796a`.
 
 Behavioral smoke tests against `ric-orchestrator-candidate:005a` completed with 6 PASS and 0 FAIL for the required gate decisions. The candidate fixed the previous positive commit-allow overblocking in the tested scenarios. The candidate was not promoted.
+
+RIC-STUDIO-007A is in REVIEW. READY remains empty. Remote DONE is not declared for RIC-STUDIO-007A.
+
+Realistic workflow simulation against `ric-orchestrator-candidate:005a` completed with 7 PASS and 0 FAIL. The candidate was not promoted. Recommendation: promote the candidate in a separate controlled promotion task after Trigger review.

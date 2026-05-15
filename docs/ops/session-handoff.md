@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-006A is in REVIEW.
+RIC-STUDIO-007A is in REVIEW.
 
 ## What changed
 
@@ -39,13 +39,19 @@ RIC-STUDIO-006A ran controlled behavioral smoke tests against `ric-orchestrator-
 
 RIC-STUDIO-006A result: 6 PASS, 0 FAIL. The candidate fixed the previous positive commit-allow overblocking in the tested scenarios.
 
-The candidate was not promoted, no runtime was overwritten or deleted, no runtime source was changed, no scripts/UI/app/dependencies were added, and no commit or push occurred.
+RIC-STUDIO-006A is Remote DONE and synchronized with `origin/main` at commit `8e3796a`.
+
+RIC-STUDIO-007A ran a final realistic workflow simulation against `ric-orchestrator-candidate:005a`.
+
+RIC-STUDIO-007A result: 7 PASS, 0 FAIL. The candidate handled REVIEW state, commit block, commit allow, Local DONE block, push allow, Remote DONE block, and Remote DONE confirmation as expected.
+
+The candidate was not promoted, no runtime was overwritten or deleted, no runtime source was changed, no scripts/UI/app/dependencies were added, and no commit or push occurred. Recommendation: promote the candidate in a separate controlled promotion task after Trigger review.
 
 ## What remains
 
-Trigger review for RIC-STUDIO-006A is the next safe step.
+Trigger review for RIC-STUDIO-007A is the next safe step.
 
-READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-006A.
+READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-007A.
 
 ## Constraints to preserve
 

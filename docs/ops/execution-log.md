@@ -162,7 +162,7 @@ Closure:
 
 ## RIC-STUDIO-006A
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -177,13 +177,39 @@ Summary:
 - Kept READY empty.
 - Did not declare Local DONE or Remote DONE for RIC-STUDIO-006A.
 - Did not promote `ric-orchestrator-runtime:latest`, overwrite or delete any runtime, change `runtime/ric-orchestrator/Modelfile`, create scripts, create UI/app, add dependencies, automate Git, commit, or push.
+- RIC-STUDIO-006A is Remote DONE and synchronized with `origin/main` at commit `8e3796a`.
+
+Closure:
+
+- RIC-STUDIO-006A is closed as Remote DONE.
+- RIC-STUDIO-006A is synchronized with `origin/main` at commit `8e3796a`.
+
+## RIC-STUDIO-007A
+
+State: REVIEW
+
+Summary:
+
+- Opened the final realistic workflow simulation task after RIC-STUDIO-006A reached Remote DONE.
+- Verified repository state before execution.
+- Verified candidate runtime `ric-orchestrator-candidate:005a` exists with `ollama list`.
+- Ran a seven-step realistic workflow simulation against `ric-orchestrator-candidate:005a`.
+- Recorded prompts, observed model decisions, expected decisions, PASS/FAIL results, and recommendation in `docs/validation/runtime-candidate-real-workflow-007a.md`.
+- Batch result: 7 PASS, 0 FAIL.
+- PASS: REVIEW state handling, incomplete-evidence commit block, complete-evidence commit allow with simulated `git add -N`, Local DONE block before actual commit evidence, controlled push allow, Remote DONE block without post-push equality evidence, and Remote DONE confirmation with clean tree and `HEAD == origin/main`.
+- The candidate was not promoted.
+- Recommendation: promote the candidate in a separate controlled promotion task after Trigger review.
+- Kept READY empty.
+- Did not declare Local DONE or Remote DONE for RIC-STUDIO-007A.
+- Did not promote `ric-orchestrator-candidate:005a`, overwrite `ric-orchestrator-runtime:latest`, edit `runtime/ric-orchestrator/Modelfile`, create scripts, add dependencies, touch UI/app files, automate Git, commit, or push.
 
 Evidence required before Trigger review:
 
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
 - `ollama list`.
-- Six `ollama run ric-orchestrator-candidate:005a` manual prompt outputs.
+- Seven `ollama run ric-orchestrator-candidate:005a` manual prompt outputs.
+- `git status --short --untracked-files=all`.
+- `git diff --name-status`.
 - `git diff --stat`.
-- `git diff --name-status HEAD`.
 - `git diff --check`.
