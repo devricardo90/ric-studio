@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation
+RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion
 
 ## Product mode
 
@@ -65,8 +65,12 @@ RIC-STUDIO-006A is Remote DONE and synchronized with `origin/main` at commit `8e
 
 Behavioral smoke tests against `ric-orchestrator-candidate:005a` completed with 6 PASS and 0 FAIL for the required gate decisions. The candidate fixed the previous positive commit-allow overblocking in the tested scenarios. The candidate was not promoted.
 
-RIC-STUDIO-007A is in REVIEW. READY remains empty. Remote DONE is not declared for RIC-STUDIO-007A.
+RIC-STUDIO-007A is Remote DONE and synchronized with `origin/main` at commit `f4a16cc`.
 
 Realistic workflow simulation against `ric-orchestrator-candidate:005a` completed with 7 PASS and 0 FAIL. The candidate was not promoted. Recommendation: promote the candidate in a separate controlled promotion task after Trigger review.
+
+RIC-STUDIO-008A is in REVIEW. READY remains empty. Remote DONE is not declared for RIC-STUDIO-008A.
+
+Versioned runtime vocabulary was standardized in `runtime/ric-orchestrator/Modelfile`. Candidate runtime `ric-orchestrator-candidate:008a` was created and passed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
 
 UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, model training, model tuning, model changes, official runtime promotion, runtime overwrite, runtime deletion, commit, and push are blocked.

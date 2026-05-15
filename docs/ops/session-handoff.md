@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-007A is in REVIEW.
+RIC-STUDIO-008A is in REVIEW.
 
 ## What changed
 
@@ -45,13 +45,19 @@ RIC-STUDIO-007A ran a final realistic workflow simulation against `ric-orchestra
 
 RIC-STUDIO-007A result: 7 PASS, 0 FAIL. The candidate handled REVIEW state, commit block, commit allow, Local DONE block, push allow, Remote DONE block, and Remote DONE confirmation as expected.
 
-The candidate was not promoted, no runtime was overwritten or deleted, no runtime source was changed, no scripts/UI/app/dependencies were added, and no commit or push occurred. Recommendation: promote the candidate in a separate controlled promotion task after Trigger review.
+RIC-STUDIO-007A is Remote DONE and synchronized with `origin/main` at commit `f4a16cc`.
+
+RIC-STUDIO-008A standardized the versioned runtime vocabulary in `runtime/ric-orchestrator/Modelfile`, built `ric-orchestrator-candidate:008a`, and ran six focused vocabulary smoke tests.
+
+RIC-STUDIO-008A result: 6 PASS, 0 FAIL. Exact labels passed for Remote DONE confirmed, Remote DONE blocked, commit allowed, push allowed, Local DONE confirmed, and push blocked as `PUSH AINDA BLOQUEADO`. The commit test used scoped `git add STATUS.md backlog.md docs/ops/status.md` and did not suggest `git add .`.
+
+The candidate was not promoted, no official runtime was overwritten or deleted, no scripts/UI/app/dependencies were added, and no commit or push occurred.
 
 ## What remains
 
-Trigger review for RIC-STUDIO-007A is the next safe step.
+Trigger review for RIC-STUDIO-008A is the next safe step.
 
-READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-007A.
+READY remains empty. Local DONE and Remote DONE are not declared for RIC-STUDIO-008A.
 
 ## Constraints to preserve
 

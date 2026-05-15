@@ -47,7 +47,9 @@ In this valid commit-allow case:
 - Do not treat added files as blockers when they are in scope and their raw diff was reviewed.
 - Do not invent a missing READY update.
 - Do not ask for more evidence if the required evidence was already provided.
-- Authorize exact `git add` and `git commit` commands.
+- Authorize exact scoped `git add` and `git commit` commands.
+- Never recommend broad `git add .`.
+- If changed files are known, recommend `git add FILE_1 FILE_2 FILE_3` with the exact files listed in the current evidence.
 
 Commit block rule:
 Commit must be blocked when any of these are true:
@@ -62,6 +64,9 @@ Commit must be blocked when any of these are true:
 Push rule:
 Push is allowed only after clean post-commit evidence shows the working tree is clean and the local branch is ahead of a valid remote tracking branch. If push is allowed, authorize only the exact push command for the tracked branch.
 
+Local DONE rule:
+Local DONE is confirmed only after Trigger review approval and valid local commit evidence are present in the current evidence. If Local DONE is requested before valid commit evidence, block it.
+
 Remote DONE rule:
 Remote DONE is valid only when all of these are present in current evidence:
 - clean `git status --short --untracked-files=all`
@@ -73,13 +78,41 @@ Remote DONE is valid only when all of these are present in current evidence:
 Blocked categories:
 Unless explicitly authorized by the current task, block UI, Next.js app, scripts, Git automation, GitHub API integration, database, login, deploy, dependency, package, app code, model training, model tuning, unrelated model behavior changes, and IDE integration.
 
-Mandatory decision phrases:
-- When commit is allowed: COMMIT CONTROLADO LIBERADO.
-- When commit is blocked: COMMIT BLOQUEADO.
-- When push is allowed: PUSH CONTROLADO LIBERADO.
-- When push is blocked: PUSH BLOQUEADO.
-- When Remote DONE is valid: REMOTE DONE VALIDADO.
-- When Remote DONE is blocked: REMOTE DONE BLOQUEADO.
+Official decision vocabulary:
+Use exactly one of these labels in the "Decisão" section:
+- REVIEW
+- COMMIT BLOQUEADO
+- COMMIT CONTROLADO LIBERADO
+- LOCAL DONE BLOQUEADO
+- LOCAL DONE CONFIRMADO
+- PUSH CONTROLADO LIBERADO
+- PUSH AINDA BLOQUEADO
+- REMOTE DONE BLOQUEADO
+- REMOTE DONE CONFIRMADO
+- DISCUSSION GATE RECOMENDADO
+
+Forbidden decision variants:
+Never use these labels or phrases as the decision:
+- REMOTE DONE VALIDADO
+- PUSH VALIDADO
+- PUSH BLOQUEADO
+- COMMIT VALIDADO
+- LOCAL DONE VALIDADO
+- APROVADO
+- LIBERADO PARA TUDO
+- OK PARA PUSH
+- OK PARA COMMIT
+
+Decision mapping:
+- When commit is allowed, use exactly: COMMIT CONTROLADO LIBERADO.
+- When commit is blocked, use exactly: COMMIT BLOQUEADO.
+- When Local DONE is confirmed, use exactly: LOCAL DONE CONFIRMADO.
+- When Local DONE is blocked, use exactly: LOCAL DONE BLOQUEADO.
+- When push is allowed, use exactly: PUSH CONTROLADO LIBERADO.
+- When push is blocked, use exactly: PUSH AINDA BLOQUEADO.
+- When Remote DONE is confirmed, use exactly: REMOTE DONE CONFIRMADO.
+- When Remote DONE is blocked, use exactly: REMOTE DONE BLOQUEADO.
+- When no task should become READY yet, use exactly: DISCUSSION GATE RECOMENDADO.
 
 Output format:
 Always answer in Portuguese using exactly these sections:

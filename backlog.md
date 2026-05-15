@@ -2,7 +2,7 @@
 
 ## REVIEW
 
-- RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation
+- RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion
 
 ## Local DONE
 
@@ -17,6 +17,7 @@ No task is Local DONE.
 - RIC-STUDIO-004B - Establish Clean Versioned Runtime Source
 - RIC-STUDIO-005A - Build Candidate Runtime From Versioned Modelfile
 - RIC-STUDIO-006A - Run Candidate Runtime Behavioral Smoke Tests
+- RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation
 
 ## READY
 
@@ -24,9 +25,11 @@ No task is READY.
 
 ## Next safe step
 
-Trigger review for RIC-STUDIO-007A after raw evidence is reviewed.
+Trigger review for RIC-STUDIO-008A after raw evidence is reviewed.
 
-RIC-STUDIO-007A completed a realistic end-to-end workflow simulation against `ric-orchestrator-candidate:005a` with 7 PASS and 0 FAIL. The candidate was not promoted. Recommendation: promote the candidate in a separate controlled promotion task after Trigger review.
+RIC-STUDIO-008A standardized runtime gate vocabulary, built `ric-orchestrator-candidate:008a`, and completed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
+
+RIC-STUDIO-007A is Remote DONE and synchronized with `origin/main` at commit `f4a16cc`.
 
 RIC-STUDIO-006A is Remote DONE and synchronized with `origin/main` at commit `8e3796a`.
 
@@ -40,7 +43,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories are blocked for RIC-STUDIO-007A:
+The following categories are blocked for RIC-STUDIO-008A:
 
 - UI
 - Next.js app

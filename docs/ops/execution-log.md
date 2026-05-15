@@ -186,7 +186,7 @@ Closure:
 
 ## RIC-STUDIO-007A
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -202,14 +202,43 @@ Summary:
 - Kept READY empty.
 - Did not declare Local DONE or Remote DONE for RIC-STUDIO-007A.
 - Did not promote `ric-orchestrator-candidate:005a`, overwrite `ric-orchestrator-runtime:latest`, edit `runtime/ric-orchestrator/Modelfile`, create scripts, add dependencies, touch UI/app files, automate Git, commit, or push.
+- RIC-STUDIO-007A is Remote DONE and synchronized with `origin/main` at commit `f4a16cc`.
+
+Closure:
+
+- RIC-STUDIO-007A is closed as Remote DONE.
+- RIC-STUDIO-007A is synchronized with `origin/main` at commit `f4a16cc`.
+
+## RIC-STUDIO-008A
+
+State: REVIEW
+
+Summary:
+
+- Opened the runtime gate vocabulary standardization task after RIC-STUDIO-007A reached Remote DONE.
+- Updated the versioned runtime source at `runtime/ric-orchestrator/Modelfile` to enforce exact official decision labels.
+- Added forbidden decision variants, including `REMOTE DONE VALIDADO`, and blocked broad `git add .` recommendations when scoped files are known.
+- Built local candidate runtime `ric-orchestrator-candidate:008a` from the versioned Modelfile.
+- Ran six focused vocabulary smoke tests against `ric-orchestrator-candidate:008a`.
+- Batch result: 6 PASS, 0 FAIL.
+- PASS: Remote DONE positive exact label, Remote DONE negative exact label, commit allowed exact label with scoped `git add`, push allowed exact label, Local DONE positive exact label, and push blocked exact label `PUSH AINDA BLOQUEADO`.
+- The official runtime `ric-orchestrator-runtime:latest` was not promoted or overwritten.
+- Candidate `ric-orchestrator-candidate:005a` was not deleted.
+- Kept READY empty.
+- Did not declare Local DONE or Remote DONE for RIC-STUDIO-008A.
+- Did not create scripts, add dependencies, touch UI/app files, automate Git, commit, or push.
 
 Evidence required before Trigger review:
 
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
 - `ollama list`.
-- Seven `ollama run ric-orchestrator-candidate:005a` manual prompt outputs.
+- `ollama create ric-orchestrator-candidate:008a -f runtime/ric-orchestrator/Modelfile`.
+- Six `ollama run ric-orchestrator-candidate:008a` focused vocabulary test outputs.
 - `git status --short --untracked-files=all`.
 - `git diff --name-status`.
 - `git diff --stat`.
 - `git diff --check`.
+- `git --no-pager diff -- runtime/ric-orchestrator/Modelfile docs/validation/runtime-vocabulary-standard-008a.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+- `ollama list`.
+- `ollama show ric-orchestrator-candidate:008a`.
