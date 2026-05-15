@@ -2,13 +2,15 @@
 
 ## Current handoff state
 
-RIC-STUDIO-003A is in Local DONE.
+RIC-STUDIO-003B is in Local DONE.
 
 ## What changed
 
 RIC-STUDIO-001 is Remote DONE and synchronized with `origin/main` at commit `aa8a6d3`.
 
 RIC-STUDIO-002 is Remote DONE and synchronized with `origin/main` at commit `b81ac6b`.
+
+RIC-STUDIO-003A is Remote DONE and synchronized with `origin/main` at commit `07e11f1`.
 
 RIC-STUDIO-003A executed manual local model smoke tests for:
 
@@ -21,11 +23,15 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 Conclusion: `ric-orchestrator-runtime:latest` correctly blocked missing-evidence commit, allowed controlled push, and blocked Remote DONE when HEAD != origin/main, but failed the positive commit-allow scenario by overblocking.
 
+RIC-STUDIO-003B diagnosed the overblocking behavior with five commit-gate prompts. Diagnosis result: 2 PASS, 3 FAIL. The model overblocked COMMIT-ALLOW-001, COMMIT-ALLOW-002, and COMMIT-ALLOW-003; it passed only the rule-explicit positive case and the negative control.
+
+A future system prompt or Modelfile correction is recommended but was not executed in this task.
+
 ## What remains
 
-Review approved the RIC-STUDIO-003A batch result. The next safe step is a controlled local commit for RIC-STUDIO-003A.
+Review approved the RIC-STUDIO-003B diagnosis. The next safe step is a controlled local commit for RIC-STUDIO-003B.
 
-READY remains empty. Remote DONE for RIC-STUDIO-003A is blocked until commit, push, and post-push evidence.
+READY remains empty. Remote DONE for RIC-STUDIO-003B is blocked until commit, push, and post-push evidence.
 
 ## Constraints to preserve
 
