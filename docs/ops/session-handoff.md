@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-009A is READY as `Define Local Orchestrator Error Log`.
+RIC-STUDIO-009B is in REVIEW as `Record Local Orchestrator Errors From CBM-004`.
 
 ## What changed
 
@@ -59,9 +59,18 @@ RIC-STUDIO-009A result: 3 PASS, 0 FAIL. Official runtime passed Remote DONE posi
 
 The Modelfile was not edited, candidates `005a` and `008a` were not deleted, no scripts/UI/app/dependencies were added, no Git automation was created, and no commit or push occurred.
 
-RIC-STUDIO-009A is now opened as READY for documentation-only error-log definition.
+RIC-STUDIO-009A is Remote DONE.
 
-Authorized files:
+RIC-STUDIO-009B recorded three real observed local orchestrator errors from Clinic Booking Mini CBM-004:
+
+- 1 `scope-confusion` occurrence.
+- 2 `state-contradiction` occurrences.
+
+Runtime improvement remains blocked because there is no critical error and the 3 to 5 matching-occurrence threshold has not been reached.
+
+RIC-STUDIO-009B remains in REVIEW. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B. RIC-STUDIO-010A is not opened.
+
+Authorized files for RIC-STUDIO-009B:
 
 - `docs/validation/local-orchestrator-error-log.md`.
 - `STATUS.md`.
@@ -73,9 +82,9 @@ Authorized files:
 
 ## What remains
 
-Execute RIC-STUDIO-009A documentation-only work, then collect review evidence.
+Review RIC-STUDIO-009B evidence.
 
-Local DONE and Remote DONE are not declared for RIC-STUDIO-009A.
+Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
 
 ## Constraints to preserve
 

@@ -2,15 +2,15 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
-RIC-STUDIO-009A - Define Local Orchestrator Error Log
+RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 
 ## Scope
 
-Create an operational documentation file for recording real local orchestrator behavior errors and defining when repeated error patterns may become a future runtime improvement proposal.
+Record real observed local orchestrator errors from Clinic Booking Mini CBM-004 in the local orchestrator error log.
 
 ## Allowed files
 
@@ -66,6 +66,12 @@ RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54
 
 Versioned runtime vocabulary was standardized in `runtime/ric-orchestrator/Modelfile`. Candidate runtime `ric-orchestrator-candidate:008a` was created and passed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
 
-RIC-STUDIO-009A is READY for documentation-only execution as `Define Local Orchestrator Error Log`.
+RIC-STUDIO-009A is Remote DONE.
 
-No runtime, Modelfile, Ollama model, script, app/UI, package, dependency, commit, or push action is authorized.
+RIC-STUDIO-009B is in REVIEW after recording CBM-004 local orchestrator errors.
+
+Observed pattern count for CBM-004 is 2 `state-contradiction` and 1 `scope-confusion`.
+
+Runtime improvement remains blocked because there is no critical error and the 3 to 5 matching-occurrence threshold has not been reached.
+
+No runtime, Modelfile, Ollama model, script, app/UI, package, dependency, commit, or push action is authorized. RIC-STUDIO-010A is not opened.

@@ -280,7 +280,7 @@ Evidence required before Trigger review:
 
 ## RIC-STUDIO-009A - Define Local Orchestrator Error Log
 
-State: READY
+State: Remote DONE
 
 Summary:
 
@@ -290,6 +290,7 @@ Summary:
 - Defined that isolated non-critical local orchestrator errors must be logged before runtime improvements are proposed.
 - Defined that future runtime improvement may be proposed only after 3 to 5 matching occurrences, or after 1 critical operational safety error.
 - Blocked Modelfile edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, scripts, app/UI, packages, dependencies, Git automation, commit, and push.
+- RIC-STUDIO-009A is Remote DONE.
 
 Evidence required before review:
 
@@ -297,3 +298,29 @@ Evidence required before review:
 - `git diff --stat`.
 - `git diff --check`.
 - Raw per-file diffs for all authorized documentation files changed in this task.
+
+## RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
+
+State: REVIEW
+
+Summary:
+
+- Recorded three real observed local orchestrator errors from Clinic Booking Mini CBM-004 in `docs/validation/local-orchestrator-error-log.md`.
+- Recorded one low-severity `scope-confusion` occurrence where the orchestrator described CBM-004 as involving model changes instead of Django Admin registration only.
+- Recorded two medium-severity `state-contradiction` occurrences where the orchestrator claimed altered files or execution state despite clean Git evidence and no raw command output.
+- Current observed pattern count is 2 `state-contradiction` and 1 `scope-confusion`.
+- Runtime improvement remains blocked because there is no critical error and the 3 to 5 matching-occurrence threshold has not been reached.
+- Kept RIC-STUDIO-009B in REVIEW.
+- Did not mark Local DONE.
+- Did not mark Remote DONE.
+- Did not open RIC-STUDIO-010A.
+- Did not edit runtime source, `runtime/ric-orchestrator/Modelfile`, scripts, app/UI, packages, dependencies, Ollama model files, candidate runtime, or official runtime.
+- Did not run `ollama create`, runtime promotion, Git commit, Git push, or automation Git.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff --name-only`.
+- `git --no-pager diff -- docs/validation/local-orchestrator-error-log.md`.

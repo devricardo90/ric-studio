@@ -2,11 +2,11 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
-RIC-STUDIO-009A - Define Local Orchestrator Error Log
+RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 
 ## Product mode
 
@@ -73,8 +73,12 @@ RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54
 
 Versioned runtime vocabulary was standardized in `runtime/ric-orchestrator/Modelfile`. Candidate runtime `ric-orchestrator-candidate:008a` was created and passed six focused vocabulary smoke tests with 6 PASS and 0 FAIL, including the push blocked exact label `PUSH AINDA BLOQUEADO`. The official runtime was not promoted or overwritten.
 
-RIC-STUDIO-009A is READY as a documentation-only task to define the local orchestrator error log.
+RIC-STUDIO-009A is Remote DONE.
 
-The task may create `docs/validation/local-orchestrator-error-log.md` and update the authorized operations files only.
+RIC-STUDIO-009B is in REVIEW after recording real observed local orchestrator errors from Clinic Booking Mini CBM-004 in `docs/validation/local-orchestrator-error-log.md`.
 
-UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, Modelfile edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, model training, model tuning, dependency changes, runtime deletion, commit, and push are blocked.
+Observed pattern count for CBM-004 is 2 `state-contradiction` and 1 `scope-confusion`.
+
+Runtime improvement remains blocked because there is no critical error and the 3 to 5 matching-occurrence threshold has not been reached.
+
+UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, Modelfile edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, model training, model tuning, dependency changes, runtime deletion, commit, push, Local DONE, Remote DONE, and RIC-STUDIO-010A opening are blocked.

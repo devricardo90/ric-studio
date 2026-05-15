@@ -2,11 +2,11 @@
 
 ## REVIEW
 
-No task is in REVIEW.
+- RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 
 ## READY
 
-- RIC-STUDIO-009A - Define Local Orchestrator Error Log.
+No task is READY.
 
 ## IN_PROGRESS
 
@@ -27,6 +27,7 @@ No task is Local DONE.
 - RIC-STUDIO-006A - Run Candidate Runtime Behavioral Smoke Tests.
 - RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation.
 - RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion.
+- RIC-STUDIO-009A - Define Local Orchestrator Error Log.
 
 ## Discussion Gate
 
@@ -34,7 +35,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Start RIC-STUDIO-009A documentation-only execution. Create `docs/validation/local-orchestrator-error-log.md` and update only the authorized operations files.
+Review RIC-STUDIO-009B evidence. Do not mark Local DONE or Remote DONE, and do not open RIC-STUDIO-010A.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -50,7 +51,7 @@ Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction i
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked for RIC-STUDIO-009A
+## Blocked for RIC-STUDIO-009B
 
 - UI.
 - Next.js app.
@@ -73,3 +74,6 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Runtime deletion.
 - Commit.
 - Push.
+- Local DONE.
+- Remote DONE.
+- RIC-STUDIO-010A opening.
