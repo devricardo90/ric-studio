@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
+RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
 
 ## Scope
 
-Promote validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` to official runtime `ric-orchestrator-runtime:latest` through the controlled backup and promotion flow.
+Register positive performance patterns, limits, and operational recommendations observed in CBM-012 and CBM-013 robust task execution across the full RIC Studio agent collaboration chain.
 
 ## Allowed files
 
@@ -20,11 +20,11 @@ Promote validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-promp
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/runtime-promotion-017a.md`
+- `docs/validation/agent-performance-log.md`
 
 ## Blocked in this task
 
-Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, lockfile changes, deploy, `ollama create`, new candidate creation, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edits, Clinic Booking task opening, opening RIC-STUDIO-018A, marking a new READY task, commit, and push are blocked during this REVIEW.
+Runtime changes, Modelfile edits, `ollama create`, `ollama cp`, model deletion, backup deletion, candidate deletion, Clinic Booking Mini changes, opening RIC-STUDIO-019A, commit, and push are blocked during this REVIEW.
 
 ## Gate status
 
@@ -206,7 +206,9 @@ Validation evidence is documented in `docs/validation/runtime-candidate-016a.md`
 
 No `ollama cp`, promotion, official runtime alteration, model deletion, backup deletion, candidate deletion, Modelfile edit, or push has occurred during RIC-STUDIO-016A.
 
-RIC-STUDIO-017A is in REVIEW after controlled promotion of the validated candidate to `ric-orchestrator-runtime:latest`.
+RIC-STUDIO-017A is Remote DONE and synchronized with `origin/main` at commit `6237383`.
+
+RIC-STUDIO-018A is in REVIEW after documenting positive agent performance patterns from CBM-012 and CBM-013.
 
 Execution evidence for RIC-STUDIO-017A:
 

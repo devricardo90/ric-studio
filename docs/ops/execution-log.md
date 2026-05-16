@@ -791,7 +791,7 @@ Remote closure:
 
 ## RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -850,3 +850,40 @@ Execution:
 - Did not open a Clinic Booking task.
 - Did not open RIC-STUDIO-018A or a new READY task.
 - Did not run `git add .`, commit, or push.
+
+Closure:
+
+- RIC-STUDIO-017A is Remote DONE.
+- RIC-STUDIO-017A is synchronized with `origin/main` at commit `6237383`.
+
+## RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-018A by explicit current request after CBM-012 and CBM-013 robust task execution in Clinic Booking Mini.
+- Ran pre-flight checks: `pwd`, `git status --short --untracked-files=all`, `git status -sb`, `git log --oneline -5`. Working tree was clean.
+- Read all authorized files before writing: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`.
+- Created `docs/validation/agent-performance-log.md` with the following content:
+  - Eight positive patterns registered from CBM-012 and CBM-013.
+  - Three operational limits registered.
+  - Operational recommendations section.
+  - Summary table of patterns with PASS/FAIL verdict.
+- Updated `STATUS.md`: active task is now RIC-STUDIO-018A. RIC-STUDIO-017A recorded as Remote DONE.
+- Updated `backlog.md`: RIC-STUDIO-018A added to REVIEW. RIC-STUDIO-017A moved to Remote DONE. Blocked list updated.
+- Updated `docs/ops/status.md`: active task updated to RIC-STUDIO-018A.
+- Updated `docs/ops/backlog.md`: RIC-STUDIO-018A in REVIEW, RIC-STUDIO-017A in Remote DONE, blocked list updated.
+- Updated `docs/ops/execution-log.md`: RIC-STUDIO-017A state corrected to Remote DONE. RIC-STUDIO-018A entry added.
+- Updated `docs/ops/session-handoff.md`: handoff state updated to RIC-STUDIO-018A.
+- Did not alter runtime, Modelfile, or any Ollama model.
+- Did not run `ollama create`, `ollama cp`, or any Ollama command.
+- Did not touch Clinic Booking Mini.
+- Did not open RIC-STUDIO-019A.
+- Did not commit or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.

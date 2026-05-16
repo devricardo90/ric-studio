@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-017A is in REVIEW as `Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime`.
+RIC-STUDIO-017A is Remote DONE and synchronized with `origin/main` at commit `6237383`.
+
+RIC-STUDIO-018A is in REVIEW as `Record Agent Success Patterns From Clinic Booking Robust Tasks`.
 
 ## What changed
 
@@ -301,11 +303,15 @@ Authorized files for RIC-STUDIO-017A:
 - `docs/ops/session-handoff.md`.
 - `docs/validation/runtime-promotion-017a.md`.
 
+RIC-STUDIO-018A opened after CBM-012 and CBM-013 robust task execution in Clinic Booking Mini.
+
+Eight positive patterns and three operational limits were registered in `docs/validation/agent-performance-log.md`.
+
+Test suite growth observed: 6 → 9 (CBM-012) → 12 (CBM-013).
+
 ## What remains
 
-Review RIC-STUDIO-017A promotion evidence.
-
-RIC-STUDIO-017A is in REVIEW. Local DONE and Remote DONE are not declared.
+Review RIC-STUDIO-018A documentation evidence. Do not commit or push without explicit authorization.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -322,11 +328,12 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not delete runtime candidates.
 - Do not delete `ric-orchestrator-candidate:014a-refined-prompt`.
 - Do not run `ollama create`.
+- Do not run `ollama cp`.
 - Do not create a new candidate.
-- Do not rebuild or promote the official runtime again during review.
+- Do not rebuild or promote the official runtime.
 - Do not alter `runtime/ric-orchestrator/Modelfile`.
-- Do not open a Clinic Booking task.
-- Do not open RIC-STUDIO-018A.
+- Do not touch Clinic Booking Mini.
+- Do not open RIC-STUDIO-019A.
 - Do not mark a new READY task.
 - Do not train or tune models.
 - Do not configure IDE integration.

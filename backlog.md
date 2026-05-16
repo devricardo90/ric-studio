@@ -4,7 +4,7 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt (BLOCKED / ROLLED BACK)
-- RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
+- RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
 
 ## REJECTED / REVIEW CLOSED
 
@@ -33,6 +33,7 @@ No task is Local DONE.
 - RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
 - RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime
 - RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile
+- RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
 
 ## READY
 
@@ -40,7 +41,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-017A promotion evidence. Do not execute commit or push without explicit authorization.
+Review RIC-STUDIO-018A documentation evidence. Do not execute commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -58,7 +59,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories remain blocked during RIC-STUDIO-017A review:
+The following categories remain blocked during RIC-STUDIO-018A review:
 
 - UI
 - Next.js app
@@ -71,21 +72,21 @@ The following categories remain blocked during RIC-STUDIO-017A review:
 - Deploy
 - Scripts
 - `ollama create`
+- `ollama cp`
 - New candidate creation
 - Model rebuild
-- Additional runtime promotion beyond the completed 017A promotion
+- Runtime promotion
 - Model training or tuning
 - Dependency changes
 - Runtime deletion
 - Backup deletion
 - Candidate deletion
 - Modelfile edits
-- Clinic Booking task opening
-- Opening RIC-STUDIO-018A
-- New READY task other than RIC-STUDIO-017A
+- Clinic Booking Mini changes
+- Opening RIC-STUDIO-019A
+- New READY task
 - Commit
 - Push
-- Runtime candidate promotion
 
 ## Future candidates
 

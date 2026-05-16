@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
+RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
 
 ## Product mode
 
@@ -267,37 +267,29 @@ No `ollama cp`, promotion, official runtime alteration, model deletion, backup d
 
 RIC-STUDIO-016A is Remote DONE and synchronized with `origin/main` at commit `0059eacd105be1836d2431a1da9d7c2a7b9bb47d`.
 
-RIC-STUDIO-017A was opened as READY by explicit current request.
+RIC-STUDIO-017A is Remote DONE and synchronized with `origin/main` at commit `6237383`.
 
-RIC-STUDIO-017A objective is controlled promotion of validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` to official runtime `ric-orchestrator-runtime:latest`.
+RIC-STUDIO-017A promoted `ric-orchestrator-candidate:016a-qwen3-refined-prompt` to `ric-orchestrator-runtime:latest`. Post-promotion runtime ID is `3026c74ea0d4`. Backup `ric-orchestrator-runtime:backup-before-017a` preserves previous ID `585f4d5c2075`. Smoke test returned `RIC-RUNTIME-017A-OK`.
 
-Required execution evidence for RIC-STUDIO-017A:
+RIC-STUDIO-018A was opened by explicit current request after CBM-012 and CBM-013 robust task execution.
 
-- Verify Git is clean and synchronized before promotion.
-- Verify `ric-orchestrator-runtime:backup-before-017a` does not exist.
-- Stop immediately if `ric-orchestrator-runtime:backup-before-017a` already exists.
-- Create backup with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
-- Promote with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
-- Confirm `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
-- Run post-promotion smoke test.
-- Document evidence in `docs/validation/runtime-promotion-017a.md`.
-- Commit and push only after complete validation.
+RIC-STUDIO-018A is in REVIEW after documenting positive agent performance patterns in `docs/validation/agent-performance-log.md`.
 
-During the READY opening step, no `ollama cp`, backup creation, runtime promotion, new candidate creation, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push occurred.
+Eight positive patterns were observed and registered:
 
-RIC-STUDIO-017A is now in REVIEW after executing the controlled promotion.
+- Discussion Gate correctly blocked premature Executor engagement.
+- Executor completed robust task after READY.
+- CBM-012 implemented appointment request lifecycle without schema or migration.
+- CBM-013 implemented overlap guard without altering models.py.
+- Executor stopped at REVIEW without self-authorizing commit.
+- Orchestrator released commit and push only with evidence.
+- Commits respected authorized file scope.
+- Flow generated real product value and LLM calibration evidence.
 
-Execution evidence:
+Three operational limits were registered:
 
-- Pre-promotion Git evidence confirmed a clean synchronized repository at `HEAD == origin/main == 62a4d244103cdfd521731138346cfdbcd64ace20`.
-- Pre-promotion `ollama list` confirmed candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` existed at ID `3026c74ea0d4`, size 9.3 GB.
-- Pre-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` existed at ID `585f4d5c2075`, size 9.3 GB.
-- Explicit check for `ric-orchestrator-runtime:backup-before-017a` returned no rows before backup creation.
-- Backup was created with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
-- Promotion was executed with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
-- Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
-- Backup `ric-orchestrator-runtime:backup-before-017a` preserves previous runtime ID `585f4d5c2075`.
-- Smoke test returned `RIC-RUNTIME-017A-OK`.
-- Validation is documented in `docs/validation/runtime-promotion-017a.md`.
+- Discussion Gate requires explicit Trigger initiation.
+- Scope enforcement depends on task definition quality.
+- Orchestrator CLI noise is a persistent operational caveat.
 
-No new candidate, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push has occurred during RIC-STUDIO-017A.
+No runtime change, Modelfile edit, ollama create, ollama cp, model deletion, backup deletion, Clinic Booking Mini change, RIC-STUDIO-019A opening, commit, or push has occurred during RIC-STUDIO-018A.
