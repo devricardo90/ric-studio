@@ -13,7 +13,7 @@
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime.
 
 ## IN_PROGRESS
 
@@ -21,7 +21,7 @@ No task is IN_PROGRESS.
 
 ## Local DONE
 
-- RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile.
+No task is Local DONE.
 
 ## Remote DONE
 
@@ -39,6 +39,7 @@ No task is IN_PROGRESS.
 - RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
 - RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries.
 - RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime.
+- RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile.
 
 ## Discussion Gate
 
@@ -46,7 +47,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-RIC-STUDIO-016A is locally closed. Next safe step is review of the local commit evidence; do not push without explicit authorization.
+Review RIC-STUDIO-017A READY opening evidence. Do not execute promotion, commit, or push without explicit authorization and validation.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -62,7 +63,7 @@ Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction i
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked after RIC-STUDIO-016A local closure
+## Blocked during RIC-STUDIO-017A READY opening
 
 - UI.
 - Next.js app.
@@ -74,19 +75,25 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Login.
 - Deploy.
 - Scripts.
+- `ollama create`.
+- `ollama cp`.
+- Backup creation.
+- New candidate creation.
+- Model rebuild.
 - Additional runtime promotion.
 - Further direct promotion to `ric-orchestrator-runtime:latest`.
-- `ollama cp`.
 - Official runtime alteration.
 - Model training.
 - Model tuning.
 - Dependency changes.
 - Runtime deletion.
 - Backup deletion.
-- Old candidate deletion.
+- Candidate deletion.
 - Modelfile edits.
-- Opening RIC-STUDIO-017A.
-- New READY task.
+- Clinic Booking task opening.
+- Opening RIC-STUDIO-018A.
+- New READY task other than RIC-STUDIO-017A.
+- Commit.
 - Push.
 - Remote DONE.
 - Runtime candidate promotion.

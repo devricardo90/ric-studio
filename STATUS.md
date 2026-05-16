@@ -2,19 +2,18 @@
 
 ## Current state
 
-Local DONE
+REVIEW
 
 ## Active task
 
-RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile
+RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
 
 ## Scope
 
-Create and validate candidate runtime `ric-orchestrator-candidate:016a-qwen3-refined-prompt` from the corrected Qwen3 14B versioned Modelfile. Do not promote or alter `ric-orchestrator-runtime:latest`.
+Register RIC-STUDIO-017A as READY for a future controlled promotion of validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` to official runtime `ric-orchestrator-runtime:latest`. Do not execute promotion during this READY opening.
 
 ## Allowed files
 
-- `docs/validation/runtime-candidate-016a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -24,7 +23,7 @@ Create and validate candidate runtime `ric-orchestrator-candidate:016a-qwen3-ref
 
 ## Blocked in this task
 
-Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, lockfile changes, deploy, `ollama cp`, promotion to `ric-orchestrator-runtime:latest`, official runtime alteration, model deletion, backup deletion, old candidate deletion, Modelfile edits, opening RIC-STUDIO-017A, marking a new READY task, and push are blocked.
+Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, lockfile changes, deploy, `ollama create`, `ollama cp`, promotion to `ric-orchestrator-runtime:latest`, backup creation, candidate creation, rebuild, official runtime alteration, model deletion, backup deletion, candidate deletion, Modelfile edits, Clinic Booking task opening, opening RIC-STUDIO-018A, marking any READY task other than RIC-STUDIO-017A, commit, and push are blocked during this READY opening.
 
 ## Gate status
 
@@ -184,7 +183,9 @@ RIC-STUDIO-015A aligned the versioned runtime Modelfile base with the approved Q
 
 The versioned `runtime/ric-orchestrator/Modelfile` now starts with `FROM qwen3:14b`.
 
-RIC-STUDIO-016A is Local DONE after creating and testing candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` from the corrected Qwen3 Modelfile.
+RIC-STUDIO-016A is Remote DONE and synchronized with `origin/main` at commit `0059eacd105be1836d2431a1da9d7c2a7b9bb47d`.
+
+RIC-STUDIO-016A created and tested candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` from the corrected Qwen3 Modelfile.
 
 Pre-validation confirmed `HEAD == origin/main == 0477c8323b49a8bb04fb9d9921c7c8da439444f9`.
 
@@ -204,4 +205,18 @@ Validation evidence is documented in `docs/validation/runtime-candidate-016a.md`
 
 No `ollama cp`, promotion, official runtime alteration, model deletion, backup deletion, candidate deletion, Modelfile edit, or push has occurred during RIC-STUDIO-016A.
 
-RIC-STUDIO-016A is approved for local closure. Remote DONE is not declared until a separate push/synchronization step is authorized and verified.
+RIC-STUDIO-017A is opened as READY for controlled promotion of the validated candidate to `ric-orchestrator-runtime:latest`.
+
+Execution requirements for RIC-STUDIO-017A:
+
+- Verify Git is clean and synchronized before promotion.
+- Verify `ric-orchestrator-runtime:backup-before-017a` does not exist.
+- If `ric-orchestrator-runtime:backup-before-017a` already exists, stop immediately.
+- Create backup with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
+- Promote only with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
+- Confirm `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
+- Run post-promotion smoke test.
+- Document evidence in `docs/validation/runtime-promotion-017a.md`.
+- Commit and push only after complete validation.
+
+No `ollama cp`, backup creation, runtime promotion, candidate creation, rebuild, model deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push has occurred during this READY opening.

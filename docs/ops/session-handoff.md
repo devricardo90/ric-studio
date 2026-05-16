@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-016A is Local DONE as `Rebuild And Validate Runtime Candidate From Qwen3 Modelfile`.
+RIC-STUDIO-017A is READY as `Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime`.
 
 ## What changed
 
@@ -244,11 +244,40 @@ Validation evidence is recorded in `docs/validation/runtime-candidate-016a.md`.
 
 No `ollama cp`, promotion, official runtime alteration, model deletion, backup deletion, candidate deletion, Modelfile edit, or push occurred during RIC-STUDIO-016A.
 
-RIC-STUDIO-016A is approved for Local DONE. Remote DONE is not declared.
+RIC-STUDIO-016A is Remote DONE and synchronized with `origin/main` at commit `0059eacd105be1836d2431a1da9d7c2a7b9bb47d`.
 
-Authorized files for RIC-STUDIO-016A:
+RIC-STUDIO-017A was opened as READY by explicit current request.
 
-- `docs/validation/runtime-candidate-016a.md`.
+RIC-STUDIO-017A must promote the validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` to `ric-orchestrator-runtime:latest` only through a controlled promotion flow.
+
+Candidate to promote:
+
+- `ric-orchestrator-candidate:016a-qwen3-refined-prompt`.
+- ID `3026c74ea0d4`.
+- Size 9.3 GB.
+
+Current official runtime before execution:
+
+- `ric-orchestrator-runtime:latest`.
+- ID `585f4d5c2075`.
+- Size 9.3 GB.
+
+The latest runtime does not yet point to the validated 016A candidate. The next action is controlled promotion, not rebuild.
+
+Execution requirements for RIC-STUDIO-017A:
+
+- Verify Git is clean and synchronized before promotion.
+- Verify `ric-orchestrator-runtime:backup-before-017a` does not exist.
+- Stop immediately if `ric-orchestrator-runtime:backup-before-017a` already exists.
+- Create backup with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
+- Promote only with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
+- Confirm `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
+- Run post-promotion smoke test.
+- Document evidence in `docs/validation/runtime-promotion-017a.md`.
+- Commit and push only after complete validation.
+
+Authorized files for RIC-STUDIO-017A READY opening:
+
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -258,9 +287,9 @@ Authorized files for RIC-STUDIO-016A:
 
 ## What remains
 
-Review RIC-STUDIO-016A local commit evidence.
+Review RIC-STUDIO-017A READY opening evidence.
 
-RIC-STUDIO-016A is Local DONE. Remote DONE is not declared for RIC-STUDIO-016A.
+RIC-STUDIO-017A is READY. Execution has not started.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -276,15 +305,19 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not alter `.github`.
 - Do not delete runtime candidates.
 - Do not delete `ric-orchestrator-candidate:014a-refined-prompt`.
+- Do not run `ollama create`.
 - Do not run `ollama cp`.
-- Do not rebuild or promote the official runtime in this task.
+- Do not create backup during READY opening.
+- Do not create a new candidate.
+- Do not rebuild or promote the official runtime during READY opening.
 - Do not promote directly to `ric-orchestrator-runtime:latest`.
 - Do not change the official runtime model.
 - Do not alter `runtime/ric-orchestrator/Modelfile`.
-- Do not create another candidate without a separate approved task.
-- Do not open RIC-STUDIO-017A.
+- Do not open a Clinic Booking task.
+- Do not open RIC-STUDIO-018A.
 - Do not mark a new READY task.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
+- Do not commit without validation.
 - Do not push.

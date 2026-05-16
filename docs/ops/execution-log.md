@@ -730,7 +730,7 @@ Closure:
 
 ## RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile
 
-State: Local DONE
+State: Remote DONE
 
 Summary:
 
@@ -783,3 +783,48 @@ Closure:
 - READY remains empty.
 - RIC-STUDIO-017A was not opened.
 - Remote DONE is not declared.
+
+Remote closure:
+
+- RIC-STUDIO-016A is Remote DONE.
+- RIC-STUDIO-016A is synchronized with `origin/main` at commit `0059eacd105be1836d2431a1da9d7c2a7b9bb47d`.
+
+## RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
+
+State: READY
+
+Summary:
+
+- Opened RIC-STUDIO-017A as READY by explicit current request after Discussion Gate recommendation.
+- Context for execution: `HEAD == origin/main == 0059eacd105be1836d2431a1da9d7c2a7b9bb47d`.
+- Candidate to promote: `ric-orchestrator-candidate:016a-qwen3-refined-prompt`, ID `3026c74ea0d4`, size 9.3 GB.
+- Current official runtime before execution: `ric-orchestrator-runtime:latest`, ID `585f4d5c2075`, size 9.3 GB.
+- The current latest runtime does not yet point to the validated 016A candidate.
+- The next operational action is controlled promotion, not rebuild.
+
+Execution requirements:
+
+- Verify Git is clean and synchronized before promotion.
+- Verify `ric-orchestrator-runtime:backup-before-017a` does not exist.
+- Stop immediately if `ric-orchestrator-runtime:backup-before-017a` already exists.
+- Create backup with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
+- Promote only with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
+- Confirm `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
+- Run a post-promotion smoke test.
+- Document evidence in `docs/validation/runtime-promotion-017a.md`.
+- Commit and push only after complete validation.
+
+Blocked during READY opening:
+
+- Did not run `ollama create`.
+- Did not run `ollama cp`.
+- Did not create backup.
+- Did not promote runtime.
+- Did not create a new candidate.
+- Did not rebuild any model.
+- Did not alter `runtime/ric-orchestrator/Modelfile`.
+- Did not delete models, backups, or candidates.
+- Did not alter UI, app, scripts, packages, or dependencies.
+- Did not open a Clinic Booking task.
+- Did not open RIC-STUDIO-018A or any READY task other than RIC-STUDIO-017A.
+- Did not run `git add .`, commit, or push.
