@@ -6,17 +6,15 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
+RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
 
 ## Scope
 
-Closed benchmark evidence for a separate `qwen3:14b` candidate with explicit state-routing and next-task synthesis rules. Candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` passed the required benchmark and is approved as a technical candidate for a separate controlled promotion task.
+Promote the benchmark-approved candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` to the official runtime `ric-orchestrator-runtime:latest` using `ollama cp`, with mandatory backup, smoke test, and evidence documentation.
 
 ## Allowed files
 
-- `docs/validation/runtime-candidate-011a-qwen3-14b.md`
-- `docs/validation/runtime-candidate-011b-qwen3-14b.md`
-- `docs/validation/runtime-candidate-011c-qwen3-14b.md`
+- `docs/validation/runtime-promotion-012a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -26,7 +24,7 @@ Closed benchmark evidence for a separate `qwen3:14b` candidate with explicit sta
 
 ## Blocked in this task
 
-Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, official runtime changes, official runtime promotion, direct promotion to `ric-orchestrator-runtime:latest`, runtime deletion, commit, and push are blocked.
+Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, Modelfile edits, candidate rebuild, model deletion, backup deletion, commit, and push are blocked.
 
 ## Gate status
 
@@ -133,3 +131,15 @@ RIC-STUDIO-011C benchmark evidence is closed in REVIEW as approved. The approved
 The official `runtime/ric-orchestrator/Modelfile` remains intact.
 
 Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
+
+RIC-STUDIO-012A is in REVIEW after controlled local promotion.
+
+Backup was created before promotion: `ric-orchestrator-runtime:backup-before-012a`.
+
+Candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` was promoted to `ric-orchestrator-runtime:latest` using `ollama cp`, with no rebuild.
+
+Post-promotion evidence shows `ric-orchestrator-runtime:latest` and `ric-orchestrator-candidate:011c-fix1-qwen3-14b` share model ID `585f4d5c2075`; backup `ric-orchestrator-runtime:backup-before-012a` keeps previous runtime model ID `be391f29a172`.
+
+Smoke test returned `RIC-RUNTIME-012A-OK`.
+
+The official `runtime/ric-orchestrator/Modelfile` remains unchanged. No commit or push has occurred.

@@ -558,3 +558,43 @@ Summary:
 - No scripts, UI, app, Git automation, `.github`, package, dependency, or deploy changes were made.
 - No commit or push occurred.
 - Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
+
+## RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-012A by explicit current request after Discussion Gate returned READY RECOMENDADO.
+- Confirmed the repository was clean and synchronized before promotion.
+- Confirmed `HEAD` and `origin/main` both resolved to `9f6f18f3419a09bda7f625c96113b9de25787920`.
+- Confirmed `ric-orchestrator-candidate:011c-fix1-qwen3-14b` exists locally.
+- Confirmed `ric-orchestrator-runtime:latest` exists locally.
+- Confirmed `ric-orchestrator-runtime:backup-before-012a` did not exist before backup creation.
+- Created backup `ric-orchestrator-runtime:backup-before-012a` from the previous official runtime.
+- Promoted `ric-orchestrator-candidate:011c-fix1-qwen3-14b` to `ric-orchestrator-runtime:latest` using `ollama cp`.
+- Confirmed post-promotion `ric-orchestrator-runtime:latest` shares ID `585f4d5c2075` with the approved candidate.
+- Confirmed backup `ric-orchestrator-runtime:backup-before-012a` preserves previous runtime ID `be391f29a172`.
+- Smoke test against the new `ric-orchestrator-runtime:latest` returned `RIC-RUNTIME-012A-OK`.
+- Documented evidence in `docs/validation/runtime-promotion-012a.md`.
+- Did not alter `runtime/ric-orchestrator/Modelfile`.
+- Did not rebuild or recreate any candidate.
+- Did not delete any model or backup.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, workflows, or deploy configuration.
+- Did not run `git add .`, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git rev-parse HEAD`.
+- `git rev-parse origin/main`.
+- `ollama list` before promotion.
+- `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-012a`.
+- `ollama cp ric-orchestrator-candidate:011c-fix1-qwen3-14b ric-orchestrator-runtime:latest`.
+- `ollama list` after promotion.
+- Smoke test output from `ric-orchestrator-runtime:latest`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.
+- Final `git status --short --untracked-files=all`.

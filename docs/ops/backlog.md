@@ -3,7 +3,7 @@
 ## REVIEW
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
-- RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
+- RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -35,6 +35,7 @@ No task is Local DONE.
 - RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation.
 - RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion.
 - RIC-STUDIO-009A - Define Local Orchestrator Error Log.
+- RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
 
 ## Discussion Gate
 
@@ -42,7 +43,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-After RIC-STUDIO-011C is committed and pushed, open Discussion Gate for RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime. Do not promote the candidate in this task.
+Review RIC-STUDIO-012A promotion evidence. Do not execute commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -58,7 +59,7 @@ Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction i
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked during RIC-STUDIO-011C review
+## Blocked during RIC-STUDIO-012A review
 
 - UI.
 - Next.js app.
@@ -70,7 +71,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Login.
 - Deploy.
 - Scripts.
-- Runtime promotion.
+- Additional runtime promotion.
 - Official runtime changes.
 - Direct promotion to `ric-orchestrator-runtime:latest`.
 - Model training.

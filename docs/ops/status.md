@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
+RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
 
 ## Product mode
 
@@ -152,3 +152,19 @@ Candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` is approved as a tech
 The official `runtime/ric-orchestrator/Modelfile` remains intact.
 
 Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
+
+RIC-STUDIO-012A was opened by explicit current request after Discussion Gate returned READY RECOMENDADO and RIC-STUDIO-011C reached Remote DONE at commit `9f6f18f3419a09bda7f625c96113b9de25787920`.
+
+Pre-promotion Git evidence confirmed a clean working tree and `HEAD == origin/main`.
+
+Pre-promotion model evidence confirmed both `ric-orchestrator-candidate:011c-fix1-qwen3-14b` and `ric-orchestrator-runtime:latest` existed, and no `ric-orchestrator-runtime:backup-before-012a` existed.
+
+Backup was created with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-012a`.
+
+Candidate promotion was executed with `ollama cp ric-orchestrator-candidate:011c-fix1-qwen3-14b ric-orchestrator-runtime:latest`.
+
+Post-promotion model evidence shows `ric-orchestrator-runtime:latest` and `ric-orchestrator-candidate:011c-fix1-qwen3-14b` share ID `585f4d5c2075`; backup `ric-orchestrator-runtime:backup-before-012a` preserves previous runtime ID `be391f29a172`.
+
+Smoke test returned `RIC-RUNTIME-012A-OK`.
+
+The official `runtime/ric-orchestrator/Modelfile` remains unchanged. No commit or push has occurred.

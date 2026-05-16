@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-011C is in REVIEW as an approved benchmark for `Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis`.
+RIC-STUDIO-012A is in REVIEW as `Promote Approved Qwen3 Orchestrator Candidate To Official Runtime`.
 
 ## What changed
 
@@ -136,6 +136,22 @@ The approved candidate remains a technical candidate only. It must not be treate
 
 Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
 
+RIC-STUDIO-012A promoted approved candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` to official runtime `ric-orchestrator-runtime:latest`.
+
+Backup was created first: `ric-orchestrator-runtime:backup-before-012a`.
+
+Promotion used `ollama cp`, not rebuild.
+
+Post-promotion `ollama list` shows `ric-orchestrator-runtime:latest` and `ric-orchestrator-candidate:011c-fix1-qwen3-14b` share ID `585f4d5c2075`.
+
+Backup `ric-orchestrator-runtime:backup-before-012a` preserves previous runtime ID `be391f29a172`.
+
+Smoke test returned `RIC-RUNTIME-012A-OK`.
+
+The official `runtime/ric-orchestrator/Modelfile` was not altered.
+
+No commit or push occurred.
+
 RIC-STUDIO-009B remains in REVIEW as the evidence source. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
 
 Authorized files for RIC-STUDIO-011A:
@@ -150,11 +166,11 @@ Authorized files for RIC-STUDIO-011A:
 
 ## What remains
 
-Review RIC-STUDIO-011C benchmark evidence.
+Review RIC-STUDIO-012A promotion evidence.
 
-Local DONE and Remote DONE are not declared for RIC-STUDIO-011C.
+Local DONE and Remote DONE are not declared for RIC-STUDIO-012A.
 
-RIC-STUDIO-011C must not be promoted to DONE as a successful runtime candidate because the result is not 5/5 PASS.
+Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
 ## Constraints to preserve
 
