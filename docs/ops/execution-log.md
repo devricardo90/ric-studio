@@ -606,7 +606,7 @@ Closure:
 
 ## RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -633,3 +633,56 @@ Evidence required before review:
 - `git diff -- runtime/ric-orchestrator/Modelfile`.
 - `git diff -- docs/validation/runtime-prompt-refinement-013a.md`.
 - `git diff -- STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+
+Closure:
+
+- RIC-STUDIO-013A is Remote DONE.
+- RIC-STUDIO-013A is synchronized with `origin/main` at commit `58ad31110d14c370708a5d2ac001c40d2afaae74`.
+
+## RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt
+
+State: REVIEW / BLOCKED
+
+Summary:
+
+- Opened RIC-STUDIO-014A by explicit current request after RIC-STUDIO-013A reached Remote DONE.
+- Confirmed the repository started clean and synchronized with `origin/main` at commit `58ad31110d14c370708a5d2ac001c40d2afaae74`.
+- Confirmed `runtime/ric-orchestrator/Modelfile` exists.
+- Confirmed `ric-orchestrator-runtime:latest` existed before promotion.
+- Confirmed `ric-orchestrator-runtime:backup-before-014a` did not exist before backup creation.
+- Created candidate `ric-orchestrator-candidate:014a-refined-prompt` from `runtime/ric-orchestrator/Modelfile`.
+- Audit confirmed `runtime/ric-orchestrator/Modelfile` starts with `FROM qwen2.5-coder:7b`.
+- Candidate `ric-orchestrator-candidate:014a-refined-prompt` has ID `1e10ad354fb3`, size 4.7 GB, and was built from the smaller 7B base rather than the approved Qwen3 14B base.
+- Candidate smoke test returned `RIC-RUNTIME-014A-CANDIDATE-OK`.
+- Candidate behavioral test returned `DISCUSSION GATE RECOMENDADO`, did not claim absence of dependencies or blockers, and directed implementation to executor/Codex after READY.
+- Created backup `ric-orchestrator-runtime:backup-before-014a` from the previous official runtime.
+- Briefly promoted `ric-orchestrator-candidate:014a-refined-prompt` to `ric-orchestrator-runtime:latest` using `ollama cp`.
+- That promotion was invalid because it replaced the approved Qwen3 14B runtime ID `585f4d5c2075`, size 9.3 GB, with the 7B candidate ID `1e10ad354fb3`, size 4.7 GB.
+- Rollback was executed with `ollama cp ric-orchestrator-runtime:backup-before-014a ric-orchestrator-runtime:latest`.
+- After rollback, `ric-orchestrator-runtime:latest` returned to ID `585f4d5c2075`, size 9.3 GB.
+- Rollback smoke did not return the exact token `RIC-RUNTIME-014A-ROLLBACK-OK`; it returned an incorrect gate-style response, confirming the active runtime reverted to pre-013A behavior.
+- The RIC-STUDIO-013A prompt correction is still not applied to the active runtime.
+- RIC-STUDIO-014A is BLOCKED / ROLLED BACK and must not be declared DONE or promoted-complete.
+- Documented evidence in `docs/validation/runtime-rebuild-promotion-014a.md`.
+- Did not alter `runtime/ric-orchestrator/Modelfile`.
+- Did not delete any model, backup, or old candidate.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, workflows, or deploy configuration.
+- Did not run `git add .`, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git rev-parse HEAD`.
+- `git rev-parse origin/main`.
+- `ollama list` before candidate creation and promotion.
+- Evidence of `ollama create`.
+- Candidate smoke test output.
+- Candidate behavioral test output.
+- Backup command output.
+- Promotion command output.
+- `ollama list` after rollback.
+- Rollback smoke output.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.

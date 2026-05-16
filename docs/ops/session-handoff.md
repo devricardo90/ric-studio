@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-013A is in REVIEW as `Refine Official Runtime Prompt For Evidence Claims And Role Boundaries`.
+RIC-STUDIO-014A is in REVIEW / BLOCKED as `Rebuild And Promote Official Runtime From Refined Prompt`.
 
 ## What changed
 
@@ -172,12 +172,41 @@ Validation evidence is recorded in `docs/validation/runtime-prompt-refinement-01
 
 No `ollama create`, `ollama cp`, rebuild, promotion, model deletion, backup deletion, commit, or push occurred during RIC-STUDIO-013A.
 
+RIC-STUDIO-013A is Remote DONE and synchronized with `origin/main` at commit `58ad31110d14c370708a5d2ac001c40d2afaae74`.
+
+RIC-STUDIO-014A is BLOCKED / ROLLED BACK.
+
+Pre-run evidence confirmed the repository was clean and synchronized with `origin/main` at `58ad31110d14c370708a5d2ac001c40d2afaae74`, `runtime/ric-orchestrator/Modelfile` existed, `ric-orchestrator-runtime:latest` existed, and `ric-orchestrator-runtime:backup-before-014a` did not exist.
+
+Candidate `ric-orchestrator-candidate:014a-refined-prompt` was created from `runtime/ric-orchestrator/Modelfile`.
+
+Audit confirmed `runtime/ric-orchestrator/Modelfile` begins with `FROM qwen2.5-coder:7b`, so candidate `ric-orchestrator-candidate:014a-refined-prompt` was built from the smaller 7B base.
+
+Candidate `ric-orchestrator-candidate:014a-refined-prompt` has ID `1e10ad354fb3`, size 4.7 GB.
+
+The approved runtime before 014A was Qwen3 14B ID `585f4d5c2075`, size 9.3 GB.
+
+Backup `ric-orchestrator-runtime:backup-before-014a` was created before promotion and preserves previous runtime ID `585f4d5c2075`.
+
+Candidate `ric-orchestrator-candidate:014a-refined-prompt` was briefly promoted to `ric-orchestrator-runtime:latest` using `ollama cp`, causing a base regression from Qwen3 14B to the 7B candidate.
+
+Rollback was executed with `ollama cp ric-orchestrator-runtime:backup-before-014a ric-orchestrator-runtime:latest`.
+
+After rollback, `ric-orchestrator-runtime:latest` returned to ID `585f4d5c2075`, size 9.3 GB.
+
+Rollback smoke did not return the exact token `RIC-RUNTIME-014A-ROLLBACK-OK`; it returned an incorrect gate-style response, confirming the active runtime reverted to pre-013A behavior.
+
+The RIC-STUDIO-013A prompt correction is still not applied to the active runtime.
+
+Validation evidence is recorded in `docs/validation/runtime-rebuild-promotion-014a.md`.
+
+The official `runtime/ric-orchestrator/Modelfile` was not altered during this documentation correction. No `ollama create`, `ollama cp`, model deletion, backup deletion, old candidate deletion, commit, or push occurred in this correction step.
+
 RIC-STUDIO-009B remains in REVIEW as the evidence source. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
 
-Authorized files for RIC-STUDIO-013A:
+Authorized files for RIC-STUDIO-014A:
 
-- `runtime/ric-orchestrator/Modelfile`.
-- `docs/validation/runtime-prompt-refinement-013a.md`.
+- `docs/validation/runtime-rebuild-promotion-014a.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -187,11 +216,13 @@ Authorized files for RIC-STUDIO-013A:
 
 ## What remains
 
-Review RIC-STUDIO-013A prompt refinement evidence.
+Review RIC-STUDIO-014A rollback evidence.
 
-Local DONE and Remote DONE are not declared for RIC-STUDIO-013A.
+RIC-STUDIO-014A is BLOCKED / ROLLED BACK. Local DONE and Remote DONE are not declared for RIC-STUDIO-014A.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
+
+Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 
 ## Constraints to preserve
 
@@ -202,11 +233,13 @@ Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 - Do not automate Git.
 - Do not alter `.github`.
 - Do not delete runtime candidates.
-- Do not promote a runtime.
-- Do not promote directly to `ric-orchestrator-runtime:latest`.
-- Do not change the official runtime model.
+- Do not delete `ric-orchestrator-candidate:014a-refined-prompt`.
 - Do not run `ollama create`.
 - Do not run `ollama cp`.
+- Do not promote a runtime again in this task.
+- Do not promote directly to `ric-orchestrator-runtime:latest`.
+- Do not change the official runtime model.
+- Do not alter `runtime/ric-orchestrator/Modelfile`.
 - Do not create another candidate without a separate approved task.
 - Do not train or tune models.
 - Do not configure IDE integration.

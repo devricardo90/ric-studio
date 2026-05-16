@@ -2,20 +2,19 @@
 
 ## Current state
 
-REVIEW
+REVIEW / BLOCKED
 
 ## Active task
 
-RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
+RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt
 
 ## Scope
 
-Refine the versioned official runtime prompt in `runtime/ric-orchestrator/Modelfile` to prevent unsupported evidence claims and keep auditor/orchestrator duties separate from executor/Codex implementation duties.
+Document the RIC-STUDIO-014A base-regression incident and rollback. RIC-STUDIO-014A must remain BLOCKED / ROLLED BACK because the rebuild used the versioned Modelfile base `qwen2.5-coder:7b`, not the approved Qwen3 14B base.
 
 ## Allowed files
 
-- `runtime/ric-orchestrator/Modelfile`
-- `docs/validation/runtime-prompt-refinement-013a.md`
+- `docs/validation/runtime-rebuild-promotion-014a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -25,7 +24,7 @@ Refine the versioned official runtime prompt in `runtime/ric-orchestrator/Modelf
 
 ## Blocked in this task
 
-Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, runtime rebuild, `ollama create`, `ollama cp`, runtime promotion, model deletion, backup deletion, commit, and push are blocked.
+Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, Modelfile edits, model deletion, backup deletion, old candidate deletion, commit, and push are blocked.
 
 ## Gate status
 
@@ -147,10 +146,34 @@ The official `runtime/ric-orchestrator/Modelfile` remains unchanged. No commit o
 
 RIC-STUDIO-012A is Remote DONE and synchronized with `origin/main` at commit `75005f56f1912aa8b5a178fa0be3184008ad106d`.
 
-RIC-STUDIO-013A is in REVIEW after refining the versioned runtime prompt to address two real post-promotion Discussion Gate observations from Clinic Booking Mini: CBM-009 and CBM-010.
+RIC-STUDIO-013A reached Remote DONE after refining the versioned runtime prompt to address two real post-promotion Discussion Gate observations from Clinic Booking Mini: CBM-009 and CBM-010.
 
 The Modelfile now explicitly blocks unsupported claims that no dependencies, blockers, or pending work exist without raw evidence, and reinforces that the runtime audits/orchestrates while executor agent/Codex performs implementation after READY.
 
 Validation evidence is documented in `docs/validation/runtime-prompt-refinement-013a.md`.
 
 No `ollama create`, `ollama cp`, rebuild, promotion, model deletion, backup deletion, commit, or push has occurred during RIC-STUDIO-013A.
+
+RIC-STUDIO-013A is Remote DONE and synchronized with `origin/main` at commit `58ad31110d14c370708a5d2ac001c40d2afaae74`.
+
+RIC-STUDIO-014A is in REVIEW / BLOCKED as BLOCKED / ROLLED BACK.
+
+Candidate `ric-orchestrator-candidate:014a-refined-prompt` was created from `runtime/ric-orchestrator/Modelfile`, but audit confirmed the Modelfile begins with `FROM qwen2.5-coder:7b`.
+
+The 014A candidate is model ID `1e10ad354fb3`, size 4.7 GB, and was built from the smaller 7B base instead of the approved Qwen3 14B base.
+
+Backup `ric-orchestrator-runtime:backup-before-014a` was created before the invalid promotion and preserves previous runtime ID `585f4d5c2075`.
+
+Candidate `ric-orchestrator-candidate:014a-refined-prompt` was briefly promoted to `ric-orchestrator-runtime:latest`, causing a base regression from the approved Qwen3 14B runtime ID `585f4d5c2075` to the 7B candidate ID `1e10ad354fb3`.
+
+Rollback was executed with `ollama cp ric-orchestrator-runtime:backup-before-014a ric-orchestrator-runtime:latest`.
+
+After rollback, `ric-orchestrator-runtime:latest` returned to ID `585f4d5c2075`, size 9.3 GB.
+
+The rollback smoke did not return the exact token `RIC-RUNTIME-014A-ROLLBACK-OK`; it returned an incorrect gate-style response, confirming the active runtime reverted to pre-013A behavior.
+
+The RIC-STUDIO-013A prompt correction is still not applied to the active runtime.
+
+Validation evidence is documented in `docs/validation/runtime-rebuild-promotion-014a.md`.
+
+The official `runtime/ric-orchestrator/Modelfile` was not altered during this documentation correction. No `ollama create`, `ollama cp`, model deletion, backup deletion, old candidate deletion, commit, or push has occurred in this correction step.

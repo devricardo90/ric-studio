@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW
+REVIEW / BLOCKED
 
 ## Task
 
-RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
+RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt
 
 ## Product mode
 
@@ -187,3 +187,33 @@ Observed runtime behavior was functionally safe enough to recommend READY, keep 
 Validation is documented in `docs/validation/runtime-prompt-refinement-013a.md`.
 
 No `ollama create`, `ollama cp`, rebuild, promotion, model deletion, backup deletion, commit, or push has occurred during RIC-STUDIO-013A.
+
+RIC-STUDIO-013A is Remote DONE and synchronized with `origin/main` at commit `58ad31110d14c370708a5d2ac001c40d2afaae74`.
+
+RIC-STUDIO-014A was opened by explicit current request to apply the refined versioned prompt to the active runtime.
+
+Initial evidence confirmed a clean synchronized repository at `58ad31110d14c370708a5d2ac001c40d2afaae74`, `runtime/ric-orchestrator/Modelfile` exists, `ric-orchestrator-runtime:latest` existed, and `ric-orchestrator-runtime:backup-before-014a` did not exist before backup creation.
+
+Candidate `ric-orchestrator-candidate:014a-refined-prompt` was created from `runtime/ric-orchestrator/Modelfile`, but audit confirmed the Modelfile begins with `FROM qwen2.5-coder:7b`.
+
+The candidate ID is `1e10ad354fb3`, size 4.7 GB, which is a regression from the approved Qwen3 14B runtime ID `585f4d5c2075`, size 9.3 GB.
+
+Backup `ric-orchestrator-runtime:backup-before-014a` was created from the previous runtime before promotion.
+
+Candidate `ric-orchestrator-candidate:014a-refined-prompt` was briefly promoted to `ric-orchestrator-runtime:latest` using `ollama cp`, causing a base regression.
+
+Post-promotion `ollama list` showed `ric-orchestrator-runtime:latest` and `ric-orchestrator-candidate:014a-refined-prompt` shared ID `1e10ad354fb3`, while `ric-orchestrator-runtime:backup-before-014a` preserved previous runtime ID `585f4d5c2075`.
+
+Rollback was executed with `ollama cp ric-orchestrator-runtime:backup-before-014a ric-orchestrator-runtime:latest`.
+
+After rollback, `ric-orchestrator-runtime:latest` returned to ID `585f4d5c2075`, size 9.3 GB.
+
+The rollback smoke did not return the exact token `RIC-RUNTIME-014A-ROLLBACK-OK`; it returned an incorrect gate-style response, confirming the active runtime reverted to pre-013A behavior.
+
+The RIC-STUDIO-013A prompt correction is still not applied to the active runtime.
+
+RIC-STUDIO-014A is BLOCKED / ROLLED BACK and must not be declared DONE or promoted-complete.
+
+Validation is documented in `docs/validation/runtime-rebuild-promotion-014a.md`.
+
+The official `runtime/ric-orchestrator/Modelfile` was not altered during this documentation correction. No `ollama create`, `ollama cp`, model deletion, backup deletion, old candidate deletion, commit, or push has occurred in this correction step.
