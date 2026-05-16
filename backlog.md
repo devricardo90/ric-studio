@@ -3,7 +3,7 @@
 ## REVIEW
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
-- RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
+- RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
 
 ## REJECTED / REVIEW CLOSED
 
@@ -28,6 +28,7 @@ No task is Local DONE.
 - RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion
 - RIC-STUDIO-009A - Define Local Orchestrator Error Log
 - RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
+- RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
 
 ## READY
 
@@ -35,7 +36,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-012A promotion evidence. Do not execute commit or push without explicit authorization.
+Review RIC-STUDIO-013A prompt refinement evidence. Do not execute commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -53,7 +54,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories remain blocked during RIC-STUDIO-012A review:
+The following categories remain blocked during RIC-STUDIO-013A review:
 
 - UI
 - Next.js app
@@ -66,8 +67,10 @@ The following categories remain blocked during RIC-STUDIO-012A review:
 - Deploy
 - Scripts
 - Additional runtime promotion
-- Official runtime changes
+- Official runtime model changes
 - Direct promotion to `ric-orchestrator-runtime:latest`
+- `ollama create`
+- `ollama cp`
 - Model training or tuning
 - Dependency changes
 - Runtime deletion

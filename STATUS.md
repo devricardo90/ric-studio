@@ -6,15 +6,16 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
+RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
 
 ## Scope
 
-Promote the benchmark-approved candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` to the official runtime `ric-orchestrator-runtime:latest` using `ollama cp`, with mandatory backup, smoke test, and evidence documentation.
+Refine the versioned official runtime prompt in `runtime/ric-orchestrator/Modelfile` to prevent unsupported evidence claims and keep auditor/orchestrator duties separate from executor/Codex implementation duties.
 
 ## Allowed files
 
-- `docs/validation/runtime-promotion-012a.md`
+- `runtime/ric-orchestrator/Modelfile`
+- `docs/validation/runtime-prompt-refinement-013a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -24,7 +25,7 @@ Promote the benchmark-approved candidate `ric-orchestrator-candidate:011c-fix1-q
 
 ## Blocked in this task
 
-Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, Modelfile edits, candidate rebuild, model deletion, backup deletion, commit, and push are blocked.
+Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, runtime rebuild, `ollama create`, `ollama cp`, runtime promotion, model deletion, backup deletion, commit, and push are blocked.
 
 ## Gate status
 
@@ -132,7 +133,7 @@ The official `runtime/ric-orchestrator/Modelfile` remains intact.
 
 Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
 
-RIC-STUDIO-012A is in REVIEW after controlled local promotion.
+RIC-STUDIO-012A reached Remote DONE after controlled local promotion.
 
 Backup was created before promotion: `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -143,3 +144,13 @@ Post-promotion evidence shows `ric-orchestrator-runtime:latest` and `ric-orchest
 Smoke test returned `RIC-RUNTIME-012A-OK`.
 
 The official `runtime/ric-orchestrator/Modelfile` remains unchanged. No commit or push has occurred.
+
+RIC-STUDIO-012A is Remote DONE and synchronized with `origin/main` at commit `75005f56f1912aa8b5a178fa0be3184008ad106d`.
+
+RIC-STUDIO-013A is in REVIEW after refining the versioned runtime prompt to address two real post-promotion Discussion Gate observations from Clinic Booking Mini: CBM-009 and CBM-010.
+
+The Modelfile now explicitly blocks unsupported claims that no dependencies, blockers, or pending work exist without raw evidence, and reinforces that the runtime audits/orchestrates while executor agent/Codex performs implementation after READY.
+
+Validation evidence is documented in `docs/validation/runtime-prompt-refinement-013a.md`.
+
+No `ollama create`, `ollama cp`, rebuild, promotion, model deletion, backup deletion, commit, or push has occurred during RIC-STUDIO-013A.

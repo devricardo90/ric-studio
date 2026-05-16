@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
+RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
 
 ## Product mode
 
@@ -168,3 +168,22 @@ Post-promotion model evidence shows `ric-orchestrator-runtime:latest` and `ric-o
 Smoke test returned `RIC-RUNTIME-012A-OK`.
 
 The official `runtime/ric-orchestrator/Modelfile` remains unchanged. No commit or push has occurred.
+
+RIC-STUDIO-012A is Remote DONE and synchronized with `origin/main` at commit `75005f56f1912aa8b5a178fa0be3184008ad106d`.
+
+RIC-STUDIO-013A was opened by explicit current request after real post-promotion Discussion Gate tests in Clinic Booking Mini.
+
+Real cases documented for RIC-STUDIO-013A:
+
+- CBM-009 - Add appointment conflict guard.
+- CBM-010 - Add appointment request time guard.
+
+Observed runtime behavior was functionally safe enough to recommend READY, keep commit and push blocked, and request minimum evidence, but it overclaimed absence of pending dependencies without raw evidence and blurred runtime auditor/orchestrator duties with executor/Codex implementation duties.
+
+`runtime/ric-orchestrator/Modelfile` now explicitly prohibits unsupported claims that no dependencies, blockers, missing work, missing files, or outstanding changes exist without current raw evidence proving that exact claim.
+
+`runtime/ric-orchestrator/Modelfile` also reinforces that the runtime decides, audits, blocks, and recommends, while executor agent/Codex performs implementation after READY.
+
+Validation is documented in `docs/validation/runtime-prompt-refinement-013a.md`.
+
+No `ollama create`, `ollama cp`, rebuild, promotion, model deletion, backup deletion, commit, or push has occurred during RIC-STUDIO-013A.

@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-012A is in REVIEW as `Promote Approved Qwen3 Orchestrator Candidate To Official Runtime`.
+RIC-STUDIO-013A is in REVIEW as `Refine Official Runtime Prompt For Evidence Claims And Role Boundaries`.
 
 ## What changed
 
@@ -152,11 +152,32 @@ The official `runtime/ric-orchestrator/Modelfile` was not altered.
 
 No commit or push occurred.
 
+RIC-STUDIO-012A is Remote DONE and synchronized with `origin/main` at commit `75005f56f1912aa8b5a178fa0be3184008ad106d`.
+
+RIC-STUDIO-013A refined the versioned official runtime prompt in `runtime/ric-orchestrator/Modelfile` after two real post-promotion Discussion Gate observations in Clinic Booking Mini:
+
+- CBM-009 - Add appointment conflict guard.
+- CBM-010 - Add appointment request time guard.
+
+The runtime behavior observed in both cases was functionally safe enough to recommend READY, keep commit and push blocked, and request minimum evidence.
+
+The defects corrected in RIC-STUDIO-013A are:
+
+- unsupported claims equivalent to "no evidence of pending dependencies" without current raw evidence proving absence of dependencies or blockers;
+- wording equivalent to "start implementation with the promoted official runtime", which blurred auditor/orchestrator duties with executor/Codex implementation duties.
+
+`runtime/ric-orchestrator/Modelfile` now requires the runtime to avoid absence-of-pending-work claims without raw evidence and to hand implementation to executor agent/Codex after READY.
+
+Validation evidence is recorded in `docs/validation/runtime-prompt-refinement-013a.md`.
+
+No `ollama create`, `ollama cp`, rebuild, promotion, model deletion, backup deletion, commit, or push occurred during RIC-STUDIO-013A.
+
 RIC-STUDIO-009B remains in REVIEW as the evidence source. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
 
-Authorized files for RIC-STUDIO-011A:
+Authorized files for RIC-STUDIO-013A:
 
-- `docs/validation/runtime-candidate-011c-qwen3-14b.md`.
+- `runtime/ric-orchestrator/Modelfile`.
+- `docs/validation/runtime-prompt-refinement-013a.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -166,9 +187,9 @@ Authorized files for RIC-STUDIO-011A:
 
 ## What remains
 
-Review RIC-STUDIO-012A promotion evidence.
+Review RIC-STUDIO-013A prompt refinement evidence.
 
-Local DONE and Remote DONE are not declared for RIC-STUDIO-012A.
+Local DONE and Remote DONE are not declared for RIC-STUDIO-013A.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -183,7 +204,9 @@ Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 - Do not delete runtime candidates.
 - Do not promote a runtime.
 - Do not promote directly to `ric-orchestrator-runtime:latest`.
-- Do not change the official runtime.
+- Do not change the official runtime model.
+- Do not run `ollama create`.
+- Do not run `ollama cp`.
 - Do not create another candidate without a separate approved task.
 - Do not train or tune models.
 - Do not configure IDE integration.

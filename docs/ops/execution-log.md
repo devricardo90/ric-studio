@@ -561,7 +561,7 @@ Summary:
 
 ## RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -598,3 +598,38 @@ Evidence required before review:
 - `git diff --check`.
 - `git diff -- runtime/ric-orchestrator/Modelfile`.
 - Final `git status --short --untracked-files=all`.
+
+Closure:
+
+- RIC-STUDIO-012A is Remote DONE.
+- RIC-STUDIO-012A is synchronized with `origin/main` at commit `75005f56f1912aa8b5a178fa0be3184008ad106d`.
+
+## RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-013A by explicit current request after RIC-STUDIO-012A reached Remote DONE.
+- Confirmed the repository started clean and synchronized with `origin/main` at commit `75005f56f1912aa8b5a178fa0be3184008ad106d`.
+- Inspected `runtime/ric-orchestrator/Modelfile`, `docs/validation/`, `STATUS.md`, `backlog.md`, and the required `docs/ops/*` state files.
+- Updated only the SYSTEM prompt in `runtime/ric-orchestrator/Modelfile`.
+- Added evidence-claim boundaries so the runtime must not assert absence of dependencies, blockers, missing work, missing files, or outstanding changes unless current raw evidence proves that exact claim.
+- Added role-boundary rules so the runtime remains auditor/orchestrator and implementation is assigned to executor agent/Codex after READY.
+- Refined "Proximo passo seguro" expectations to avoid wording that makes the runtime the implementing actor.
+- Documented real post-promotion Clinic Booking Mini cases CBM-009 and CBM-010 in `docs/validation/runtime-prompt-refinement-013a.md`.
+- Did not run `ollama create`.
+- Did not run `ollama cp`.
+- Did not rebuild, promote, delete, or alter any Ollama model.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, workflows, or deploy configuration.
+- Did not run `git add .`, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.
+- `git diff -- docs/validation/runtime-prompt-refinement-013a.md`.
+- `git diff -- STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
