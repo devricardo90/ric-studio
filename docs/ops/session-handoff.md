@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-017A is READY as `Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime`.
+RIC-STUDIO-017A is in REVIEW as `Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime`.
 
 ## What changed
 
@@ -262,7 +262,22 @@ Current official runtime before execution:
 - ID `585f4d5c2075`.
 - Size 9.3 GB.
 
-The latest runtime does not yet point to the validated 016A candidate. The next action is controlled promotion, not rebuild.
+Before execution, the latest runtime did not yet point to the validated 016A candidate. The required action was controlled promotion, not rebuild.
+
+RIC-STUDIO-017A executed the controlled promotion.
+
+Execution evidence:
+
+- Pre-promotion Git evidence confirmed `HEAD == origin/main == 62a4d244103cdfd521731138346cfdbcd64ace20`.
+- Candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` existed before promotion at ID `3026c74ea0d4`, size 9.3 GB.
+- `ric-orchestrator-runtime:latest` existed before promotion at ID `585f4d5c2075`, size 9.3 GB.
+- `ric-orchestrator-runtime:backup-before-017a` did not exist before backup creation.
+- Backup was created with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
+- Promotion was executed with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
+- Post-promotion `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
+- Backup `ric-orchestrator-runtime:backup-before-017a` points to previous runtime ID `585f4d5c2075`.
+- Smoke test returned `RIC-RUNTIME-017A-OK`.
+- Validation evidence is recorded in `docs/validation/runtime-promotion-017a.md`.
 
 Execution requirements for RIC-STUDIO-017A:
 
@@ -276,7 +291,7 @@ Execution requirements for RIC-STUDIO-017A:
 - Document evidence in `docs/validation/runtime-promotion-017a.md`.
 - Commit and push only after complete validation.
 
-Authorized files for RIC-STUDIO-017A READY opening:
+Authorized files for RIC-STUDIO-017A:
 
 - `STATUS.md`.
 - `backlog.md`.
@@ -284,12 +299,13 @@ Authorized files for RIC-STUDIO-017A READY opening:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
+- `docs/validation/runtime-promotion-017a.md`.
 
 ## What remains
 
-Review RIC-STUDIO-017A READY opening evidence.
+Review RIC-STUDIO-017A promotion evidence.
 
-RIC-STUDIO-017A is READY. Execution has not started.
+RIC-STUDIO-017A is in REVIEW. Local DONE and Remote DONE are not declared.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -306,12 +322,8 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not delete runtime candidates.
 - Do not delete `ric-orchestrator-candidate:014a-refined-prompt`.
 - Do not run `ollama create`.
-- Do not run `ollama cp`.
-- Do not create backup during READY opening.
 - Do not create a new candidate.
-- Do not rebuild or promote the official runtime during READY opening.
-- Do not promote directly to `ric-orchestrator-runtime:latest`.
-- Do not change the official runtime model.
+- Do not rebuild or promote the official runtime again during review.
 - Do not alter `runtime/ric-orchestrator/Modelfile`.
 - Do not open a Clinic Booking task.
 - Do not open RIC-STUDIO-018A.

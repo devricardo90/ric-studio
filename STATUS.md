@@ -10,7 +10,7 @@ RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official 
 
 ## Scope
 
-Register RIC-STUDIO-017A as READY for a future controlled promotion of validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` to official runtime `ric-orchestrator-runtime:latest`. Do not execute promotion during this READY opening.
+Promote validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` to official runtime `ric-orchestrator-runtime:latest` through the controlled backup and promotion flow.
 
 ## Allowed files
 
@@ -20,10 +20,11 @@ Register RIC-STUDIO-017A as READY for a future controlled promotion of validated
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
+- `docs/validation/runtime-promotion-017a.md`
 
 ## Blocked in this task
 
-Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, lockfile changes, deploy, `ollama create`, `ollama cp`, promotion to `ric-orchestrator-runtime:latest`, backup creation, candidate creation, rebuild, official runtime alteration, model deletion, backup deletion, candidate deletion, Modelfile edits, Clinic Booking task opening, opening RIC-STUDIO-018A, marking any READY task other than RIC-STUDIO-017A, commit, and push are blocked during this READY opening.
+Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, lockfile changes, deploy, `ollama create`, new candidate creation, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edits, Clinic Booking task opening, opening RIC-STUDIO-018A, marking a new READY task, commit, and push are blocked during this REVIEW.
 
 ## Gate status
 
@@ -205,18 +206,19 @@ Validation evidence is documented in `docs/validation/runtime-candidate-016a.md`
 
 No `ollama cp`, promotion, official runtime alteration, model deletion, backup deletion, candidate deletion, Modelfile edit, or push has occurred during RIC-STUDIO-016A.
 
-RIC-STUDIO-017A is opened as READY for controlled promotion of the validated candidate to `ric-orchestrator-runtime:latest`.
+RIC-STUDIO-017A is in REVIEW after controlled promotion of the validated candidate to `ric-orchestrator-runtime:latest`.
 
-Execution requirements for RIC-STUDIO-017A:
+Execution evidence for RIC-STUDIO-017A:
 
-- Verify Git is clean and synchronized before promotion.
-- Verify `ric-orchestrator-runtime:backup-before-017a` does not exist.
-- If `ric-orchestrator-runtime:backup-before-017a` already exists, stop immediately.
-- Create backup with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
-- Promote only with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
-- Confirm `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
-- Run post-promotion smoke test.
-- Document evidence in `docs/validation/runtime-promotion-017a.md`.
-- Commit and push only after complete validation.
+- Pre-promotion Git evidence confirmed a clean synchronized repository at `HEAD == origin/main == 62a4d244103cdfd521731138346cfdbcd64ace20`.
+- Pre-promotion `ollama list` confirmed candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` existed at ID `3026c74ea0d4`, size 9.3 GB.
+- Pre-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` existed at ID `585f4d5c2075`, size 9.3 GB.
+- Explicit check for `ric-orchestrator-runtime:backup-before-017a` returned no rows before backup creation.
+- Backup was created with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
+- Promotion was executed with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
+- Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`, matching the validated 016A candidate.
+- Backup `ric-orchestrator-runtime:backup-before-017a` preserves previous runtime ID `585f4d5c2075`.
+- Smoke test returned `RIC-RUNTIME-017A-OK`.
+- Validation evidence is documented in `docs/validation/runtime-promotion-017a.md`.
 
-No `ollama cp`, backup creation, runtime promotion, candidate creation, rebuild, model deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push has occurred during this READY opening.
+No new candidate, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push has occurred during RIC-STUDIO-017A.

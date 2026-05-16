@@ -4,6 +4,7 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt (BLOCKED / ROLLED BACK)
+- RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
 
 ## REJECTED / REVIEW CLOSED
 
@@ -35,11 +36,11 @@ No task is Local DONE.
 
 ## READY
 
-- RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
+No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-017A READY opening evidence. Do not execute promotion, commit, or push without explicit authorization and validation.
+Review RIC-STUDIO-017A promotion evidence. Do not execute commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -57,7 +58,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories remain blocked during RIC-STUDIO-017A READY opening:
+The following categories remain blocked during RIC-STUDIO-017A review:
 
 - UI
 - Next.js app
@@ -70,13 +71,9 @@ The following categories remain blocked during RIC-STUDIO-017A READY opening:
 - Deploy
 - Scripts
 - `ollama create`
-- `ollama cp`
-- Backup creation
 - New candidate creation
 - Model rebuild
-- Additional runtime promotion
-- Further direct promotion to `ric-orchestrator-runtime:latest`
-- Official runtime alteration
+- Additional runtime promotion beyond the completed 017A promotion
 - Model training or tuning
 - Dependency changes
 - Runtime deletion

@@ -791,7 +791,7 @@ Remote closure:
 
 ## RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
 
-State: READY
+State: REVIEW
 
 Summary:
 
@@ -799,8 +799,8 @@ Summary:
 - Context for execution: `HEAD == origin/main == 0059eacd105be1836d2431a1da9d7c2a7b9bb47d`.
 - Candidate to promote: `ric-orchestrator-candidate:016a-qwen3-refined-prompt`, ID `3026c74ea0d4`, size 9.3 GB.
 - Current official runtime before execution: `ric-orchestrator-runtime:latest`, ID `585f4d5c2075`, size 9.3 GB.
-- The current latest runtime does not yet point to the validated 016A candidate.
-- The next operational action is controlled promotion, not rebuild.
+- Before execution, the latest runtime did not yet point to the validated 016A candidate.
+- The required operational action was controlled promotion, not rebuild.
 
 Execution requirements:
 
@@ -814,7 +814,7 @@ Execution requirements:
 - Document evidence in `docs/validation/runtime-promotion-017a.md`.
 - Commit and push only after complete validation.
 
-Blocked during READY opening:
+Blocked during READY opening before execution:
 
 - Did not run `ollama create`.
 - Did not run `ollama cp`.
@@ -827,4 +827,26 @@ Blocked during READY opening:
 - Did not alter UI, app, scripts, packages, or dependencies.
 - Did not open a Clinic Booking task.
 - Did not open RIC-STUDIO-018A or any READY task other than RIC-STUDIO-017A.
+- Did not run `git add .`, commit, or push.
+
+Execution:
+
+- Confirmed Git was clean and synchronized before promotion.
+- Confirmed `HEAD == origin/main == 62a4d244103cdfd521731138346cfdbcd64ace20`.
+- Confirmed candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` existed at ID `3026c74ea0d4`, size 9.3 GB.
+- Confirmed `ric-orchestrator-runtime:latest` existed at ID `585f4d5c2075`, size 9.3 GB.
+- Confirmed `ric-orchestrator-runtime:backup-before-017a` did not exist before backup creation.
+- Created backup with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
+- Promoted with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
+- Confirmed post-promotion `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
+- Confirmed `ric-orchestrator-runtime:backup-before-017a` points to previous runtime ID `585f4d5c2075`.
+- Smoke test returned `RIC-RUNTIME-017A-OK`.
+- Documented validation in `docs/validation/runtime-promotion-017a.md`.
+- Did not create a new candidate.
+- Did not run `ollama create`.
+- Did not alter `runtime/ric-orchestrator/Modelfile`.
+- Did not delete models, backups, or candidates.
+- Did not alter UI, app, scripts, packages, or dependencies.
+- Did not open a Clinic Booking task.
+- Did not open RIC-STUDIO-018A or a new READY task.
 - Did not run `git add .`, commit, or push.

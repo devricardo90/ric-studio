@@ -283,4 +283,21 @@ Required execution evidence for RIC-STUDIO-017A:
 - Document evidence in `docs/validation/runtime-promotion-017a.md`.
 - Commit and push only after complete validation.
 
-No `ollama cp`, backup creation, runtime promotion, new candidate creation, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push has occurred during this READY opening.
+During the READY opening step, no `ollama cp`, backup creation, runtime promotion, new candidate creation, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push occurred.
+
+RIC-STUDIO-017A is now in REVIEW after executing the controlled promotion.
+
+Execution evidence:
+
+- Pre-promotion Git evidence confirmed a clean synchronized repository at `HEAD == origin/main == 62a4d244103cdfd521731138346cfdbcd64ace20`.
+- Pre-promotion `ollama list` confirmed candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` existed at ID `3026c74ea0d4`, size 9.3 GB.
+- Pre-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` existed at ID `585f4d5c2075`, size 9.3 GB.
+- Explicit check for `ric-orchestrator-runtime:backup-before-017a` returned no rows before backup creation.
+- Backup was created with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-017a`.
+- Promotion was executed with `ollama cp ric-orchestrator-candidate:016a-qwen3-refined-prompt ric-orchestrator-runtime:latest`.
+- Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` points to ID `3026c74ea0d4`.
+- Backup `ric-orchestrator-runtime:backup-before-017a` preserves previous runtime ID `585f4d5c2075`.
+- Smoke test returned `RIC-RUNTIME-017A-OK`.
+- Validation is documented in `docs/validation/runtime-promotion-017a.md`.
+
+No new candidate, rebuild, model deletion, backup deletion, candidate deletion, Modelfile edit, Clinic Booking task opening, RIC-STUDIO-018A opening, commit, or push has occurred during RIC-STUDIO-017A.
