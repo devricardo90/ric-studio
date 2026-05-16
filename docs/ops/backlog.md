@@ -4,6 +4,10 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 
+## REJECTED / REVIEW CLOSED
+
+- RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns.
+
 ## READY
 
 No task is READY.
@@ -35,7 +39,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-009B evidence. Do not mark Local DONE or Remote DONE, and do not open RIC-STUDIO-010A.
+Open a separate Discussion Gate for RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator. Do not open READY yet.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -51,23 +55,21 @@ Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction i
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked for RIC-STUDIO-009B
+## Blocked after RIC-STUDIO-010A rejection
 
 - UI.
 - Next.js app.
 - IDE integration.
 - Git automation.
+- `.github`.
 - GitHub API integration.
 - Database.
 - Login.
 - Deploy.
 - Scripts.
-- Runtime source changes.
-- Modelfile edits.
-- Ollama model creation.
 - Runtime promotion.
 - Official runtime changes.
-- Candidate runtime changes.
+- Direct promotion to `ric-orchestrator-runtime:latest`.
 - Model training.
 - Model tuning.
 - Dependency changes.
@@ -76,4 +78,4 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Push.
 - Local DONE.
 - Remote DONE.
-- RIC-STUDIO-010A opening.
+- Runtime candidate promotion.

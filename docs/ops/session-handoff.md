@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-009B is in REVIEW as `Record Local Orchestrator Errors From CBM-004`.
+RIC-STUDIO-010A is REJECTED / REVIEW CLOSED as `Improve Local Orchestrator Prompt From Logged Error Patterns`.
 
 ## What changed
 
@@ -66,13 +66,27 @@ RIC-STUDIO-009B recorded three real observed local orchestrator errors from Clin
 - 1 `scope-confusion` occurrence.
 - 2 `state-contradiction` occurrences.
 
-Runtime improvement remains blocked because there is no critical error and the 3 to 5 matching-occurrence threshold has not been reached.
+RIC-STUDIO-010A was opened by explicit current request to improve the local orchestrator prompt from the logged error patterns.
 
-RIC-STUDIO-009B remains in REVIEW. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B. RIC-STUDIO-010A is not opened.
+RIC-STUDIO-010A updated `runtime/ric-orchestrator/Modelfile`, created candidate `ric-orchestrator-candidate:010a`, and ran five focused tests.
 
-Authorized files for RIC-STUDIO-009B:
+RIC-STUDIO-010A result: 3 PASS, 1 PASS WITH CAVEAT, 1 FAIL. The candidate is rejected for promotion because test 3 did not fully synthesize concrete files and validation requirements for a proposed next task.
+
+RIC-STUDIO-010A continuation created `ric-orchestrator-candidate:010b` from the updated Modelfile and ran the five required tests.
+
+RIC-STUDIO-010B result: 3 PASS, 2 FAIL. Test 3 passed, but test 1 failed by treating a clean Git check as a proposed task and test 5 failed by listing `PUSH AINDA BLOQUEADO` after authorizing push. The candidate is rejected for promotion.
+
+RIC-STUDIO-010A was closed as REJECTED / REVIEW CLOSED. The rejected `runtime/ric-orchestrator/Modelfile` changes were reverted to the previous stable repository state.
+
+Candidates `ric-orchestrator-candidate:010a` and `ric-orchestrator-candidate:010b` remain evidence only. Neither candidate was promoted to `ric-orchestrator-runtime:latest`.
+
+RIC-STUDIO-009B remains in REVIEW as the evidence source. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
+
+Authorized files for RIC-STUDIO-010A:
 
 - `docs/validation/local-orchestrator-error-log.md`.
+- `docs/validation/runtime-candidate-010a.md`.
+- `runtime/ric-orchestrator/Modelfile`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -82,9 +96,11 @@ Authorized files for RIC-STUDIO-009B:
 
 ## What remains
 
-Review RIC-STUDIO-009B evidence.
+Open a separate Discussion Gate for RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
 
-Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
+Local DONE and Remote DONE are not declared for RIC-STUDIO-010A.
+
+RIC-STUDIO-010A must not be promoted to DONE as a runtime improvement.
 
 ## Constraints to preserve
 
@@ -93,12 +109,12 @@ Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
 - Do not install dependencies.
 - Do not create scripts.
 - Do not automate Git.
+- Do not alter `.github`.
 - Do not delete runtime candidates.
-- Do not edit the Modelfile.
-- Do not create an Ollama model.
 - Do not promote a runtime.
+- Do not promote directly to `ric-orchestrator-runtime:latest`.
 - Do not change the official runtime.
-- Do not change a candidate runtime.
+- Do not create a new candidate without a separate approved task.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.

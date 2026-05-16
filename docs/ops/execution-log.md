@@ -324,3 +324,74 @@ Evidence required before review:
 - `git diff --check`.
 - `git diff --name-only`.
 - `git --no-pager diff -- docs/validation/local-orchestrator-error-log.md`.
+
+## RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-010A by explicit current request.
+- Confirmed the current directory is the `ric-studio` repository.
+- Confirmed the initial working tree had no file entries from `git status --short --untracked-files=all`.
+- Located logged runtime errors in `docs/validation/local-orchestrator-error-log.md`.
+- Updated `runtime/ric-orchestrator/Modelfile` to address state contradiction, scope confusion, weak scope synthesis, generic allowed files, and state awareness.
+- Ran `git status --short --untracked-files=all`, `git diff --stat`, and `git diff --check` after prompt changes.
+- Created candidate `ric-orchestrator-candidate:010a` from `runtime/ric-orchestrator/Modelfile`.
+- Ran five focused behavior tests against the candidate.
+- Result: 3 PASS, 1 PASS WITH CAVEAT, 1 FAIL.
+- Failure: test 3 did not fully synthesize concrete files and validation requirements for a proposed next task.
+- Decision: candidate `ric-orchestrator-candidate:010a` is rejected for promotion.
+- Recorded validation in `docs/validation/runtime-candidate-010a.md`.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not create UI, app, scripts, Git automation, `.github` changes, package changes, dependency changes, deploy, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.
+- Raw per-file diffs for all changed files.
+
+## RIC-STUDIO-010A Continuation - Candidate 010B
+
+State: REVIEW
+
+Summary:
+
+- Continued RIC-STUDIO-010A in REVIEW to fix only the Test 3 scope synthesis failure.
+- Updated `runtime/ric-orchestrator/Modelfile` with stricter proposed-task recommendation rules.
+- Created candidate `ric-orchestrator-candidate:010b` from the updated Modelfile.
+- Ran five focused behavior tests against the candidate.
+- Result: 3 PASS, 2 FAIL.
+- PASS: previous Remote DONE task isolation, proposed next task synthesis, and commit block with insufficient evidence.
+- FAIL: clean Git state handling and push allowed wording.
+- Decision: candidate `ric-orchestrator-candidate:010b` is rejected for promotion.
+- Recorded validation in `docs/validation/runtime-candidate-010b.md`.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not create UI, app, scripts, Git automation, `.github` changes, package changes, dependency changes, deploy, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.
+- Raw per-file diffs for all changed files.
+
+## RIC-STUDIO-010A Closure
+
+State: REJECTED / REVIEW CLOSED
+
+Summary:
+
+- Closed RIC-STUDIO-010A as a rejected runtime-improvement experiment.
+- Candidate `ric-orchestrator-candidate:010a` remains rejected for promotion.
+- Candidate `ric-orchestrator-candidate:010b` remains rejected for promotion.
+- Preserved validation reports `docs/validation/runtime-candidate-010a.md` and `docs/validation/runtime-candidate-010b.md` as evidence.
+- Reverted `runtime/ric-orchestrator/Modelfile` to the previous stable repository state.
+- Confirmed the rejected Modelfile changes are not active.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not delete candidate evidence.
+- Did not create a new candidate.
+- Did not create UI, scripts, Git automation, `.github` changes, package changes, dependency changes, deploy, commit, or push.
+- Recommended separate next task: RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.

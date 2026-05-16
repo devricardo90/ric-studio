@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW
+REVIEW CLOSED
 
 ## Task
 
-RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
+RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
 
 ## Product mode
 
@@ -79,6 +79,18 @@ RIC-STUDIO-009B is in REVIEW after recording real observed local orchestrator er
 
 Observed pattern count for CBM-004 is 2 `state-contradiction` and 1 `scope-confusion`.
 
-Runtime improvement remains blocked because there is no critical error and the 3 to 5 matching-occurrence threshold has not been reached.
+RIC-STUDIO-010A was opened by explicit current request to improve the local orchestrator prompt from the logged error patterns.
 
-UI, Next.js app, IDE integration, Git automation, GitHub API integration, database, login, deploy, scripts, runtime source changes, Modelfile edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, model training, model tuning, dependency changes, runtime deletion, commit, push, Local DONE, Remote DONE, and RIC-STUDIO-010A opening are blocked.
+RIC-STUDIO-010A is REJECTED / REVIEW CLOSED after versioned runtime prompt experiments, candidate creation, and focused behavior tests.
+
+Candidate `ric-orchestrator-candidate:010a` is rejected for promotion because the proposed next task synthesis test failed.
+
+Candidate `ric-orchestrator-candidate:010b` fixed the proposed next task synthesis test, but is rejected for promotion because the clean Git state test and push-blocked wording test failed.
+
+`runtime/ric-orchestrator/Modelfile` was reverted to the previous stable repository state. The rejected Modelfile changes are not active.
+
+The candidates remain evidence only. No candidate was promoted to `ric-orchestrator-runtime:latest`. No commit or push has occurred.
+
+Recommended next task: RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
+
+UI, Next.js app, IDE integration, Git automation, `.github`, GitHub API integration, database, login, deploy, scripts, runtime promotion, direct promotion to `ric-orchestrator-runtime:latest`, official runtime changes, model training, model tuning, dependency changes, runtime deletion, commit, push, Local DONE, and Remote DONE are blocked.

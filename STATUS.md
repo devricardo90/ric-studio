@@ -2,19 +2,21 @@
 
 ## Current state
 
-REVIEW
+REVIEW CLOSED
 
 ## Active task
 
-RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
+RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
 
 ## Scope
 
-Record real observed local orchestrator errors from Clinic Booking Mini CBM-004 in the local orchestrator error log.
+Closed as rejected experiment. Preserve validation evidence for candidates `ric-orchestrator-candidate:010a` and `ric-orchestrator-candidate:010b`; do not promote either candidate.
 
 ## Allowed files
 
 - `docs/validation/local-orchestrator-error-log.md`
+- `docs/validation/runtime-candidate-010a.md`
+- `docs/validation/runtime-candidate-010b.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -24,7 +26,7 @@ Record real observed local orchestrator errors from Clinic Booking Mini CBM-004 
 
 ## Blocked in this task
 
-Runtime source changes, `runtime/ric-orchestrator/Modelfile` edits, Ollama model creation, runtime promotion, official runtime changes, candidate runtime changes, scripts, app/UI, package or dependency changes, Git automation, commit, and push are blocked.
+Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, official runtime promotion, direct promotion to `ric-orchestrator-runtime:latest`, commit, and push are blocked.
 
 ## Gate status
 
@@ -72,6 +74,16 @@ RIC-STUDIO-009B is in REVIEW after recording CBM-004 local orchestrator errors.
 
 Observed pattern count for CBM-004 is 2 `state-contradiction` and 1 `scope-confusion`.
 
-Runtime improvement remains blocked because there is no critical error and the 3 to 5 matching-occurrence threshold has not been reached.
+RIC-STUDIO-010A was opened by explicit current request to improve the local orchestrator prompt from the logged error patterns.
 
-No runtime, Modelfile, Ollama model, script, app/UI, package, dependency, commit, or push action is authorized. RIC-STUDIO-010A is not opened.
+RIC-STUDIO-010A is REJECTED / REVIEW CLOSED after versioned runtime prompt experiments, candidate creation, and focused behavior tests.
+
+Candidate `ric-orchestrator-candidate:010a` is rejected for promotion because the proposed next task synthesis test failed.
+
+Candidate `ric-orchestrator-candidate:010b` fixed the proposed next task synthesis test, but is rejected for promotion because the clean Git state test and push-blocked wording test failed.
+
+`runtime/ric-orchestrator/Modelfile` was reverted to the previous stable repository state. The rejected Modelfile changes are not active.
+
+The candidates remain evidence only. No candidate was promoted to `ric-orchestrator-runtime:latest`. No commit or push has occurred.
+
+Recommended next task: RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
