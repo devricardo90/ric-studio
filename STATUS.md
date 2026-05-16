@@ -6,17 +6,16 @@ REVIEW CLOSED
 
 ## Active task
 
-RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
+RIC-STUDIO-011A/011B - Benchmark Qwen3 14B For Local Orchestrator
 
 ## Scope
 
-Closed as rejected experiment. Preserve validation evidence for candidates `ric-orchestrator-candidate:010a` and `ric-orchestrator-candidate:010b`; do not promote either candidate.
+Closed as rejected benchmark. Preserve validation evidence for candidates `ric-orchestrator-candidate:011a-qwen3-14b` and `ric-orchestrator-candidate:011b-qwen3-14b`; do not promote either candidate.
 
 ## Allowed files
 
-- `docs/validation/local-orchestrator-error-log.md`
-- `docs/validation/runtime-candidate-010a.md`
-- `docs/validation/runtime-candidate-010b.md`
+- `docs/validation/runtime-candidate-011a-qwen3-14b.md`
+- `docs/validation/runtime-candidate-011b-qwen3-14b.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -26,7 +25,7 @@ Closed as rejected experiment. Preserve validation evidence for candidates `ric-
 
 ## Blocked in this task
 
-Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, official runtime promotion, direct promotion to `ric-orchestrator-runtime:latest`, commit, and push are blocked.
+Product changes, UI, app, scripts, Git automation, `.github`, package or dependency changes, deploy, official runtime changes, official runtime promotion, direct promotion to `ric-orchestrator-runtime:latest`, runtime deletion, commit, and push are blocked.
 
 ## Gate status
 
@@ -87,3 +86,31 @@ Candidate `ric-orchestrator-candidate:010b` fixed the proposed next task synthes
 The candidates remain evidence only. No candidate was promoted to `ric-orchestrator-runtime:latest`. No commit or push has occurred.
 
 Recommended next task: RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
+
+RIC-STUDIO-011A is in REVIEW after benchmarking `ric-orchestrator-candidate:011a-qwen3-14b`.
+
+The candidate was created from a temporary Modelfile outside the repository by changing only the base line to `FROM qwen3:14b`; the official `runtime/ric-orchestrator/Modelfile` was not altered.
+
+Result: 0 PASS, 5 FAIL. All five tests exposed internal `Thinking...` output and timed out before a complete operational response. Test 5 also emitted partial terminal control noise after the final answer began.
+
+Decision: candidate `ric-orchestrator-candidate:011a-qwen3-14b` is rejected for promotion. No promotion to `ric-orchestrator-runtime:latest`, commit, or push has occurred.
+
+RIC-STUDIO-011B is in REVIEW after benchmarking `ric-orchestrator-candidate:011b-qwen3-14b`.
+
+The candidate was created from a temporary Modelfile outside the repository using `FROM qwen3:14b`, a short SYSTEM prompt, and explicit no-thinking instructions. The official `runtime/ric-orchestrator/Modelfile` was not altered.
+
+`--think=false` suppressed visible `Thinking...` and `<think>` output in the five required scenario tests, but did not eliminate terminal control/spinner noise from the CLI output.
+
+`--hidethinking` did not work for this use: a short technical prompt timed out with control/spinner output and no final answer.
+
+Result: 0 full PASS, 3 content-pass with technical caveat, 2 FAIL. Candidate `ric-orchestrator-candidate:011b-qwen3-14b` is rejected for promotion. No promotion to `ric-orchestrator-runtime:latest`, commit, or push has occurred.
+
+RIC-STUDIO-011A/011B is REJECTED / REVIEW CLOSED as a documented benchmark.
+
+011A did not prove a logical failure of `qwen3:14b`; it proved an operational failure caused by exposed `Thinking...`, timeouts, incomplete responses, and interactive-session noise.
+
+011B suppressed visible `Thinking...` and `<think>` with `--think=false`, but failed logically in the previous Remote DONE isolation test and the concrete next-task synthesis test.
+
+The official `runtime/ric-orchestrator/Modelfile` remains intact. Neither candidate was promoted to `ric-orchestrator-runtime:latest`.
+
+Recommended next task: RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.

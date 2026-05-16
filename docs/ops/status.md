@@ -6,7 +6,7 @@ REVIEW CLOSED
 
 ## Task
 
-RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
+RIC-STUDIO-011A/011B - Benchmark Qwen3 14B For Local Orchestrator
 
 ## Product mode
 
@@ -94,3 +94,37 @@ The candidates remain evidence only. No candidate was promoted to `ric-orchestra
 Recommended next task: RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
 
 UI, Next.js app, IDE integration, Git automation, `.github`, GitHub API integration, database, login, deploy, scripts, runtime promotion, direct promotion to `ric-orchestrator-runtime:latest`, official runtime changes, model training, model tuning, dependency changes, runtime deletion, commit, push, Local DONE, and Remote DONE are blocked.
+
+RIC-STUDIO-011A was opened by explicit current request after Discussion Gate recommendation.
+
+Candidate `ric-orchestrator-candidate:011a-qwen3-14b` was created from a temporary Modelfile outside the repository, using the official Modelfile content with only `FROM qwen3:14b` as the base change.
+
+The official `runtime/ric-orchestrator/Modelfile` remains unchanged.
+
+Benchmark result: 0 PASS, 5 FAIL. Each required scenario exposed internal `Thinking...` output and timed out before a complete operational answer, which is an automatic failure condition.
+
+Decision: candidate `ric-orchestrator-candidate:011a-qwen3-14b` is rejected for promotion. No promotion to `ric-orchestrator-runtime:latest`, commit, or push has occurred.
+
+RIC-STUDIO-011B was opened by explicit current request as a corrective benchmark after RIC-STUDIO-011A.
+
+Candidate `ric-orchestrator-candidate:011b-qwen3-14b` was created from a temporary Modelfile outside the repository, using `FROM qwen3:14b`, a short SYSTEM prompt, and explicit no-thinking instructions.
+
+The official `runtime/ric-orchestrator/Modelfile` remains unchanged.
+
+`--think=false` suppressed visible `Thinking...` and `<think>` output in the five required tests, but the CLI still emitted terminal control/spinner noise after responses.
+
+`--hidethinking` did not work for this use: a short technical prompt timed out and produced only control/spinner output.
+
+Benchmark result: 0 full PASS, 3 content-pass with technical caveat, 2 FAIL. Logical failures remained in the previous Remote DONE isolation test and concrete next-task synthesis test.
+
+Decision: candidate `ric-orchestrator-candidate:011b-qwen3-14b` is rejected for promotion. No promotion to `ric-orchestrator-runtime:latest`, commit, or push has occurred.
+
+RIC-STUDIO-011A/011B is REJECTED / REVIEW CLOSED as a documented benchmark.
+
+Candidate `ric-orchestrator-candidate:011a-qwen3-14b` is rejected because it exposed `Thinking...`, timed out, and produced incomplete operational responses.
+
+Candidate `ric-orchestrator-candidate:011b-qwen3-14b` is rejected because `--think=false` removed visible thinking but the candidate still failed logical routing in Test 2 and concrete next-task synthesis in Test 3.
+
+The official `runtime/ric-orchestrator/Modelfile` remains intact. No candidate was promoted to `ric-orchestrator-runtime:latest`.
+
+Recommended next task: RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.

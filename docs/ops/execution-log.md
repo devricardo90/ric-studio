@@ -395,3 +395,88 @@ Summary:
 - Did not create a new candidate.
 - Did not create UI, scripts, Git automation, `.github` changes, package changes, dependency changes, deploy, commit, or push.
 - Recommended separate next task: RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
+
+## RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-011A by explicit current request after the Discussion Gate recommendation.
+- Confirmed the current directory is the `ric-studio` repository.
+- Confirmed the initial working tree had no file entries from `git status --short --untracked-files=all`.
+- Confirmed `qwen3:14b` exists locally in Ollama.
+- Confirmed the official `runtime/ric-orchestrator/Modelfile` was not changed.
+- Created a temporary Modelfile outside the repository by copying the official Modelfile and changing only the base line to `FROM qwen3:14b`.
+- Created candidate `ric-orchestrator-candidate:011a-qwen3-14b`.
+- Ran the five required behavior tests against the candidate: clean Git state, previous task Remote DONE, concrete next task synthesis, commit with insufficient evidence, and controlled push with clean working tree ahead 1.
+- Result: 0 PASS, 5 FAIL.
+- All five tests exposed internal `Thinking...` output and timed out before complete operational responses. Test 5 also emitted partial terminal control noise after the final answer began.
+- Decision: candidate `ric-orchestrator-candidate:011a-qwen3-14b` is rejected for promotion.
+- Compared to 010A and 010B, the larger base model did not improve the promotion decision because it failed an automatic operational criterion across all five tests.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not remove `ric-orchestrator-runtime:latest`.
+- Did not remove `ric-architect-qwen-v2:latest`.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, deploy configuration, or the official runtime Modelfile.
+- Did not run `git add .`, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.
+- Raw per-file diffs for all changed documentation files.
+
+## RIC-STUDIO-011B - Benchmark Qwen3 14B With Thinking Suppressed And Short Operational Template
+
+State: REVIEW
+
+Summary:
+
+- Continued after RIC-STUDIO-011A by explicit current request.
+- Made the new RIC-STUDIO-011A validation report auditable with `git add -N docs/validation/runtime-candidate-011a-qwen3-14b.md` before the next diff review.
+- Confirmed `git status --short --untracked-files=all`, `git diff --stat`, and `git diff --check` before creating the 011B candidate.
+- Confirmed `git diff -- runtime/ric-orchestrator/Modelfile` returned no diff.
+- Created a temporary Modelfile outside the repository at `$env:TEMP\ric-orchestrator-011b-qwen3-14b.Modelfile`.
+- The temporary Modelfile used `FROM qwen3:14b`, a short operational SYSTEM prompt, explicit no-thinking instructions, and `/no_think`.
+- Created candidate `ric-orchestrator-candidate:011b-qwen3-14b`.
+- Tested `--think=false` against the five required scenarios.
+- `--think=false` suppressed visible `Thinking...` and `<think>` output in all five required scenario tests, and the five commands completed without timeout.
+- The CLI still emitted terminal control/spinner noise after responses.
+- Tested `--hidethinking` with a short technical prompt; it timed out and returned only terminal control/spinner output.
+- Result: 0 full PASS, 3 content-pass with technical caveat, 2 FAIL.
+- Content-pass with technical caveat: clean Git state, commit with insufficient evidence, controlled push when clean and ahead 1.
+- FAIL: previous Remote DONE isolation used wrong decision label `PUSH AINDA BLOQUEADO`; concrete next-task synthesis incorrectly authorized commit and push in a Discussion Gate case.
+- Decision: candidate `ric-orchestrator-candidate:011b-qwen3-14b` is rejected for promotion.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not remove any model.
+- Did not change `runtime/ric-orchestrator/Modelfile`.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, or deploy configuration.
+- Did not run `git add .`, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.
+- Raw per-file diffs for all changed documentation files.
+
+## RIC-STUDIO-011A/011B Closure
+
+State: REJECTED / REVIEW CLOSED
+
+Summary:
+
+- Closed RIC-STUDIO-011A and RIC-STUDIO-011B as a documented rejected benchmark for `qwen3:14b`.
+- RIC-STUDIO-011A failed operationally because it exposed `Thinking...`, timed out, and did not complete operational responses.
+- RIC-STUDIO-011B suppressed visible `Thinking...` and `<think>` with `--think=false`, but failed logically in Test 2 and Test 3.
+- Validation reports `docs/validation/runtime-candidate-011a-qwen3-14b.md` and `docs/validation/runtime-candidate-011b-qwen3-14b.md` remain evidence.
+- The official `runtime/ric-orchestrator/Modelfile` remains intact.
+- Neither candidate was promoted to `ric-orchestrator-runtime:latest`.
+- No model was deleted.
+- No new candidate was created.
+- No scripts, UI, app, Git automation, `.github`, package, dependency, or deploy changes were made.
+- No commit or push occurred.
+- Recommended next task: RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.

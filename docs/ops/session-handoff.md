@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-010A is REJECTED / REVIEW CLOSED as `Improve Local Orchestrator Prompt From Logged Error Patterns`.
+RIC-STUDIO-011A/011B is REJECTED / REVIEW CLOSED as a documented `qwen3:14b` benchmark for the local orchestrator.
 
 ## What changed
 
@@ -80,13 +80,44 @@ RIC-STUDIO-010A was closed as REJECTED / REVIEW CLOSED. The rejected `runtime/ri
 
 Candidates `ric-orchestrator-candidate:010a` and `ric-orchestrator-candidate:010b` remain evidence only. Neither candidate was promoted to `ric-orchestrator-runtime:latest`.
 
+RIC-STUDIO-011A benchmarked `qwen3:14b` as a larger base model using separate candidate `ric-orchestrator-candidate:011a-qwen3-14b`.
+
+The candidate was created from a temporary Modelfile outside the repository, copied from the official Modelfile with only the base line changed to `FROM qwen3:14b`.
+
+The official `runtime/ric-orchestrator/Modelfile` was not altered.
+
+RIC-STUDIO-011A result: 0 PASS, 5 FAIL. All required tests exposed internal `Thinking...` output and timed out before complete operational responses. Candidate `ric-orchestrator-candidate:011a-qwen3-14b` is rejected for promotion.
+
+No promotion to `ric-orchestrator-runtime:latest`, commit, or push occurred.
+
+RIC-STUDIO-011B tested the same `qwen3:14b` base with a short operational SYSTEM prompt, explicit no-thinking instructions, and `/no_think`.
+
+The candidate was created from a temporary Modelfile outside the repository at `$env:TEMP\ric-orchestrator-011b-qwen3-14b.Modelfile`.
+
+The official `runtime/ric-orchestrator/Modelfile` was not altered.
+
+`--think=false` suppressed visible `Thinking...` and `<think>` output in the five required scenario tests, but terminal control/spinner noise remained in the CLI output.
+
+`--hidethinking` did not work for this use: a short technical prompt timed out with control/spinner output and no final answer.
+
+RIC-STUDIO-011B result: 0 full PASS, 3 content-pass with technical caveat, 2 FAIL. The candidate is rejected for promotion because it failed the previous Remote DONE isolation test and the concrete next-task synthesis test, and the CLI output remained technically noisy.
+
+No promotion to `ric-orchestrator-runtime:latest`, model deletion, commit, or push occurred.
+
+RIC-STUDIO-011A/011B is now closed as REJECTED / REVIEW CLOSED.
+
+The official `runtime/ric-orchestrator/Modelfile` remains intact.
+
+The validation reports for 011A and 011B remain evidence only.
+
+Recommended next task: RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
+
 RIC-STUDIO-009B remains in REVIEW as the evidence source. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
 
-Authorized files for RIC-STUDIO-010A:
+Authorized files for RIC-STUDIO-011A:
 
-- `docs/validation/local-orchestrator-error-log.md`.
-- `docs/validation/runtime-candidate-010a.md`.
-- `runtime/ric-orchestrator/Modelfile`.
+- `docs/validation/runtime-candidate-011a-qwen3-14b.md`.
+- `docs/validation/runtime-candidate-011b-qwen3-14b.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -96,11 +127,11 @@ Authorized files for RIC-STUDIO-010A:
 
 ## What remains
 
-Open a separate Discussion Gate for RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
+Open a Discussion Gate for RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
 
-Local DONE and Remote DONE are not declared for RIC-STUDIO-010A.
+Local DONE and Remote DONE are not declared for RIC-STUDIO-011A/011B.
 
-RIC-STUDIO-010A must not be promoted to DONE as a runtime improvement.
+RIC-STUDIO-011A/011B must not be promoted to DONE as a successful runtime benchmark.
 
 ## Constraints to preserve
 
@@ -114,7 +145,7 @@ RIC-STUDIO-010A must not be promoted to DONE as a runtime improvement.
 - Do not promote a runtime.
 - Do not promote directly to `ric-orchestrator-runtime:latest`.
 - Do not change the official runtime.
-- Do not create a new candidate without a separate approved task.
+- Do not create another candidate without a separate approved task.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.

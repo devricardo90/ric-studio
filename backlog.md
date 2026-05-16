@@ -7,6 +7,8 @@
 ## REJECTED / REVIEW CLOSED
 
 - RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
+- RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator
+- RIC-STUDIO-011B - Benchmark Qwen3 14B With Thinking Suppressed And Short Operational Template
 
 ## Local DONE
 
@@ -31,7 +33,7 @@ No task is READY.
 
 ## Next safe step
 
-Open a separate Discussion Gate for RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator. Do not open READY yet.
+Open a Discussion Gate for RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis. Do not open READY yet.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -49,7 +51,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories remain blocked after RIC-STUDIO-010A rejection:
+The following categories remain blocked after RIC-STUDIO-011A/011B benchmark rejection:
 
 - UI
 - Next.js app
