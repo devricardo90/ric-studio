@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW CLOSED
+REVIEW
 
 ## Task
 
-RIC-STUDIO-011A/011B - Benchmark Qwen3 14B For Local Orchestrator
+RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
 
 ## Product mode
 
@@ -128,3 +128,27 @@ Candidate `ric-orchestrator-candidate:011b-qwen3-14b` is rejected because `--thi
 The official `runtime/ric-orchestrator/Modelfile` remains intact. No candidate was promoted to `ric-orchestrator-runtime:latest`.
 
 Recommended next task: RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
+
+RIC-STUDIO-011C was opened by explicit current request after Discussion Gate returned READY RECOMENDADO.
+
+Candidate `ric-orchestrator-candidate:011c-qwen3-14b` was created from a temporary Modelfile outside the repository, using `FROM qwen3:14b`, explicit no-thinking instructions, state-routing rules, and next-task synthesis rules.
+
+The official `runtime/ric-orchestrator/Modelfile` remains unchanged.
+
+Initial benchmark result: 4 PASS, 1 FAIL. The candidate fixed the concrete next-task synthesis failure from 011B, but still failed previous Remote DONE isolation by returning `REMOTE DONE CONFIRMADO` instead of `DISCUSSION GATE RECOMENDADO` or a READY recommendation.
+
+Corrective variation `ric-orchestrator-candidate:011c-fix1-qwen3-14b` was created from a temporary Modelfile outside the repository with only the remaining Test 2 rule strengthened.
+
+Fix1 isolated Test 2 result: PASS. It returned `DISCUSSION GATE RECOMENDADO` and did not use `REMOTE DONE CONFIRMADO`, `PUSH AINDA BLOQUEADO`, commit, or push.
+
+Fix1 full benchmark result: 5 PASS, 0 FAIL. No test exposed visible `Thinking...` or `<think>`, and no test timed out.
+
+Decision: candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` is approved by the 5/5 benchmark, but not promoted. No promotion to `ric-orchestrator-runtime:latest`, commit, or push has occurred.
+
+RIC-STUDIO-011C benchmark evidence is closed in REVIEW as approved.
+
+Candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` is approved as a technical candidate for a separate controlled promotion task only.
+
+The official `runtime/ric-orchestrator/Modelfile` remains intact.
+
+Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.

@@ -480,3 +480,81 @@ Summary:
 - No scripts, UI, app, Git automation, `.github`, package, dependency, or deploy changes were made.
 - No commit or push occurred.
 - Recommended next task: RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
+
+## RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-011C by explicit current request after Discussion Gate returned READY RECOMENDADO.
+- Confirmed current directory is `C:\Users\ricardodev\Desktop\ric-studio`.
+- Confirmed initial `git status --short --untracked-files=all` returned no file entries.
+- Confirmed `git status -sb` returned `## main...origin/main`.
+- Confirmed `ollama list` includes `qwen3:14b`, `ric-orchestrator-runtime:latest`, `ric-architect-qwen-v2:latest`, and previous 011A/011B candidates.
+- Confirmed `git diff -- runtime\ric-orchestrator\Modelfile` returned no diff before candidate creation.
+- Created temporary Modelfile outside the repository at `$env:TEMP\ric-orchestrator-011c-qwen3-14b.Modelfile`.
+- The temporary Modelfile used `FROM qwen3:14b`, explicit no-thinking instructions, state-routing rules, next-task synthesis rules, and commit/push guardrails.
+- Created candidate `ric-orchestrator-candidate:011c-qwen3-14b`.
+- Ran the five required tests with `ollama run ric-orchestrator-candidate:011c-qwen3-14b --think=false --nowordwrap`.
+- Result: 4 PASS, 1 FAIL.
+- PASS: clean Git state, concrete next-task synthesis, commit with insufficient evidence, and controlled push when clean and ahead 1.
+- FAIL: previous Remote DONE isolation did not respond as push and did recognize the old scope was closed, but still used `REMOTE DONE CONFIRMADO` instead of `DISCUSSION GATE RECOMENDADO` or a READY recommendation.
+- No test exposed visible `Thinking...` or `<think>`.
+- No test timed out.
+- The Ollama CLI still emitted terminal control/spinner noise after responses.
+- Decision: candidate `ric-orchestrator-candidate:011c-qwen3-14b` is rejected for promotion because approval requires 5/5 PASS.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not remove any model.
+- Did not change `runtime/ric-orchestrator/Modelfile`.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, or deploy configuration.
+- Did not run `git add .`, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.
+- Raw per-file diffs for all changed documentation files.
+
+## RIC-STUDIO-011C Continuation - Candidate fix1
+
+State: REVIEW
+
+Summary:
+
+- Continued RIC-STUDIO-011C in REVIEW to correct only the remaining Test 2 failure.
+- Created temporary Modelfile outside the repository at `$env:TEMP\ric-orchestrator-011c-fix1-qwen3-14b.Modelfile`.
+- The temporary Modelfile used `FROM qwen3:14b` and added the explicit rule that `REMOTE DONE CONFIRMADO` is only for validating a newly executed push or remote state.
+- The same rule states that when a previous task is already Remote DONE and the user asks for next step, next task, or continuing old scope, the decision must be `DISCUSSION GATE RECOMENDADO` or `READY RECOMENDADO`, not `REMOTE DONE CONFIRMADO`.
+- Created candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b`.
+- Ran isolated Test 2 first. Result: PASS.
+- Re-ran the full five-test matrix. Result: 5 PASS, 0 FAIL.
+- PASS: clean Git state, previous Remote DONE state routing, concrete next-task synthesis, commit with insufficient evidence, and controlled push when clean and ahead 1.
+- No test exposed visible `Thinking...` or `<think>`.
+- No test timed out.
+- The Ollama CLI still emitted terminal control/spinner noise after responses.
+- Decision: candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` is approved by the 5/5 benchmark, but not promoted.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not remove any model.
+- Did not change `runtime/ric-orchestrator/Modelfile`.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, or deploy configuration.
+- Did not run `git add .`, commit, or push.
+
+## RIC-STUDIO-011C Closure
+
+State: REVIEW
+
+Summary:
+
+- Closed RIC-STUDIO-011C benchmark evidence in REVIEW as approved.
+- Candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` passed the full required benchmark with 5 PASS and 0 FAIL.
+- The approved candidate is a technical candidate for a separate controlled promotion task only.
+- The candidate was not promoted to `ric-orchestrator-runtime:latest`.
+- The official `runtime/ric-orchestrator/Modelfile` remains intact.
+- No model was deleted.
+- No new candidate was created during closure.
+- No scripts, UI, app, Git automation, `.github`, package, dependency, or deploy changes were made.
+- No commit or push occurred.
+- Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.

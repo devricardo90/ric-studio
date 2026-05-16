@@ -2,20 +2,21 @@
 
 ## Current state
 
-REVIEW CLOSED
+REVIEW
 
 ## Active task
 
-RIC-STUDIO-011A/011B - Benchmark Qwen3 14B For Local Orchestrator
+RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
 
 ## Scope
 
-Closed as rejected benchmark. Preserve validation evidence for candidates `ric-orchestrator-candidate:011a-qwen3-14b` and `ric-orchestrator-candidate:011b-qwen3-14b`; do not promote either candidate.
+Closed benchmark evidence for a separate `qwen3:14b` candidate with explicit state-routing and next-task synthesis rules. Candidate `ric-orchestrator-candidate:011c-fix1-qwen3-14b` passed the required benchmark and is approved as a technical candidate for a separate controlled promotion task.
 
 ## Allowed files
 
 - `docs/validation/runtime-candidate-011a-qwen3-14b.md`
 - `docs/validation/runtime-candidate-011b-qwen3-14b.md`
+- `docs/validation/runtime-candidate-011c-qwen3-14b.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -114,3 +115,21 @@ RIC-STUDIO-011A/011B is REJECTED / REVIEW CLOSED as a documented benchmark.
 The official `runtime/ric-orchestrator/Modelfile` remains intact. Neither candidate was promoted to `ric-orchestrator-runtime:latest`.
 
 Recommended next task: RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
+
+RIC-STUDIO-011C is in REVIEW after benchmarking `ric-orchestrator-candidate:011c-qwen3-14b` and corrective variation `ric-orchestrator-candidate:011c-fix1-qwen3-14b`.
+
+The candidate was created from a temporary Modelfile outside the repository using `FROM qwen3:14b`, explicit no-thinking instructions, state-routing rules, and next-task synthesis rules. The official `runtime/ric-orchestrator/Modelfile` was not altered.
+
+Initial result: 4 PASS, 1 FAIL. PASS: clean Git state, concrete next-task synthesis, commit with insufficient evidence, and controlled push when clean and ahead 1. FAIL: previous Remote DONE isolation still used `REMOTE DONE CONFIRMADO` instead of `DISCUSSION GATE RECOMENDADO` or a READY recommendation.
+
+Corrective variation `ric-orchestrator-candidate:011c-fix1-qwen3-14b` added an explicit rule that `REMOTE DONE CONFIRMADO` is only for validating a newly executed push or remote state, not for next-step requests after a previous Remote DONE task.
+
+Fix1 isolated Test 2 result: PASS.
+
+Fix1 full matrix result: 5 PASS, 0 FAIL. Decision: `ric-orchestrator-candidate:011c-fix1-qwen3-14b` is approved by the 5/5 benchmark, but not promoted. No promotion to `ric-orchestrator-runtime:latest`, commit, or push has occurred.
+
+RIC-STUDIO-011C benchmark evidence is closed in REVIEW as approved. The approved candidate remains a technical candidate only.
+
+The official `runtime/ric-orchestrator/Modelfile` remains intact.
+
+Recommended next task after commit and push: RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.

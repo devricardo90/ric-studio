@@ -3,6 +3,7 @@
 ## REVIEW
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
+- RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
 
 ## REJECTED / REVIEW CLOSED
 
@@ -33,7 +34,7 @@ No task is READY.
 
 ## Next safe step
 
-Open a Discussion Gate for RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis. Do not open READY yet.
+After RIC-STUDIO-011C is committed and pushed, open Discussion Gate for RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime. Do not promote the candidate in this task.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -51,7 +52,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories remain blocked after RIC-STUDIO-011A/011B benchmark rejection:
+The following categories remain blocked during RIC-STUDIO-011C review:
 
 - UI
 - Next.js app
