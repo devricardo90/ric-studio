@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-015A is in REVIEW as `Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime`.
+RIC-STUDIO-016A is Local DONE as `Rebuild And Validate Runtime Candidate From Qwen3 Modelfile`.
 
 ## What changed
 
@@ -218,12 +218,37 @@ Validation evidence is recorded in `docs/validation/runtime-modelfile-base-015a.
 
 No `ollama create`, `ollama cp`, runtime rebuild, runtime promotion, model deletion, backup deletion, candidate deletion, commit, or push occurred during RIC-STUDIO-015A.
 
-RIC-STUDIO-009B remains in REVIEW as the evidence source. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
+RIC-STUDIO-015A is Remote DONE and synchronized with `origin/main` at commit `0477c8323b49a8bb04fb9d9921c7c8da439444f9`.
 
-Authorized files for RIC-STUDIO-015A:
+RIC-STUDIO-016A created and validated candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` from the corrected Qwen3 Modelfile.
 
-- `runtime/ric-orchestrator/Modelfile`.
-- `docs/validation/runtime-modelfile-base-015a.md`.
+Pre-validation confirmed the repository was clean and synchronized with `origin/main` at `0477c8323b49a8bb04fb9d9921c7c8da439444f9`.
+
+Pre-validation confirmed `runtime/ric-orchestrator/Modelfile` starts with `FROM qwen3:14b`.
+
+Pre-validation confirmed active `ric-orchestrator-runtime:latest` was ID `585f4d5c2075`, size 9.3 GB.
+
+Candidate creation completed successfully.
+
+Post-create `ollama list` shows `ric-orchestrator-candidate:016a-qwen3-refined-prompt` at ID `3026c74ea0d4`, size 9.3 GB.
+
+Candidate smoke test returned `RIC-RUNTIME-016A-CANDIDATE-OK`, with Ollama CLI terminal control noise after the token.
+
+Behavioral test 1 passed on retry: the candidate completed the official response, did not claim absence of dependencies, pending work, or blockers without raw evidence, and exited without timeout.
+
+Behavioral test 2 passed: the candidate assigned implementation to executor agent/Codex after READY and did not say the runtime would implement.
+
+`ric-orchestrator-runtime:latest` was not promoted, copied over, or altered, and remains ID `585f4d5c2075`, size 9.3 GB.
+
+Validation evidence is recorded in `docs/validation/runtime-candidate-016a.md`.
+
+No `ollama cp`, promotion, official runtime alteration, model deletion, backup deletion, candidate deletion, Modelfile edit, or push occurred during RIC-STUDIO-016A.
+
+RIC-STUDIO-016A is approved for Local DONE. Remote DONE is not declared.
+
+Authorized files for RIC-STUDIO-016A:
+
+- `docs/validation/runtime-candidate-016a.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -233,9 +258,9 @@ Authorized files for RIC-STUDIO-015A:
 
 ## What remains
 
-Review RIC-STUDIO-015A Modelfile base alignment evidence.
+Review RIC-STUDIO-016A local commit evidence.
 
-RIC-STUDIO-015A is in REVIEW. Local DONE and Remote DONE are not declared for RIC-STUDIO-015A.
+RIC-STUDIO-016A is Local DONE. Remote DONE is not declared for RIC-STUDIO-016A.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -251,17 +276,15 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not alter `.github`.
 - Do not delete runtime candidates.
 - Do not delete `ric-orchestrator-candidate:014a-refined-prompt`.
-- Do not run `ollama create`.
 - Do not run `ollama cp`.
-- Do not rebuild or promote a runtime in this task.
+- Do not rebuild or promote the official runtime in this task.
 - Do not promote directly to `ric-orchestrator-runtime:latest`.
 - Do not change the official runtime model.
-- Do not alter runtime prompt rules outside the base-line correction.
+- Do not alter `runtime/ric-orchestrator/Modelfile`.
 - Do not create another candidate without a separate approved task.
-- Do not open RIC-STUDIO-016A.
+- Do not open RIC-STUDIO-017A.
 - Do not mark a new READY task.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
-- Do not commit without explicit Trigger authorization.
 - Do not push.

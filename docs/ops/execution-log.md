@@ -301,7 +301,7 @@ Evidence required before review:
 
 ## RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 
-State: REVIEW
+State: Local DONE
 
 Summary:
 
@@ -327,7 +327,7 @@ Evidence required before review:
 
 ## RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
 
-State: REVIEW
+State: Local DONE
 
 Summary:
 
@@ -418,7 +418,7 @@ Summary:
 - Did not remove `ric-orchestrator-runtime:latest`.
 - Did not remove `ric-architect-qwen-v2:latest`.
 - Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, deploy configuration, or the official runtime Modelfile.
-- Did not run `git add .`, commit, or push.
+- Did not run `git add .` or push.
 
 Evidence required before review:
 
@@ -453,7 +453,7 @@ Summary:
 - Did not remove any model.
 - Did not change `runtime/ric-orchestrator/Modelfile`.
 - Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, or deploy configuration.
-- Did not run `git add .`, commit, or push.
+- Did not run `git add .` or push.
 
 Evidence required before review:
 
@@ -689,7 +689,7 @@ Evidence required before review:
 
 ## RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -722,3 +722,64 @@ Evidence required before review:
 - `git diff -- runtime/ric-orchestrator/Modelfile`.
 - `git diff -- docs/validation/runtime-modelfile-base-015a.md`.
 - `git diff -- STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+
+Closure:
+
+- RIC-STUDIO-015A is Remote DONE.
+- RIC-STUDIO-015A is synchronized with `origin/main` at commit `0477c8323b49a8bb04fb9d9921c7c8da439444f9`.
+
+## RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile
+
+State: Local DONE
+
+Summary:
+
+- Opened RIC-STUDIO-016A by explicit current request after RIC-STUDIO-015A reached Remote DONE.
+- Confirmed the repository started clean and synchronized with `origin/main` at commit `0477c8323b49a8bb04fb9d9921c7c8da439444f9`.
+- Confirmed `runtime/ric-orchestrator/Modelfile` starts with `FROM qwen3:14b`.
+- Confirmed pre-run `ollama list` showed active `ric-orchestrator-runtime:latest` at ID `585f4d5c2075`, size 9.3 GB.
+- Confirmed pre-run `ollama list` did not show `ric-orchestrator-candidate:016a-qwen3-refined-prompt`.
+- Created candidate `ric-orchestrator-candidate:016a-qwen3-refined-prompt` from `runtime/ric-orchestrator/Modelfile`.
+- Candidate creation completed successfully.
+- Candidate smoke test returned `RIC-RUNTIME-016A-CANDIDATE-OK`, with Ollama CLI terminal control noise after the token.
+- Behavioral test 1 initially had a timeout caveat, then passed on retry: the candidate completed the official response, did not assert absence of dependencies, pending work, or blockers without raw evidence, and exited without timeout.
+- Behavioral test 2 passed: the candidate did not claim the runtime would implement and directed implementation to executor agent/Codex after READY.
+- Post-create `ollama list` showed `ric-orchestrator-candidate:016a-qwen3-refined-prompt` at ID `3026c74ea0d4`, size 9.3 GB.
+- Post-create `ollama list` showed `ric-orchestrator-runtime:latest` remained ID `585f4d5c2075`, size 9.3 GB.
+- Documented validation in `docs/validation/runtime-candidate-016a.md`.
+- Did not run `ollama cp`.
+- Did not promote to or alter `ric-orchestrator-runtime:latest`.
+- Did not delete any model, backup, or candidate.
+- Did not alter `runtime/ric-orchestrator/Modelfile`.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, lockfiles, workflows, or deploy configuration.
+- Did not open RIC-STUDIO-017A or mark a new READY task.
+- Did not run `git add .` or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git rev-parse HEAD`.
+- `git rev-parse origin/main`.
+- `Get-Content runtime/ric-orchestrator/Modelfile -TotalCount 5`.
+- `ollama list` before candidate creation.
+- `ollama create ric-orchestrator-candidate:016a-qwen3-refined-prompt -f runtime/ric-orchestrator/Modelfile`.
+- Candidate smoke test output.
+- Candidate behavioral evidence-claim test output.
+- Candidate behavioral role-boundary test output.
+- `ollama list` after candidate creation.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.
+- `git diff -- docs/validation/runtime-candidate-016a.md`.
+- `git diff -- STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+
+Closure:
+
+- RIC-STUDIO-016A is locally closed as Local DONE.
+- The candidate remains only a candidate and was not promoted.
+- `ric-orchestrator-runtime:latest` was not promoted or altered.
+- No `ollama cp` was executed.
+- READY remains empty.
+- RIC-STUDIO-017A was not opened.
+- Remote DONE is not declared.

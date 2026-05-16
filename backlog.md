@@ -4,7 +4,6 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt (BLOCKED / ROLLED BACK)
-- RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime
 
 ## REJECTED / REVIEW CLOSED
 
@@ -14,7 +13,7 @@
 
 ## Local DONE
 
-No task is Local DONE.
+- RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile
 
 ## Remote DONE
 
@@ -31,6 +30,7 @@ No task is Local DONE.
 - RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
 - RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
 - RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
+- RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime
 
 ## READY
 
@@ -38,7 +38,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-015A Modelfile base alignment evidence. Do not execute commit or push without explicit authorization.
+RIC-STUDIO-016A is locally closed. Next safe step is review of the local commit evidence; do not push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -56,7 +56,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories remain blocked during RIC-STUDIO-015A review:
+The following categories remain blocked after RIC-STUDIO-016A local closure:
 
 - UI
 - Next.js app
@@ -68,19 +68,18 @@ The following categories remain blocked during RIC-STUDIO-015A review:
 - Login
 - Deploy
 - Scripts
-- Additional runtime promotion
-- Runtime rebuild
-- Further direct promotion to `ric-orchestrator-runtime:latest`
-- `ollama create`
 - `ollama cp`
+- Additional runtime promotion
+- Further direct promotion to `ric-orchestrator-runtime:latest`
+- Official runtime alteration
 - Model training or tuning
 - Dependency changes
 - Runtime deletion
 - Backup deletion
 - Old candidate deletion
-- Opening RIC-STUDIO-016A
+- Modelfile edits
+- Opening RIC-STUDIO-017A
 - New READY task
-- Commit
 - Push
 - Runtime candidate promotion
 

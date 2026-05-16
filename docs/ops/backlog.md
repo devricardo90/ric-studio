@@ -4,7 +4,6 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
-- RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -22,7 +21,7 @@ No task is IN_PROGRESS.
 
 ## Local DONE
 
-No task is Local DONE.
+- RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile.
 
 ## Remote DONE
 
@@ -39,6 +38,7 @@ No task is Local DONE.
 - RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis.
 - RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime.
 - RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries.
+- RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime.
 
 ## Discussion Gate
 
@@ -46,7 +46,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-015A Modelfile base alignment evidence. Do not execute commit or push without explicit authorization.
+RIC-STUDIO-016A is locally closed. Next safe step is review of the local commit evidence; do not push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -62,7 +62,7 @@ Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction i
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked during RIC-STUDIO-015A review
+## Blocked after RIC-STUDIO-016A local closure
 
 - UI.
 - Next.js app.
@@ -75,20 +75,18 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Deploy.
 - Scripts.
 - Additional runtime promotion.
-- Runtime rebuild.
 - Further direct promotion to `ric-orchestrator-runtime:latest`.
-- `ollama create`.
 - `ollama cp`.
+- Official runtime alteration.
 - Model training.
 - Model tuning.
 - Dependency changes.
 - Runtime deletion.
 - Backup deletion.
 - Old candidate deletion.
-- Opening RIC-STUDIO-016A.
+- Modelfile edits.
+- Opening RIC-STUDIO-017A.
 - New READY task.
-- Commit.
 - Push.
-- Local DONE.
 - Remote DONE.
 - Runtime candidate promotion.
