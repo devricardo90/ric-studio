@@ -686,3 +686,39 @@ Evidence required before review:
 - `git diff --stat`.
 - `git diff --check`.
 - `git diff -- runtime/ric-orchestrator/Modelfile`.
+
+## RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-015A by explicit current request after RIC-STUDIO-014A was recorded as BLOCKED / ROLLED BACK.
+- Confirmed the repository started clean and synchronized with `origin/main` at commit `bd6aa579420e443213ca4256e3f0190b54216607`.
+- Confirmed active `ric-orchestrator-runtime:latest` is ID `585f4d5c2075`, size 9.3 GB.
+- Confirmed `qwen3:14b` exists locally.
+- Confirmed `runtime/ric-orchestrator/Modelfile` started with `FROM qwen2.5-coder:7b`.
+- Updated only the first line of `runtime/ric-orchestrator/Modelfile` to `FROM qwen3:14b`.
+- Did not change the runtime prompt rules in this task.
+- Documented validation in `docs/validation/runtime-modelfile-base-015a.md`.
+- Did not run `ollama create`.
+- Did not run `ollama cp`.
+- Did not rebuild or promote any runtime.
+- Did not delete any model, backup, or candidate.
+- Did not change UI, app, scripts, Git automation, `.github`, package files, dependencies, lockfiles, workflows, or deploy configuration.
+- Did not open RIC-STUDIO-016A or mark a new READY task.
+- Did not run `git add .`, commit, or push.
+
+Evidence required before review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git rev-parse HEAD`.
+- `git rev-parse origin/main`.
+- `ollama list`.
+- `Get-Content runtime/ric-orchestrator/Modelfile -TotalCount 5`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- runtime/ric-orchestrator/Modelfile`.
+- `git diff -- docs/validation/runtime-modelfile-base-015a.md`.
+- `git diff -- STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.

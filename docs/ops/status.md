@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW / BLOCKED
+REVIEW
 
 ## Task
 
-RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt
+RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime
 
 ## Product mode
 
@@ -217,3 +217,22 @@ RIC-STUDIO-014A is BLOCKED / ROLLED BACK and must not be declared DONE or promot
 Validation is documented in `docs/validation/runtime-rebuild-promotion-014a.md`.
 
 The official `runtime/ric-orchestrator/Modelfile` was not altered during this documentation correction. No `ollama create`, `ollama cp`, model deletion, backup deletion, old candidate deletion, commit, or push has occurred in this correction step.
+
+RIC-STUDIO-015A was opened by explicit current request to align the versioned official runtime Modelfile base with the approved Qwen3 14B runtime.
+
+Pre-validation confirmed:
+
+- `git status --short --untracked-files=all` returned no file entries.
+- `git status -sb` returned `## main...origin/main`.
+- `git rev-parse HEAD` and `git rev-parse origin/main` both returned `bd6aa579420e443213ca4256e3f0190b54216607`.
+- `ollama list` showed active `ric-orchestrator-runtime:latest` at ID `585f4d5c2075`, size 9.3 GB.
+- `ollama list` showed `qwen3:14b` exists locally.
+- `Get-Content runtime/ric-orchestrator/Modelfile -TotalCount 5` showed the Modelfile started with `FROM qwen2.5-coder:7b`.
+
+RIC-STUDIO-015A changed only the first line of `runtime/ric-orchestrator/Modelfile` to `FROM qwen3:14b`.
+
+No prompt rules were changed in this task.
+
+Validation is documented in `docs/validation/runtime-modelfile-base-015a.md`.
+
+No `ollama create`, `ollama cp`, runtime rebuild, runtime promotion, model deletion, backup deletion, candidate deletion, commit, or push has occurred during RIC-STUDIO-015A.

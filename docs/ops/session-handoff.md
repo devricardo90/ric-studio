@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-014A is in REVIEW / BLOCKED as `Rebuild And Promote Official Runtime From Refined Prompt`.
+RIC-STUDIO-015A is in REVIEW as `Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime`.
 
 ## What changed
 
@@ -202,11 +202,28 @@ Validation evidence is recorded in `docs/validation/runtime-rebuild-promotion-01
 
 The official `runtime/ric-orchestrator/Modelfile` was not altered during this documentation correction. No `ollama create`, `ollama cp`, model deletion, backup deletion, old candidate deletion, commit, or push occurred in this correction step.
 
+RIC-STUDIO-015A aligned the versioned official runtime source with the approved Qwen3 14B runtime base.
+
+Pre-validation confirmed the repository was clean and synchronized with `origin/main` at `bd6aa579420e443213ca4256e3f0190b54216607`.
+
+Pre-validation confirmed active `ric-orchestrator-runtime:latest` is ID `585f4d5c2075`, size 9.3 GB, and `qwen3:14b` exists locally.
+
+Pre-validation confirmed `runtime/ric-orchestrator/Modelfile` started with `FROM qwen2.5-coder:7b`.
+
+RIC-STUDIO-015A changed only the first line of `runtime/ric-orchestrator/Modelfile` to `FROM qwen3:14b`.
+
+No runtime prompt rules were changed in RIC-STUDIO-015A.
+
+Validation evidence is recorded in `docs/validation/runtime-modelfile-base-015a.md`.
+
+No `ollama create`, `ollama cp`, runtime rebuild, runtime promotion, model deletion, backup deletion, candidate deletion, commit, or push occurred during RIC-STUDIO-015A.
+
 RIC-STUDIO-009B remains in REVIEW as the evidence source. Local DONE and Remote DONE are not declared for RIC-STUDIO-009B.
 
-Authorized files for RIC-STUDIO-014A:
+Authorized files for RIC-STUDIO-015A:
 
-- `docs/validation/runtime-rebuild-promotion-014a.md`.
+- `runtime/ric-orchestrator/Modelfile`.
+- `docs/validation/runtime-modelfile-base-015a.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -216,9 +233,9 @@ Authorized files for RIC-STUDIO-014A:
 
 ## What remains
 
-Review RIC-STUDIO-014A rollback evidence.
+Review RIC-STUDIO-015A Modelfile base alignment evidence.
 
-RIC-STUDIO-014A is BLOCKED / ROLLED BACK. Local DONE and Remote DONE are not declared for RIC-STUDIO-014A.
+RIC-STUDIO-015A is in REVIEW. Local DONE and Remote DONE are not declared for RIC-STUDIO-015A.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -236,11 +253,13 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not delete `ric-orchestrator-candidate:014a-refined-prompt`.
 - Do not run `ollama create`.
 - Do not run `ollama cp`.
-- Do not promote a runtime again in this task.
+- Do not rebuild or promote a runtime in this task.
 - Do not promote directly to `ric-orchestrator-runtime:latest`.
 - Do not change the official runtime model.
-- Do not alter `runtime/ric-orchestrator/Modelfile`.
+- Do not alter runtime prompt rules outside the base-line correction.
 - Do not create another candidate without a separate approved task.
+- Do not open RIC-STUDIO-016A.
+- Do not mark a new READY task.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.

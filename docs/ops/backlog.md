@@ -4,6 +4,7 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
+- RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -45,7 +46,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-014A rollback evidence. The task is BLOCKED / ROLLED BACK because the rebuild used the `qwen2.5-coder:7b` Modelfile base, not the approved Qwen3 14B base. Do not execute commit or push without explicit authorization.
+Review RIC-STUDIO-015A Modelfile base alignment evidence. Do not execute commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -61,7 +62,7 @@ Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction i
 
 Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FAIL: LO-SMOKE-003.
 
-## Blocked during RIC-STUDIO-014A review
+## Blocked during RIC-STUDIO-015A review
 
 - UI.
 - Next.js app.
@@ -74,7 +75,7 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Deploy.
 - Scripts.
 - Additional runtime promotion.
-- Modelfile edits.
+- Runtime rebuild.
 - Further direct promotion to `ric-orchestrator-runtime:latest`.
 - `ollama create`.
 - `ollama cp`.
@@ -84,6 +85,8 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Runtime deletion.
 - Backup deletion.
 - Old candidate deletion.
+- Opening RIC-STUDIO-016A.
+- New READY task.
 - Commit.
 - Push.
 - Local DONE.

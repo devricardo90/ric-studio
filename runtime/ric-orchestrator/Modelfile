@@ -1,4 +1,4 @@
-FROM qwen2.5-coder:7b
+FROM qwen3:14b
 
 PARAMETER seed 42
 PARAMETER temperature 0.1
