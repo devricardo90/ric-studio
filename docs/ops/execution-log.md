@@ -868,22 +868,30 @@ Summary:
 - Created `docs/validation/agent-performance-log.md` with the following content:
   - Eight positive patterns registered from CBM-012 and CBM-013.
   - Three operational limits registered.
+  - One gap registered: full local Orchestrator gate coverage not yet validated.
   - Operational recommendations section.
-  - Summary table of patterns with PASS/FAIL verdict.
-- Updated `STATUS.md`: active task is now RIC-STUDIO-018A. RIC-STUDIO-017A recorded as Remote DONE.
-- Updated `backlog.md`: RIC-STUDIO-018A added to REVIEW. RIC-STUDIO-017A moved to Remote DONE. Blocked list updated.
-- Updated `docs/ops/status.md`: active task updated to RIC-STUDIO-018A.
-- Updated `docs/ops/backlog.md`: RIC-STUDIO-018A in REVIEW, RIC-STUDIO-017A in Remote DONE, blocked list updated.
-- Updated `docs/ops/execution-log.md`: RIC-STUDIO-017A state corrected to Remote DONE. RIC-STUDIO-018A entry added.
-- Updated `docs/ops/session-handoff.md`: handoff state updated to RIC-STUDIO-018A.
+  - Summary table of patterns with PASS/PARTIAL/NOT YET VALIDATED verdict.
+- Corrected agent-performance-log.md after Trigger audit: removed overclaim that local Orchestrator released commit/push; recorded ChatGPT as primary audit agent in REVIEW/commit/push/Remote DONE phases; added Gap 1 and next recommended task.
+- Updated `STATUS.md`: active task is now RIC-STUDIO-018A. RIC-STUDIO-017A recorded as Remote DONE. RIC-STUDIO-019A recorded as READY.
+- Updated `backlog.md`: RIC-STUDIO-018A in REVIEW. RIC-STUDIO-017A in Remote DONE. RIC-STUDIO-019A in READY. Blocked list updated.
+- Updated `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/session-handoff.md`: state reflected consistently.
 - Did not alter runtime, Modelfile, or any Ollama model.
 - Did not run `ollama create`, `ollama cp`, or any Ollama command.
 - Did not touch Clinic Booking Mini.
-- Did not open RIC-STUDIO-019A.
 - Did not commit or push.
 
-Evidence required before review:
+## RIC-STUDIO-019A Discussion Gate
 
-- `git status --short --untracked-files=all`.
-- `git diff --stat`.
-- `git diff --check`.
+State: READY
+
+Summary:
+
+- Discussion Gate for RIC-STUDIO-019A (Refine Runtime Behavior and Response Format) was opened by explicit current request.
+- Proposal was revised per Trigger audit: RIC-STUDIO-019A confirmed for runtime refinement; harness moved to RIC-STUDIO-020A; scope corrected to allow versioned Modelfile edits; `ollama cp` to `latest` and backup removal explicitly prohibited; commit-liberado label standardized to `COMMIT LIBERADO`; "nenhum push executado" corrected to "nenhum push executado sem Push Gate explícito".
+- Discussion Gate approved by Ricardo / Trigger on 2026-05-17.
+- RIC-STUDIO-019A promoted to READY.
+- Precondition: commit and push of RIC-STUDIO-018A before execution of RIC-STUDIO-019A.
+- Did not open harness task.
+- Did not alter projects external to RIC Studio.
+- Did not promote runtime official.
+- Did not commit or push.

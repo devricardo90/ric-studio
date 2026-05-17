@@ -24,7 +24,13 @@ Register positive performance patterns, limits, and operational recommendations 
 
 ## Blocked in this task
 
-Runtime changes, Modelfile edits, `ollama create`, `ollama cp`, model deletion, backup deletion, candidate deletion, Clinic Booking Mini changes, opening RIC-STUDIO-019A, commit, and push are blocked during this REVIEW.
+`ollama cp` para `ric-orchestrator-runtime:latest`, promoção automática do runtime oficial, remoção de backups, alteração de projetos externos (Clinic Booking Mini), e push sem Push Gate explícito são bloqueados. Harness automatizada é escopo de RIC-STUDIO-020A.
+
+## READY
+
+RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
+
+Discussion Gate aprovada por Ricardo / Trigger em 2026-05-17. Execução autorizada após commit e push de RIC-STUDIO-018A.
 
 ## Gate status
 

@@ -37,11 +37,13 @@ No task is Local DONE.
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
+
+Discussion Gate aprovada por Ricardo / Trigger em 2026-05-17. Pré-condição: commit e push de RIC-STUDIO-018A.
 
 ## Next safe step
 
-Review RIC-STUDIO-018A documentation evidence. Do not execute commit or push without explicit authorization.
+Commit e push de RIC-STUDIO-018A com evidência completa. Em seguida, executar RIC-STUDIO-019A.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -59,34 +61,18 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 ## Blocked
 
-The following categories remain blocked during RIC-STUDIO-018A review:
+- UI, Next.js app, IDE integration, Git automation, `.github`, GitHub API integration, database, login, deploy.
+- `ollama cp` para `ric-orchestrator-runtime:latest`.
+- Promoção automática do runtime oficial.
+- Remoção de backups.
+- Alteração de projetos externos (Clinic Booking Mini).
+- Push sem Push Gate explícito.
+- Harness automatizada (→ RIC-STUDIO-020A).
+- Commit de RIC-STUDIO-018A sem aprovação explícita de Trigger.
 
-- UI
-- Next.js app
-- IDE integration
-- Git automation
-- `.github`
-- GitHub API integration
-- Database
-- Login
-- Deploy
-- Scripts
-- `ollama create`
-- `ollama cp`
-- New candidate creation
-- Model rebuild
-- Runtime promotion
-- Model training or tuning
-- Dependency changes
-- Runtime deletion
-- Backup deletion
-- Candidate deletion
-- Modelfile edits
-- Clinic Booking Mini changes
-- Opening RIC-STUDIO-019A
-- New READY task
-- Commit
-- Push
+## Future candidates
+
+- RIC-STUDIO-020A - Build Automated Validation Harness For Runtime Smoke Tests.
 
 ## Future candidates
 

@@ -309,9 +309,15 @@ Eight positive patterns and three operational limits were registered in `docs/va
 
 Test suite growth observed: 6 → 9 (CBM-012) → 12 (CBM-013).
 
+RIC-STUDIO-019A Discussion Gate was approved by Ricardo / Trigger on 2026-05-17.
+
+RIC-STUDIO-019A is READY: Refine Runtime Behavior and Response Format.
+
+Scope: edit `runtime/ric-orchestrator/Modelfile` (versioned), create `ric-orchestrator-candidate:019a-refined-format`, run 5 smoke tests, document in `docs/validation/runtime-candidate-019a.md`. No `ollama cp` to `latest`. No backup removal. No push without Push Gate. Harness → RIC-STUDIO-020A.
+
 ## What remains
 
-Review RIC-STUDIO-018A documentation evidence. Do not commit or push without explicit authorization.
+Commit e push de RIC-STUDIO-018A com evidência completa. Em seguida, executar RIC-STUDIO-019A.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -327,16 +333,15 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not alter `.github`.
 - Do not delete runtime candidates.
 - Do not delete `ric-orchestrator-candidate:014a-refined-prompt`.
-- Do not run `ollama create`.
-- Do not run `ollama cp`.
-- Do not create a new candidate.
-- Do not rebuild or promote the official runtime.
-- Do not alter `runtime/ric-orchestrator/Modelfile`.
+- Do not run `ollama cp` para `ric-orchestrator-runtime:latest`.
+- Do not promote `ric-orchestrator-runtime:latest` automatically.
+- Do not delete backups.
 - Do not touch Clinic Booking Mini.
-- Do not open RIC-STUDIO-019A.
-- Do not mark a new READY task.
+- Do not build harness now (→ RIC-STUDIO-020A).
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
 - Do not commit without validation.
-- Do not push.
+- Do not push without Push Gate explícito.
+
+Note: RIC-STUDIO-019A is READY. Execution after commit/push of RIC-STUDIO-018A is authorized. Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` are permitted. Promotion to `ric-orchestrator-runtime:latest` remains prohibited in that task.
