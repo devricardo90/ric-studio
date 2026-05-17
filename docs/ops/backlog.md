@@ -4,7 +4,7 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
-- RIC-STUDIO-019A - Refine Runtime Behavior and Response Format.
+- RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -43,6 +43,7 @@ No task is Local DONE.
 - RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile.
 - RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime.
 - RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks.
+- RIC-STUDIO-019A - Refine Runtime Behavior and Response Format.
 
 ## Discussion Gate
 
@@ -50,7 +51,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-019A candidate evidence. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-021A promotion evidence. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

@@ -2,11 +2,11 @@
 
 ## Current handoff state
 
-RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `bfa6423`.
+RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d50192`.
 
-RIC-STUDIO-019A is in REVIEW as `Refine Runtime Behavior and Response Format`.
+RIC-STUDIO-021A is in REVIEW as `Promote RIC-STUDIO-019A Candidate To Official Runtime`.
 
-Candidate `ric-orchestrator-candidate:019a-refined-format` passed 5/5 smoke tests. CANDIDATE APROVADO. Promotion to ric-orchestrator-runtime:latest is a separate task, not performed here.
+Promotion evidence: `ric-orchestrator-runtime:latest` now at ID `2711dd3bc829`. Backup `ric-orchestrator-runtime:backup-before-021a` preserves previous ID `3026c74ea0d4`. Smoke test: `RIC-RUNTIME-021A-OK`.
 
 ## What changed
 
@@ -313,11 +313,11 @@ Test suite growth observed: 6 → 9 (CBM-012) → 12 (CBM-013).
 
 RIC-STUDIO-019A was opened as READY after Discussion Gate approval on 2026-05-17.
 
-RIC-STUDIO-019A executed: runtime/ric-orchestrator/Modelfile updated, candidate created (ID 05dbc8438264), 5/5 smoke tests passed, docs/validation/runtime-candidate-019a.md created.
+RIC-STUDIO-021A executed: backup created, candidate promoted, smoke test passed.
 
 ## What remains
 
-Review RIC-STUDIO-019A evidence. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-021A promotion evidence. Do not commit or push without explicit authorization.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 

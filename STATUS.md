@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
+RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
 
 ## Scope
 
-Refinar runtime/ric-orchestrator/Modelfile, criar candidate runtime separado, rodar 5 smoke tests, documentar resultado.
+Promoção controlada de `ric-orchestrator-candidate:019a-refined-format` para `ric-orchestrator-runtime:latest`.
 
 ## Allowed files
 
@@ -20,16 +20,15 @@ Refinar runtime/ric-orchestrator/Modelfile, criar candidate runtime separado, ro
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `runtime/ric-orchestrator/Modelfile`
-- `docs/validation/runtime-candidate-019a.md`
+- `docs/validation/runtime-promotion-021a.md`
 
 ## Blocked in this task
 
-`ollama cp` para `ric-orchestrator-runtime:latest`, promoção do runtime oficial, remoção de backups, harness (→ RIC-STUDIO-020A), projetos externos, commit sem Push Gate explícito.
+Modelfile edits, harness (→ RIC-STUDIO-020A), UI, scripts, projetos externos, deleção de backups, abertura de RIC-STUDIO-020A como READY, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks — Remote DONE em bfa6423.
+RIC-STUDIO-019A - Refine Runtime Behavior and Response Format — Remote DONE em 6d50192.
 
 ## Gate status
 
@@ -215,7 +214,11 @@ RIC-STUDIO-017A is Remote DONE and synchronized with `origin/main` at commit `62
 
 RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `bfa6423`.
 
-RIC-STUDIO-019A is in REVIEW after refining runtime/ric-orchestrator/Modelfile and validating candidate `ric-orchestrator-candidate:019a-refined-format` with 5/5 PASS smoke tests.
+RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d50192`.
+
+RIC-STUDIO-021A is in REVIEW after promoting `ric-orchestrator-candidate:019a-refined-format` to `ric-orchestrator-runtime:latest`.
+
+Promotion evidence: backup `ric-orchestrator-runtime:backup-before-021a` created (ID `3026c74ea0d4`). Post-promotion `ric-orchestrator-runtime:latest` confirmed at ID `2711dd3bc829`. Smoke test returned `RIC-RUNTIME-021A-OK`.
 
 Execution evidence for RIC-STUDIO-017A:
 

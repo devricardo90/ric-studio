@@ -931,3 +931,27 @@ Summary:
 - Did not touch Clinic Booking Mini.
 - Did not open RIC-STUDIO-020A as READY.
 - Did not commit or push.
+
+## RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-021A by explicit current request after RIC-STUDIO-019A reached Remote DONE at commit 6d50192.
+- Pre-promotion validation: working tree clean, HEAD == origin/main == 6d50192093139a62c3246cae9669f0c339012f49.
+- Confirmed candidate ric-orchestrator-candidate:019a-refined-format at ID 2711dd3bc829, size 9.3 GB.
+- Confirmed ric-orchestrator-runtime:latest at ID 3026c74ea0d4, size 9.3 GB.
+- Confirmed ric-orchestrator-runtime:backup-before-021a did not exist before backup creation.
+- Created backup: ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-021a. Backup preserves ID 3026c74ea0d4.
+- Promoted: ollama cp ric-orchestrator-candidate:019a-refined-format ric-orchestrator-runtime:latest.
+- Post-promotion ric-orchestrator-runtime:latest confirmed at ID 2711dd3bc829.
+- Backup ric-orchestrator-runtime:backup-before-021a preserves previous runtime ID 3026c74ea0d4.
+- Smoke test returned RIC-RUNTIME-021A-OK.
+- Documented validation in docs/validation/runtime-promotion-021a.md.
+- Did not alter runtime/ric-orchestrator/Modelfile.
+- Did not delete any backup.
+- Did not create harness.
+- Did not open RIC-STUDIO-020A as READY.
+- Did not touch external projects.
+- Did not commit or push.

@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
+RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
 
 ## Product mode
 
@@ -273,21 +273,26 @@ RIC-STUDIO-017A promoted `ric-orchestrator-candidate:016a-qwen3-refined-prompt` 
 
 RIC-STUDIO-018A was opened by explicit current request after CBM-012 and CBM-013 robust task execution.
 
-RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `bfa6423`.
+RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `19f3784`.
 
 RIC-STUDIO-019A was opened as READY after Discussion Gate approval on 2026-05-17.
 
-RIC-STUDIO-019A is in REVIEW after execution.
+RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d50192`.
 
-Execution evidence:
+RIC-STUDIO-021A was opened by explicit current request to promote the approved candidate.
 
-- Pre-execution Git state: clean working tree, HEAD == origin/main == bfa6423.
-- runtime/ric-orchestrator/Modelfile updated with: mandatory first-line decision format, updated closed vocabulary (COMMIT LIBERADO replaces COMMIT CONTROLADO LIBERADO), explicit pre/post-push distinction ([ahead 1] before push is normal, not an error), git pull only with divergence evidence, no new READY without Discussion Gate, short response format.
-- Candidate `ric-orchestrator-candidate:019a-refined-format` created. ID `05dbc8438264`, size 9.3 GB.
-- 5/5 smoke tests passed: ST-019A-01 (COMMIT BLOQUEADO), ST-019A-02 (COMMIT LIBERADO), ST-019A-03 (PUSH CONTROLADO LIBERADO), ST-019A-04 (REMOTE DONE CONFIRMADO), ST-019A-05 (DISCUSSION GATE RECOMENDADO).
-- Validation documented in docs/validation/runtime-candidate-019a.md.
-- ric-orchestrator-runtime:latest not promoted. ID 3026c74ea0d4 unchanged.
-- No backup deleted. No harness created. No ollama cp to latest. No commit or push.
+RIC-STUDIO-021A is in REVIEW after controlled promotion.
+
+Promotion evidence:
+- Pre-promotion Git state: clean, HEAD == origin/main == 6d50192.
+- Candidate `ric-orchestrator-candidate:019a-refined-format` confirmed at ID `2711dd3bc829`, size 9.3 GB.
+- `ric-orchestrator-runtime:backup-before-021a` did not exist before backup creation.
+- Backup created: `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-021a`. Backup preserves ID `3026c74ea0d4`.
+- Promotion executed: `ollama cp ric-orchestrator-candidate:019a-refined-format ric-orchestrator-runtime:latest`.
+- Post-promotion `ric-orchestrator-runtime:latest` confirmed at ID `2711dd3bc829`.
+- Smoke test returned `RIC-RUNTIME-021A-OK`.
+- Validation documented in `docs/validation/runtime-promotion-021a.md`.
+- Modelfile not altered. No harness. No backup deleted. No RIC-STUDIO-020A opened. No commit or push.
 
 Eight positive patterns were observed and registered:
 
