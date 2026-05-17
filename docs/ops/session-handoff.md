@@ -2,9 +2,11 @@
 
 ## Current handoff state
 
-RIC-STUDIO-017A is Remote DONE and synchronized with `origin/main` at commit `6237383`.
+RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `bfa6423`.
 
-RIC-STUDIO-018A is in REVIEW as `Record Agent Success Patterns From Clinic Booking Robust Tasks`.
+RIC-STUDIO-019A is in REVIEW as `Refine Runtime Behavior and Response Format`.
+
+Candidate `ric-orchestrator-candidate:019a-refined-format` passed 5/5 smoke tests. CANDIDATE APROVADO. Promotion to ric-orchestrator-runtime:latest is a separate task, not performed here.
 
 ## What changed
 
@@ -309,15 +311,13 @@ Eight positive patterns and three operational limits were registered in `docs/va
 
 Test suite growth observed: 6 → 9 (CBM-012) → 12 (CBM-013).
 
-RIC-STUDIO-019A Discussion Gate was approved by Ricardo / Trigger on 2026-05-17.
+RIC-STUDIO-019A was opened as READY after Discussion Gate approval on 2026-05-17.
 
-RIC-STUDIO-019A is READY: Refine Runtime Behavior and Response Format.
-
-Scope: edit `runtime/ric-orchestrator/Modelfile` (versioned), create `ric-orchestrator-candidate:019a-refined-format`, run 5 smoke tests, document in `docs/validation/runtime-candidate-019a.md`. No `ollama cp` to `latest`. No backup removal. No push without Push Gate. Harness → RIC-STUDIO-020A.
+RIC-STUDIO-019A executed: runtime/ric-orchestrator/Modelfile updated, candidate created (ID 05dbc8438264), 5/5 smoke tests passed, docs/validation/runtime-candidate-019a.md created.
 
 ## What remains
 
-Commit e push de RIC-STUDIO-018A com evidência completa. Em seguida, executar RIC-STUDIO-019A.
+Review RIC-STUDIO-019A evidence. Do not commit or push without explicit authorization.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -344,4 +344,4 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not commit without validation.
 - Do not push without Push Gate explícito.
 
-Note: RIC-STUDIO-019A is READY. Execution after commit/push of RIC-STUDIO-018A is authorized. Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` are permitted. Promotion to `ric-orchestrator-runtime:latest` remains prohibited in that task.
+Note: Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` were performed. Promotion to `ric-orchestrator-runtime:latest` remains prohibited in this task. RIC-STUDIO-020A (harness) remains FUTURE.

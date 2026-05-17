@@ -273,9 +273,21 @@ RIC-STUDIO-017A promoted `ric-orchestrator-candidate:016a-qwen3-refined-prompt` 
 
 RIC-STUDIO-018A was opened by explicit current request after CBM-012 and CBM-013 robust task execution.
 
-RIC-STUDIO-018A is in REVIEW after documenting positive agent performance patterns in `docs/validation/agent-performance-log.md`.
+RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `bfa6423`.
 
-RIC-STUDIO-019A Discussion Gate was approved by Ricardo / Trigger on 2026-05-17. RIC-STUDIO-019A is READY. Precondition: commit and push of RIC-STUDIO-018A first.
+RIC-STUDIO-019A was opened as READY after Discussion Gate approval on 2026-05-17.
+
+RIC-STUDIO-019A is in REVIEW after execution.
+
+Execution evidence:
+
+- Pre-execution Git state: clean working tree, HEAD == origin/main == bfa6423.
+- runtime/ric-orchestrator/Modelfile updated with: mandatory first-line decision format, updated closed vocabulary (COMMIT LIBERADO replaces COMMIT CONTROLADO LIBERADO), explicit pre/post-push distinction ([ahead 1] before push is normal, not an error), git pull only with divergence evidence, no new READY without Discussion Gate, short response format.
+- Candidate `ric-orchestrator-candidate:019a-refined-format` created. ID `05dbc8438264`, size 9.3 GB.
+- 5/5 smoke tests passed: ST-019A-01 (COMMIT BLOQUEADO), ST-019A-02 (COMMIT LIBERADO), ST-019A-03 (PUSH CONTROLADO LIBERADO), ST-019A-04 (REMOTE DONE CONFIRMADO), ST-019A-05 (DISCUSSION GATE RECOMENDADO).
+- Validation documented in docs/validation/runtime-candidate-019a.md.
+- ric-orchestrator-runtime:latest not promoted. ID 3026c74ea0d4 unchanged.
+- No backup deleted. No harness created. No ollama cp to latest. No commit or push.
 
 Eight positive patterns were observed and registered:
 

@@ -895,3 +895,39 @@ Summary:
 - Did not alter projects external to RIC Studio.
 - Did not promote runtime official.
 - Did not commit or push.
+
+## RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-019A as READY after Discussion Gate approval on 2026-05-17.
+- Pre-execution validation: working tree clean, HEAD == origin/main == bfa64232041c923c151b8102ee1bce3452848813.
+- Read runtime/ric-orchestrator/Modelfile before editing.
+- Updated runtime/ric-orchestrator/Modelfile with the following changes:
+  - Mandatory first-line decision format: every response begins with "Decisão: <LABEL>".
+  - Updated closed vocabulary: COMMIT LIBERADO replaces COMMIT CONTROLADO LIBERADO. Added READY BLOQUEADO, EXECUÇÃO BLOQUEADA, CANDIDATE APROVADO, CANDIDATE REJEITADO.
+  - Explicit pre/post-push distinction: [ahead 1] before push is correct and normal, not an error.
+  - git pull only permitted with evidence of [behind] or real conflict.
+  - No new READY task without Discussion Gate. After Remote DONE, response is DISCUSSION GATE RECOMENDADO.
+  - Response format requires short, direct output. Motivo must be one or two sentences.
+  - System prompt written in Portuguese for operational consistency.
+- Created candidate ric-orchestrator-candidate:019a-refined-format from updated Modelfile.
+- Candidate ID: 05dbc8438264. Size: 9.3 GB.
+- Ran 5 smoke tests against ric-orchestrator-candidate:019a-refined-format.
+- ST-019A-01: COMMIT BLOQUEADO — PASS.
+- ST-019A-02: COMMIT LIBERADO — PASS. Named files in git add, no git add ..
+- ST-019A-03: PUSH CONTROLADO LIBERADO — PASS. [ahead 1] not treated as problem. No pull suggested.
+- ST-019A-04: REMOTE DONE CONFIRMADO — PASS. No pull suggested.
+- ST-019A-05: DISCUSSION GATE RECOMENDADO — PASS. No READY opened automatically.
+- Total: 5/5 PASS. Decision: CANDIDATE APROVADO.
+- Created docs/validation/runtime-candidate-019a.md with full evidence.
+- Updated STATUS.md, backlog.md, docs/ops/status.md, docs/ops/backlog.md, docs/ops/session-handoff.md, docs/ops/execution-log.md.
+- Did not run ollama cp to ric-orchestrator-runtime:latest.
+- Did not promote ric-orchestrator-runtime:latest. ID 3026c74ea0d4 unchanged.
+- Did not delete any backup.
+- Did not create harness (→ RIC-STUDIO-020A).
+- Did not touch Clinic Booking Mini.
+- Did not open RIC-STUDIO-020A as READY.
+- Did not commit or push.

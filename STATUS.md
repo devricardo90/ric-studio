@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
+RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
 
 ## Scope
 
-Register positive performance patterns, limits, and operational recommendations observed in CBM-012 and CBM-013 robust task execution across the full RIC Studio agent collaboration chain.
+Refinar runtime/ric-orchestrator/Modelfile, criar candidate runtime separado, rodar 5 smoke tests, documentar resultado.
 
 ## Allowed files
 
@@ -20,17 +20,16 @@ Register positive performance patterns, limits, and operational recommendations 
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/agent-performance-log.md`
+- `runtime/ric-orchestrator/Modelfile`
+- `docs/validation/runtime-candidate-019a.md`
 
 ## Blocked in this task
 
-`ollama cp` para `ric-orchestrator-runtime:latest`, promoção automática do runtime oficial, remoção de backups, alteração de projetos externos (Clinic Booking Mini), e push sem Push Gate explícito são bloqueados. Harness automatizada é escopo de RIC-STUDIO-020A.
+`ollama cp` para `ric-orchestrator-runtime:latest`, promoção do runtime oficial, remoção de backups, harness (→ RIC-STUDIO-020A), projetos externos, commit sem Push Gate explícito.
 
-## READY
+## Previous task
 
-RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
-
-Discussion Gate aprovada por Ricardo / Trigger em 2026-05-17. Execução autorizada após commit e push de RIC-STUDIO-018A.
+RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks — Remote DONE em bfa6423.
 
 ## Gate status
 
@@ -214,7 +213,9 @@ No `ollama cp`, promotion, official runtime alteration, model deletion, backup d
 
 RIC-STUDIO-017A is Remote DONE and synchronized with `origin/main` at commit `6237383`.
 
-RIC-STUDIO-018A is in REVIEW after documenting positive agent performance patterns from CBM-012 and CBM-013.
+RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `bfa6423`.
+
+RIC-STUDIO-019A is in REVIEW after refining runtime/ric-orchestrator/Modelfile and validating candidate `ric-orchestrator-candidate:019a-refined-format` with 5/5 PASS smoke tests.
 
 Execution evidence for RIC-STUDIO-017A:
 
