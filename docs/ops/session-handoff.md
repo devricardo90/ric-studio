@@ -6,9 +6,11 @@ RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d
 
 RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6adf295`.
 
-RIC-STUDIO-022A is in REVIEW as `Define Minimal Validation Harness Requirements For Runtime Smoke Tests`.
+RIC-STUDIO-022A is Remote DONE and synchronized with `origin/main` at commit `5cad905`.
 
-Requirements document created at `docs/validation/harness-requirements.md`. Defines Minimal Runtime Smoke Harness V1: 5 scenarios, closed vocabulary of 5 labels, first-line validation rule, 5-condition PASS criteria, output to temp/gitignored directory, no automatic promotion. Implementation deferred to RIC-STUDIO-023A.
+RIC-STUDIO-023A is READY as `Validate Official Runtime Behavior And Latency Baseline`.
+
+Scope: run 5 manual prompts against `ric-orchestrator-runtime:latest`, verify first-line format (`Decisão: <LABEL>`), verify expected label per scenario, measure approximate response time, record PASS/FAIL per scenario. Output file: `docs/validation/runtime-behavior-latency-023a.md`. No harness, no Modelfile change, no runtime promotion. Future harness implementation deferred to RIC-STUDIO-024A.
 
 ## What changed
 
@@ -339,11 +341,11 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not promote `ric-orchestrator-runtime:latest` automatically.
 - Do not delete backups.
 - Do not touch Clinic Booking Mini.
-- Do not build harness now (→ RIC-STUDIO-023A).
+- Do not build harness now (→ RIC-STUDIO-024A).
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
 - Do not commit without validation.
 - Do not push without Push Gate explícito.
 
-Note: Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` were performed. Promotion to `ric-orchestrator-runtime:latest` remained prohibited in that task. Harness implementation is now deferred to RIC-STUDIO-023A.
+Note: Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` were performed. Promotion to `ric-orchestrator-runtime:latest` remained prohibited in that task. Harness implementation is now deferred to RIC-STUDIO-024A.

@@ -4,8 +4,6 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt (BLOCKED / ROLLED BACK)
-- RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
-- RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests
 
 ## REJECTED / REVIEW CLOSED
 
@@ -37,14 +35,16 @@ No task is Local DONE.
 - RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
 - RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
 - RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
+- RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
+- RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline
 
 ## Next safe step
 
-Review RIC-STUDIO-021A promotion evidence. Do not commit or push without explicit authorization.
+Execute RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -68,13 +68,11 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Remoção de backups.
 - Alteração de projetos externos (Clinic Booking Mini).
 - Push sem Push Gate explícito.
-- Harness automatizada (→ RIC-STUDIO-023A).
+- Harness automatizada (→ RIC-STUDIO-024A).
 - Commit de RIC-STUDIO-018A sem aprovação explícita de Trigger.
 
 ## Future candidates
 
-- RIC-STUDIO-023A - Implement Minimal Runtime Smoke Harness.
-
-## Future candidates
+- RIC-STUDIO-024A - Implement Minimal Runtime Smoke Harness.
 
 Future tasks must pass the Discussion Gate before entering READY.

@@ -281,7 +281,7 @@ RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d
 
 RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6adf295`.
 
-RIC-STUDIO-022A is in REVIEW as `Define Minimal Validation Harness Requirements For Runtime Smoke Tests`.
+RIC-STUDIO-022A is Remote DONE and synchronized with `origin/main` at commit `5cad905`.
 
 Eight positive patterns were observed and registered:
 
@@ -302,10 +302,8 @@ Three operational limits were registered:
 
 No runtime change, Modelfile edit, ollama create, ollama cp, model deletion, backup deletion, Clinic Booking Mini change, RIC-STUDIO-019A opening, commit, or push has occurred during RIC-STUDIO-018A.
 
-RIC-STUDIO-022A was opened by explicit current request to define the minimal validation harness requirements.
+RIC-STUDIO-022A created `docs/validation/harness-requirements.md` defining the Minimal Runtime Smoke Harness V1 requirements. No script, harness code, Modelfile alteration, ollama create, ollama cp, or runtime promotion occurred.
 
-RIC-STUDIO-022A is in REVIEW after creating `docs/validation/harness-requirements.md`.
+RIC-STUDIO-023A was opened as READY by explicit current request after Discussion Gate approval.
 
-Requirements document defines: Minimal Runtime Smoke Harness V1 covering 5 promotion gate scenarios, closed vocabulary of 5 accepted labels, first-line validation rule (`Decisão: <LABEL>`), PASS criteria requiring all 5 conditions, output capture to temp/gitignored directory only, no automatic promotion, and Remote DONE gate for future implementation task RIC-STUDIO-023A.
-
-No script, harness code, Modelfile alteration, ollama create, ollama cp, runtime promotion, or push has occurred during RIC-STUDIO-022A.
+RIC-STUDIO-023A scope: validate `ric-orchestrator-runtime:latest` behavior and latency baseline across 5 mandatory scenarios. Result to be documented in `docs/validation/runtime-behavior-latency-023a.md`. No harness implementation, no Modelfile change, no runtime promotion in this task.

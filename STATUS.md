@@ -2,15 +2,15 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests
+RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline
 
 ## Scope
 
-Definição dos requisitos mínimos da Minimal Runtime Smoke Harness V1. Nenhum script ou código de harness implementado. RIC-STUDIO-022A está em REVIEW aguardando auditoria e commit autorizado.
+Validação manual do comportamento e latência baseline do runtime oficial `ric-orchestrator-runtime:latest` em 5 cenários críticos. Nenhum script, harness, Modelfile ou runtime promotion executado nesta task. Resultado documentado em `docs/validation/runtime-behavior-latency-023a.md`.
 
 ## Allowed files
 
@@ -20,15 +20,15 @@ Definição dos requisitos mínimos da Minimal Runtime Smoke Harness V1. Nenhum 
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/harness-requirements.md`
+- `docs/validation/runtime-behavior-latency-023a.md`
 
 ## Blocked in this task
 
-Scripts, código de harness, alteração de Modelfile, execução de ollama cp/create, promoção de runtime, abertura de RIC-STUDIO-023A como READY, commit, push.
+Harness implementation, scripts, alteração de Modelfile, ollama cp/create/rm, promoção de runtime, deleção de backup/modelo, alteração de projetos externos, commit sem autorização, push sem autorização.
 
 ## Previous task
 
-RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime — Remote DONE em 6adf295.
+RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests — Remote DONE em 5cad905.
 
 ## Gate status
 
@@ -218,7 +218,9 @@ RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d
 
 RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6adf295`.
 
-RIC-STUDIO-022A is in REVIEW as `Define Minimal Validation Harness Requirements For Runtime Smoke Tests`.
+RIC-STUDIO-022A is Remote DONE and synchronized with `origin/main` at commit `5cad905`.
+
+RIC-STUDIO-023A was opened as READY by explicit current request after Discussion Gate approval.
 
 Execution evidence for RIC-STUDIO-017A:
 
