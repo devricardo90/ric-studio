@@ -955,3 +955,22 @@ Summary:
 - Did not open RIC-STUDIO-020A as READY.
 - Did not touch external projects.
 - Did not commit or push.
+
+## RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-022A by explicit current request after Discussion Gate for harness requirements.
+- Created docs/validation/harness-requirements.md with full requirements specification for Minimal Runtime Smoke Harness V1.
+- Specification covers: 5 mandatory smoke test scenarios with explicit labels, input-as-text-only (no real repo context injected), first-line validation rule (Decisão: <LABEL_ESPERADO>), PASS criteria requiring all 5 conditions, output capture to temp/gitignored directory only, closed vocabulary of 5 accepted labels (RUNTIME IDENTIFICADO, COMMIT BLOQUEADO, COMMIT LIBERADO, PUSH CONTROLADO LIBERADO, PUSH AINDA BLOQUEADO), critical violation detection rules, no automatic promotion, and Remote DONE gate definition for future implementation task RIC-STUDIO-023A.
+- Updated STATUS.md, backlog.md, docs/ops/status.md, docs/ops/backlog.md, docs/ops/execution-log.md, docs/ops/session-handoff.md.
+- Did not implement script or harness code.
+- Did not alter runtime/ric-orchestrator/Modelfile.
+- Did not run ollama create, ollama cp, or any Ollama command.
+- Did not promote ric-orchestrator-runtime:latest.
+- Did not delete any backup or candidate.
+- Did not open RIC-STUDIO-023A as READY.
+- Did not touch external projects.
+- Did not commit or push.

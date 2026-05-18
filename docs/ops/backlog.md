@@ -5,6 +5,7 @@
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
 - RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime.
+- RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -75,8 +76,8 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Remoção de backups.
 - Alteração de projetos externos (Clinic Booking Mini).
 - Push sem Push Gate explícito.
-- Harness automatizada (→ RIC-STUDIO-020A).
+- Harness automatizada (→ RIC-STUDIO-023A).
 
 ## Future candidates
 
-- RIC-STUDIO-020A - Build Automated Validation Harness For Runtime Smoke Tests.
+- RIC-STUDIO-023A - Implement Minimal Runtime Smoke Harness.

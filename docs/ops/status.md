@@ -279,20 +279,9 @@ RIC-STUDIO-019A was opened as READY after Discussion Gate approval on 2026-05-17
 
 RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d50192`.
 
-RIC-STUDIO-021A was opened by explicit current request to promote the approved candidate.
+RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6adf295`.
 
-RIC-STUDIO-021A is in REVIEW after controlled promotion.
-
-Promotion evidence:
-- Pre-promotion Git state: clean, HEAD == origin/main == 6d50192.
-- Candidate `ric-orchestrator-candidate:019a-refined-format` confirmed at ID `2711dd3bc829`, size 9.3 GB.
-- `ric-orchestrator-runtime:backup-before-021a` did not exist before backup creation.
-- Backup created: `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-021a`. Backup preserves ID `3026c74ea0d4`.
-- Promotion executed: `ollama cp ric-orchestrator-candidate:019a-refined-format ric-orchestrator-runtime:latest`.
-- Post-promotion `ric-orchestrator-runtime:latest` confirmed at ID `2711dd3bc829`.
-- Smoke test returned `RIC-RUNTIME-021A-OK`.
-- Validation documented in `docs/validation/runtime-promotion-021a.md`.
-- Modelfile not altered. No harness. No backup deleted. No RIC-STUDIO-020A opened. No commit or push.
+RIC-STUDIO-022A is in REVIEW as `Define Minimal Validation Harness Requirements For Runtime Smoke Tests`.
 
 Eight positive patterns were observed and registered:
 
@@ -312,3 +301,11 @@ Three operational limits were registered:
 - Orchestrator CLI noise is a persistent operational caveat.
 
 No runtime change, Modelfile edit, ollama create, ollama cp, model deletion, backup deletion, Clinic Booking Mini change, RIC-STUDIO-019A opening, commit, or push has occurred during RIC-STUDIO-018A.
+
+RIC-STUDIO-022A was opened by explicit current request to define the minimal validation harness requirements.
+
+RIC-STUDIO-022A is in REVIEW after creating `docs/validation/harness-requirements.md`.
+
+Requirements document defines: Minimal Runtime Smoke Harness V1 covering 5 promotion gate scenarios, closed vocabulary of 5 accepted labels, first-line validation rule (`Decisão: <LABEL>`), PASS criteria requiring all 5 conditions, output capture to temp/gitignored directory only, no automatic promotion, and Remote DONE gate for future implementation task RIC-STUDIO-023A.
+
+No script, harness code, Modelfile alteration, ollama create, ollama cp, runtime promotion, or push has occurred during RIC-STUDIO-022A.

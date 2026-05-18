@@ -4,9 +4,11 @@
 
 RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d50192`.
 
-RIC-STUDIO-021A is in REVIEW as `Promote RIC-STUDIO-019A Candidate To Official Runtime`.
+RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6adf295`.
 
-Promotion evidence: `ric-orchestrator-runtime:latest` now at ID `2711dd3bc829`. Backup `ric-orchestrator-runtime:backup-before-021a` preserves previous ID `3026c74ea0d4`. Smoke test: `RIC-RUNTIME-021A-OK`.
+RIC-STUDIO-022A is in REVIEW as `Define Minimal Validation Harness Requirements For Runtime Smoke Tests`.
+
+Requirements document created at `docs/validation/harness-requirements.md`. Defines Minimal Runtime Smoke Harness V1: 5 scenarios, closed vocabulary of 5 labels, first-line validation rule, 5-condition PASS criteria, output to temp/gitignored directory, no automatic promotion. Implementation deferred to RIC-STUDIO-023A.
 
 ## What changed
 
@@ -337,11 +339,11 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not promote `ric-orchestrator-runtime:latest` automatically.
 - Do not delete backups.
 - Do not touch Clinic Booking Mini.
-- Do not build harness now (→ RIC-STUDIO-020A).
+- Do not build harness now (→ RIC-STUDIO-023A).
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
 - Do not commit without validation.
 - Do not push without Push Gate explícito.
 
-Note: Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` were performed. Promotion to `ric-orchestrator-runtime:latest` remains prohibited in this task. RIC-STUDIO-020A (harness) remains FUTURE.
+Note: Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` were performed. Promotion to `ric-orchestrator-runtime:latest` remained prohibited in that task. Harness implementation is now deferred to RIC-STUDIO-023A.

@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
+RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests
 
 ## Scope
 
-Promoção controlada de `ric-orchestrator-candidate:019a-refined-format` para `ric-orchestrator-runtime:latest`.
+Definição dos requisitos mínimos da Minimal Runtime Smoke Harness V1. Nenhum script ou código de harness implementado. RIC-STUDIO-022A está em REVIEW aguardando auditoria e commit autorizado.
 
 ## Allowed files
 
@@ -20,15 +20,15 @@ Promoção controlada de `ric-orchestrator-candidate:019a-refined-format` para `
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/runtime-promotion-021a.md`
+- `docs/validation/harness-requirements.md`
 
 ## Blocked in this task
 
-Modelfile edits, harness (→ RIC-STUDIO-020A), UI, scripts, projetos externos, deleção de backups, abertura de RIC-STUDIO-020A como READY, commit, push.
+Scripts, código de harness, alteração de Modelfile, execução de ollama cp/create, promoção de runtime, abertura de RIC-STUDIO-023A como READY, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-019A - Refine Runtime Behavior and Response Format — Remote DONE em 6d50192.
+RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime — Remote DONE em 6adf295.
 
 ## Gate status
 
@@ -216,9 +216,9 @@ RIC-STUDIO-018A is Remote DONE and synchronized with `origin/main` at commit `bf
 
 RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d50192`.
 
-RIC-STUDIO-021A is in REVIEW after promoting `ric-orchestrator-candidate:019a-refined-format` to `ric-orchestrator-runtime:latest`.
+RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6adf295`.
 
-Promotion evidence: backup `ric-orchestrator-runtime:backup-before-021a` created (ID `3026c74ea0d4`). Post-promotion `ric-orchestrator-runtime:latest` confirmed at ID `2711dd3bc829`. Smoke test returned `RIC-RUNTIME-021A-OK`.
+RIC-STUDIO-022A is in REVIEW as `Define Minimal Validation Harness Requirements For Runtime Smoke Tests`.
 
 Execution evidence for RIC-STUDIO-017A:
 
