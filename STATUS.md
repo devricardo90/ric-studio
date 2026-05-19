@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline
+RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime
 
 ## Scope
 
-Validação manual do comportamento e latência baseline do runtime oficial `ric-orchestrator-runtime:latest` em 5 cenários críticos. Nenhum script, harness, Modelfile ou runtime promotion executado nesta task. Resultado documentado em `docs/validation/runtime-behavior-latency-023a.md`.
+Criar runtime candidato separado baseado em `qwen2.5-coder:7b`, com Modelfile candidato e prompt operacional enxuto, tag `ric-orchestrator-candidate:024a-qwen25-coder-7b`, testes manuais de commit, push e Remote DONE, e registro de resultados. Sem promoção do runtime oficial.
 
 ## Allowed files
 
@@ -20,15 +20,16 @@ Validação manual do comportamento e latência baseline do runtime oficial `ric
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/runtime-behavior-latency-023a.md`
+- `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`
+- `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`
 
 ## Blocked in this task
 
-Harness implementation, scripts, alteração de Modelfile, ollama cp/create/rm, promoção de runtime, deleção de backup/modelo, alteração de projetos externos, commit sem autorização, push sem autorização.
+Promover `ric-orchestrator-runtime:latest`, alterar `runtime/ric-orchestrator/Modelfile`, implementar harness, rodar automação Git, baixar modelos, deletar backup/modelo, alterar app/UI/projetos externos, commit sem autorização, push sem autorização.
 
 ## Previous task
 
-RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests — Remote DONE em 5cad905.
+RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline — REVIEW, 0 PASS / 5 FAIL por timeout/lentidão.
 
 ## Gate status
 
@@ -231,6 +232,20 @@ Latency baseline: impractical. Time to first token: undetermined (> 300s for Tes
 Evidence documented in `docs/validation/runtime-behavior-latency-023a.md`.
 
 No harness, script, Modelfile change, ollama create/cp/rm, runtime promotion, or commit was executed in this task.
+
+RIC-STUDIO-024A is in REVIEW after creating and testing Qwen 7B orchestrator candidate `ric-orchestrator-candidate:024a-qwen25-coder-7b`.
+
+Candidate source was created separately at `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`; the official `runtime/ric-orchestrator/Modelfile` was not altered.
+
+Candidate final ID: `9e5cdcf8a6ae`, size 4.7 GB. Base model: `qwen2.5-coder:7b`, ID `dae161e27b0e`.
+
+Final manual gate matrix result: 5 PASS, 0 FAIL. Tests covered commit blocked, commit released, push released, push blocked, and Remote DONE confirmed.
+
+Latency caveat: cold-start test took ~167s; warm API responses took ~21-29s.
+
+Validation evidence is documented in `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`.
+
+No `ollama cp`, no promotion to `ric-orchestrator-runtime:latest`, no official runtime source alteration, no harness implementation, no model download, no Git automation, no app/UI change, no commit, and no push occurred during RIC-STUDIO-024A.
 
 Execution evidence for RIC-STUDIO-017A:
 

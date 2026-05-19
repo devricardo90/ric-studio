@@ -14,6 +14,14 @@ Result: 0 PASS, 5 FAIL. All 5 mandatory tests against `ric-orchestrator-runtime:
 
 Evidence: `docs/validation/runtime-behavior-latency-023a.md`.
 
+RIC-STUDIO-024A is in REVIEW as `Create Qwen 7B Orchestrator Candidate Runtime`.
+
+Candidate `ric-orchestrator-candidate:024a-qwen25-coder-7b` was created from separate source `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`, using base `qwen2.5-coder:7b`. Final candidate ID is `9e5cdcf8a6ae`, size 4.7 GB.
+
+Final gate matrix result: 5 PASS, 0 FAIL across commit blocked, commit released, push released, push blocked, and Remote DONE confirmed. Decision: CANDIDATE APROVADO with latency caveat. Cold-start latency was about 167s; warm API responses were about 21-29s.
+
+Evidence: `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`.
+
 Awaiting Trigger review before commit and push.
 
 ## What changed
@@ -325,7 +333,7 @@ RIC-STUDIO-021A executed: backup created, candidate promoted, smoke test passed.
 
 ## What remains
 
-Review RIC-STUDIO-023A validation evidence in `docs/validation/runtime-behavior-latency-023a.md`. Authorize commit and push after Trigger review. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-024A validation evidence in `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`. Authorize commit and push after Trigger review. Do not commit or push without explicit authorization.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 
@@ -345,11 +353,11 @@ Do not delete `ric-orchestrator-runtime:backup-before-014a`.
 - Do not promote `ric-orchestrator-runtime:latest` automatically.
 - Do not delete backups.
 - Do not touch Clinic Booking Mini.
-- Do not build harness now (→ RIC-STUDIO-024A).
+- Do not build harness now.
 - Do not train or tune models.
 - Do not configure IDE integration.
 - Do not create GitHub integration.
 - Do not commit without validation.
 - Do not push without Push Gate explícito.
 
-Note: Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` were performed. Promotion to `ric-orchestrator-runtime:latest` remained prohibited in that task. Harness implementation is now deferred to RIC-STUDIO-024A.
+Note: Within RIC-STUDIO-019A, versioned edits to `runtime/ric-orchestrator/Modelfile` were performed. Promotion to `ric-orchestrator-runtime:latest` remained prohibited in that task. Harness implementation remains deferred to a future task.

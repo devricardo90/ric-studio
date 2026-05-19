@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline
+RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime
 
 ## Product mode
 
@@ -315,3 +315,17 @@ Result: 0 PASS, 5 FAIL. All tests failed by timeout/lentidão. Root cause: Qwen3
 Latency baseline: impractical for operational use with current hardware configuration.
 
 Evidence documented in `docs/validation/runtime-behavior-latency-023a.md`.
+
+RIC-STUDIO-024A was opened by explicit current request to create a Qwen 7B orchestrator candidate runtime.
+
+RIC-STUDIO-024A is in REVIEW after creating candidate tag `ric-orchestrator-candidate:024a-qwen25-coder-7b` from separate Modelfile `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`.
+
+The final candidate uses base `qwen2.5-coder:7b` and has ID `9e5cdcf8a6ae`, size 4.7 GB. The official runtime `ric-orchestrator-runtime:latest` remained ID `2711dd3bc829`, size 9.3 GB.
+
+Final manual test result: 5 PASS, 0 FAIL across commit blocked, commit released, push released, push blocked, and Remote DONE confirmed.
+
+Latency caveat: cold-start API test took about 167 seconds; warm API tests took about 21-29 seconds.
+
+Validation evidence is documented in `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`.
+
+No `ollama cp`, promotion, official runtime source alteration, harness implementation, model download, Git automation, app/UI change, commit, or push occurred during RIC-STUDIO-024A.

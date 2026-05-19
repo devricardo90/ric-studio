@@ -1027,3 +1027,35 @@ Summary:
 - Did not delete any backup or candidate.
 - Did not touch external projects.
 - Did not commit or push.
+
+## RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-024A by explicit current request to create a Qwen 7B orchestrator candidate runtime.
+- Created separate candidate Modelfile `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`.
+- Used base model `qwen2.5-coder:7b`, ID `dae161e27b0e`, size 4.7 GB. No model download was needed.
+- Preserved official source `runtime/ric-orchestrator/Modelfile`; it was not altered.
+- Created candidate tag `ric-orchestrator-candidate:024a-qwen25-coder-7b`.
+- Final candidate ID: `9e5cdcf8a6ae`, size 4.7 GB.
+- Official runtime `ric-orchestrator-runtime:latest` remained ID `2711dd3bc829`, size 9.3 GB.
+- Preliminary tests exposed prompt issues: `Comando: N/A`, unsafe `git commit` suggestion after `git add`, push incorrectly released with dirty working tree, and command lines in states with no authorized command.
+- Tightened the candidate prompt with examples and exact command restrictions.
+- Ran final manual API matrix with `/api/generate`, `stream:false`, `temperature:0`, `num_predict:80`.
+- ST-024A-01 commit blocked: PASS, `COMMIT BLOQUEADO`, cold-start latency ~167s.
+- ST-024A-02 commit released: PASS, `COMMIT LIBERADO`, scoped `git add STATUS.md docs/ops/status.md`, no `git commit`.
+- ST-024A-03 push released: PASS, `PUSH CONTROLADO LIBERADO`, command `git push origin main`, no `git pull`.
+- ST-024A-04 push blocked: PASS, `PUSH AINDA BLOQUEADO`, no command.
+- ST-024A-05 Remote DONE confirmed: PASS, `REMOTE DONE CONFIRMADO`, no command.
+- Final result: 5 PASS, 0 FAIL. Decision: CANDIDATE APROVADO with latency caveat.
+- Warm API latency range: ~21-29s.
+- Created `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md` with full evidence.
+- Did not run `ollama cp`.
+- Did not promote or overwrite `ric-orchestrator-runtime:latest`.
+- Did not delete models, backups, or candidates.
+- Did not implement harness or scripts.
+- Did not run Git automation.
+- Did not touch app/UI or external projects.
+- Did not commit or push.

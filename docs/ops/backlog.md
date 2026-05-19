@@ -14,6 +14,7 @@
 ## REVIEW
 
 - RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. 0 PASS, 5 FAIL. Extended thinking not suppressible in current Ollama 0.24.0 / CPU-hybrid configuration.
+- RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime. 5 PASS, 0 FAIL. Candidate approved with latency caveat.
 
 ## READY
 
@@ -56,7 +57,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-023A validation evidence in `docs/validation/runtime-behavior-latency-023a.md`. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-024A validation evidence in `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -80,10 +81,10 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 - Remoção de backups.
 - Alteração de projetos externos (Clinic Booking Mini).
 - Push sem Push Gate explícito.
-- Harness automatizada (→ RIC-STUDIO-024A).
+- Harness automatizada (→ future task, not RIC-STUDIO-024A).
 
 ## Future candidates
 
-- RIC-STUDIO-024A - Implement Minimal Runtime Smoke Harness.
+- RIC-STUDIO-025A - Implement Minimal Runtime Smoke Harness.
 
 Future work must be discussed, scoped, and accepted before it can become READY.
