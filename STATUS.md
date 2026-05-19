@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
@@ -221,6 +221,16 @@ RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6a
 RIC-STUDIO-022A is Remote DONE and synchronized with `origin/main` at commit `5cad905`.
 
 RIC-STUDIO-023A was opened as READY by explicit current request after Discussion Gate approval.
+
+RIC-STUDIO-023A is in REVIEW after 5 manual tests against `ric-orchestrator-runtime:latest`.
+
+Result: 0 PASS, 5 FAIL. All tests failed by timeout/lentidão. Root cause: Qwen3 14B in thinking mode with predominantly CPU inference (~6.6 GB of 10 GB on RAM); Ollama 0.24.0 buffers the entire think block before transmitting any response token. `/no_think` via CLI and `think: false` via REST API did not suppress thinking. No response token was produced in any test within the 5-minute limit.
+
+Latency baseline: impractical. Time to first token: undetermined (> 300s for Test 1, > 30s for Tests 2–5).
+
+Evidence documented in `docs/validation/runtime-behavior-latency-023a.md`.
+
+No harness, script, Modelfile change, ollama create/cp/rm, runtime promotion, or commit was executed in this task.
 
 Execution evidence for RIC-STUDIO-017A:
 

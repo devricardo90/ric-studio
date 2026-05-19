@@ -11,9 +11,13 @@
 - RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
 - RIC-STUDIO-011B - Benchmark Qwen3 14B With Thinking Suppressed And Short Operational Template.
 
+## REVIEW
+
+- RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. 0 PASS, 5 FAIL. Extended thinking not suppressible in current Ollama 0.24.0 / CPU-hybrid configuration.
+
 ## READY
 
-- RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline.
+No task is READY.
 
 ## IN_PROGRESS
 
@@ -52,7 +56,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Execute RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-023A validation evidence in `docs/validation/runtime-behavior-latency-023a.md`. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

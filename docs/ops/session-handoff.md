@@ -8,9 +8,13 @@ RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6a
 
 RIC-STUDIO-022A is Remote DONE and synchronized with `origin/main` at commit `5cad905`.
 
-RIC-STUDIO-023A is READY as `Validate Official Runtime Behavior And Latency Baseline`.
+RIC-STUDIO-023A is in REVIEW as `Validate Official Runtime Behavior And Latency Baseline`.
 
-Scope: run 5 manual prompts against `ric-orchestrator-runtime:latest`, verify first-line format (`Decisão: <LABEL>`), verify expected label per scenario, measure approximate response time, record PASS/FAIL per scenario. Output file: `docs/validation/runtime-behavior-latency-023a.md`. No harness, no Modelfile change, no runtime promotion. Future harness implementation deferred to RIC-STUDIO-024A.
+Result: 0 PASS, 5 FAIL. All 5 mandatory tests against `ric-orchestrator-runtime:latest` (Qwen3 14B) failed by timeout/lentidão. Root cause: thinking mode active, Ollama 0.24.0 buffers thinking tokens, CPU inference too slow (~1–2 tok/s, ~6.6 GB on RAM). `/no_think` via CLI and `think: false` via REST API did not suppress thinking. No response token produced in any test within 5-minute limit.
+
+Evidence: `docs/validation/runtime-behavior-latency-023a.md`.
+
+Awaiting Trigger review before commit and push.
 
 ## What changed
 
@@ -321,7 +325,7 @@ RIC-STUDIO-021A executed: backup created, candidate promoted, smoke test passed.
 
 ## What remains
 
-Review RIC-STUDIO-021A promotion evidence. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-023A validation evidence in `docs/validation/runtime-behavior-latency-023a.md`. Authorize commit and push after Trigger review. Do not commit or push without explicit authorization.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 

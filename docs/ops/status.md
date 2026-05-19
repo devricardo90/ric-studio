@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
+RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline
 
 ## Product mode
 
@@ -307,3 +307,11 @@ RIC-STUDIO-022A created `docs/validation/harness-requirements.md` defining the M
 RIC-STUDIO-023A was opened as READY by explicit current request after Discussion Gate approval.
 
 RIC-STUDIO-023A scope: validate `ric-orchestrator-runtime:latest` behavior and latency baseline across 5 mandatory scenarios. Result to be documented in `docs/validation/runtime-behavior-latency-023a.md`. No harness implementation, no Modelfile change, no runtime promotion in this task.
+
+RIC-STUDIO-023A is in REVIEW after executing the 5 mandatory manual tests against `ric-orchestrator-runtime:latest`.
+
+Result: 0 PASS, 5 FAIL. All tests failed by timeout/lentidão. Root cause: Qwen3 14B in thinking mode with predominantly CPU inference (~6.6 GB of 10 GB on RAM); Ollama 0.24.0 buffers the entire think block before transmitting any response bytes; thinking suppression via `/no_think` (CLI) and `think: false` (REST API) did not produce any response tokens within the 5-minute timeout. Time to first response token: undetermined (> 300s on Test 1, > 30s on Tests 2–5).
+
+Latency baseline: impractical for operational use with current hardware configuration.
+
+Evidence documented in `docs/validation/runtime-behavior-latency-023a.md`.

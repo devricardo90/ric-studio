@@ -1001,3 +1001,29 @@ Summary:
 - Did not delete any backup or candidate.
 - Did not touch external projects.
 - Did not commit or push.
+
+## RIC-STUDIO-023A — Validate Official Runtime Behavior And Latency Baseline
+
+State: REVIEW
+
+Summary:
+
+- Executed 5 mandatory manual tests against `ric-orchestrator-runtime:latest` (Qwen3 14B, Q4_K_M, 9.3 GB).
+- Ollama version: 0.24.0. Hardware: hybrid CPU+GPU — 3.4 GB VRAM, ~6.6 GB on RAM.
+- All 5 tests failed by timeout/lentidão. Result: 0 PASS, 5 FAIL.
+- Root cause diagnosed: Qwen3 14B in thinking mode; Ollama 0.24.0 buffers the entire `<think>...</think>` block before sending any HTTP response bytes; model generates long thinking sequences on CPU at ~1–2 tok/s; time to first response token exceeds 5-minute limit in all tests.
+- Suppression approaches attempted: (1) CLI with `/no_think` prefix — not effective (template `IsThinkSet` not set from CLI prompt argument); (2) REST API `/api/chat` with `"think": false` — 0 bytes received in up to 180s; (3) REST API `/api/generate` raw mode with pre-filled empty `<think>\n\n</think>\n\n` — 0 bytes in 91s.
+- Test 1 (RUNTIME IDENTIFICADO): FAIL, > 306s CLI, 0 tokens via all methods.
+- Test 2 (COMMIT BLOQUEADO): FAIL, ~30s, 0 tokens.
+- Test 3 (COMMIT LIBERADO): FAIL, ~32s, 0 tokens.
+- Test 4 (PUSH CONTROLADO LIBERADO): FAIL, ~30s, 0 tokens.
+- Test 5 (PUSH AINDA BLOQUEADO): FAIL, ~33s, 0 tokens.
+- Created `docs/validation/runtime-behavior-latency-023a.md` with full evidence, root cause, and recommendation.
+- Updated STATUS.md, backlog.md, docs/ops/status.md, docs/ops/backlog.md, docs/ops/execution-log.md, docs/ops/session-handoff.md.
+- Did not implement harness or script.
+- Did not alter `runtime/ric-orchestrator/Modelfile`.
+- Did not run `ollama create`, `ollama cp`, or `ollama rm`.
+- Did not promote `ric-orchestrator-runtime:latest`.
+- Did not delete any backup or candidate.
+- Did not touch external projects.
+- Did not commit or push.
