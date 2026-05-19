@@ -1136,3 +1136,28 @@ Summary:
 - Did not touch app/UI or external projects.
 - Did not automate Git.
 - Did not commit or push.
+
+## RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-028A by explicit current request to correct the harness domain confusion observed in RIC-STUDIO-027A.
+- Root cause identified in 027A: Modelfile 026A had no domain glossary; model confused "harness" (internal RIC Studio validation runner) with Harness.io (external CI/CD SaaS).
+- Created `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix` with expanded SYSTEM prompt including: primary role, core objective, RIC Framework states, authority boundaries, architecture principles, task design loop, RIC Studio domain glossary (harness definition, scope protection rules), output format, and style.
+- Created candidate with `ollama create ric-architect-candidate:028a-qwen25-coder-7b-contextfix -f runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`. Output: success. Candidate ID: `b2ba1b3efeae`, size 4.7 GB.
+- Teste 1 (harness ambíguo — regressão 027A): candidate blocked harness+Git+UI+automation as too broad, did not mention Harness.io, recommended Discussion Gate and small slice — PASS.
+- Teste 2 (ideia vaga grande): candidate returned Discussion Gate, blocked direct READY, defined fora de escopo — PASS.
+- Teste 3 (task documental bem definida): candidate recognized "harness interno" correctly, defined scope/fora-de-escopo/validation, did not authorize commit — PASS with caveat (suggested Discussion Gate instead of READY, more conservative than expected but not a failure).
+- Teste 4 (pedido operacional): candidate blocked commit, redirected to RIC Local Orchestrator — PASS with caveat (response too short, no 7-section format).
+- Final result: 4 PASS, 0 FAIL.
+- Created `docs/validation/architect-candidate-028a-contextfix.md` with full test evidence and decision: candidate aprovado.
+- Did not promote `ric-architect-qwen-v2:latest`.
+- Did not alter `ric-orchestrator-runtime:latest` or any Orchestrator runtime.
+- Did not execute `ollama cp`, `ollama rm`, or any model modification.
+- Did not download models.
+- Did not implement harness.
+- Did not touch app/UI or external projects.
+- Did not automate Git.
+- Did not commit or push.

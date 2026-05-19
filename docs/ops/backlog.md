@@ -16,7 +16,8 @@
 - RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. 0 PASS, 5 FAIL. Extended thinking not suppressible in current Ollama 0.24.0 / CPU-hybrid configuration.
 - RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime. Remote DONE.
 - RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime. Remote DONE.
-- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow. REVIEW — 1 PASS (Orchestrator bloqueou commit corretamente), 1 FAIL (Architect confundiu "harness" com Harness.io por ausência de contexto de domínio). Sem commit.
+- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow. Remote DONE — 1 PASS, 1 FAIL.
+- RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate. REVIEW — candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`) criado com glossário de domínio. 4 PASS, 0 FAIL. Sem commit.
 
 ## READY
 
@@ -60,7 +61,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-027A evidence in `docs/validation/two-model-workflow-027a.md`. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-028A evidence in `docs/validation/architect-candidate-028a-contextfix.md`. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

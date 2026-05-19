@@ -2,7 +2,19 @@
 
 ## Current handoff state
 
-RIC-STUDIO-027A is in REVIEW as `Validate Architect And Orchestrator Two-Model Workflow`.
+RIC-STUDIO-028A is in REVIEW as `Fix Architect Domain Context And Retest Candidate`.
+
+New candidate: `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`, size 4.7 GB). Modelfile: `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`.
+
+Key fix: RIC Studio domain glossary added. "harness" = internal validation runner, NOT Harness.io. harness+Git+UI+automation = scope too broad, recommend Discussion Gate.
+
+Test result: 4 PASS, 0 FAIL. 027A Harness.io regression corrected.
+
+Evidence: `docs/validation/architect-candidate-028a-contextfix.md`.
+
+No model promoted, copied, or removed. No commit. No push. Awaiting Trigger review.
+
+RIC-STUDIO-027A is Remote DONE as `Validate Architect And Orchestrator Two-Model Workflow`.
 
 Architect test (candidate `ric-architect-candidate:026a-qwen25-coder-7b`): FAIL. Model misinterpreted "harness" as Harness.io and recommended building a UI for external CI/CD pipelines. Root cause: no domain context in prompt. Not a systemic logic failure.
 

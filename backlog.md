@@ -44,7 +44,8 @@ No task is Local DONE.
 - RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline (0 PASS, 5 FAIL — timeout, extended thinking not suppressed)
 - RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime (Remote DONE)
 - RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime (Remote DONE)
-- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow (REVIEW — 1 PASS, 1 FAIL; sem commit)
+- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow (Remote DONE — 1 PASS, 1 FAIL)
+- RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate (REVIEW — 4 PASS, 0 FAIL; candidate `b2ba1b3efeae` aprovado; sem commit)
 
 ## READY
 
@@ -52,7 +53,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-027A evidence in `docs/validation/two-model-workflow-027a.md`. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-028A evidence in `docs/validation/architect-candidate-028a-contextfix.md`. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

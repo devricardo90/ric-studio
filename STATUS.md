@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow
+RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate
 
 ## Scope
 
-Validar, em uma task documental pequena, se o Architect candidate (`ric-architect-candidate:026a-qwen25-coder-7b`) e o Orchestrator official (`ric-orchestrator-runtime:latest`) funcionam juntos no fluxo RIC. Registrar evidência em `docs/validation/two-model-workflow-027a.md`. Atualizar arquivos operacionais. Sem commit, sem push, sem promoção.
+Criar novo Modelfile `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix` com glossário de domínio RIC Studio corrigindo a confusão de "harness". Criar candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix`. Executar 4 testes obrigatórios. Documentar em `docs/validation/architect-candidate-028a-contextfix.md`. Sem promoção, sem commit, sem push.
 
 ## Allowed files
 
@@ -20,15 +20,16 @@ Validar, em uma task documental pequena, se o Architect candidate (`ric-architec
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/two-model-workflow-027a.md`
+- `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`
+- `docs/validation/architect-candidate-028a-contextfix.md`
 
 ## Blocked in this task
 
-Implementar harness, promover `ric-architect-qwen-v2:latest`, alterar `ric-orchestrator-runtime:latest`, criar app/UI, baixar modelo novo, executar `ollama cp`, alterar Modelfiles existentes, automatizar Git, abrir RIC-STUDIO-028A, commit, push.
+Promover `ric-architect-qwen-v2:latest`, alterar `ric-orchestrator-runtime:latest`, implementar harness, baixar modelo novo, mexer em app/UI, automatizar Git, alterar Orchestrator, apagar modelos, abrir próxima READY, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime — Remote DONE.
+RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow — Remote DONE.
 
 ## Gate status
 
@@ -252,17 +253,19 @@ RIC-STUDIO-025A is Remote DONE. Promoted approved Qwen 7B candidate `ric-orchest
 
 RIC-STUDIO-026A is Remote DONE. Architect candidate `ric-architect-candidate:026a-qwen25-coder-7b` (ID `c8cfc69738af`) created and validated with 4 PASS / 0 FAIL. Validation evidence: `docs/validation/architect-candidate-026a-qwen25-coder-7b.md`.
 
-RIC-STUDIO-027A is in REVIEW after executing the two mandatory model tests.
+RIC-STUDIO-027A is Remote DONE. Combined test result: 1 PASS (Orchestrator), 1 FAIL (Architect — harness domain confusion). Validation evidence: `docs/validation/two-model-workflow-027a.md`.
 
-Architect test result: FAIL. The Architect candidate misinterpreted "harness" as Harness.io (external CI/CD product) and recommended building a UI for pipelines instead of proposing a small internal validation slice. Root cause: absence of domain context in the prompt. Not a systemic logic failure.
+RIC-STUDIO-028A is in REVIEW after creating and testing the context-fixed Architect candidate.
 
-Orchestrator test result: PASS. `COMMIT BLOQUEADO` returned correctly for incomplete evidence (missing `git status --short`, missing `git diff --check`, unauditable new file). No commit authorized.
+New Modelfile: `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`. Candidate: `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`, size 4.7 GB).
 
-Combined result: 1 PASS, 1 FAIL.
+Key fix: RIC Studio domain glossary added. "harness" = internal validation runner, NOT Harness.io. Harness+Git+UI+automation together = scope too broad, recommend Discussion Gate.
 
-Validation evidence: `docs/validation/two-model-workflow-027a.md`.
+Test result: 4 PASS, 0 FAIL. The 027A regression (Harness.io recommendation) was corrected.
 
-No model was altered, promoted, copied, or removed in this task.
+Validation evidence: `docs/validation/architect-candidate-028a-contextfix.md`.
+
+No model was promoted, copied, or removed. `ric-architect-qwen-v2:latest` unchanged. `ric-orchestrator-runtime:latest` unchanged. No commit. No push.
 
 Pre-promotion evidence confirmed Git clean/synchronized, candidate ID `9e5cdcf8a6ae`, and previous official runtime ID `2711dd3bc829`.
 

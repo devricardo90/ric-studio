@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow
+RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate
 
 ## Product mode
 
@@ -344,14 +344,18 @@ RIC-STUDIO-026A is Remote DONE. Architect candidate `ric-architect-candidate:026
 
 RIC-STUDIO-027A was opened by explicit current request to validate the two-model workflow.
 
-RIC-STUDIO-027A is in REVIEW after executing the two mandatory model tests.
+RIC-STUDIO-027A is Remote DONE. Combined result: 1 PASS (Orchestrator), 1 FAIL (Architect — harness domain confusion). Validation evidence: `docs/validation/two-model-workflow-027a.md`.
 
-Architect test result: FAIL. Candidate misinterpreted "harness" as Harness.io (external CI/CD product) and recommended building a GUI for pipelines. Root cause: no RIC Studio domain context in prompt. Not a systemic logic failure — a context failure.
+RIC-STUDIO-028A was opened by explicit current request to fix the Architect domain context failure observed in 027A.
 
-Orchestrator test result: PASS. `COMMIT BLOQUEADO` returned correctly for incomplete evidence (missing `git status --short --untracked-files=all`, missing `git diff --check`, unauditable new file in docs/validation). No commit authorized.
+RIC-STUDIO-028A is in REVIEW after creating and testing the context-fixed candidate.
 
-Combined result: 1 PASS, 1 FAIL.
+New Modelfile: `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`. Candidate tag: `ric-architect-candidate:028a-qwen25-coder-7b-contextfix`, ID `b2ba1b3efeae`, size 4.7 GB.
 
-Validation evidence is documented in `docs/validation/two-model-workflow-027a.md`.
+Key fix: RIC Studio domain glossary embedded in SYSTEM prompt. "harness" = internal validation runner, NOT Harness.io. harness+Git+UI+automation together = scope too broad, recommend Discussion Gate.
 
-No model was altered, promoted, copied, or removed. No harness, no app/UI, no Git automation, no commit, no push occurred during RIC-STUDIO-027A.
+Test result: 4 PASS, 0 FAIL. 027A regression corrected. Caveats: Teste 3 conservadorismo (sugeriu Discussion Gate ao invés de READY direto), Teste 4 resposta curta sem 7 seções.
+
+Validation evidence is documented in `docs/validation/architect-candidate-028a-contextfix.md`.
+
+No model was promoted, copied, or removed. `ric-architect-qwen-v2:latest` unchanged. `ric-orchestrator-runtime:latest` unchanged. No commit. No push.
