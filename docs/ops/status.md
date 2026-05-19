@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime
+RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime
 
 ## Product mode
 
@@ -329,3 +329,21 @@ Latency caveat: cold-start API test took about 167 seconds; warm API tests took 
 Validation evidence is documented in `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`.
 
 No `ollama cp`, promotion, official runtime source alteration, harness implementation, model download, Git automation, app/UI change, commit, or push occurred during RIC-STUDIO-024A.
+
+RIC-STUDIO-024A is Remote DONE per current task context.
+
+RIC-STUDIO-025A was opened by explicit current request to promote the approved Qwen 7B candidate to the official local orchestrator runtime.
+
+RIC-STUDIO-025A is in REVIEW after backup, promotion, and smoke validation.
+
+Backup `ric-orchestrator-runtime:backup-before-025a` was created from previous `ric-orchestrator-runtime:latest` and preserves ID `2711dd3bc829`.
+
+Candidate `ric-orchestrator-candidate:024a-qwen25-coder-7b` was promoted to `ric-orchestrator-runtime:latest`.
+
+Post-promotion `ollama list` confirms `ric-orchestrator-runtime:latest` points to ID `9e5cdcf8a6ae`, matching the candidate ID. The runtime points to the promoted candidate ID, not a different derived ID.
+
+Smoke test passed: incomplete commit evidence returned `Decisão: COMMIT BLOQUEADO`, with no commit authorization.
+
+Validation evidence is documented in `docs/validation/runtime-promotion-025a.md`.
+
+No model download, Modelfile edit, harness implementation, app/UI change, Git automation, RIC-STUDIO-026A opening, commit, or push occurred during RIC-STUDIO-025A.

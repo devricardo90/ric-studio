@@ -1059,3 +1059,34 @@ Summary:
 - Did not run Git automation.
 - Did not touch app/UI or external projects.
 - Did not commit or push.
+
+## RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-025A by explicit current request to promote approved candidate `ric-orchestrator-candidate:024a-qwen25-coder-7b`.
+- Pre-promotion Git evidence: `git status --short --untracked-files=all` returned no file entries, only global ignore permission warnings; `git status -sb` returned `## main...origin/main`; `git diff --stat`, `git diff --check`, and `git diff --name-only` returned no output.
+- Pre-promotion `ollama list` confirmed candidate `ric-orchestrator-candidate:024a-qwen25-coder-7b` at expected ID `9e5cdcf8a6ae`, size 4.7 GB.
+- Pre-promotion `ollama list` confirmed official runtime `ric-orchestrator-runtime:latest` at expected previous ID `2711dd3bc829`, size 9.3 GB.
+- Pre-promotion `ollama list` showed no existing `ric-orchestrator-runtime:backup-before-025a`.
+- Created backup with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-025a`.
+- Backup output: `copied 'ric-orchestrator-runtime:latest' to 'ric-orchestrator-runtime:backup-before-025a'`.
+- Promoted with `ollama cp ric-orchestrator-candidate:024a-qwen25-coder-7b ric-orchestrator-runtime:latest`.
+- Promotion output: `copied 'ric-orchestrator-candidate:024a-qwen25-coder-7b' to 'ric-orchestrator-runtime:latest'`.
+- Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` now points to ID `9e5cdcf8a6ae`.
+- Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:backup-before-025a` preserves ID `2711dd3bc829`.
+- The official runtime points to the promoted candidate ID, not a different derived ID.
+- Smoke test prompt for incomplete commit evidence returned `Decisão: COMMIT BLOQUEADO`.
+- Smoke test did not authorize commit, `git add`, or `git commit`.
+- Ollama CLI emitted repeated ANSI spinner/control noise after the semantic smoke response.
+- Stopped runtime with `ollama stop ric-orchestrator-runtime:latest`; output contained ANSI spinner/control noise only.
+- Created `docs/validation/runtime-promotion-025a.md` with raw command evidence.
+- Did not download models.
+- Did not alter `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`.
+- Did not implement harness.
+- Did not touch app/UI or external projects.
+- Did not automate Git.
+- Did not open RIC-STUDIO-026A.
+- Did not commit or push.

@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime
+RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime
 
 ## Scope
 
-Criar runtime candidato separado baseado em `qwen2.5-coder:7b`, com Modelfile candidato e prompt operacional enxuto, tag `ric-orchestrator-candidate:024a-qwen25-coder-7b`, testes manuais de commit, push e Remote DONE, e registro de resultados. Sem promoção do runtime oficial.
+Promover localmente o candidato aprovado `ric-orchestrator-candidate:024a-qwen25-coder-7b` para `ric-orchestrator-runtime:latest`, criando backup `ric-orchestrator-runtime:backup-before-025a`, validando a promoção com `ollama list` e smoke test curto, e registrando evidência operacional.
 
 ## Allowed files
 
@@ -20,16 +20,15 @@ Criar runtime candidato separado baseado em `qwen2.5-coder:7b`, com Modelfile ca
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`
-- `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`
+- `docs/validation/runtime-promotion-025a.md`
 
 ## Blocked in this task
 
-Promover `ric-orchestrator-runtime:latest`, alterar `runtime/ric-orchestrator/Modelfile`, implementar harness, rodar automação Git, baixar modelos, deletar backup/modelo, alterar app/UI/projetos externos, commit sem autorização, push sem autorização.
+Baixar modelo novo, alterar Modelfile candidato, alterar `runtime/ric-orchestrator/Modelfile.024a-qwen25-coder-7b`, implementar harness, mexer em app/UI, automatizar Git, abrir RIC-STUDIO-026A, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline — REVIEW, 0 PASS / 5 FAIL por timeout/lentidão.
+RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime — Remote DONE, candidato aprovado `9e5cdcf8a6ae`.
 
 ## Gate status
 
@@ -246,6 +245,24 @@ Latency caveat: cold-start test took ~167s; warm API responses took ~21-29s.
 Validation evidence is documented in `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`.
 
 No `ollama cp`, no promotion to `ric-orchestrator-runtime:latest`, no official runtime source alteration, no harness implementation, no model download, no Git automation, no app/UI change, no commit, and no push occurred during RIC-STUDIO-024A.
+
+RIC-STUDIO-024A is Remote DONE per current task context.
+
+RIC-STUDIO-025A is in REVIEW after promoting approved Qwen 7B candidate `ric-orchestrator-candidate:024a-qwen25-coder-7b` to official runtime `ric-orchestrator-runtime:latest`.
+
+Pre-promotion evidence confirmed Git clean/synchronized, candidate ID `9e5cdcf8a6ae`, and previous official runtime ID `2711dd3bc829`.
+
+Backup was created with `ollama cp ric-orchestrator-runtime:latest ric-orchestrator-runtime:backup-before-025a`; backup preserves ID `2711dd3bc829`.
+
+Promotion was executed with `ollama cp ric-orchestrator-candidate:024a-qwen25-coder-7b ric-orchestrator-runtime:latest`.
+
+Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` now points to ID `9e5cdcf8a6ae`, matching the promoted candidate. The runtime points to the candidate ID, not a different derived ID.
+
+Smoke test against promoted official runtime returned `Decisão: COMMIT BLOQUEADO` for incomplete commit evidence and did not authorize commit. The Ollama CLI emitted terminal control/spinner noise after the semantic response.
+
+Validation evidence is documented in `docs/validation/runtime-promotion-025a.md`.
+
+No model download, Modelfile edit, harness implementation, app/UI change, Git automation, RIC-STUDIO-026A opening, commit, or push occurred during RIC-STUDIO-025A.
 
 Execution evidence for RIC-STUDIO-017A:
 

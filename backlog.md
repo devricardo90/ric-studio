@@ -37,11 +37,12 @@ No task is Local DONE.
 - RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
 - RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
 - RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests
+- RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime
 
 ## REVIEW
 
 - RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline (0 PASS, 5 FAIL — timeout, extended thinking not suppressed)
-- RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime (5 PASS, 0 FAIL — latency caveat)
+- RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime
 
 ## READY
 
@@ -49,7 +50,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-024A validation evidence in `docs/validation/runtime-candidate-024a-qwen25-coder-7b.md`. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-025A promotion evidence in `docs/validation/runtime-promotion-025a.md`. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
