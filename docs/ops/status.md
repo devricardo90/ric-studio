@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime
+RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow
 
 ## Product mode
 
@@ -340,16 +340,18 @@ Validation evidence is documented in `docs/validation/runtime-promotion-025a.md`
 
 RIC-STUDIO-026A was opened by explicit current request to create the RIC Architect candidate runtime based on `qwen2.5-coder:7b`.
 
-RIC-STUDIO-026A is in REVIEW after creating and testing architect candidate `ric-architect-candidate:026a-qwen25-coder-7b`.
+RIC-STUDIO-026A is Remote DONE. Architect candidate `ric-architect-candidate:026a-qwen25-coder-7b` (ID `c8cfc69738af`) created and validated with 4 PASS / 0 FAIL. Validation evidence: `docs/validation/architect-candidate-026a-qwen25-coder-7b.md`.
 
-Candidate source: `runtime/ric-architect/Modelfile.026a-qwen25-coder-7b`. Base: `qwen2.5-coder:7b`. Candidate ID: `c8cfc69738af`, size 4.7 GB.
+RIC-STUDIO-027A was opened by explicit current request to validate the two-model workflow.
 
-Test result: 4 PASS, 0 FAIL. Tests: ideia vaga (MVP recorte), task bem definida (escopo/validação/sem commit), pedido errado (bloqueou commit, redirecionou), stack/arquitetura (trade-off Django Admin vs React).
+RIC-STUDIO-027A is in REVIEW after executing the two mandatory model tests.
 
-Caveats: Teste 2 leve escopo drift (sugeriu guia interativo), Teste 3 resposta curta sem formato de 7 seções.
+Architect test result: FAIL. Candidate misinterpreted "harness" as Harness.io (external CI/CD product) and recommended building a GUI for pipelines. Root cause: no RIC Studio domain context in prompt. Not a systemic logic failure — a context failure.
 
-`ric-architect-qwen-v2:latest` não foi alterado. `ric-orchestrator-runtime:latest` não foi alterado.
+Orchestrator test result: PASS. `COMMIT BLOQUEADO` returned correctly for incomplete evidence (missing `git status --short --untracked-files=all`, missing `git diff --check`, unauditable new file in docs/validation). No commit authorized.
 
-Validation evidence is documented in `docs/validation/architect-candidate-026a-qwen25-coder-7b.md`.
+Combined result: 1 PASS, 1 FAIL.
 
-No model download, no official runtime alteration, no harness, no app/UI change, no Git automation, no commit, no push occurred during RIC-STUDIO-026A.
+Validation evidence is documented in `docs/validation/two-model-workflow-027a.md`.
+
+No model was altered, promoted, copied, or removed. No harness, no app/UI, no Git automation, no commit, no push occurred during RIC-STUDIO-027A.

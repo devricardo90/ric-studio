@@ -2,7 +2,19 @@
 
 ## Current handoff state
 
-RIC-STUDIO-026A is in REVIEW as `Create Qwen 7B RIC Architect Candidate Runtime`.
+RIC-STUDIO-027A is in REVIEW as `Validate Architect And Orchestrator Two-Model Workflow`.
+
+Architect test (candidate `ric-architect-candidate:026a-qwen25-coder-7b`): FAIL. Model misinterpreted "harness" as Harness.io and recommended building a UI for external CI/CD pipelines. Root cause: no domain context in prompt. Not a systemic logic failure.
+
+Orchestrator test (`ric-orchestrator-runtime:latest`): PASS. Returned `COMMIT BLOQUEADO` correctly for incomplete evidence (missing git status --short, missing git diff --check, unauditable new file). No commit authorized.
+
+Combined: 1 PASS, 1 FAIL.
+
+Evidence: `docs/validation/two-model-workflow-027a.md`.
+
+No model altered, promoted, copied, or removed. No commit. No push. Awaiting Trigger review.
+
+RIC-STUDIO-026A is Remote DONE as `Create Qwen 7B RIC Architect Candidate Runtime`.
 
 Candidate `ric-architect-candidate:026a-qwen25-coder-7b` was created from `runtime/ric-architect/Modelfile.026a-qwen25-coder-7b`, using base `qwen2.5-coder:7b`. Candidate ID is `c8cfc69738af`, size 4.7 GB.
 

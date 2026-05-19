@@ -1115,3 +1115,24 @@ Summary:
 - Did not touch app/UI or external projects.
 - Did not automate Git.
 - Did not commit or push.
+
+## RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-027A by explicit current request to validate the two-model workflow (Architect candidate + Orchestrator official).
+- Ran Teste 1: `ollama run ric-architect-candidate:026a-qwen25-coder-7b` with ideia vaga prompt requesting harness, Git integration, UI and automation next step.
+- Architect test result: FAIL. The model misinterpreted "harness" as Harness.io (external CI/CD) and recommended building a UI for external pipelines. It did not propose a small internal validation slice or Discussion Gate. Root cause: no RIC Studio domain context in the prompt.
+- Ran Teste 2: `ollama run ric-orchestrator-runtime:latest` with commit gate scenario: task in REVIEW, only git diff --stat shown, missing git status --short, missing git diff --check, possible new untracked file.
+- Orchestrator test result: PASS. Returned `COMMIT BLOQUEADO`. Motivo: faltam evidências obrigatórias, novo arquivo não auditável. Pediu git status --short, git diff --check e diffs brutos por arquivo. Did not authorize commit.
+- Combined result: 1 PASS, 1 FAIL.
+- Created `docs/validation/two-model-workflow-027a.md` with full test outputs, analysis, root cause, and conclusion.
+- Did not alter any model tag.
+- Did not promote `ric-architect-qwen-v2:latest` or `ric-orchestrator-runtime:latest`.
+- Did not execute `ollama cp`, `ollama create`, or `ollama rm`.
+- Did not implement harness.
+- Did not touch app/UI or external projects.
+- Did not automate Git.
+- Did not commit or push.
