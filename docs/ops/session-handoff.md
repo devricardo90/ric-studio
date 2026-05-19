@@ -2,6 +2,20 @@
 
 ## Current handoff state
 
+RIC-STUDIO-026A is in REVIEW as `Create Qwen 7B RIC Architect Candidate Runtime`.
+
+Candidate `ric-architect-candidate:026a-qwen25-coder-7b` was created from `runtime/ric-architect/Modelfile.026a-qwen25-coder-7b`, using base `qwen2.5-coder:7b`. Candidate ID is `c8cfc69738af`, size 4.7 GB.
+
+Test result: 4 PASS, 0 FAIL across ideia vaga (MVP recorte), task bem definida (escopo/validação/sem commit), pedido errado (bloqueou commit, redirecionou ao Orchestrator), e stack/arquitetura (trade-off Django Admin vs React).
+
+Caveats: Teste 2 leve escopo drift; Teste 3 resposta sem formato de 7 seções.
+
+Evidence: `docs/validation/architect-candidate-026a-qwen25-coder-7b.md`.
+
+`ric-architect-qwen-v2:latest` não foi alterado. `ric-orchestrator-runtime:latest` não foi alterado.
+
+Awaiting Trigger review before commit and push.
+
 RIC-STUDIO-019A is Remote DONE and synchronized with `origin/main` at commit `6d50192`.
 
 RIC-STUDIO-021A is Remote DONE and synchronized with `origin/main` at commit `6adf295`.

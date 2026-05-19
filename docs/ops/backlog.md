@@ -14,7 +14,8 @@
 ## REVIEW
 
 - RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. 0 PASS, 5 FAIL. Extended thinking not suppressible in current Ollama 0.24.0 / CPU-hybrid configuration.
-- RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime. Runtime promoted locally; backup created; smoke passed.
+- RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime. Remote DONE.
+- RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime. REVIEW — candidate `ric-architect-candidate:026a-qwen25-coder-7b` (ID `c8cfc69738af`) criado e testado. 4 PASS, 0 FAIL. Sem commit.
 
 ## READY
 
@@ -58,7 +59,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-025A promotion evidence in `docs/validation/runtime-promotion-025a.md`. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-026A evidence in `docs/validation/architect-candidate-026a-qwen25-coder-7b.md`. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

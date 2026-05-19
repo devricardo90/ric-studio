@@ -1090,3 +1090,28 @@ Summary:
 - Did not automate Git.
 - Did not open RIC-STUDIO-026A.
 - Did not commit or push.
+
+## RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-026A by explicit current request to create the RIC Architect candidate runtime.
+- Created directory `runtime/ric-architect/` (new — did not exist).
+- Created `runtime/ric-architect/Modelfile.026a-qwen25-coder-7b` with FROM qwen2.5-coder:7b, seed 42, temperature 0, top_p 0.5, num_ctx 4096, num_predict 600, and SYSTEM prompt defining RIC Architect identity, role, format, and absolute rules.
+- Created candidate with `ollama create ric-architect-candidate:026a-qwen25-coder-7b -f runtime/ric-architect/Modelfile.026a-qwen25-coder-7b`. Output: success.
+- Post-create `ollama list` confirmed `ric-architect-candidate:026a-qwen25-coder-7b` at ID `c8cfc69738af`, size 4.7 GB.
+- Teste 1 (ideia vaga): candidate recommended MVP focused on financial+stock, excluded IA and Dashboard from scope, did not promote to READY — PASS.
+- Teste 2 (task bem definida): candidate defined scope, fora de escopo (no code, no backend), validation criteria, did not authorize commit — PASS with caveat (leve escopo drift: suggested "guia interativo online").
+- Teste 3 (pedido errado para Architect): candidate blocked commit and redirected to RIC Local Orchestrator — PASS with caveat (response too short, no 7-section format, no evidence request).
+- Teste 4 (stack/arquitetura): candidate defended Django Admin for MVP, explained React trade-off, proposed concrete next step — PASS.
+- Final result: 4 PASS, 0 FAIL.
+- Created `docs/validation/architect-candidate-026a-qwen25-coder-7b.md` with full test evidence and decision: candidate aprovado.
+- Did not alter `ric-architect-qwen-v2:latest`.
+- Did not alter `ric-orchestrator-runtime:latest` or any Orchestrator runtime.
+- Did not download models.
+- Did not implement harness.
+- Did not touch app/UI or external projects.
+- Did not automate Git.
+- Did not commit or push.

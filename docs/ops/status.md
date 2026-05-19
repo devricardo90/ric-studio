@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime
+RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime
 
 ## Product mode
 
@@ -334,16 +334,22 @@ RIC-STUDIO-024A is Remote DONE per current task context.
 
 RIC-STUDIO-025A was opened by explicit current request to promote the approved Qwen 7B candidate to the official local orchestrator runtime.
 
-RIC-STUDIO-025A is in REVIEW after backup, promotion, and smoke validation.
-
-Backup `ric-orchestrator-runtime:backup-before-025a` was created from previous `ric-orchestrator-runtime:latest` and preserves ID `2711dd3bc829`.
-
-Candidate `ric-orchestrator-candidate:024a-qwen25-coder-7b` was promoted to `ric-orchestrator-runtime:latest`.
-
-Post-promotion `ollama list` confirms `ric-orchestrator-runtime:latest` points to ID `9e5cdcf8a6ae`, matching the candidate ID. The runtime points to the promoted candidate ID, not a different derived ID.
-
-Smoke test passed: incomplete commit evidence returned `Decisão: COMMIT BLOQUEADO`, with no commit authorization.
+RIC-STUDIO-025A is Remote DONE. Backup `ric-orchestrator-runtime:backup-before-025a` preserves ID `2711dd3bc829`. Candidate promoted to `ric-orchestrator-runtime:latest` (ID `9e5cdcf8a6ae`). Smoke passed.
 
 Validation evidence is documented in `docs/validation/runtime-promotion-025a.md`.
 
-No model download, Modelfile edit, harness implementation, app/UI change, Git automation, RIC-STUDIO-026A opening, commit, or push occurred during RIC-STUDIO-025A.
+RIC-STUDIO-026A was opened by explicit current request to create the RIC Architect candidate runtime based on `qwen2.5-coder:7b`.
+
+RIC-STUDIO-026A is in REVIEW after creating and testing architect candidate `ric-architect-candidate:026a-qwen25-coder-7b`.
+
+Candidate source: `runtime/ric-architect/Modelfile.026a-qwen25-coder-7b`. Base: `qwen2.5-coder:7b`. Candidate ID: `c8cfc69738af`, size 4.7 GB.
+
+Test result: 4 PASS, 0 FAIL. Tests: ideia vaga (MVP recorte), task bem definida (escopo/validação/sem commit), pedido errado (bloqueou commit, redirecionou), stack/arquitetura (trade-off Django Admin vs React).
+
+Caveats: Teste 2 leve escopo drift (sugeriu guia interativo), Teste 3 resposta curta sem formato de 7 seções.
+
+`ric-architect-qwen-v2:latest` não foi alterado. `ric-orchestrator-runtime:latest` não foi alterado.
+
+Validation evidence is documented in `docs/validation/architect-candidate-026a-qwen25-coder-7b.md`.
+
+No model download, no official runtime alteration, no harness, no app/UI change, no Git automation, no commit, no push occurred during RIC-STUDIO-026A.
