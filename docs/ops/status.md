@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime
+RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios
 
 ## Product mode
 
@@ -365,3 +365,17 @@ Smoke tests against promoted runtime: 4 PASS, 1 FAIL.
 Backup `ric-architect-qwen-v2:backup-before-028b` available for rollback if Trigger decides FAIL is blocking.
 
 Validation evidence is documented in `docs/validation/runtime-promotion-028b.md`. No commit. No push.
+
+RIC-STUDIO-029A was opened by explicit current request to validate both official runtimes in realistic production workflow scenarios.
+
+Manual validation was executed against `ric-architect-qwen-v2:latest` and `ric-orchestrator-runtime:latest`.
+
+Result across model calls: 2 PASS, 3 CAVEAT, 1 FAIL.
+
+- PASS: Orchestrator blocked incomplete commit evidence in both commit-gate scenarios.
+- CAVEAT: Architect gave safe but generic/conservative answers for DayBudget and BioLoop, and proposed possible schema work for Clinic Booking Mini without first verifying existing lifecycle fields.
+- FAIL: Architect repeated the known stack trade-off weakness by recommending Django Admin plus separate React for a simple administrative MVP.
+
+Evidence is documented in `docs/validation/two-model-production-workflow-029a.md`.
+
+No Modelfile change, candidate creation, runtime promotion, `ollama cp`, harness, external app change, commit, or push occurred during RIC-STUDIO-029A.

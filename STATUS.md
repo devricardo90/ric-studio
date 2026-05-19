@@ -1,4 +1,4 @@
-# RIC Studio Status
+﻿# RIC Studio Status
 
 ## Current state
 
@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime
+RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios
 
 ## Scope
 
-Promover `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` para `ric-architect-qwen-v2:latest`. Criar backup antes da promoção. Executar 5 smoke tests obrigatórios contra o runtime oficial promovido. Documentar em `docs/validation/runtime-promotion-028b.md`. Sem commit, sem push.
+Validar os runtimes oficiais `ric-architect-qwen-v2:latest` e `ric-orchestrator-runtime:latest` em cenarios realistas de workflow. Registrar prompts, respostas, tempos aproximados, PASS/FAIL/CAVEAT, falhas recorrentes e recomendacoes em `docs/validation/two-model-production-workflow-029a.md`. Atualizar documentacao operacional. Sem commit, sem push.
 
 ## Allowed files
 
@@ -20,15 +20,15 @@ Promover `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` para `ric-arc
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/runtime-promotion-028b.md`
+- `docs/validation/two-model-production-workflow-029a.md`
 
 ## Blocked in this task
 
-Criar harness técnico, criar UI, integrar Git, integrar IDE, alterar Orchestrator, criar novo Modelfile, trocar modelo base, fine-tuning, abrir RIC-STUDIO-029A automaticamente, commit sem autorização explícita do Trigger, push.
+Alterar Modelfile, criar novo candidate, promover runtime, executar `ollama cp`, criar harness tecnico, criar UI, automatizar Git, alterar projetos externos, alterar codigo de apps externos, fazer fine-tuning, baixar modelo novo, abrir RIC-STUDIO-030A, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate — Remote DONE.
+RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime - Remote DONE per current task context, with known 4 PASS / 1 FAIL caveat.
 
 ## Gate status
 
@@ -224,9 +224,9 @@ RIC-STUDIO-023A was opened as READY by explicit current request after Discussion
 
 RIC-STUDIO-023A is in REVIEW after 5 manual tests against `ric-orchestrator-runtime:latest`.
 
-Result: 0 PASS, 5 FAIL. All tests failed by timeout/lentidão. Root cause: Qwen3 14B in thinking mode with predominantly CPU inference (~6.6 GB of 10 GB on RAM); Ollama 0.24.0 buffers the entire think block before transmitting any response token. `/no_think` via CLI and `think: false` via REST API did not suppress thinking. No response token was produced in any test within the 5-minute limit.
+Result: 0 PASS, 5 FAIL. All tests failed by timeout/lentidÃ£o. Root cause: Qwen3 14B in thinking mode with predominantly CPU inference (~6.6 GB of 10 GB on RAM); Ollama 0.24.0 buffers the entire think block before transmitting any response token. `/no_think` via CLI and `think: false` via REST API did not suppress thinking. No response token was produced in any test within the 5-minute limit.
 
-Latency baseline: impractical. Time to first token: undetermined (> 300s for Test 1, > 30s for Tests 2–5).
+Latency baseline: impractical. Time to first token: undetermined (> 300s for Test 1, > 30s for Tests 2â€“5).
 
 Evidence documented in `docs/validation/runtime-behavior-latency-023a.md`.
 
@@ -252,21 +252,32 @@ RIC-STUDIO-025A is Remote DONE. Promoted approved Qwen 7B candidate `ric-orchest
 
 RIC-STUDIO-026A is Remote DONE. Architect candidate `ric-architect-candidate:026a-qwen25-coder-7b` (ID `c8cfc69738af`) created and validated with 4 PASS / 0 FAIL. Validation evidence: `docs/validation/architect-candidate-026a-qwen25-coder-7b.md`.
 
-RIC-STUDIO-027A is Remote DONE. Combined test result: 1 PASS (Orchestrator), 1 FAIL (Architect — harness domain confusion). Validation evidence: `docs/validation/two-model-workflow-027a.md`.
+RIC-STUDIO-027A is Remote DONE. Combined test result: 1 PASS (Orchestrator), 1 FAIL (Architect â€” harness domain confusion). Validation evidence: `docs/validation/two-model-workflow-027a.md`.
 
 RIC-STUDIO-028A is Remote DONE. Context-fixed Architect candidate created and validated. 4 PASS, 0 FAIL. Validation evidence: `docs/validation/architect-candidate-028a-contextfix.md`.
 
-RIC-STUDIO-028B is in REVIEW after promoting the candidate and executing 5 smoke tests against `ric-architect-qwen-v2:latest`.
+RIC-STUDIO-028B is Remote DONE per current task context after promoting the candidate and executing 5 smoke tests against `ric-architect-qwen-v2:latest`.
 
 Pre-promotion Git was clean and synchronized. Backup `ric-architect-qwen-v2:backup-before-028b` (ID `6a94ce329010`) created before promotion. Candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`) promoted to `ric-architect-qwen-v2:latest`.
 
 Smoke test result: 4 PASS, 1 FAIL.
-- PASS: harness ambíguo (no Harness.io, blocked scope), ideia vaga (Discussion Gate), task bem definida (harness interno recognized), commit bloqueado.
-- FAIL: smoke test 5 (stack trade-off) — model recommended React over Django Admin for a simple admin app, citing "MVP first" but choosing the more complex stack. Root cause: model cannot consistently apply MVP = simplicity to stack-choice questions.
+- PASS: harness ambÃ­guo (no Harness.io, blocked scope), ideia vaga (Discussion Gate), task bem definida (harness interno recognized), commit bloqueado.
+- FAIL: smoke test 5 (stack trade-off) â€” model recommended React over Django Admin for a simple admin app, citing "MVP first" but choosing the more complex stack. Root cause: model cannot consistently apply MVP = simplicity to stack-choice questions.
 
 Backup available at `ric-architect-qwen-v2:backup-before-028b` for rollback if Trigger decides FAIL is blocking.
 
 Validation evidence: `docs/validation/runtime-promotion-028b.md`. No commit. No push.
+
+RIC-STUDIO-029A is in REVIEW after manual validation of the two official runtimes in realistic workflow scenarios.
+
+Runtimes tested: `ric-architect-qwen-v2:latest` and `ric-orchestrator-runtime:latest`.
+
+Result across model calls: 2 PASS, 3 CAVEAT, 1 FAIL.
+- PASS: Orchestrator blocked incomplete commit evidence in both commit-gate scenarios.
+- CAVEAT: Architect was safe but generic/conservative on DayBudget and BioLoop, and proposed possible schema work for Clinic Booking Mini without first verifying existing lifecycle fields.
+- FAIL: Architect repeated the known stack trade-off weakness by recommending Django Admin plus separate React for a simple administrative MVP.
+
+Validation evidence: `docs/validation/two-model-production-workflow-029a.md`. No Modelfile change. No candidate creation. No runtime promotion. No `ollama cp`. No commit. No push.
 
 Pre-promotion evidence confirmed Git clean/synchronized, candidate ID `9e5cdcf8a6ae`, and previous official runtime ID `2711dd3bc829`.
 
@@ -276,7 +287,7 @@ Promotion was executed with `ollama cp ric-orchestrator-candidate:024a-qwen25-co
 
 Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` now points to ID `9e5cdcf8a6ae`, matching the promoted candidate. The runtime points to the candidate ID, not a different derived ID.
 
-Smoke test against promoted official runtime returned `Decisão: COMMIT BLOQUEADO` for incomplete commit evidence and did not authorize commit. The Ollama CLI emitted terminal control/spinner noise after the semantic response.
+Smoke test against promoted official runtime returned `DecisÃ£o: COMMIT BLOQUEADO` for incomplete commit evidence and did not authorize commit. The Ollama CLI emitted terminal control/spinner noise after the semantic response.
 
 Validation evidence is documented in `docs/validation/runtime-promotion-025a.md`.
 

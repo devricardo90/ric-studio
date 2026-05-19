@@ -2,7 +2,24 @@
 
 ## Current handoff state
 
-RIC-STUDIO-028B is in REVIEW as `Promote Architect Contextfix Candidate To Official Runtime`.
+RIC-STUDIO-029A is in REVIEW as `Validate Official Architect And Orchestrator With Real Workflow Scenarios`.
+
+Manual validation was executed against official runtimes:
+
+- Architect: `ric-architect-qwen-v2:latest`.
+- Orchestrator: `ric-orchestrator-runtime:latest`.
+
+Result across model calls: 2 PASS, 3 CAVEAT, 1 FAIL.
+
+- PASS: Orchestrator blocked incomplete commit evidence in both commit-gate scenarios.
+- CAVEAT: Architect was safe but generic/conservative on DayBudget and BioLoop, and proposed possible schema work for Clinic Booking Mini without first verifying existing lifecycle fields.
+- FAIL: Architect repeated the known stack trade-off weakness by recommending Django Admin plus separate React for a simple administrative MVP.
+
+Evidence: `docs/validation/two-model-production-workflow-029a.md`.
+
+No Modelfile change, candidate creation, runtime promotion, `ollama cp`, harness, external app change, commit, or push occurred.
+
+RIC-STUDIO-028B is Remote DONE per current task context as `Promote Architect Contextfix Candidate To Official Runtime`.
 
 `ric-architect-qwen-v2:latest` promoted to ID `b2ba1b3efeae` (from `ric-architect-candidate:028a-qwen25-coder-7b-contextfix`). Backup `ric-architect-qwen-v2:backup-before-028b` preserves ID `6a94ce329010`.
 
@@ -12,7 +29,7 @@ Smoke test result: 4 PASS, 1 FAIL.
 
 Evidence: `docs/validation/runtime-promotion-028b.md`.
 
-Trigger must decide: accept FAIL as known caveat and authorize commit, or rollback via `ollama cp ric-architect-qwen-v2:backup-before-028b ric-architect-qwen-v2:latest`.
+The 028B FAIL is retained as a known caveat and did not block RIC-STUDIO-029A validation.
 
 No commit. No push.
 

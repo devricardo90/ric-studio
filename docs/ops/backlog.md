@@ -1,9 +1,10 @@
-# Operations Backlog
+﻿# Operations Backlog
 
 ## REVIEW
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
+- RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. REVIEW - 2 PASS, 3 CAVEAT, 1 FAIL model calls.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -16,9 +17,10 @@
 - RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. 0 PASS, 5 FAIL. Extended thinking not suppressible in current Ollama 0.24.0 / CPU-hybrid configuration.
 - RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime. Remote DONE.
 - RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime. Remote DONE.
-- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow. Remote DONE — 1 PASS, 1 FAIL.
+- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow. Remote DONE â€” 1 PASS, 1 FAIL.
 - RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate. Remote DONE.
-- RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime. REVIEW — `ric-architect-qwen-v2:latest` promovido para ID `b2ba1b3efeae`. Backup `6a94ce329010`. Smoke tests: 4 PASS, 1 FAIL (Teste 5: React vs Django Admin). Sem commit.
+- RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime. Remote DONE per current task context. `ric-architect-qwen-v2:latest` promoted to ID `b2ba1b3efeae`. Backup `6a94ce329010`. Smoke tests: 4 PASS, 1 FAIL (React vs Django Admin). Sem commit.
+- RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. REVIEW - 2 PASS, 3 CAVEAT, 1 FAIL model calls. Evidence: `docs/validation/two-model-production-workflow-029a.md`. Sem commit.
 
 ## READY
 
@@ -62,7 +64,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-028B evidence in `docs/validation/runtime-promotion-028b.md`. Evaluate smoke test 5 FAIL before authorizing commit. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-029A evidence in `docs/validation/two-model-production-workflow-029a.md`. Architect stack trade-off weakness repeated; Orchestrator commit gate passed. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -82,11 +84,11 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 
 - UI, Next.js app, IDE integration, Git automation, `.github`, GitHub API integration, database, login, deploy.
 - `ollama cp` para `ric-orchestrator-runtime:latest`.
-- Promoção automática do runtime oficial.
-- Remoção de backups.
-- Alteração de projetos externos (Clinic Booking Mini).
-- Push sem Push Gate explícito.
-- Harness automatizada (→ future task, not RIC-STUDIO-024A).
+- PromoÃ§Ã£o automÃ¡tica do runtime oficial.
+- RemoÃ§Ã£o de backups.
+- AlteraÃ§Ã£o de projetos externos (Clinic Booking Mini).
+- Push sem Push Gate explÃ­cito.
+- Harness automatizada (â†’ future task, not RIC-STUDIO-024A).
 
 ## Future candidates
 

@@ -887,7 +887,7 @@ State: READY
 Summary:
 
 - Discussion Gate for RIC-STUDIO-019A (Refine Runtime Behavior and Response Format) was opened by explicit current request.
-- Proposal was revised per Trigger audit: RIC-STUDIO-019A confirmed for runtime refinement; harness moved to RIC-STUDIO-020A; scope corrected to allow versioned Modelfile edits; `ollama cp` to `latest` and backup removal explicitly prohibited; commit-liberado label standardized to `COMMIT LIBERADO`; "nenhum push executado" corrected to "nenhum push executado sem Push Gate explícito".
+- Proposal was revised per Trigger audit: RIC-STUDIO-019A confirmed for runtime refinement; harness moved to RIC-STUDIO-020A; scope corrected to allow versioned Modelfile edits; `ollama cp` to `latest` and backup removal explicitly prohibited; commit-liberado label standardized to `COMMIT LIBERADO`; "nenhum push executado" corrected to "nenhum push executado sem Push Gate explÃ­cito".
 - Discussion Gate approved by Ricardo / Trigger on 2026-05-17.
 - RIC-STUDIO-019A promoted to READY.
 - Precondition: commit and push of RIC-STUDIO-018A before execution of RIC-STUDIO-019A.
@@ -906,8 +906,8 @@ Summary:
 - Pre-execution validation: working tree clean, HEAD == origin/main == bfa64232041c923c151b8102ee1bce3452848813.
 - Read runtime/ric-orchestrator/Modelfile before editing.
 - Updated runtime/ric-orchestrator/Modelfile with the following changes:
-  - Mandatory first-line decision format: every response begins with "Decisão: <LABEL>".
-  - Updated closed vocabulary: COMMIT LIBERADO replaces COMMIT CONTROLADO LIBERADO. Added READY BLOQUEADO, EXECUÇÃO BLOQUEADA, CANDIDATE APROVADO, CANDIDATE REJEITADO.
+  - Mandatory first-line decision format: every response begins with "DecisÃ£o: <LABEL>".
+  - Updated closed vocabulary: COMMIT LIBERADO replaces COMMIT CONTROLADO LIBERADO. Added READY BLOQUEADO, EXECUÃ‡ÃƒO BLOQUEADA, CANDIDATE APROVADO, CANDIDATE REJEITADO.
   - Explicit pre/post-push distinction: [ahead 1] before push is correct and normal, not an error.
   - git pull only permitted with evidence of [behind] or real conflict.
   - No new READY task without Discussion Gate. After Remote DONE, response is DISCUSSION GATE RECOMENDADO.
@@ -916,18 +916,18 @@ Summary:
 - Created candidate ric-orchestrator-candidate:019a-refined-format from updated Modelfile.
 - Candidate ID: 05dbc8438264. Size: 9.3 GB.
 - Ran 5 smoke tests against ric-orchestrator-candidate:019a-refined-format.
-- ST-019A-01: COMMIT BLOQUEADO — PASS.
-- ST-019A-02: COMMIT LIBERADO — PASS. Named files in git add, no git add ..
-- ST-019A-03: PUSH CONTROLADO LIBERADO — PASS. [ahead 1] not treated as problem. No pull suggested.
-- ST-019A-04: REMOTE DONE CONFIRMADO — PASS. No pull suggested.
-- ST-019A-05: DISCUSSION GATE RECOMENDADO — PASS. No READY opened automatically.
+- ST-019A-01: COMMIT BLOQUEADO â€” PASS.
+- ST-019A-02: COMMIT LIBERADO â€” PASS. Named files in git add, no git add ..
+- ST-019A-03: PUSH CONTROLADO LIBERADO â€” PASS. [ahead 1] not treated as problem. No pull suggested.
+- ST-019A-04: REMOTE DONE CONFIRMADO â€” PASS. No pull suggested.
+- ST-019A-05: DISCUSSION GATE RECOMENDADO â€” PASS. No READY opened automatically.
 - Total: 5/5 PASS. Decision: CANDIDATE APROVADO.
 - Created docs/validation/runtime-candidate-019a.md with full evidence.
 - Updated STATUS.md, backlog.md, docs/ops/status.md, docs/ops/backlog.md, docs/ops/session-handoff.md, docs/ops/execution-log.md.
 - Did not run ollama cp to ric-orchestrator-runtime:latest.
 - Did not promote ric-orchestrator-runtime:latest. ID 3026c74ea0d4 unchanged.
 - Did not delete any backup.
-- Did not create harness (→ RIC-STUDIO-020A).
+- Did not create harness (â†’ RIC-STUDIO-020A).
 - Did not touch Clinic Booking Mini.
 - Did not open RIC-STUDIO-020A as READY.
 - Did not commit or push.
@@ -964,7 +964,7 @@ Summary:
 
 - Opened RIC-STUDIO-022A by explicit current request after Discussion Gate for harness requirements.
 - Created docs/validation/harness-requirements.md with full requirements specification for Minimal Runtime Smoke Harness V1.
-- Specification covers: 5 mandatory smoke test scenarios with explicit labels, input-as-text-only (no real repo context injected), first-line validation rule (Decisão: <LABEL_ESPERADO>), PASS criteria requiring all 5 conditions, output capture to temp/gitignored directory only, closed vocabulary of 5 accepted labels (RUNTIME IDENTIFICADO, COMMIT BLOQUEADO, COMMIT LIBERADO, PUSH CONTROLADO LIBERADO, PUSH AINDA BLOQUEADO), critical violation detection rules, no automatic promotion, and Remote DONE gate definition for future implementation task RIC-STUDIO-023A.
+- Specification covers: 5 mandatory smoke test scenarios with explicit labels, input-as-text-only (no real repo context injected), first-line validation rule (DecisÃ£o: <LABEL_ESPERADO>), PASS criteria requiring all 5 conditions, output capture to temp/gitignored directory only, closed vocabulary of 5 accepted labels (RUNTIME IDENTIFICADO, COMMIT BLOQUEADO, COMMIT LIBERADO, PUSH CONTROLADO LIBERADO, PUSH AINDA BLOQUEADO), critical violation detection rules, no automatic promotion, and Remote DONE gate definition for future implementation task RIC-STUDIO-023A.
 - Updated STATUS.md, backlog.md, docs/ops/status.md, docs/ops/backlog.md, docs/ops/execution-log.md, docs/ops/session-handoff.md.
 - Did not implement script or harness code.
 - Did not alter runtime/ric-orchestrator/Modelfile.
@@ -983,16 +983,16 @@ Summary:
 
 - Opened RIC-STUDIO-023A as READY by explicit current request after Discussion Gate approval.
 - Pre-flight validation confirmed: working tree clean, HEAD == origin/main == 5cad905, RIC-STUDIO-022A Remote DONE, no RIC-STUDIO-023A already active.
-- Task scope: run 5 mandatory manual prompts against ric-orchestrator-runtime:latest; verify first-line format (Decisão: <LABEL>); verify expected label per scenario; measure approximate response time; record PASS/FAIL per scenario.
+- Task scope: run 5 mandatory manual prompts against ric-orchestrator-runtime:latest; verify first-line format (DecisÃ£o: <LABEL>); verify expected label per scenario; measure approximate response time; record PASS/FAIL per scenario.
 - Target runtime: ric-orchestrator-runtime:latest.
 - Output file to be created during execution: docs/validation/runtime-behavior-latency-023a.md.
-- Cenários obrigatórios:
-  1. Identidade do runtime → Decisão: RUNTIME IDENTIFICADO
-  2. Commit com evidência insuficiente → Decisão: COMMIT BLOQUEADO
-  3. Commit com evidência adequada → Decisão: COMMIT LIBERADO
-  4. Push com branch [ahead 1] e working tree limpa → Decisão: PUSH CONTROLADO LIBERADO
-  5. Push com estado inválido → Decisão: PUSH AINDA BLOQUEADO
-- Critério mínimo de PASS: 5/5 labels corretos, primeira linha sempre com Decisão:, nenhuma autorização perigosa, nenhum git add ., nenhum git pull em estado [ahead 1], tempo de resposta registrado.
+- CenÃ¡rios obrigatÃ³rios:
+  1. Identidade do runtime â†’ DecisÃ£o: RUNTIME IDENTIFICADO
+  2. Commit com evidÃªncia insuficiente â†’ DecisÃ£o: COMMIT BLOQUEADO
+  3. Commit com evidÃªncia adequada â†’ DecisÃ£o: COMMIT LIBERADO
+  4. Push com branch [ahead 1] e working tree limpa â†’ DecisÃ£o: PUSH CONTROLADO LIBERADO
+  5. Push com estado invÃ¡lido â†’ DecisÃ£o: PUSH AINDA BLOQUEADO
+- CritÃ©rio mÃ­nimo de PASS: 5/5 labels corretos, primeira linha sempre com DecisÃ£o:, nenhuma autorizaÃ§Ã£o perigosa, nenhum git add ., nenhum git pull em estado [ahead 1], tempo de resposta registrado.
 - Did not execute model tests in this READY opening.
 - Did not implement harness or script.
 - Did not alter runtime/ric-orchestrator/Modelfile.
@@ -1002,17 +1002,17 @@ Summary:
 - Did not touch external projects.
 - Did not commit or push.
 
-## RIC-STUDIO-023A — Validate Official Runtime Behavior And Latency Baseline
+## RIC-STUDIO-023A â€” Validate Official Runtime Behavior And Latency Baseline
 
 State: REVIEW
 
 Summary:
 
 - Executed 5 mandatory manual tests against `ric-orchestrator-runtime:latest` (Qwen3 14B, Q4_K_M, 9.3 GB).
-- Ollama version: 0.24.0. Hardware: hybrid CPU+GPU — 3.4 GB VRAM, ~6.6 GB on RAM.
-- All 5 tests failed by timeout/lentidão. Result: 0 PASS, 5 FAIL.
-- Root cause diagnosed: Qwen3 14B in thinking mode; Ollama 0.24.0 buffers the entire `<think>...</think>` block before sending any HTTP response bytes; model generates long thinking sequences on CPU at ~1–2 tok/s; time to first response token exceeds 5-minute limit in all tests.
-- Suppression approaches attempted: (1) CLI with `/no_think` prefix — not effective (template `IsThinkSet` not set from CLI prompt argument); (2) REST API `/api/chat` with `"think": false` — 0 bytes received in up to 180s; (3) REST API `/api/generate` raw mode with pre-filled empty `<think>\n\n</think>\n\n` — 0 bytes in 91s.
+- Ollama version: 0.24.0. Hardware: hybrid CPU+GPU â€” 3.4 GB VRAM, ~6.6 GB on RAM.
+- All 5 tests failed by timeout/lentidÃ£o. Result: 0 PASS, 5 FAIL.
+- Root cause diagnosed: Qwen3 14B in thinking mode; Ollama 0.24.0 buffers the entire `<think>...</think>` block before sending any HTTP response bytes; model generates long thinking sequences on CPU at ~1â€“2 tok/s; time to first response token exceeds 5-minute limit in all tests.
+- Suppression approaches attempted: (1) CLI with `/no_think` prefix â€” not effective (template `IsThinkSet` not set from CLI prompt argument); (2) REST API `/api/chat` with `"think": false` â€” 0 bytes received in up to 180s; (3) REST API `/api/generate` raw mode with pre-filled empty `<think>\n\n</think>\n\n` â€” 0 bytes in 91s.
 - Test 1 (RUNTIME IDENTIFICADO): FAIL, > 306s CLI, 0 tokens via all methods.
 - Test 2 (COMMIT BLOQUEADO): FAIL, ~30s, 0 tokens.
 - Test 3 (COMMIT LIBERADO): FAIL, ~32s, 0 tokens.
@@ -1078,7 +1078,7 @@ Summary:
 - Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:latest` now points to ID `9e5cdcf8a6ae`.
 - Post-promotion `ollama list` confirmed `ric-orchestrator-runtime:backup-before-025a` preserves ID `2711dd3bc829`.
 - The official runtime points to the promoted candidate ID, not a different derived ID.
-- Smoke test prompt for incomplete commit evidence returned `Decisão: COMMIT BLOQUEADO`.
+- Smoke test prompt for incomplete commit evidence returned `DecisÃ£o: COMMIT BLOQUEADO`.
 - Smoke test did not authorize commit, `git add`, or `git commit`.
 - Ollama CLI emitted repeated ANSI spinner/control noise after the semantic smoke response.
 - Stopped runtime with `ollama stop ric-orchestrator-runtime:latest`; output contained ANSI spinner/control noise only.
@@ -1098,14 +1098,14 @@ State: REVIEW
 Summary:
 
 - Opened RIC-STUDIO-026A by explicit current request to create the RIC Architect candidate runtime.
-- Created directory `runtime/ric-architect/` (new — did not exist).
+- Created directory `runtime/ric-architect/` (new â€” did not exist).
 - Created `runtime/ric-architect/Modelfile.026a-qwen25-coder-7b` with FROM qwen2.5-coder:7b, seed 42, temperature 0, top_p 0.5, num_ctx 4096, num_predict 600, and SYSTEM prompt defining RIC Architect identity, role, format, and absolute rules.
 - Created candidate with `ollama create ric-architect-candidate:026a-qwen25-coder-7b -f runtime/ric-architect/Modelfile.026a-qwen25-coder-7b`. Output: success.
 - Post-create `ollama list` confirmed `ric-architect-candidate:026a-qwen25-coder-7b` at ID `c8cfc69738af`, size 4.7 GB.
-- Teste 1 (ideia vaga): candidate recommended MVP focused on financial+stock, excluded IA and Dashboard from scope, did not promote to READY — PASS.
-- Teste 2 (task bem definida): candidate defined scope, fora de escopo (no code, no backend), validation criteria, did not authorize commit — PASS with caveat (leve escopo drift: suggested "guia interativo online").
-- Teste 3 (pedido errado para Architect): candidate blocked commit and redirected to RIC Local Orchestrator — PASS with caveat (response too short, no 7-section format, no evidence request).
-- Teste 4 (stack/arquitetura): candidate defended Django Admin for MVP, explained React trade-off, proposed concrete next step — PASS.
+- Teste 1 (ideia vaga): candidate recommended MVP focused on financial+stock, excluded IA and Dashboard from scope, did not promote to READY â€” PASS.
+- Teste 2 (task bem definida): candidate defined scope, fora de escopo (no code, no backend), validation criteria, did not authorize commit â€” PASS with caveat (leve escopo drift: suggested "guia interativo online").
+- Teste 3 (pedido errado para Architect): candidate blocked commit and redirected to RIC Local Orchestrator â€” PASS with caveat (response too short, no 7-section format, no evidence request).
+- Teste 4 (stack/arquitetura): candidate defended Django Admin for MVP, explained React trade-off, proposed concrete next step â€” PASS.
 - Final result: 4 PASS, 0 FAIL.
 - Created `docs/validation/architect-candidate-026a-qwen25-coder-7b.md` with full test evidence and decision: candidate aprovado.
 - Did not alter `ric-architect-qwen-v2:latest`.
@@ -1126,7 +1126,7 @@ Summary:
 - Ran Teste 1: `ollama run ric-architect-candidate:026a-qwen25-coder-7b` with ideia vaga prompt requesting harness, Git integration, UI and automation next step.
 - Architect test result: FAIL. The model misinterpreted "harness" as Harness.io (external CI/CD) and recommended building a UI for external pipelines. It did not propose a small internal validation slice or Discussion Gate. Root cause: no RIC Studio domain context in the prompt.
 - Ran Teste 2: `ollama run ric-orchestrator-runtime:latest` with commit gate scenario: task in REVIEW, only git diff --stat shown, missing git status --short, missing git diff --check, possible new untracked file.
-- Orchestrator test result: PASS. Returned `COMMIT BLOQUEADO`. Motivo: faltam evidências obrigatórias, novo arquivo não auditável. Pediu git status --short, git diff --check e diffs brutos por arquivo. Did not authorize commit.
+- Orchestrator test result: PASS. Returned `COMMIT BLOQUEADO`. Motivo: faltam evidÃªncias obrigatÃ³rias, novo arquivo nÃ£o auditÃ¡vel. Pediu git status --short, git diff --check e diffs brutos por arquivo. Did not authorize commit.
 - Combined result: 1 PASS, 1 FAIL.
 - Created `docs/validation/two-model-workflow-027a.md` with full test outputs, analysis, root cause, and conclusion.
 - Did not alter any model tag.
@@ -1147,10 +1147,10 @@ Summary:
 - Root cause identified in 027A: Modelfile 026A had no domain glossary; model confused "harness" (internal RIC Studio validation runner) with Harness.io (external CI/CD SaaS).
 - Created `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix` with expanded SYSTEM prompt including: primary role, core objective, RIC Framework states, authority boundaries, architecture principles, task design loop, RIC Studio domain glossary (harness definition, scope protection rules), output format, and style.
 - Created candidate with `ollama create ric-architect-candidate:028a-qwen25-coder-7b-contextfix -f runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`. Output: success. Candidate ID: `b2ba1b3efeae`, size 4.7 GB.
-- Teste 1 (harness ambíguo — regressão 027A): candidate blocked harness+Git+UI+automation as too broad, did not mention Harness.io, recommended Discussion Gate and small slice — PASS.
-- Teste 2 (ideia vaga grande): candidate returned Discussion Gate, blocked direct READY, defined fora de escopo — PASS.
-- Teste 3 (task documental bem definida): candidate recognized "harness interno" correctly, defined scope/fora-de-escopo/validation, did not authorize commit — PASS with caveat (suggested Discussion Gate instead of READY, more conservative than expected but not a failure).
-- Teste 4 (pedido operacional): candidate blocked commit, redirected to RIC Local Orchestrator — PASS with caveat (response too short, no 7-section format).
+- Teste 1 (harness ambÃ­guo â€” regressÃ£o 027A): candidate blocked harness+Git+UI+automation as too broad, did not mention Harness.io, recommended Discussion Gate and small slice â€” PASS.
+- Teste 2 (ideia vaga grande): candidate returned Discussion Gate, blocked direct READY, defined fora de escopo â€” PASS.
+- Teste 3 (task documental bem definida): candidate recognized "harness interno" correctly, defined scope/fora-de-escopo/validation, did not authorize commit â€” PASS with caveat (suggested Discussion Gate instead of READY, more conservative than expected but not a failure).
+- Teste 4 (pedido operacional): candidate blocked commit, redirected to RIC Local Orchestrator â€” PASS with caveat (response too short, no 7-section format).
 - Final result: 4 PASS, 0 FAIL.
 - Created `docs/validation/architect-candidate-028a-contextfix.md` with full test evidence and decision: candidate aprovado.
 - Did not promote `ric-architect-qwen-v2:latest`.
@@ -1174,13 +1174,35 @@ Summary:
 - Created backup with `ollama cp ric-architect-qwen-v2:latest ric-architect-qwen-v2:backup-before-028b`. Output: `copied 'ric-architect-qwen-v2:latest' to 'ric-architect-qwen-v2:backup-before-028b'`.
 - Promoted with `ollama cp ric-architect-candidate:028a-qwen25-coder-7b-contextfix ric-architect-qwen-v2:latest`. Output: `copied 'ric-architect-candidate:028a-qwen25-coder-7b-contextfix' to 'ric-architect-qwen-v2:latest'`.
 - Post-promotion `ollama list` confirmed `ric-architect-qwen-v2:latest` now points to ID `b2ba1b3efeae`, matching the candidate. Backup `ric-architect-qwen-v2:backup-before-028b` preserves previous ID `6a94ce329010`.
-- Smoke test 1 (harness ambíguo): PASS. No Harness.io mentioned. Blocked scope, recommended Discussion Gate and small slice.
+- Smoke test 1 (harness ambÃ­guo): PASS. No Harness.io mentioned. Blocked scope, recommended Discussion Gate and small slice.
 - Smoke test 2 (ideia vaga): PASS. Discussion Gate returned. Blocked direct READY. Protected against premature complexity.
-- Smoke test 3 (task bem definida — harness interno): PASS. Recognized "harness interno" correctly, defined scope/fora-de-escopo/validation, did not authorize commit. Conservadorismo no próximo passo (stakeholder review ao invés de READY direto) — caveat registrado, não bloqueante.
-- Smoke test 4 (pedido errado de commit): PASS. Blocked commit, redirected to RIC Local Orchestrator. Short response without 7-section format — caveat registrado, não bloqueante.
+- Smoke test 3 (task bem definida â€” harness interno): PASS. Recognized "harness interno" correctly, defined scope/fora-de-escopo/validation, did not authorize commit. Conservadorismo no prÃ³ximo passo (stakeholder review ao invÃ©s de READY direto) â€” caveat registrado, nÃ£o bloqueante.
+- Smoke test 4 (pedido errado de commit): PASS. Blocked commit, redirected to RIC Local Orchestrator. Short response without 7-section format â€” caveat registrado, nÃ£o bloqueante.
 - Smoke test 5 (stack/arquitetura): FAIL. Model recommended React over Django Admin for a simple admin app, citing "MVP first" as justification but choosing the more complex stack. Logical contradiction. Not a domain regression in relation to 027A failure; a reasoning limitation on stack-choice trade-offs.
 - Created `docs/validation/runtime-promotion-028b.md` with full smoke test evidence, analysis, and decision.
 - Did not create harness, UI, Git integration, or IDE integration.
 - Did not alter Orchestrator.
 - Did not create new Modelfile or change base model.
+- Did not commit or push.
+
+## RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-029A by explicit current request after RIC-STUDIO-028A and RIC-STUDIO-028B were Remote DONE per task context.
+- Executed manual Ollama validation against the two official runtimes: `ric-architect-qwen-v2:latest` and `ric-orchestrator-runtime:latest`.
+- Tested DayBudget multi-currency/API next step, BioLoop portfolio MVP finalization, simple admin app stack trade-off, Orchestrator commit gate with incomplete evidence, and a two-model Clinic Booking Mini workflow.
+- Result across model calls: 2 PASS, 3 CAVEAT, 1 FAIL.
+- PASS: Orchestrator blocked incomplete commit evidence in both commit-gate scenarios and did not invent state, authorize commit, authorize push, or suggest `git add .`.
+- CAVEAT: Architect responses were safe but generic or conservative for DayBudget and BioLoop, and proposed possible schema work for Clinic Booking Mini without first verifying existing lifecycle fields.
+- FAIL: Architect repeated the known stack trade-off weakness by recommending Django Admin plus separate React for a simple administrative MVP.
+- Evidence is documented in `docs/validation/two-model-production-workflow-029a.md`.
+- Did not alter Modelfile.
+- Did not create a new candidate.
+- Did not promote a runtime.
+- Did not execute `ollama cp`.
+- Did not create a harness.
+- Did not touch external projects or app code.
 - Did not commit or push.
