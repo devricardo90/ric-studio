@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate
+RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime
 
 ## Product mode
 
@@ -348,14 +348,20 @@ RIC-STUDIO-027A is Remote DONE. Combined result: 1 PASS (Orchestrator), 1 FAIL (
 
 RIC-STUDIO-028A was opened by explicit current request to fix the Architect domain context failure observed in 027A.
 
-RIC-STUDIO-028A is in REVIEW after creating and testing the context-fixed candidate.
+RIC-STUDIO-028A is Remote DONE. 4 PASS, 0 FAIL. Validation evidence: `docs/validation/architect-candidate-028a-contextfix.md`.
 
-New Modelfile: `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`. Candidate tag: `ric-architect-candidate:028a-qwen25-coder-7b-contextfix`, ID `b2ba1b3efeae`, size 4.7 GB.
+RIC-STUDIO-028B was opened by explicit current request to promote the validated context-fixed Architect candidate to the official runtime.
 
-Key fix: RIC Studio domain glossary embedded in SYSTEM prompt. "harness" = internal validation runner, NOT Harness.io. harness+Git+UI+automation together = scope too broad, recommend Discussion Gate.
+Pre-promotion state: Git clean and synchronized with origin/main. Candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`) present. Previous official `ric-architect-qwen-v2:latest` at ID `6a94ce329010`.
 
-Test result: 4 PASS, 0 FAIL. 027A regression corrected. Caveats: Teste 3 conservadorismo (sugeriu Discussion Gate ao invés de READY direto), Teste 4 resposta curta sem 7 seções.
+Backup created: `ric-architect-qwen-v2:backup-before-028b` preserves ID `6a94ce329010`.
 
-Validation evidence is documented in `docs/validation/architect-candidate-028a-contextfix.md`.
+Promotion executed: `ollama cp ric-architect-candidate:028a-qwen25-coder-7b-contextfix ric-architect-qwen-v2:latest`. Post-promotion `ollama list` confirms `ric-architect-qwen-v2:latest` now points to ID `b2ba1b3efeae`.
 
-No model was promoted, copied, or removed. `ric-architect-qwen-v2:latest` unchanged. `ric-orchestrator-runtime:latest` unchanged. No commit. No push.
+Smoke tests against promoted runtime: 4 PASS, 1 FAIL.
+- PASS: harness ambíguo, ideia vaga, task documental harness interno, commit bloqueado.
+- FAIL: Smoke test 5 (stack trade-off) — model recommended React over Django Admin for simple admin app, citing "MVP first" but choosing more complex stack. Logical contradiction. Not a domain regression; a reasoning limitation.
+
+Backup `ric-architect-qwen-v2:backup-before-028b` available for rollback if Trigger decides FAIL is blocking.
+
+Validation evidence is documented in `docs/validation/runtime-promotion-028b.md`. No commit. No push.

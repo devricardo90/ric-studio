@@ -17,7 +17,8 @@
 - RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime. Remote DONE.
 - RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime. Remote DONE.
 - RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow. Remote DONE — 1 PASS, 1 FAIL.
-- RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate. REVIEW — candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`) criado com glossário de domínio. 4 PASS, 0 FAIL. Sem commit.
+- RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate. Remote DONE.
+- RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime. REVIEW — `ric-architect-qwen-v2:latest` promovido para ID `b2ba1b3efeae`. Backup `6a94ce329010`. Smoke tests: 4 PASS, 1 FAIL (Teste 5: React vs Django Admin). Sem commit.
 
 ## READY
 
@@ -61,7 +62,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-028A evidence in `docs/validation/architect-candidate-028a-contextfix.md`. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-028B evidence in `docs/validation/runtime-promotion-028b.md`. Evaluate smoke test 5 FAIL before authorizing commit. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

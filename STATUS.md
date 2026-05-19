@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate
+RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime
 
 ## Scope
 
-Criar novo Modelfile `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix` com glossário de domínio RIC Studio corrigindo a confusão de "harness". Criar candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix`. Executar 4 testes obrigatórios. Documentar em `docs/validation/architect-candidate-028a-contextfix.md`. Sem promoção, sem commit, sem push.
+Promover `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` para `ric-architect-qwen-v2:latest`. Criar backup antes da promoção. Executar 5 smoke tests obrigatórios contra o runtime oficial promovido. Documentar em `docs/validation/runtime-promotion-028b.md`. Sem commit, sem push.
 
 ## Allowed files
 
@@ -20,16 +20,15 @@ Criar novo Modelfile `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-conte
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`
-- `docs/validation/architect-candidate-028a-contextfix.md`
+- `docs/validation/runtime-promotion-028b.md`
 
 ## Blocked in this task
 
-Promover `ric-architect-qwen-v2:latest`, alterar `ric-orchestrator-runtime:latest`, implementar harness, baixar modelo novo, mexer em app/UI, automatizar Git, alterar Orchestrator, apagar modelos, abrir próxima READY, commit, push.
+Criar harness técnico, criar UI, integrar Git, integrar IDE, alterar Orchestrator, criar novo Modelfile, trocar modelo base, fine-tuning, abrir RIC-STUDIO-029A automaticamente, commit sem autorização explícita do Trigger, push.
 
 ## Previous task
 
-RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow — Remote DONE.
+RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate — Remote DONE.
 
 ## Gate status
 
@@ -255,17 +254,19 @@ RIC-STUDIO-026A is Remote DONE. Architect candidate `ric-architect-candidate:026
 
 RIC-STUDIO-027A is Remote DONE. Combined test result: 1 PASS (Orchestrator), 1 FAIL (Architect — harness domain confusion). Validation evidence: `docs/validation/two-model-workflow-027a.md`.
 
-RIC-STUDIO-028A is in REVIEW after creating and testing the context-fixed Architect candidate.
+RIC-STUDIO-028A is Remote DONE. Context-fixed Architect candidate created and validated. 4 PASS, 0 FAIL. Validation evidence: `docs/validation/architect-candidate-028a-contextfix.md`.
 
-New Modelfile: `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`. Candidate: `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`, size 4.7 GB).
+RIC-STUDIO-028B is in REVIEW after promoting the candidate and executing 5 smoke tests against `ric-architect-qwen-v2:latest`.
 
-Key fix: RIC Studio domain glossary added. "harness" = internal validation runner, NOT Harness.io. Harness+Git+UI+automation together = scope too broad, recommend Discussion Gate.
+Pre-promotion Git was clean and synchronized. Backup `ric-architect-qwen-v2:backup-before-028b` (ID `6a94ce329010`) created before promotion. Candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`) promoted to `ric-architect-qwen-v2:latest`.
 
-Test result: 4 PASS, 0 FAIL. The 027A regression (Harness.io recommendation) was corrected.
+Smoke test result: 4 PASS, 1 FAIL.
+- PASS: harness ambíguo (no Harness.io, blocked scope), ideia vaga (Discussion Gate), task bem definida (harness interno recognized), commit bloqueado.
+- FAIL: smoke test 5 (stack trade-off) — model recommended React over Django Admin for a simple admin app, citing "MVP first" but choosing the more complex stack. Root cause: model cannot consistently apply MVP = simplicity to stack-choice questions.
 
-Validation evidence: `docs/validation/architect-candidate-028a-contextfix.md`.
+Backup available at `ric-architect-qwen-v2:backup-before-028b` for rollback if Trigger decides FAIL is blocking.
 
-No model was promoted, copied, or removed. `ric-architect-qwen-v2:latest` unchanged. `ric-orchestrator-runtime:latest` unchanged. No commit. No push.
+Validation evidence: `docs/validation/runtime-promotion-028b.md`. No commit. No push.
 
 Pre-promotion evidence confirmed Git clean/synchronized, candidate ID `9e5cdcf8a6ae`, and previous official runtime ID `2711dd3bc829`.
 

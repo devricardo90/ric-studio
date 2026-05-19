@@ -2,7 +2,21 @@
 
 ## Current handoff state
 
-RIC-STUDIO-028A is in REVIEW as `Fix Architect Domain Context And Retest Candidate`.
+RIC-STUDIO-028B is in REVIEW as `Promote Architect Contextfix Candidate To Official Runtime`.
+
+`ric-architect-qwen-v2:latest` promoted to ID `b2ba1b3efeae` (from `ric-architect-candidate:028a-qwen25-coder-7b-contextfix`). Backup `ric-architect-qwen-v2:backup-before-028b` preserves ID `6a94ce329010`.
+
+Smoke test result: 4 PASS, 1 FAIL.
+- PASS: harness ambíguo, ideia vaga, task harness interno documental, commit bloqueado.
+- FAIL: Smoke test 5 — model recommended React over Django Admin for simple admin app (logical contradiction: cited "MVP first" but chose more complex stack).
+
+Evidence: `docs/validation/runtime-promotion-028b.md`.
+
+Trigger must decide: accept FAIL as known caveat and authorize commit, or rollback via `ollama cp ric-architect-qwen-v2:backup-before-028b ric-architect-qwen-v2:latest`.
+
+No commit. No push.
+
+RIC-STUDIO-028A is Remote DONE as `Fix Architect Domain Context And Retest Candidate`.
 
 New candidate: `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` (ID `b2ba1b3efeae`, size 4.7 GB). Modelfile: `runtime/ric-architect/Modelfile.028a-qwen25-coder-7b-contextfix`.
 

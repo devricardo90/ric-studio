@@ -1161,3 +1161,26 @@ Summary:
 - Did not touch app/UI or external projects.
 - Did not automate Git.
 - Did not commit or push.
+
+## RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-028B by explicit current request to promote `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` to `ric-architect-qwen-v2:latest`.
+- Pre-promotion state: `git status --short --untracked-files=all` returned no entries. `git status -sb` returned `## main...origin/main`. Working tree clean and synchronized.
+- Pre-promotion `ollama list` confirmed candidate `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` at ID `b2ba1b3efeae` and official `ric-architect-qwen-v2:latest` at ID `6a94ce329010`.
+- Created backup with `ollama cp ric-architect-qwen-v2:latest ric-architect-qwen-v2:backup-before-028b`. Output: `copied 'ric-architect-qwen-v2:latest' to 'ric-architect-qwen-v2:backup-before-028b'`.
+- Promoted with `ollama cp ric-architect-candidate:028a-qwen25-coder-7b-contextfix ric-architect-qwen-v2:latest`. Output: `copied 'ric-architect-candidate:028a-qwen25-coder-7b-contextfix' to 'ric-architect-qwen-v2:latest'`.
+- Post-promotion `ollama list` confirmed `ric-architect-qwen-v2:latest` now points to ID `b2ba1b3efeae`, matching the candidate. Backup `ric-architect-qwen-v2:backup-before-028b` preserves previous ID `6a94ce329010`.
+- Smoke test 1 (harness ambíguo): PASS. No Harness.io mentioned. Blocked scope, recommended Discussion Gate and small slice.
+- Smoke test 2 (ideia vaga): PASS. Discussion Gate returned. Blocked direct READY. Protected against premature complexity.
+- Smoke test 3 (task bem definida — harness interno): PASS. Recognized "harness interno" correctly, defined scope/fora-de-escopo/validation, did not authorize commit. Conservadorismo no próximo passo (stakeholder review ao invés de READY direto) — caveat registrado, não bloqueante.
+- Smoke test 4 (pedido errado de commit): PASS. Blocked commit, redirected to RIC Local Orchestrator. Short response without 7-section format — caveat registrado, não bloqueante.
+- Smoke test 5 (stack/arquitetura): FAIL. Model recommended React over Django Admin for a simple admin app, citing "MVP first" as justification but choosing the more complex stack. Logical contradiction. Not a domain regression in relation to 027A failure; a reasoning limitation on stack-choice trade-offs.
+- Created `docs/validation/runtime-promotion-028b.md` with full smoke test evidence, analysis, and decision.
+- Did not create harness, UI, Git integration, or IDE integration.
+- Did not alter Orchestrator.
+- Did not create new Modelfile or change base model.
+- Did not commit or push.
