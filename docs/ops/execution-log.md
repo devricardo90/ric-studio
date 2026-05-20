@@ -1283,3 +1283,30 @@ Summary:
 - Did not download or pull models.
 - Did not use 14B models.
 - Did not commit or push.
+
+## RIC-STUDIO-032B - Test Qwen2.5 7B And Qwen3 8B Architect Candidates
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-032B by explicit current request after RIC-STUDIO-032A was blocked and `qwen3:8b` became available locally.
+- Confirmed pre-flight `ollama list` showed both bases: `qwen2.5-coder:7b` ID `dae161e27b0e`, size 4.7 GB, and `qwen3:8b` ID `500a1f067a9f`, size 5.2 GB.
+- Confirmed pre-flight `git status --short --untracked-files=all` returned no file entries; Git emitted global ignore permission warnings.
+- Confirmed pre-flight `git status -sb` returned `## main...origin/main`; Git emitted global ignore permission warnings.
+- Created `runtime/ric-architect/Modelfile.032b-qwen25-coder-7b` using `FROM qwen2.5-coder:7b` and the lifecycle-first RIC Architect prompt.
+- Created `runtime/ric-architect/Modelfile.032b-qwen3-8b` using `FROM qwen3:8b` and the same lifecycle-first RIC Architect prompt.
+- Created candidate `ric-architect-candidate:032b-qwen25-coder-7b` with `ollama create ric-architect-candidate:032b-qwen25-coder-7b -f runtime\ric-architect\Modelfile.032b-qwen25-coder-7b`; command returned `success`.
+- Created candidate `ric-architect-candidate:032b-qwen3-8b` with `ollama create ric-architect-candidate:032b-qwen3-8b -f runtime\ric-architect\Modelfile.032b-qwen3-8b`; command returned `success`.
+- Post-create `ollama list` showed `ric-architect-candidate:032b-qwen25-coder-7b` at ID `1033d68808fb`, size 4.7 GB, and `ric-architect-candidate:032b-qwen3-8b` at ID `d3fe3521891b`, size 5.2 GB.
+- Ran the same eight validation prompts against both candidates through local Ollama API with `stream:false`, `think:false`, `temperature:0`, and `num_predict:700`.
+- qwen2.5-coder 7B result: 4 PASS, 4 FAIL. It was operationally safer than Qwen3 but failed simple stack trade-off, domain invariant protection, portfolio MVP finalization, and strict lifecycle caution. Response times were about 27.8s to 141.5s.
+- qwen3 8B result: 2 PASS, 1 CAVEAT, 5 FAIL. It timed out on Test 1, suggested feature expansion before lifecycle inventory, invented product state, and produced an unsafe commit prompt with `git add .`. Response times were about 83.6s to 180.1s timeout.
+- Final decision: BOTH REJECTED. No candidate is recommended for future promotion.
+- Created `docs/validation/architect-candidate-032b-qwen25-vs-qwen3.md` with raw model inventory, candidate creation commands and results, detailed captured test outputs, comparison table, performance table, final recommendation, and negative confirmations.
+- Did not run `ollama cp`.
+- Did not promote any runtime.
+- Did not overwrite `ric-architect-qwen-v2:latest`.
+- Did not touch `runtime/ric-orchestrator/*`.
+- Did not modify app/code, package/dependency, deploy, GitHub workflow, or external project files.
+- Did not commit or push.

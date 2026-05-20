@@ -2,6 +2,29 @@
 
 ## Current handoff state
 
+RIC-STUDIO-032B is in REVIEW as `Test Qwen2.5 7B And Qwen3 8B Architect Candidates`.
+
+Evidence was created:
+
+- `docs/validation/architect-candidate-032b-qwen25-vs-qwen3.md`.
+
+Created versioned Architect candidate sources:
+
+- `runtime/ric-architect/Modelfile.032b-qwen25-coder-7b`
+- `runtime/ric-architect/Modelfile.032b-qwen3-8b`
+
+Created Ollama candidates:
+
+- `ric-architect-candidate:032b-qwen25-coder-7b`, ID `1033d68808fb`, size 4.7 GB.
+- `ric-architect-candidate:032b-qwen3-8b`, ID `d3fe3521891b`, size 5.2 GB.
+
+Validation result: BOTH REJECTED.
+
+- qwen2.5-coder 7B result: 4 PASS, 4 FAIL. Operationally safer than Qwen3 but failed simple stack trade-off, domain invariant protection, portfolio MVP finalization, and strict lifecycle caution. Response times were about 27.8s to 141.5s.
+- qwen3 8B result: 2 PASS, 1 CAVEAT, 5 FAIL. It timed out on Test 1, suggested feature expansion before lifecycle inventory, invented product state, and produced an unsafe commit prompt with `git add .`. Response times were about 83.6s to 180.1s timeout.
+
+No candidate is recommended for future promotion. No `ollama cp`, official runtime promotion, official overwrite, Orchestrator change, app/code change, dependency change, deploy change, GitHub workflow change, external project change, commit, or push occurred.
+
 RIC-STUDIO-032A is BLOCKED as `Test Two 8B Architect Candidates With Lifecycle-First Prompt`.
 
 Evidence was created:
