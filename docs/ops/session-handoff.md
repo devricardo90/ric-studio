@@ -2,7 +2,27 @@
 
 ## Current handoff state
 
-RIC-STUDIO-030A is in REVIEW as `Document Architect Pragmatic MVP Candidate Validation`.
+RIC-STUDIO-031A is in REVIEW as `Build And Validate Architect Pragmatic MVP Candidate`.
+
+Candidate `ric-architect-candidate:030a-pragmatic-mvp` was refreshed from:
+
+- `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+
+Validation evidence was created:
+
+- `docs/validation/architect-candidate-031a-pragmatic-mvp.md`.
+
+Behavioral battery result: 5 PASS, 2 CAVEAT, 1 FAIL.
+
+- PASS: simple MVP stack trade-off, domain invariant protection, portfolio MVP finalization, scope reduction, operational boundary.
+- CAVEAT: stack inflation rejection and previous 029A failed case improved but were not perfectly crisp.
+- FAIL: existing lifecycle caution still proposed feature expansion before verifying existing status fields, transitions, admin actions, tests, and smoke flow.
+
+Final decision: CANDIDATE REJECTED.
+
+No `ollama cp`, official Architect runtime promotion, official runtime overwrite, Modelfile edit, `runtime/ric-orchestrator/*` change, harness, external project change, commit, or push occurred.
+
+RIC-STUDIO-030A is Remote DONE at commit `105c220` as `Document Architect Pragmatic MVP Candidate Validation`.
 
 The existing Modelfile was preserved:
 

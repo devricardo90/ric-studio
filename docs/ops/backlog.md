@@ -4,7 +4,7 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
-- RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. REVIEW - validation battery documented; no commit.
+- RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. REVIEW - candidate rejected; evidence documented; no commit.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -21,7 +21,7 @@
 - RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate. Remote DONE.
 - RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime. Remote DONE per current task context. `ric-architect-qwen-v2:latest` promoted to ID `b2ba1b3efeae`. Backup `6a94ce329010`. Smoke tests: 4 PASS, 1 FAIL (React vs Django Admin). Sem commit.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`. Evidence: `docs/validation/two-model-production-workflow-029a.md`.
-- RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. REVIEW - evidence in `docs/validation/architect-candidate-030a-pragmatic-mvp.md`. Sem commit.
+- RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. REVIEW - evidence in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`. Candidate rejected. Sem commit.
 
 ## READY
 
@@ -59,6 +59,7 @@ No task is Local DONE.
 - RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests.
 - RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`.
+- RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. Remote DONE at commit `105c220`.
 
 ## Discussion Gate
 
@@ -66,7 +67,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-030A evidence in `docs/validation/architect-candidate-030a-pragmatic-mvp.md`. Candidate execution, runtime promotion, commit, and push remain blocked without explicit authorization.
+Review RIC-STUDIO-031A evidence in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`. Official Architect runtime promotion, commit, and push remain blocked without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

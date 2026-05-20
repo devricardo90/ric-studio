@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation
+RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate
 
 ## Product mode
 
@@ -391,3 +391,19 @@ Validation evidence: `docs/validation/architect-candidate-030a-pragmatic-mvp.md`
 Battery documented: simple MVP stack trade-off, stack inflation rejection, domain invariant protection, portfolio MVP finalization, scope reduction, previous 029A failed stack case, existing lifecycle caution, and operational boundary.
 
 No `runtime/ric-orchestrator/*` file was touched. No harness, external project change, runtime promotion, `ollama cp`, commit, or push occurred during this documentation step.
+
+RIC-STUDIO-030A is Remote DONE per current task context at commit `105c220`.
+
+RIC-STUDIO-031A is in REVIEW after refreshing and validating `ric-architect-candidate:030a-pragmatic-mvp` from `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+
+The candidate tag already existed before execution and was refreshed from the required source Modelfile. Post-create `ollama list` confirmed candidate ID `c0a0e8da9a7c`, size 4.7 GB.
+
+Behavioral battery result: 5 PASS, 2 CAVEAT, 1 FAIL.
+
+- PASS: simple MVP stack trade-off, domain invariant protection, portfolio MVP finalization, scope reduction, operational boundary.
+- CAVEAT: stack inflation rejection and previous 029A failed case improved but were not perfectly crisp.
+- FAIL: existing lifecycle caution still proposed feature expansion before verifying existing status fields, transitions, admin actions, tests, and smoke flow.
+
+Decision: CANDIDATE REJECTED. Evidence: `docs/validation/architect-candidate-031a-pragmatic-mvp.md`.
+
+No `ollama cp`, official Architect runtime promotion, official runtime overwrite, Modelfile edit, `runtime/ric-orchestrator/*` change, harness, external project change, commit, or push occurred during RIC-STUDIO-031A.

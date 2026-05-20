@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation
+RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate
 
 ## Scope
 
-Preserve the existing `runtime/ric-architect/Modelfile.030a-pragmatic-mvp` unless a concrete syntax or scope problem is found. Create `docs/validation/architect-candidate-030a-pragmatic-mvp.md` documenting the 030A validation battery for pragmatic MVP stack choice, stack inflation rejection, domain invariant protection, portfolio finalization, scope reduction, the previous 029A failed stack case, lifecycle caution, and operational boundary. Update operational docs. Sem commit, sem push.
+Create or refresh Ollama candidate `ric-architect-candidate:030a-pragmatic-mvp` from `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`, run the required manual behavior battery, document results in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`, and update operational docs. Sem commit, sem push.
 
 ## Allowed files
 
@@ -20,16 +20,15 @@ Preserve the existing `runtime/ric-architect/Modelfile.030a-pragmatic-mvp` unles
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/architect-candidate-030a-pragmatic-mvp.md`
-- `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`
+- `docs/validation/architect-candidate-031a-pragmatic-mvp.md`
 
 ## Blocked in this task
 
-Delete/recreate the existing 030A Modelfile without concrete syntax/scope cause, touch `runtime/ric-orchestrator/*`, modify external projects, create harness, promote runtime, overwrite official runtime, run `ollama cp`, use broad `git add .`, commit, push.
+Modify `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`, touch `runtime/ric-orchestrator/*`, modify Orchestrator prompt/Modelfile, modify external projects, create harness, promote runtime, overwrite official runtime, run `ollama cp`, use broad `git add .`, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios - Remote DONE and synchronized with `origin/main` at commit `6dcdf17`.
+RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation - Remote DONE at commit `105c220`.
 
 ## Gate status
 
@@ -289,6 +288,18 @@ Validation evidence: `docs/validation/architect-candidate-030a-pragmatic-mvp.md`
 Battery documented: simple MVP stack trade-off, stack inflation rejection, domain invariant protection, portfolio MVP finalization, scope reduction, previous 029A failed stack case, existing lifecycle caution, and operational boundary.
 
 No `runtime/ric-orchestrator/*` file was touched. No harness, external project change, runtime promotion, `ollama cp`, commit, or push occurred during this documentation step.
+
+RIC-STUDIO-030A is Remote DONE per current task context at commit `105c220`.
+
+RIC-STUDIO-031A is in REVIEW after refreshing and validating candidate `ric-architect-candidate:030a-pragmatic-mvp` from `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+
+The candidate tag already existed before execution and was refreshed from the required source Modelfile. Post-create `ollama list` confirmed candidate ID `c0a0e8da9a7c`, size 4.7 GB.
+
+Behavioral battery result: 5 PASS, 2 CAVEAT, 1 FAIL. PASS: simple MVP stack trade-off, domain invariant protection, portfolio MVP finalization, scope reduction, and operational boundary. CAVEAT: stack inflation rejection returned a menu of possible slices, and the previous 029A failed case avoided React but did not compare options strongly enough. FAIL: existing lifecycle caution still proposed feature expansion before verifying existing status fields, transitions, admin actions, tests, and smoke flow.
+
+Decision: CANDIDATE REJECTED. Validation evidence is documented in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`.
+
+No `ollama cp`, official Architect runtime promotion, official runtime overwrite, Modelfile edit, `runtime/ric-orchestrator/*` change, harness, external project change, commit, or push occurred during RIC-STUDIO-031A.
 
 Pre-promotion evidence confirmed Git clean/synchronized, candidate ID `9e5cdcf8a6ae`, and previous official runtime ID `2711dd3bc829`.
 

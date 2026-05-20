@@ -1226,3 +1226,35 @@ Summary:
 - Did not overwrite an official runtime.
 - Did not run `ollama cp`.
 - Did not commit or push.
+
+## RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-031A by explicit current request after RIC-STUDIO-030A reached Remote DONE at commit `105c220`.
+- Confirmed initial Git state had no file entries from `git status --short --untracked-files=all`; Git emitted global ignore permission warnings.
+- Confirmed `git status -sb` returned `## main...origin/main`; Git emitted global ignore permission warnings.
+- Confirmed `runtime/ric-architect/Modelfile.030a-pragmatic-mvp` exists.
+- Pre-flight `ollama list` showed `ric-architect-candidate:030a-pragmatic-mvp` already existed at ID `c0a0e8da9a7c`.
+- Refreshed the non-official candidate tag with `ollama create ric-architect-candidate:030a-pragmatic-mvp -f runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+- Candidate creation output ended with `success`.
+- Post-create `ollama list | findstr /i "ric-architect-candidate"` confirmed `ric-architect-candidate:030a-pragmatic-mvp` at ID `c0a0e8da9a7c`, size 4.7 GB, modified seconds earlier.
+- Ran the required 8-test manual behavior battery against the candidate using local Ollama API calls with bounded generation.
+- Test result: 5 PASS, 2 CAVEAT, 1 FAIL.
+- PASS: simple MVP stack trade-off, domain invariant protection, portfolio MVP finalization, scope reduction, operational boundary.
+- CAVEAT: stack inflation rejection returned several possible slices rather than one crisp slice; previous 029A failed case avoided React but did not explicitly compare stack trade-offs strongly enough.
+- FAIL: existing lifecycle caution proposed new functionality before verifying existing status fields, transitions, admin actions, tests, and smoke flow.
+- Decision: CANDIDATE REJECTED.
+- Created `docs/validation/architect-candidate-031a-pragmatic-mvp.md` with candidate creation evidence, prompts, summarized responses, per-test PASS/FAIL/CAVEAT, comparison against RIC-STUDIO-029A weaknesses, and final decision.
+- Updated allowed operational docs to record RIC-STUDIO-031A in REVIEW.
+- Did not modify `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+- Did not touch `runtime/ric-orchestrator/*`.
+- Did not modify Orchestrator prompt/Modelfile.
+- Did not run `ollama cp`.
+- Did not promote `ric-architect-qwen-v2:latest`.
+- Did not overwrite an official runtime.
+- Did not create a harness.
+- Did not modify external projects or app/code/package/deploy files.
+- Did not commit or push.
