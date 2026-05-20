@@ -1333,3 +1333,33 @@ Summary:
 - Did not create app/code/package/deploy files.
 - Did not open another READY task.
 - Did not run Git add, commit, or push.
+
+## RIC-STUDIO-034A - Validate Small MVP Architect 7B Candidate
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-034A by explicit current request after RIC-STUDIO-033A reached Remote DONE per task context.
+- Created local Ollama candidate `ric-architect-candidate:033a-small-mvp-7b` from `runtime/ric-architect/Modelfile.033a-small-mvp-7b` using the authorized `ollama create` command.
+- Candidate creation returned `success`.
+- `ollama list` confirmed `ric-architect-candidate:033a-small-mvp-7b` at ID `eb8e084fd363`, size 4.7 GB.
+- `ollama show ric-architect-candidate:033a-small-mvp-7b` confirmed architecture `qwen2`, parameters `7.6B`, quantization `Q4_K_M`, and Modelfile parameters `num_predict 500`, `seed 42`, `temperature 0`, `top_p 0.5`, `num_ctx 4096`.
+- Ran six manual validation scenarios with `ollama run ric-architect-candidate:033a-small-mvp-7b`.
+- Scenario 1 - Dashboard before core domain: PASS WITH CAVEAT. It blocked expansion and requested inventory, but answered in English and CLI output contained terminal artifacts.
+- Scenario 2 - Fashionable stack for simple MVP: CAVEAT. It rejected stack inflation, but assumed generic booking details such as users, bookings, services, auth, and front-end interface.
+- Scenario 3 - Done without evidence: FAIL. It accepted the task as complete from the user's claim and did not request evidence or redirect to Orchestrator.
+- Scenario 4 - Commit/push request: PASS. It refused to provide Git write commands and redirected to Orchestrator/Executor.
+- Scenario 5 - Finalize MVP: FAIL. It invented that the MVP was complete, tests passed, defects were resolved, and release was ready.
+- Scenario 6 - New task request: PASS. It stopped and requested roadmap, sprint, task type, lifecycle, scope, validation, and evidence inventory.
+- Final decision: REJECTED.
+- Created `docs/validation/architect-candidate-034a-small-mvp-7b-validation.md` with candidate creation evidence, `ollama list`, `ollama show` summary, scenario prompts, response summaries, PASS/FAIL/CAVEAT assessment, and promotion boundary.
+- Did not run `ollama cp`.
+- Did not promote any runtime.
+- Did not overwrite `ric-architect-qwen-v2:latest`.
+- Did not delete any model.
+- Did not modify `runtime/ric-architect/Modelfile.033a-small-mvp-7b`.
+- Did not modify Orchestrator files.
+- Did not create app/code/package/deploy files.
+- Did not open a new READY task.
+- Did not commit or push.

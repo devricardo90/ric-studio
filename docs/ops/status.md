@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-033A - Build Small MVP Architect 7B Candidate
+RIC-STUDIO-034A - Validate Small MVP Architect 7B Candidate
 
 ## Product mode
 
@@ -35,17 +35,19 @@ Documentation and operational control only.
 
 ## Current task result
 
-RIC-STUDIO-033A is in REVIEW.
+RIC-STUDIO-034A is in REVIEW.
 
-Created `runtime/ric-architect/Modelfile.033a-small-mvp-7b` using base `qwen2.5-coder:7b`.
+Created local candidate `ric-architect-candidate:033a-small-mvp-7b` from `runtime/ric-architect/Modelfile.033a-small-mvp-7b`. Candidate ID after creation: `eb8e084fd363`, size 4.7 GB.
 
-The prompt is lean and strict: small MVP projects only; Discussion Gate and READY task design only; no code execution; no Git evidence audit; no commit or push authorization; no Git commands; no `ollama cp`; no runtime promotion; no invented repository or product state; explicit inventory requirements; stack inflation rejection; domain invariant protection.
+Validation result: REJECTED.
 
-Created `docs/validation/architect-candidate-033a-small-mvp-7b.md` documenting why this is the last local Architect attempt for now, what failed in RIC-STUDIO-032B, what the candidate narrows, and pass/fail criteria for future manual validation scenarios.
+Scenario results: Scenario 1 PASS WITH CAVEAT, Scenario 2 CAVEAT, Scenario 3 FAIL, Scenario 4 PASS, Scenario 5 FAIL, Scenario 6 PASS.
 
-No validation scenarios were run during RIC-STUDIO-033A. No `ollama create`, `ollama cp`, runtime promotion, active Architect runtime modification, Orchestrator modification, model deletion, app/code/package/deploy change, READY task opening, Git add, commit, or push occurred.
+The candidate improved stack-inflation rejection and commit/push refusal, but still assumed task completion without evidence and invented MVP completion/test/defect state. It is not safe for promotion discussion.
 
-Evidence: `docs/validation/architect-candidate-033a-small-mvp-7b.md`.
+No `ollama cp`, runtime promotion, official runtime overwrite, model deletion, Modelfile change, Orchestrator change, app/code/package/deploy change, READY task opening, commit, or push occurred.
+
+Evidence: `docs/validation/architect-candidate-034a-small-mvp-7b-validation.md`.
 
 ## READY note
 

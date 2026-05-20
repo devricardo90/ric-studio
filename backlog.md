@@ -8,6 +8,7 @@
 - RIC-STUDIO-032A - Test Two 8B Architect Candidates With Lifecycle-First Prompt (BLOCKED - fewer than two valid local 8B-class base models; prompt body placeholder only; evidence documented; no commit)
 - RIC-STUDIO-032B - Test Qwen2.5 7B And Qwen3 8B Architect Candidates (REVIEW - both rejected; evidence documented; no commit)
 - RIC-STUDIO-033A - Build Small MVP Architect 7B Candidate (REVIEW - final lean qwen2.5 7B prompt source documented; no runtime creation or promotion; no commit)
+- RIC-STUDIO-034A - Validate Small MVP Architect 7B Candidate (REVIEW - candidate rejected; evidence documented; no promotion, commit, or push)
 
 ## REJECTED / REVIEW CLOSED
 
@@ -62,7 +63,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-033A evidence in `docs/validation/architect-candidate-033a-small-mvp-7b.md`. The candidate source is not promoted and no runtime creation occurred. Commit and push remain blocked without explicit authorization.
+Review RIC-STUDIO-034A evidence in `docs/validation/architect-candidate-034a-small-mvp-7b-validation.md`. The candidate was rejected and no Architect runtime promotion is authorized. Commit and push remain blocked without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
