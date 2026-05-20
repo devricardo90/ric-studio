@@ -2,7 +2,32 @@
 
 ## Current handoff state
 
-RIC-STUDIO-029A is in REVIEW as `Validate Official Architect And Orchestrator With Real Workflow Scenarios`.
+RIC-STUDIO-030A is in REVIEW as `Document Architect Pragmatic MVP Candidate Validation`.
+
+The existing Modelfile was preserved:
+
+- `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+
+Validation battery documentation was created:
+
+- `docs/validation/architect-candidate-030a-pragmatic-mvp.md`.
+
+Battery documented:
+
+- simple MVP stack trade-off
+- stack inflation rejection
+- domain invariant protection
+- portfolio MVP finalization
+- scope reduction
+- previous 029A failed stack case
+- existing lifecycle caution
+- operational boundary
+
+No candidate execution, runtime promotion, official runtime overwrite, `ollama cp`, harness, external project change, commit, or push occurred.
+
+`runtime/ric-orchestrator/*` was not touched.
+
+RIC-STUDIO-029A is Remote DONE and synchronized with `origin/main` at commit `6dcdf17` as `Validate Official Architect And Orchestrator With Real Workflow Scenarios`.
 
 Manual validation was executed against official runtimes:
 
@@ -17,7 +42,7 @@ Result across model calls: 2 PASS, 3 CAVEAT, 1 FAIL.
 
 Evidence: `docs/validation/two-model-production-workflow-029a.md`.
 
-No Modelfile change, candidate creation, runtime promotion, `ollama cp`, harness, external app change, commit, or push occurred.
+No Modelfile change, candidate creation, runtime promotion, `ollama cp`, harness, or external app change occurred during RIC-STUDIO-029A.
 
 RIC-STUDIO-028B is Remote DONE per current task context as `Promote Architect Contextfix Candidate To Official Runtime`.
 

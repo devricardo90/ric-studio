@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios
+RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation
 
 ## Scope
 
-Validar os runtimes oficiais `ric-architect-qwen-v2:latest` e `ric-orchestrator-runtime:latest` em cenarios realistas de workflow. Registrar prompts, respostas, tempos aproximados, PASS/FAIL/CAVEAT, falhas recorrentes e recomendacoes em `docs/validation/two-model-production-workflow-029a.md`. Atualizar documentacao operacional. Sem commit, sem push.
+Preserve the existing `runtime/ric-architect/Modelfile.030a-pragmatic-mvp` unless a concrete syntax or scope problem is found. Create `docs/validation/architect-candidate-030a-pragmatic-mvp.md` documenting the 030A validation battery for pragmatic MVP stack choice, stack inflation rejection, domain invariant protection, portfolio finalization, scope reduction, the previous 029A failed stack case, lifecycle caution, and operational boundary. Update operational docs. Sem commit, sem push.
 
 ## Allowed files
 
@@ -20,15 +20,16 @@ Validar os runtimes oficiais `ric-architect-qwen-v2:latest` e `ric-orchestrator-
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/two-model-production-workflow-029a.md`
+- `docs/validation/architect-candidate-030a-pragmatic-mvp.md`
+- `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`
 
 ## Blocked in this task
 
-Alterar Modelfile, criar novo candidate, promover runtime, executar `ollama cp`, criar harness tecnico, criar UI, automatizar Git, alterar projetos externos, alterar codigo de apps externos, fazer fine-tuning, baixar modelo novo, abrir RIC-STUDIO-030A, commit, push.
+Delete/recreate the existing 030A Modelfile without concrete syntax/scope cause, touch `runtime/ric-orchestrator/*`, modify external projects, create harness, promote runtime, overwrite official runtime, run `ollama cp`, use broad `git add .`, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime - Remote DONE per current task context, with known 4 PASS / 1 FAIL caveat.
+RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios - Remote DONE and synchronized with `origin/main` at commit `6dcdf17`.
 
 ## Gate status
 
@@ -268,7 +269,7 @@ Backup available at `ric-architect-qwen-v2:backup-before-028b` for rollback if T
 
 Validation evidence: `docs/validation/runtime-promotion-028b.md`. No commit. No push.
 
-RIC-STUDIO-029A is in REVIEW after manual validation of the two official runtimes in realistic workflow scenarios.
+RIC-STUDIO-029A is Remote DONE and synchronized with `origin/main` at commit `6dcdf17` after manual validation of the two official runtimes in realistic workflow scenarios.
 
 Runtimes tested: `ric-architect-qwen-v2:latest` and `ric-orchestrator-runtime:latest`.
 
@@ -277,7 +278,17 @@ Result across model calls: 2 PASS, 3 CAVEAT, 1 FAIL.
 - CAVEAT: Architect was safe but generic/conservative on DayBudget and BioLoop, and proposed possible schema work for Clinic Booking Mini without first verifying existing lifecycle fields.
 - FAIL: Architect repeated the known stack trade-off weakness by recommending Django Admin plus separate React for a simple administrative MVP.
 
-Validation evidence: `docs/validation/two-model-production-workflow-029a.md`. No Modelfile change. No candidate creation. No runtime promotion. No `ollama cp`. No commit. No push.
+Validation evidence: `docs/validation/two-model-production-workflow-029a.md`. No Modelfile change. No candidate creation. No runtime promotion. No `ollama cp`. No harness or external app change occurred during RIC-STUDIO-029A.
+
+RIC-STUDIO-030A is in REVIEW after preserving the existing Architect pragmatic MVP Modelfile and creating the validation battery documentation.
+
+Modelfile: `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+
+Validation evidence: `docs/validation/architect-candidate-030a-pragmatic-mvp.md`.
+
+Battery documented: simple MVP stack trade-off, stack inflation rejection, domain invariant protection, portfolio MVP finalization, scope reduction, previous 029A failed stack case, existing lifecycle caution, and operational boundary.
+
+No `runtime/ric-orchestrator/*` file was touched. No harness, external project change, runtime promotion, `ollama cp`, commit, or push occurred during this documentation step.
 
 Pre-promotion evidence confirmed Git clean/synchronized, candidate ID `9e5cdcf8a6ae`, and previous official runtime ID `2711dd3bc829`.
 

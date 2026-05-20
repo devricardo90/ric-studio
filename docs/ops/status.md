@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios
+RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation
 
 ## Product mode
 
@@ -378,4 +378,16 @@ Result across model calls: 2 PASS, 3 CAVEAT, 1 FAIL.
 
 Evidence is documented in `docs/validation/two-model-production-workflow-029a.md`.
 
-No Modelfile change, candidate creation, runtime promotion, `ollama cp`, harness, external app change, commit, or push occurred during RIC-STUDIO-029A.
+No Modelfile change, candidate creation, runtime promotion, `ollama cp`, harness, or external app change occurred during RIC-STUDIO-029A.
+
+RIC-STUDIO-029A is Remote DONE and synchronized with `origin/main` at commit `6dcdf17`.
+
+RIC-STUDIO-030A is in REVIEW after preserving the existing Architect pragmatic MVP Modelfile and creating the validation battery documentation.
+
+Modelfile: `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`.
+
+Validation evidence: `docs/validation/architect-candidate-030a-pragmatic-mvp.md`.
+
+Battery documented: simple MVP stack trade-off, stack inflation rejection, domain invariant protection, portfolio MVP finalization, scope reduction, previous 029A failed stack case, existing lifecycle caution, and operational boundary.
+
+No `runtime/ric-orchestrator/*` file was touched. No harness, external project change, runtime promotion, `ollama cp`, commit, or push occurred during this documentation step.

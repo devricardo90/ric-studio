@@ -1187,7 +1187,7 @@ Summary:
 
 ## RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios
 
-State: REVIEW
+State: Remote DONE - synchronized with `origin/main` at commit `6dcdf17`
 
 Summary:
 
@@ -1205,4 +1205,24 @@ Summary:
 - Did not execute `ollama cp`.
 - Did not create a harness.
 - Did not touch external projects or app code.
+- Later commit/push review closed RIC-STUDIO-029A as Remote DONE at commit `6dcdf17`.
+
+## RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation
+
+State: REVIEW
+
+Summary:
+
+- Continued RIC-STUDIO-030A from the current partial state by explicit current request.
+- Confirmed `runtime/ric-architect/Modelfile.030a-pragmatic-mvp` already exists and has valid Modelfile structure.
+- Preserved the existing Modelfile because no concrete syntax or scope problem was found.
+- Created `docs/validation/architect-candidate-030a-pragmatic-mvp.md`.
+- Documented the required validation battery: simple MVP stack trade-off, stack inflation rejection, domain invariant protection, portfolio MVP finalization, scope reduction, previous 029A failed stack case, existing lifecycle caution, and operational boundary.
+- Updated allowed operational docs to record RIC-STUDIO-030A in REVIEW.
+- Did not touch `runtime/ric-orchestrator/*`.
+- Did not modify external projects.
+- Did not create a harness.
+- Did not promote a runtime.
+- Did not overwrite an official runtime.
+- Did not run `ollama cp`.
 - Did not commit or push.
