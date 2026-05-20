@@ -1310,3 +1310,26 @@ Summary:
 - Did not touch `runtime/ric-orchestrator/*`.
 - Did not modify app/code, package/dependency, deploy, GitHub workflow, or external project files.
 - Did not commit or push.
+
+## RIC-STUDIO-033A - Build Small MVP Architect 7B Candidate
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-033A by explicit current request after RIC-STUDIO-032B ended with BOTH REJECTED.
+- Created `runtime/ric-architect/Modelfile.033a-small-mvp-7b` using `FROM qwen2.5-coder:7b`.
+- Wrote a lean strict Architect system prompt for small MVP projects only.
+- Prompt constraints include Discussion Gate and READY task design only, no code execution, no Git evidence audit, no commit/push authorization, no Git command suggestions, no `ollama cp`, no runtime promotion, no invented repository/product state, explicit missing inventory, small validated slices, stack inflation rejection, and domain invariant protection.
+- Created `docs/validation/architect-candidate-033a-small-mvp-7b.md`.
+- Documented why this is the last local Architect attempt for now, what failed in RIC-STUDIO-032B, what this candidate narrows, future manual pass/fail validation scenarios, and that no promotion is authorized by this task.
+- Did not run future validation scenarios during RIC-STUDIO-033A.
+- Did not run `ollama create`.
+- Did not run `ollama cp`.
+- Did not promote any runtime.
+- Did not modify the active Architect runtime.
+- Did not modify `runtime/ric-orchestrator/*`.
+- Did not delete models.
+- Did not create app/code/package/deploy files.
+- Did not open another READY task.
+- Did not run Git add, commit, or push.

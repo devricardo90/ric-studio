@@ -6,11 +6,11 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-032B - Test Qwen2.5 7B And Qwen3 8B Architect Candidates
+RIC-STUDIO-033A - Build Small MVP Architect 7B Candidate
 
 ## Scope
 
-Create two RIC Architect candidate Modelfiles from `qwen2.5-coder:7b` and `qwen3:8b`, create the two local Ollama candidates, run the same lifecycle-first validation battery against both, compare behavior and performance, and document the recommendation. Sem promotion, sem `ollama cp`, sem commit, sem push.
+Create the final controlled small-MVP Architect candidate prompt source on `qwen2.5-coder:7b`, document why it exists, document future manual pass/fail criteria, and keep promotion blocked. Sem `ollama create`, sem `ollama cp`, sem promotion, sem commit, sem push.
 
 ## Allowed files
 
@@ -20,35 +20,30 @@ Create two RIC Architect candidate Modelfiles from `qwen2.5-coder:7b` and `qwen3
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/architect-candidate-032b-qwen25-vs-qwen3.md`
-- `runtime/ric-architect/Modelfile.032b-qwen25-coder-7b`
-- `runtime/ric-architect/Modelfile.032b-qwen3-8b`
+- `docs/validation/architect-candidate-033a-small-mvp-7b.md`
+- `runtime/ric-architect/Modelfile.033a-small-mvp-7b`
 
 ## Blocked in this task
 
-Modify `runtime/ric-orchestrator/*`, run `ollama cp`, promote or overwrite official runtimes, modify app/code files, modify package/dependency files, modify deploy files, modify GitHub workflows, modify external project repositories, use broad `git add .`, commit, push.
+Run `ollama cp`, promote any runtime, delete models, modify the active Architect runtime, modify `runtime/ric-orchestrator/*`, create app/code/package/deploy files, modify GitHub workflows, modify external project repositories, open another READY task, run Git add/commit/push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-032A - Test Two 8B Architect Candidates With Lifecycle-First Prompt - BLOCKED. Evidence in `docs/validation/architect-candidate-032a-8b-comparison.md`.
+RIC-STUDIO-032B - Test Qwen2.5 7B And Qwen3 8B Architect Candidates - REVIEW. Both candidates rejected; evidence in `docs/validation/architect-candidate-032b-qwen25-vs-qwen3.md`.
 
 ## Current task result
 
-RIC-STUDIO-032B is in REVIEW.
+RIC-STUDIO-033A is in REVIEW.
 
-Created candidate `ric-architect-candidate:032b-qwen25-coder-7b` from `runtime/ric-architect/Modelfile.032b-qwen25-coder-7b` using base `qwen2.5-coder:7b`. Post-create ID: `1033d68808fb`, size 4.7 GB.
+Created `runtime/ric-architect/Modelfile.033a-small-mvp-7b` using base `qwen2.5-coder:7b`.
 
-Created candidate `ric-architect-candidate:032b-qwen3-8b` from `runtime/ric-architect/Modelfile.032b-qwen3-8b` using base `qwen3:8b`. Post-create ID: `d3fe3521891b`, size 5.2 GB.
+The prompt is lean and strict: small MVP projects only; Discussion Gate and READY task design only; no code execution; no Git evidence audit; no commit or push authorization; no Git commands; no `ollama cp`; no runtime promotion; no invented repository or product state; explicit inventory requirements; stack inflation rejection; domain invariant protection.
 
-Validation result: BOTH REJECTED.
+Created `docs/validation/architect-candidate-033a-small-mvp-7b.md` documenting why this is the last local Architect attempt for now, what failed in RIC-STUDIO-032B, what the candidate narrows, and pass/fail criteria for future manual validation scenarios.
 
-`ric-architect-candidate:032b-qwen25-coder-7b` result: 4 PASS, 4 FAIL. It was operationally safer than Qwen3 but failed simple stack trade-off, domain invariant protection, portfolio MVP finalization, and strict lifecycle caution. Response times were about 27.8s to 141.5s.
+No validation scenarios were run during RIC-STUDIO-033A. No `ollama create`, `ollama cp`, runtime promotion, active Architect runtime modification, Orchestrator modification, model deletion, app/code/package/deploy change, READY task opening, Git add, commit, or push occurred.
 
-`ric-architect-candidate:032b-qwen3-8b` result: 2 PASS, 1 CAVEAT, 5 FAIL. It timed out on Test 1, suggested feature expansion before lifecycle inventory, invented product state, and produced an unsafe commit prompt with `git add .`. Response times were about 83.6s to 180.1s timeout.
-
-No candidate is recommended for future promotion. No `ollama cp`, official runtime promotion, official overwrite, Orchestrator change, app/code change, dependency change, deploy change, GitHub workflow change, external project change, commit, or push occurred.
-
-Evidence: `docs/validation/architect-candidate-032b-qwen25-vs-qwen3.md`.
+Evidence: `docs/validation/architect-candidate-033a-small-mvp-7b.md`.
 
 ## Gate status
 
