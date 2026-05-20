@@ -2,15 +2,15 @@
 
 ## Current state
 
-REVIEW
+BLOCKED
 
 ## Active task
 
-RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate
+RIC-STUDIO-032A - Test Two 8B Architect Candidates With Lifecycle-First Prompt
 
 ## Scope
 
-Create or refresh Ollama candidate `ric-architect-candidate:030a-pragmatic-mvp` from `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`, run the required manual behavior battery, document results in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`, and update operational docs. Sem commit, sem push.
+Inspect local Ollama models, select two valid 8B-class Architect candidate bases if available, test both with the refined lifecycle-first Architect prompt, compare behavior and performance, and document evidence. Stop as BLOCKED if fewer than two valid local 8B-class base models are available. Sem commit, sem push.
 
 ## Allowed files
 
@@ -20,15 +20,27 @@ Create or refresh Ollama candidate `ric-architect-candidate:030a-pragmatic-mvp` 
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/architect-candidate-031a-pragmatic-mvp.md`
+- `docs/validation/architect-candidate-032a-8b-comparison.md`
 
 ## Blocked in this task
 
-Modify `runtime/ric-architect/Modelfile.030a-pragmatic-mvp`, touch `runtime/ric-orchestrator/*`, modify Orchestrator prompt/Modelfile, modify external projects, create harness, promote runtime, overwrite official runtime, run `ollama cp`, use broad `git add .`, commit, push.
+Modify official runtimes, overwrite `ric-architect-qwen-v2:latest`, run `ollama cp`, use 14B models, download or pull models without explicit authorization, reuse prompt-wrapped runtime tags as separate base models for a fake comparison, modify Orchestrator prompt/Modelfile, modify external projects, create harness, use broad `git add .`, commit, push.
 
 ## Previous task
 
-RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation - Remote DONE at commit `105c220`.
+RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate - REVIEW. Candidate rejected; evidence in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`.
+
+## Current task result
+
+RIC-STUDIO-032A is BLOCKED.
+
+Raw `ollama list` evidence showed only one distinct local 8B-class base model tag suitable for this comparison: `qwen2.5-coder:7b` at ID `dae161e27b0e`, size 4.7 GB. Existing RIC Architect 4.7 GB tags are prompt/runtime derivatives, not separate base models. 9.3 GB entries are 14B-class and out of scope.
+
+The requested refined lifecycle-first Architect prompt body was also supplied only as the placeholder `[PASTE THE REFINED RIC ARCHITECT PROMPT HERE]`, so no concrete 032A prompt body was available for candidate creation.
+
+No candidate was created. No validation battery was run. No performance comparison was claimed. No `ollama cp`, runtime promotion, official overwrite, model pull/download, commit, or push occurred.
+
+Evidence: `docs/validation/architect-candidate-032a-8b-comparison.md`.
 
 ## Gate status
 

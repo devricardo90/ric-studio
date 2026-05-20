@@ -1258,3 +1258,28 @@ Summary:
 - Did not create a harness.
 - Did not modify external projects or app/code/package/deploy files.
 - Did not commit or push.
+
+## RIC-STUDIO-032A - Test Two 8B Architect Candidates With Lifecycle-First Prompt
+
+State: BLOCKED
+
+Summary:
+
+- Opened RIC-STUDIO-032A by explicit current request after RIC-STUDIO-031A rejected the previous Architect candidate for lifecycle caution failure.
+- Executed required local model inventory command: `ollama list`.
+- Raw model inventory showed only one distinct local 8B-class base model tag suitable for the requested comparison: `qwen2.5-coder:7b` at ID `dae161e27b0e`, size 4.7 GB.
+- Existing RIC Architect 4.7 GB tags were treated as prompt/runtime derivatives, not separate base models for a fair two-base comparison.
+- 9.3 GB entries were treated as 14B-class and out of scope for this task.
+- The requested refined lifecycle-first Architect prompt body was supplied only as `[PASTE THE REFINED RIC ARCHITECT PROMPT HERE]`, so no concrete 032A prompt body was available for candidate creation.
+- Stopped at the candidate-selection gate per task rule requiring BLOCKED if fewer than two valid 8B-class local models are available.
+- Created `docs/validation/architect-candidate-032a-8b-comparison.md` with raw `ollama list` evidence, blocker analysis, unrun validation battery, and negative confirmations.
+- Did not create `ric-architect-candidate:032a-8b-a`.
+- Did not create `ric-architect-candidate:032a-8b-b`.
+- Did not run the validation battery.
+- Did not record per-test performance evidence because no candidate validation calls were executed.
+- Did not run `ollama cp`.
+- Did not promote any runtime.
+- Did not overwrite `ric-architect-qwen-v2:latest`.
+- Did not download or pull models.
+- Did not use 14B models.
+- Did not commit or push.

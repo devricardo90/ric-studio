@@ -4,7 +4,8 @@
 
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
-- RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. REVIEW - candidate rejected; evidence documented; no commit.
+- RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. Remote DONE - candidate rejected; evidence documented at dfef2c7.
+- RIC-STUDIO-032A - Test Two 8B Architect Candidates With Lifecycle-First Prompt. BLOCKED - fewer than two valid local 8B-class base models; prompt body placeholder only; evidence documented; no commit.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -67,7 +68,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-031A evidence in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`. Official Architect runtime promotion, commit, and push remain blocked without explicit authorization.
+Review RIC-STUDIO-032A evidence in `docs/validation/architect-candidate-032a-8b-comparison.md`. A future comparison needs a second valid local 8B-class base model or explicit download authorization, plus the concrete lifecycle-first Architect prompt body. Official Architect runtime promotion, commit, and push remain blocked without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

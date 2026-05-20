@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW
+BLOCKED
 
 ## Task
 
-RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate
+RIC-STUDIO-032A - Test Two 8B Architect Candidates With Lifecycle-First Prompt
 
 ## Product mode
 
@@ -32,6 +32,18 @@ Documentation and operational control only.
 ## Runtime authority
 
 `ric-orchestrator-runtime:latest` is the official local orchestration runtime.
+
+## Current task result
+
+RIC-STUDIO-032A is BLOCKED.
+
+Raw `ollama list` evidence showed only one distinct local 8B-class base model tag suitable for this comparison: `qwen2.5-coder:7b` at ID `dae161e27b0e`, size 4.7 GB. Existing RIC Architect 4.7 GB tags are prompt/runtime derivatives, not separate base models. 9.3 GB entries are 14B-class and out of scope for this task.
+
+The requested refined lifecycle-first Architect prompt body was supplied only as the placeholder `[PASTE THE REFINED RIC ARCHITECT PROMPT HERE]`, so no concrete 032A prompt body was available for candidate creation.
+
+No candidate was created. No validation battery was run. No performance comparison was claimed. No `ollama cp`, runtime promotion, official overwrite, model pull/download, commit, or push occurred.
+
+Evidence: `docs/validation/architect-candidate-032a-8b-comparison.md`.
 
 ## READY note
 

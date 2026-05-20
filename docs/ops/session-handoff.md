@@ -2,6 +2,22 @@
 
 ## Current handoff state
 
+RIC-STUDIO-032A is BLOCKED as `Test Two 8B Architect Candidates With Lifecycle-First Prompt`.
+
+Evidence was created:
+
+- `docs/validation/architect-candidate-032a-8b-comparison.md`.
+
+Raw `ollama list` evidence showed only one distinct local 8B-class base model tag suitable for this comparison:
+
+- `qwen2.5-coder:7b` at ID `dae161e27b0e`, size 4.7 GB.
+
+Existing RIC Architect 4.7 GB tags are prompt/runtime derivatives and were not treated as separate base models. 9.3 GB entries are 14B-class and out of scope for RIC-STUDIO-032A.
+
+The requested refined lifecycle-first Architect prompt body was supplied only as `[PASTE THE REFINED RIC ARCHITECT PROMPT HERE]`, so no concrete 032A prompt body was available for candidate creation.
+
+No candidate was created. No validation battery was run. No performance comparison was claimed. No `ollama cp`, runtime promotion, official overwrite, model pull/download, commit, or push occurred.
+
 RIC-STUDIO-031A is in REVIEW as `Build And Validate Architect Pragmatic MVP Candidate`.
 
 Candidate `ric-architect-candidate:030a-pragmatic-mvp` was refreshed from:
