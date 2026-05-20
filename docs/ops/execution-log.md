@@ -1363,3 +1363,32 @@ Summary:
 - Did not create app/code/package/deploy files.
 - Did not open a new READY task.
 - Did not commit or push.
+
+## RIC-STUDIO-035A - Clean Rejected Architect Local Models
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-035A by explicit current request after RIC-STUDIO-032B and RIC-STUDIO-034A rejected local Architect candidates.
+- Ran pre-cleanup inventory with `ollama list | findstr /i "ric-architect qwen2.5-coder qwen3"`.
+- Pre-cleanup inventory showed two deletion-list tags present: `ric-architect-candidate:033a-small-mvp-7b` and `ric-architect-candidate:030a-pragmatic-mvp`.
+- Deletion-list tags not present: `ric-architect-candidate:032b-qwen3-8b`, `ric-architect-candidate:032b-qwen25-coder-7b`, and `qwen3:8b`.
+- Deleted `ric-architect-candidate:033a-small-mvp-7b` with `ollama rm ric-architect-candidate:033a-small-mvp-7b`; command returned `deleted 'ric-architect-candidate:033a-small-mvp-7b'`.
+- Deleted `ric-architect-candidate:030a-pragmatic-mvp` with `ollama rm ric-architect-candidate:030a-pragmatic-mvp`; command returned `deleted 'ric-architect-candidate:030a-pragmatic-mvp'`.
+- Post-cleanup inventory preserved `ric-architect-qwen-v2:latest`, `ric-architect-qwen-v2:backup-before-028b`, and `qwen2.5-coder:7b`.
+- Post-cleanup inventory also showed `ric-architect-candidate:028a-qwen25-coder-7b-contextfix` and `ric-architect-candidate:026a-qwen25-coder-7b`, which were not in the approved deletion list and were not touched.
+- Created `docs/validation/architect-model-cleanup-035a.md` with pre-cleanup inventory, deleted tags, preserved tags, post-cleanup inventory, promotion boundary, local Architect pause note, and strategic authority note.
+- Local Architect promotion remains paused after rejected validations.
+- ChatGPT remains the strategic Architect.
+- RIC Orchestrator remains the local evidence gatekeeper.
+- Did not run `ollama cp`.
+- Did not promote any runtime.
+- Did not overwrite or delete `ric-architect-qwen-v2:latest`.
+- Did not delete `ric-architect-qwen-v2:backup-before-028b`.
+- Did not delete `qwen2.5-coder:7b`.
+- Did not modify any Modelfile.
+- Did not modify Orchestrator files.
+- Did not create app/code/package/deploy files.
+- Did not open a new READY task.
+- Did not commit or push.

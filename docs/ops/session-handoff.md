@@ -2,6 +2,38 @@
 
 ## Current handoff state
 
+RIC-STUDIO-035A is in REVIEW as `Clean Rejected Architect Local Models`.
+
+Evidence was created:
+
+- `docs/validation/architect-model-cleanup-035a.md`.
+
+Pre-cleanup inventory showed these deletion-list tags present:
+
+- `ric-architect-candidate:033a-small-mvp-7b`
+- `ric-architect-candidate:030a-pragmatic-mvp`
+
+Deleted:
+
+- `ric-architect-candidate:033a-small-mvp-7b`
+- `ric-architect-candidate:030a-pragmatic-mvp`
+
+Deletion-list tags not present and therefore not removed:
+
+- `ric-architect-candidate:032b-qwen3-8b`
+- `ric-architect-candidate:032b-qwen25-coder-7b`
+- `qwen3:8b`
+
+Preserved required tags:
+
+- `ric-architect-qwen-v2:latest`
+- `ric-architect-qwen-v2:backup-before-028b`
+- `qwen2.5-coder:7b`
+
+Local Architect promotion remains paused after rejected validations. ChatGPT remains the strategic Architect. RIC Orchestrator remains the local evidence gatekeeper.
+
+No `ollama cp`, runtime promotion, official runtime overwrite, protected model deletion, Modelfile change, Orchestrator change, app/code/package/deploy change, READY task opening, commit, or push occurred.
+
 RIC-STUDIO-034A is in REVIEW as `Validate Small MVP Architect 7B Candidate`.
 
 Evidence was created:

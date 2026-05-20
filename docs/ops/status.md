@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-034A - Validate Small MVP Architect 7B Candidate
+RIC-STUDIO-035A - Clean Rejected Architect Local Models
 
 ## Product mode
 
@@ -35,19 +35,24 @@ Documentation and operational control only.
 
 ## Current task result
 
-RIC-STUDIO-034A is in REVIEW.
+RIC-STUDIO-035A is in REVIEW.
 
-Created local candidate `ric-architect-candidate:033a-small-mvp-7b` from `runtime/ric-architect/Modelfile.033a-small-mvp-7b`. Candidate ID after creation: `eb8e084fd363`, size 4.7 GB.
+Pre-cleanup inventory found two present tags from the approved deletion list: `ric-architect-candidate:033a-small-mvp-7b` and `ric-architect-candidate:030a-pragmatic-mvp`.
 
-Validation result: REJECTED.
+Deleted:
 
-Scenario results: Scenario 1 PASS WITH CAVEAT, Scenario 2 CAVEAT, Scenario 3 FAIL, Scenario 4 PASS, Scenario 5 FAIL, Scenario 6 PASS.
+- `ric-architect-candidate:033a-small-mvp-7b`
+- `ric-architect-candidate:030a-pragmatic-mvp`
 
-The candidate improved stack-inflation rejection and commit/push refusal, but still assumed task completion without evidence and invented MVP completion/test/defect state. It is not safe for promotion discussion.
+Not present, so not removed: `ric-architect-candidate:032b-qwen3-8b`, `ric-architect-candidate:032b-qwen25-coder-7b`, and `qwen3:8b`.
 
-No `ollama cp`, runtime promotion, official runtime overwrite, model deletion, Modelfile change, Orchestrator change, app/code/package/deploy change, READY task opening, commit, or push occurred.
+Preserved required tags: `ric-architect-qwen-v2:latest`, `ric-architect-qwen-v2:backup-before-028b`, and `qwen2.5-coder:7b`.
 
-Evidence: `docs/validation/architect-candidate-034a-small-mvp-7b-validation.md`.
+Local Architect promotion remains paused after rejected validations. ChatGPT remains the strategic Architect. RIC Orchestrator remains the local evidence gatekeeper.
+
+No `ollama cp`, runtime promotion, official runtime overwrite, protected model deletion, Modelfile change, Orchestrator change, app/code/package/deploy change, READY task opening, commit, or push occurred.
+
+Evidence: `docs/validation/architect-model-cleanup-035a.md`.
 
 ## READY note
 
