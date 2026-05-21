@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules
+RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate
 
 ## Product mode
 
@@ -35,17 +35,19 @@ Documentation and operational control only.
 
 ## Current task result
 
-RIC-STUDIO-036A is in REVIEW.
+RIC-STUDIO-037A is in REVIEW.
 
-`runtime/ric-orchestrator/Modelfile` now explicitly separates evidence audit from evidence generation. In plain chat or `ollama run` without a connected tool layer, the Orchestrator must not claim it ran shell, Git, test, build, migration, deploy, or validation commands.
+Candidate `ric-orchestrator-candidate:037a-evidence-hardened` was created from `runtime/ric-orchestrator/Modelfile`.
 
-The prompt now forbids fabricated raw output, including invented repository paths, Git state, commit hashes, diffs, file contents, test results, build results, migration results, deploy results, and validation outputs.
+Post-create evidence showed candidate ID `d4cd40dd1862`, size 9.3 GB, architecture `qwen3`, parameters `14.8B`, quantization `Q4_K_M`, and capability `thinking`.
 
-Missing evidence must be handled by asking for exact missing evidence and giving manual commands for the Trigger to run. Contradictory evidence must return `AUDIT FAILED — INSUFFICIENT OR CONTRADICTORY EVIDENCE`.
+The official runtime `ric-orchestrator-runtime:latest` remained ID `9e5cdcf8a6ae`, size 4.7 GB. It was not promoted, overwritten, or copied over.
 
-Evidence: `docs/validation/orchestrator-evidence-source-rules-036a.md`.
+Validation battery result: 0 PASS, 6 FAIL. All scenarios failed operationally by timeout or incomplete response; scenarios 4, 5, and 6 also exposed visible `Thinking...` output. Final decision: REJECTED.
 
-No `ollama create`, `ollama cp`, runtime promotion, model deletion, Architect file change, app/code/package/deploy change, READY task opening, commit, or push occurred.
+Evidence: `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`.
+
+No `ollama cp`, runtime promotion, official runtime overwrite, model deletion, Architect file change, Modelfile edit, app/code/package/deploy change, READY task opening, commit, or push occurred.
 
 ## READY note
 

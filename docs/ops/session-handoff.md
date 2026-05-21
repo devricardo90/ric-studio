@@ -2,7 +2,30 @@
 
 ## Current handoff state
 
-RIC-STUDIO-036A is in REVIEW as `Harden Orchestrator Evidence Source Rules`.
+RIC-STUDIO-037A is in REVIEW as `Validate Hardened Orchestrator Evidence Rules Candidate`.
+
+Evidence was created:
+
+- `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`.
+
+Candidate created:
+
+- `ric-orchestrator-candidate:037a-evidence-hardened`.
+- ID: `d4cd40dd1862`.
+- Size: 9.3 GB.
+- Source: `runtime/ric-orchestrator/Modelfile`.
+
+Validation result: REJECTED.
+
+Scenario result: 0 PASS, 6 FAIL. All six validation prompts failed operationally by timeout or incomplete response; scenarios 4, 5, and 6 also exposed visible `Thinking...` output.
+
+The official runtime `ric-orchestrator-runtime:latest` remained ID `9e5cdcf8a6ae`, size 4.7 GB. It was not promoted, overwritten, or copied over.
+
+No `ollama cp`, runtime promotion, official runtime overwrite, model deletion, Architect file change, Modelfile edit, app/code/package/deploy change, READY task opening, commit, or push occurred.
+
+RIC-STUDIO-036A is Remote DONE per current task context. Evidence: `docs/validation/orchestrator-evidence-source-rules-036a.md`.
+
+Previous handoff context: RIC-STUDIO-036A was recorded as `Harden Orchestrator Evidence Source Rules`.
 
 Evidence was created:
 
@@ -592,7 +615,7 @@ RIC-STUDIO-021A executed: backup created, candidate promoted, smoke test passed.
 
 ## What remains
 
-Review RIC-STUDIO-025A promotion evidence in `docs/validation/runtime-promotion-025a.md`. Authorize commit and push after Trigger review. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-037A validation evidence in `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`. Candidate `ric-orchestrator-candidate:037a-evidence-hardened` is rejected and must not be promoted. Do not commit or push without explicit authorization.
 
 Do not delete `ric-orchestrator-runtime:backup-before-012a`.
 

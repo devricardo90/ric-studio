@@ -6,16 +6,15 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules
+RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate
 
 ## Scope
 
-Harden the versioned RIC Local Orchestrator prompt and documentation so evidence generation is explicitly separated from evidence audit. In plain Ollama/chat mode, the Orchestrator must never claim command execution or fabricate raw evidence.
+Build and validate candidate `ric-orchestrator-candidate:037a-evidence-hardened` from the RIC-STUDIO-036A hardened Orchestrator Modelfile, without promoting or overwriting the official runtime.
 
 ## Allowed files
 
-- `runtime/ric-orchestrator/Modelfile`
-- `docs/validation/orchestrator-evidence-source-rules-036a.md`
+- `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -25,27 +24,27 @@ Harden the versioned RIC Local Orchestrator prompt and documentation so evidence
 
 ## Blocked in this task
 
-Run `ollama create`, run `ollama cp`, promote any runtime, delete models, modify Architect files, modify app/code/package/deploy files, modify GitHub workflows, modify external project repositories, open a new READY task, commit, push, use broad `git add .`.
+Run `ollama cp`, promote any runtime, overwrite `ric-orchestrator-runtime:latest`, delete models, modify Architect files, modify `runtime/ric-orchestrator/Modelfile`, modify app/code/package/deploy files, open a new READY task beyond this validation record, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-035A - Clean Rejected Architect Local Models - REVIEW. Rejected local Architect candidates were removed; protected models were preserved; evidence in `docs/validation/architect-model-cleanup-035a.md`.
+RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules - Remote DONE per current task context. Evidence: `docs/validation/orchestrator-evidence-source-rules-036a.md`.
 
 ## Current task result
 
-RIC-STUDIO-036A is in REVIEW.
+RIC-STUDIO-037A is in REVIEW.
 
-`runtime/ric-orchestrator/Modelfile` was hardened to state that the Orchestrator audits evidence but does not generate evidence. The prompt now explicitly says that plain chat or `ollama run` has no shell/tool access and must not claim to run `pwd`, Git commands, tests, builds, migrations, deploys, or validation commands.
+Candidate `ric-orchestrator-candidate:037a-evidence-hardened` was created from `runtime/ric-orchestrator/Modelfile`.
 
-The prompt now forbids fabricated raw output, including invented repository paths, Git status, branch state, commit hashes, diffs, file contents, test results, build results, migration results, deploy results, and validation outputs.
+Post-create evidence showed candidate ID `d4cd40dd1862`, size 9.3 GB, architecture `qwen3`, parameters `14.8B`, quantization `Q4_K_M`, and capability `thinking`.
 
-Missing evidence behavior now requires exact missing evidence and manual command lists for the Trigger to run. Contradictory evidence must return `AUDIT FAILED — INSUFFICIENT OR CONTRADICTORY EVIDENCE`.
+The official runtime `ric-orchestrator-runtime:latest` remained ID `9e5cdcf8a6ae`, size 4.7 GB. It was not promoted, overwritten, or copied over.
 
-Documentation was created at `docs/validation/orchestrator-evidence-source-rules-036a.md`, including the Clinic Booking Mini incident, the fabricated evidence problem, expected hardened behavior, and manual validation scenarios for a later task.
+Validation battery result: 0 PASS, 6 FAIL. All scenarios failed operationally by timeout or incomplete response; scenarios 4, 5, and 6 also exposed visible `Thinking...` output. Final decision: REJECTED.
 
-No `ollama create`, `ollama cp`, runtime promotion, model deletion, Architect file change, app/code/package/deploy change, READY task opening, commit, or push occurred.
+Evidence: `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`.
 
-Evidence: `docs/validation/orchestrator-evidence-source-rules-036a.md`.
+No `ollama cp`, runtime promotion, official runtime overwrite, model deletion, Architect file change, Modelfile edit, app/code/package/deploy change, READY task opening, commit, or push occurred.
 
 ## Gate status
 

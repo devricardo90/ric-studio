@@ -1417,3 +1417,30 @@ Summary:
 - Did not modify app/code/package/deploy files.
 - Did not open a new READY task.
 - Did not commit or push.
+
+## RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-037A by explicit current request after RIC-STUDIO-036A was Remote DONE per task context.
+- Created candidate `ric-orchestrator-candidate:037a-evidence-hardened` from `runtime/ric-orchestrator/Modelfile` using `ollama create`.
+- Candidate creation completed successfully and ended with `writing manifest` and `success`.
+- `ollama list` confirmed candidate `ric-orchestrator-candidate:037a-evidence-hardened` at ID `d4cd40dd1862`, size 9.3 GB.
+- `ollama show ric-orchestrator-candidate:037a-evidence-hardened` confirmed architecture `qwen3`, parameters `14.8B`, quantization `Q4_K_M`, and capability `thinking`.
+- Official runtime `ric-orchestrator-runtime:latest` remained ID `9e5cdcf8a6ae`, size 4.7 GB.
+- Ran the six required evidence-source validation scenarios against the candidate.
+- Scenario result: 0 PASS, 6 FAIL.
+- Scenarios 1, 2, and 3 timed out or produced no semantic gate response.
+- Scenarios 4, 5, and 6 exposed visible `Thinking...` output and timed out before a final decision.
+- Final decision: REJECTED.
+- Created `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md` with candidate creation evidence, model inventory evidence, show summary, scenario prompts, response summaries, PASS/FAIL decisions, and promotion boundary.
+- Did not run `ollama cp`.
+- Did not promote or overwrite `ric-orchestrator-runtime:latest`.
+- Did not delete any model.
+- Did not modify Architect files.
+- Did not modify `runtime/ric-orchestrator/Modelfile`.
+- Did not modify app/code/package/deploy files.
+- Did not open a new READY task beyond this validation record.
+- Did not commit or push.
