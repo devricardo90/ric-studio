@@ -1392,3 +1392,28 @@ Summary:
 - Did not create app/code/package/deploy files.
 - Did not open a new READY task.
 - Did not commit or push.
+
+## RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-036A by explicit current request after the Clinic Booking Mini audit exposed fabricated command output in a plain Ollama session.
+- Updated `runtime/ric-orchestrator/Modelfile` to state that the Orchestrator audits evidence and does not generate evidence.
+- Added explicit plain chat / `ollama run` boundary: without a connected tool layer, the Orchestrator has no shell, Git, filesystem, test, build, migration, deploy, CI, or network access.
+- Prohibited claims that the Orchestrator ran `pwd`, `git status`, `git diff`, `git log`, tests, builds, migrations, deploys, or validation commands when no tool layer is connected.
+- Prohibited fabricated raw output, including invented repository paths, Git status, branch state, commit hashes, diffs, file contents, test results, build results, migration results, deploy results, and validation outputs.
+- Added missing-evidence behavior requiring exact missing evidence and concrete manual command lists for the Trigger to run and paste back.
+- Added contradictory-evidence behavior requiring `AUDIT FAILED — INSUFFICIENT OR CONTRADICTORY EVIDENCE`.
+- Added required decision labels including `EXECUTION BLOCKED — EVIDENCE REQUIRED`, `EXECUTION BLOCKED — DISCUSSION GATE REQUIRED`, and `LOCAL DONE CONFIRMADO`.
+- Created `docs/validation/orchestrator-evidence-source-rules-036a.md` documenting the Clinic Booking Mini incident, expected hardened behavior, and manual validation scenarios for a later task.
+- Did not run the documented manual validation scenarios.
+- Did not run `ollama create`.
+- Did not run `ollama cp`.
+- Did not promote any runtime.
+- Did not delete models.
+- Did not modify Architect files.
+- Did not modify app/code/package/deploy files.
+- Did not open a new READY task.
+- Did not commit or push.

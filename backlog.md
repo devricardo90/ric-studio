@@ -10,6 +10,7 @@
 - RIC-STUDIO-033A - Build Small MVP Architect 7B Candidate (REVIEW - final lean qwen2.5 7B prompt source documented; no runtime creation or promotion; no commit)
 - RIC-STUDIO-034A - Validate Small MVP Architect 7B Candidate (REVIEW - candidate rejected; evidence documented; no promotion, commit, or push)
 - RIC-STUDIO-035A - Clean Rejected Architect Local Models (REVIEW - rejected local Architect candidates removed; protected models preserved; no promotion, commit, or push)
+- RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules (REVIEW - versioned Orchestrator prompt and validation note updated; no build, promotion, commit, or push)
 
 ## REJECTED / REVIEW CLOSED
 
@@ -64,7 +65,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-035A evidence in `docs/validation/architect-model-cleanup-035a.md`. Local Architect promotion remains paused; ChatGPT remains the strategic Architect and RIC Orchestrator remains the local evidence gatekeeper. Commit and push remain blocked without explicit authorization.
+Review RIC-STUDIO-036A evidence in `docs/validation/orchestrator-evidence-source-rules-036a.md`. The versioned Orchestrator prompt is hardened, but no runtime was built or promoted. Commit and push remain blocked without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

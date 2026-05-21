@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-035A - Clean Rejected Architect Local Models
+RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules
 
 ## Product mode
 
@@ -35,24 +35,17 @@ Documentation and operational control only.
 
 ## Current task result
 
-RIC-STUDIO-035A is in REVIEW.
+RIC-STUDIO-036A is in REVIEW.
 
-Pre-cleanup inventory found two present tags from the approved deletion list: `ric-architect-candidate:033a-small-mvp-7b` and `ric-architect-candidate:030a-pragmatic-mvp`.
+`runtime/ric-orchestrator/Modelfile` now explicitly separates evidence audit from evidence generation. In plain chat or `ollama run` without a connected tool layer, the Orchestrator must not claim it ran shell, Git, test, build, migration, deploy, or validation commands.
 
-Deleted:
+The prompt now forbids fabricated raw output, including invented repository paths, Git state, commit hashes, diffs, file contents, test results, build results, migration results, deploy results, and validation outputs.
 
-- `ric-architect-candidate:033a-small-mvp-7b`
-- `ric-architect-candidate:030a-pragmatic-mvp`
+Missing evidence must be handled by asking for exact missing evidence and giving manual commands for the Trigger to run. Contradictory evidence must return `AUDIT FAILED — INSUFFICIENT OR CONTRADICTORY EVIDENCE`.
 
-Not present, so not removed: `ric-architect-candidate:032b-qwen3-8b`, `ric-architect-candidate:032b-qwen25-coder-7b`, and `qwen3:8b`.
+Evidence: `docs/validation/orchestrator-evidence-source-rules-036a.md`.
 
-Preserved required tags: `ric-architect-qwen-v2:latest`, `ric-architect-qwen-v2:backup-before-028b`, and `qwen2.5-coder:7b`.
-
-Local Architect promotion remains paused after rejected validations. ChatGPT remains the strategic Architect. RIC Orchestrator remains the local evidence gatekeeper.
-
-No `ollama cp`, runtime promotion, official runtime overwrite, protected model deletion, Modelfile change, Orchestrator change, app/code/package/deploy change, READY task opening, commit, or push occurred.
-
-Evidence: `docs/validation/architect-model-cleanup-035a.md`.
+No `ollama create`, `ollama cp`, runtime promotion, model deletion, Architect file change, app/code/package/deploy change, READY task opening, commit, or push occurred.
 
 ## READY note
 

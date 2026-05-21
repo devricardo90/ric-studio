@@ -2,6 +2,26 @@
 
 ## Current handoff state
 
+RIC-STUDIO-036A is in REVIEW as `Harden Orchestrator Evidence Source Rules`.
+
+Evidence was created:
+
+- `docs/validation/orchestrator-evidence-source-rules-036a.md`.
+
+Versioned prompt updated:
+
+- `runtime/ric-orchestrator/Modelfile`.
+
+The Orchestrator prompt now explicitly separates evidence audit from evidence generation. In plain chat or `ollama run` without a connected tool layer, it must not claim shell, Git, filesystem, test, build, migration, deploy, CI, or network access.
+
+The prompt now forbids fabricated raw output, including invented repository paths, Git status, branch state, commit hashes, diffs, file contents, test results, build results, migration results, deploy results, and validation outputs.
+
+Missing evidence must be handled by asking for exact missing evidence and giving manual commands for the Trigger to run. Contradictory evidence must return `AUDIT FAILED — INSUFFICIENT OR CONTRADICTORY EVIDENCE`.
+
+Manual validation scenarios were documented for a later task, but not run during RIC-STUDIO-036A.
+
+No `ollama create`, `ollama cp`, runtime promotion, model deletion, Architect file change, app/code/package/deploy change, READY task opening, commit, or push occurred.
+
 RIC-STUDIO-035A is in REVIEW as `Clean Rejected Architect Local Models`.
 
 Evidence was created:
