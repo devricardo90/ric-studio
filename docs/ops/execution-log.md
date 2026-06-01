@@ -1633,3 +1633,25 @@ Summary:
 - Did not create fixtures or run smoke validation for `COMMIT_ALLOWED`.
 - Did not add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add TypeScript setup, create UI, add Next.js, LangChain, LangGraph, GitHub API integration, automation, runtime changes, or `Modelfile` changes.
 - Did not commit or push.
+
+## RIC-STUDIO-043A - Implement Commit Allowed Decision From Evidence Contract
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
+
+Summary:
+
+- Opened RIC-STUDIO-043A after RIC-STUDIO-042A reached Remote DONE at commit `96dc318`.
+- Implemented `COMMIT_ALLOWED` in `tools/auditor/audit.mjs` only when the evidence input satisfies the documented commit allow evidence contract.
+- Preserved existing `COMMIT_BLOCKED` behavior and all five negative input scenarios from RIC-STUDIO-041A.
+- Created `tools/auditor/fixtures/commit-allowed-evidence.json`.
+- Created `docs/validation/local-auditor-commit-allowed-smoke.md`.
+- Validated no file argument, missing file path, invalid JSON, JSON array instead of object, incomplete sample evidence, and complete commit evidence.
+- The five negative scenarios returned `COMMIT_BLOCKED`.
+- The complete positive evidence fixture returned `COMMIT_ALLOWED`, allowed only `commit`, kept `push` and `remote_done` blocked, and kept `human_review_required` true.
+- Did not implement `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, or `REMOTE_DONE_CONFIRMED`.
+- Did not add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add TypeScript setup, create UI, add Next.js, LangChain, LangGraph, GitHub API integration, automation, runtime changes, or `Modelfile` changes.
+- Did not commit or push.

@@ -11,6 +11,24 @@ const REQUIRED_EVIDENCE_FIELDS = [
   "validation_output",
 ];
 
+const COMMIT_ALLOWED_REQUIRED_FIELDS = [
+  "task_id",
+  "requested_gate",
+  "expected_state_before_commit",
+  "allowed_files",
+  "blocked_files",
+  "blocked_actions",
+  "implementation_summary",
+  "git_status_short",
+  "git_status_sb",
+  "git_diff_stat",
+  "git_diff_check",
+  "file_diffs",
+  "validation_commands",
+  "validation_outputs",
+  "validation_interpretation",
+];
+
 function isMissingOrEmpty(value) {
   if (value === undefined || value === null) {
     return true;
@@ -31,6 +49,116 @@ function isMissingOrEmpty(value) {
   return false;
 }
 
+function hasWhitespaceError(diffCheck) {
+  const normalized = String(diffCheck).toLowerCase();
+
+  return [
+    "trailing whitespace",
+    "space before tab",
+    "conflict marker",
+    "error:",
+  ].some((pattern) => normalized.includes(pattern));
+}
+
+function parseStatusPaths(statusShort) {
+  return String(statusShort)
+    .split(/\r?\n/)
+    .map((line) => line.trimEnd())
+    .filter(Boolean)
+    .map((line) => {
+      const path = line.length > 3 ? line.slice(3).trim() : line.trim();
+      const renameTarget = path.includes(" -> ") ? path.split(" -> ").pop() : path;
+
+      return renameTarget.trim();
+    })
+    .filter(Boolean);
+}
+
+function validationPassed(interpretation) {
+  if (typeof interpretation === "string") {
+    return interpretation.trim().toLowerCase() === "pass";
+  }
+
+  if (!interpretation || typeof interpretation !== "object" || Array.isArray(interpretation)) {
+    return false;
+  }
+
+  const overall = interpretation.overall || interpretation.result || interpretation.status;
+
+  return typeof overall === "string" && overall.trim().toLowerCase() === "pass";
+}
+
+function findCommitAllowedMissingEvidence(evidence) {
+  const missingEvidence = COMMIT_ALLOWED_REQUIRED_FIELDS.filter((field) =>
+    isMissingOrEmpty(evidence[field])
+  );
+
+  if (evidence.requested_gate !== "commit") {
+    missingEvidence.push("requested_gate_commit");
+  }
+
+  if (evidence.expected_state_before_commit !== "REVIEW") {
+    missingEvidence.push("expected_state_before_commit_review");
+  }
+
+  if (!Array.isArray(evidence.allowed_files)) {
+    missingEvidence.push("allowed_files_array");
+  }
+
+  if (!Array.isArray(evidence.blocked_files)) {
+    missingEvidence.push("blocked_files_array");
+  }
+
+  if (!Array.isArray(evidence.blocked_actions)) {
+    missingEvidence.push("blocked_actions_array");
+  } else {
+    for (const action of ["push", "remote_done"]) {
+      if (!evidence.blocked_actions.includes(action)) {
+        missingEvidence.push(`blocked_action_${action}`);
+      }
+    }
+  }
+
+  if (typeof evidence.git_diff_check === "string" && hasWhitespaceError(evidence.git_diff_check)) {
+    missingEvidence.push("git_diff_check_clean");
+  }
+
+  if (!validationPassed(evidence.validation_interpretation)) {
+    missingEvidence.push("validation_interpretation_pass");
+  }
+
+  if (
+    evidence.allowed_files &&
+    evidence.blocked_files &&
+    Array.isArray(evidence.allowed_files) &&
+    Array.isArray(evidence.blocked_files)
+  ) {
+    const changedPaths = parseStatusPaths(evidence.git_status_short);
+    const allowedFiles = new Set(evidence.allowed_files);
+    const blockedFiles = new Set(evidence.blocked_files);
+
+    for (const changedPath of changedPaths) {
+      if (!allowedFiles.has(changedPath)) {
+        missingEvidence.push(`allowed_file:${changedPath}`);
+      }
+
+      if (blockedFiles.has(changedPath)) {
+        missingEvidence.push(`blocked_file:${changedPath}`);
+      }
+
+      if (
+        !evidence.file_diffs ||
+        typeof evidence.file_diffs !== "object" ||
+        isMissingOrEmpty(evidence.file_diffs[changedPath])
+      ) {
+        missingEvidence.push(`file_diff:${changedPath}`);
+      }
+    }
+  }
+
+  return [...new Set(missingEvidence)];
+}
+
 function blockedDecision(evidence = {}, missingEvidence = []) {
   return {
     decision: "COMMIT_BLOCKED",
@@ -47,6 +175,25 @@ function blockedDecision(evidence = {}, missingEvidence = []) {
     allowed_actions: [],
     blocked_actions: ["commit", "push", "remote_done"],
     human_review_required: true,
+  };
+}
+
+function allowedDecision(evidence) {
+  return {
+    decision: "COMMIT_ALLOWED",
+    task_id: evidence.task_id,
+    requested_gate: "commit",
+    result: "allowed",
+    evidence_quality: "sufficient",
+    required_evidence: [],
+    provided_evidence: [],
+    missing_evidence: [],
+    protocol_findings: [],
+    allowed_actions: ["commit"],
+    blocked_actions: ["push", "remote_done"],
+    human_review_required: true,
+    next_step: "Commit only the explicitly scoped files after human approval.",
+    summary: evidence.implementation_summary,
   };
 }
 
@@ -71,9 +218,7 @@ function readEvidence(filePath) {
 
     return {
       evidence,
-      missingEvidence: REQUIRED_EVIDENCE_FIELDS.filter((field) =>
-        isMissingOrEmpty(evidence[field])
-      ),
+      missingEvidence: [],
     };
   } catch (error) {
     const isSyntaxError = error instanceof SyntaxError;
@@ -87,6 +232,19 @@ function readEvidence(filePath) {
 
 const filePath = process.argv[2];
 const { evidence, missingEvidence } = readEvidence(filePath);
-const decision = blockedDecision(evidence, missingEvidence);
+const isCommitAllowedCandidate =
+  evidence.expected_state_before_commit !== undefined ||
+  evidence.validation_commands !== undefined ||
+  evidence.allowed_files !== undefined;
+const evaluatedMissingEvidence =
+  missingEvidence.length > 0
+    ? missingEvidence
+    : isCommitAllowedCandidate
+      ? findCommitAllowedMissingEvidence(evidence)
+      : REQUIRED_EVIDENCE_FIELDS.filter((field) => isMissingOrEmpty(evidence[field]));
+const decision =
+  isCommitAllowedCandidate && evaluatedMissingEvidence.length === 0
+    ? allowedDecision(evidence)
+    : blockedDecision(evidence, evaluatedMissingEvidence);
 
 process.stdout.write(`${JSON.stringify(decision, null, 2)}\n`);
