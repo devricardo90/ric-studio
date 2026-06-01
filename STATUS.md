@@ -6,20 +6,20 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-043A - Implement Commit Allowed Decision From Evidence Contract
+RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor
 
 ## Scope
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
 
-First positive `COMMIT_ALLOWED` decision implementation from the evidence contract.
+First real local evidence input example for the auditor CLI.
 
 Included scope:
 
-- Implement `COMMIT_ALLOWED` in `tools/auditor/audit.mjs` only when the evidence input satisfies the documented commit allow evidence contract.
-- Preserve existing `COMMIT_BLOCKED` behavior and all five negative input scenarios from RIC-STUDIO-041A.
-- Create one complete positive evidence fixture.
-- Document the `COMMIT_ALLOWED` smoke validation.
+- Confirm the auditor accepts a real local evidence JSON file path from the command line.
+- Add one tracked local/manual evidence example.
+- Document the real evidence input smoke validation.
+- Preserve existing `COMMIT_BLOCKED` and `COMMIT_ALLOWED` behavior.
 - Update required operational documentation.
 
 Stop point: REVIEW. Commit and push require separate authorization.
@@ -32,31 +32,30 @@ Stop point: REVIEW. Commit and push require separate authorization.
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `tools/auditor/audit.mjs`
-- `tools/auditor/fixtures/commit-allowed-evidence.json`
-- `docs/validation/local-auditor-commit-allowed-smoke.md`
+- `tools/auditor/fixtures/real-local-evidence.example.json`
+- `docs/validation/local-auditor-real-evidence-input-smoke.md`
 
 ## Blocked in this task
 
-Implement `PUSH_ALLOWED`, implement `LOCAL_DONE_CONFIRMED`, implement `REMOTE_DONE_CONFIRMED`, add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add LangChain implementation, add LangGraph implementation, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
+Git automation, commit automation, push automation, GitHub API integration, `.github` workflow changes, UI, server, database, implement `PUSH_ALLOWED`, implement `LOCAL_DONE_CONFIRMED`, implement `REMOTE_DONE_CONFIRMED`, add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add LangChain implementation, add LangGraph implementation, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-042A - Define Commit Allow Evidence Contract - Remote DONE at commit `96dc318`.
+RIC-STUDIO-043A - Implement Commit Allowed Decision From Evidence Contract - Remote DONE at commit `5964b4f`.
 
 ## Current task result
 
-RIC-STUDIO-043A is in REVIEW.
+RIC-STUDIO-044A is in REVIEW.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Implemented the first positive `COMMIT_ALLOWED` decision in `tools/auditor/audit.mjs`.
+Added `tools/auditor/fixtures/real-local-evidence.example.json`.
 
-Created `tools/auditor/fixtures/commit-allowed-evidence.json` and `docs/validation/local-auditor-commit-allowed-smoke.md`.
+Created `docs/validation/local-auditor-real-evidence-input-smoke.md`.
 
-Validation preserved five negative `COMMIT_BLOCKED` scenarios and confirmed the complete positive evidence fixture returns `COMMIT_ALLOWED` with only `commit` allowed, `push` and `remote_done` blocked, and `human_review_required` set to `true`.
+Validation confirms the auditor reads the real local evidence example path from the command line, returns `COMMIT_ALLOWED` for complete evidence, and returns controlled `COMMIT_BLOCKED` decisions for missing and invalid evidence inputs.
 
-No `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependency, package file, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
+No `tools/auditor/audit.mjs` change was needed. No Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, dependency, package file, test runner, runtime change, Modelfile change, Next.js app, LangChain implementation, LangGraph implementation, automation, commit, or push occurred.
 
 ## Gate status
 

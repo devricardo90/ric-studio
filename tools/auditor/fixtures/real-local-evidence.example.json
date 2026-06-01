@@ -1,0 +1,60 @@
+{
+  "task_id": "RIC-STUDIO-044A",
+  "requested_gate": "commit",
+  "expected_state_before_commit": "REVIEW",
+  "allowed_files": [
+    "tools/auditor/fixtures/real-local-evidence.example.json",
+    "docs/validation/local-auditor-real-evidence-input-smoke.md",
+    "STATUS.md",
+    "backlog.md",
+    "docs/ops/status.md",
+    "docs/ops/backlog.md",
+    "docs/ops/execution-log.md",
+    "docs/ops/session-handoff.md"
+  ],
+  "blocked_files": [
+    "package.json",
+    ".github/workflows",
+    "runtime/ric-orchestrator/Modelfile",
+    "runtime/ric-architect/Modelfile"
+  ],
+  "blocked_actions": [
+    "push",
+    "remote_done",
+    "git_add_dot",
+    "git_automation"
+  ],
+  "implementation_summary": "Added a tracked local evidence example and smoke documentation proving the auditor can read a real evidence JSON path from the command line without executing Git or modifying files.",
+  "git_status_short": "?? tools/auditor/fixtures/real-local-evidence.example.json\n?? docs/validation/local-auditor-real-evidence-input-smoke.md\n M STATUS.md\n M backlog.md\n M docs/ops/status.md\n M docs/ops/backlog.md\n M docs/ops/execution-log.md\n M docs/ops/session-handoff.md",
+  "git_status_sb": "## main...origin/main",
+  "git_diff_stat": " STATUS.md                                      | updated\n backlog.md                                     | updated\n docs/ops/status.md                             | updated\n docs/ops/backlog.md                            | updated\n docs/ops/execution-log.md                      | updated\n docs/ops/session-handoff.md                    | updated\n docs/validation/local-auditor-real-evidence-input-smoke.md | new file\n tools/auditor/fixtures/real-local-evidence.example.json    | new file",
+  "git_diff_check": "No whitespace errors.",
+  "file_diffs": {
+    "tools/auditor/fixtures/real-local-evidence.example.json": "New tracked local/manual evidence example fixture.",
+    "docs/validation/local-auditor-real-evidence-input-smoke.md": "New smoke validation documentation for real evidence path input.",
+    "STATUS.md": "Operational state updated for RIC-STUDIO-044A REVIEW.",
+    "backlog.md": "Backlog updated for RIC-STUDIO-044A REVIEW and RIC-STUDIO-043A Remote DONE.",
+    "docs/ops/status.md": "Operational status updated for RIC-STUDIO-044A REVIEW.",
+    "docs/ops/backlog.md": "Operations backlog updated for RIC-STUDIO-044A REVIEW and RIC-STUDIO-043A Remote DONE.",
+    "docs/ops/execution-log.md": "Execution log updated with RIC-STUDIO-044A summary.",
+    "docs/ops/session-handoff.md": "Session handoff updated for RIC-STUDIO-044A REVIEW."
+  },
+  "validation_commands": [
+    "node tools/auditor/audit.mjs tools/auditor/fixtures/real-local-evidence.example.json",
+    "node tools/auditor/audit.mjs tools/auditor/fixtures/missing-real-local-evidence.json",
+    "node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json",
+    "git status --short --untracked-files=all",
+    "git status -sb",
+    "git diff --stat",
+    "git diff --check"
+  ],
+  "validation_outputs": {
+    "valid_real_evidence_example": "COMMIT_ALLOWED",
+    "missing_file_path": "COMMIT_BLOCKED",
+    "invalid_json": "COMMIT_BLOCKED"
+  },
+  "validation_interpretation": {
+    "overall": "pass",
+    "summary": "The auditor reads a real local evidence file path, allows complete commit evidence, and returns controlled blocked decisions for missing and invalid evidence inputs."
+  }
+}

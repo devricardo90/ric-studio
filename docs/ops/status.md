@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-043A - Implement Commit Allowed Decision From Evidence Contract
+RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor
 
 ## Product mode
 
@@ -35,19 +35,19 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-043A is in REVIEW.
+RIC-STUDIO-044A is in REVIEW.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Scope: first positive `COMMIT_ALLOWED` decision implementation from the evidence contract.
+Scope: first real local evidence input example for the auditor CLI.
 
-Result: implemented `COMMIT_ALLOWED` in `tools/auditor/audit.mjs` only when the evidence input satisfies the documented commit allow evidence contract.
+Result: added `tools/auditor/fixtures/real-local-evidence.example.json` and `docs/validation/local-auditor-real-evidence-input-smoke.md`.
 
-Created `tools/auditor/fixtures/commit-allowed-evidence.json` and `docs/validation/local-auditor-commit-allowed-smoke.md`.
+The auditor already accepted a JSON evidence file path from the command line, so no `tools/auditor/audit.mjs` change was needed.
 
-Validation preserved five negative `COMMIT_BLOCKED` scenarios and confirmed the complete positive evidence fixture returns `COMMIT_ALLOWED` with `allowed_actions` set to `["commit"]`, `blocked_actions` containing `push` and `remote_done`, and `human_review_required` set to `true`.
+Validation confirms the auditor reads the real local evidence example path, returns `COMMIT_ALLOWED` for complete evidence, and returns controlled `COMMIT_BLOCKED` decisions for missing and invalid evidence inputs.
 
-Blocked and not performed in this implementation task: `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, UI, Next.js, LangChain, LangGraph, GitHub API, automation, commit, and push.
+Blocked and not performed in this implementation task: Git automation, commit automation, push automation, GitHub API integration, `.github` workflow changes, UI, server, database, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, Next.js, LangChain, LangGraph, automation, commit, and push.
 
 ## READY note
 
