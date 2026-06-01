@@ -6,15 +6,33 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate
+RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope
 
 ## Scope
 
-Build and validate candidate `ric-orchestrator-candidate:037a-evidence-hardened` from the RIC-STUDIO-036A hardened Orchestrator Modelfile, without promoting or overwriting the official runtime.
+Documentation-only task to define the public positioning and conceptual MVP for `RIC AI Delivery Auditor` as an AI-native project inside `ric-studio`, using LangChain and LangGraph as the central technical proof for agentic workflow, structured output, tool calling, human-in-the-loop review, and Protocolo Rick validation.
+
+The public product concept is: RIC AI Delivery Auditor - an AI-native software delivery tool that audits development evidence, validates task state transitions, and helps developers make safer commit, push, and release decisions using structured agentic reasoning.
+
+Included scope:
+
+- Public README in English.
+- RIC AI Delivery Auditor concept definition.
+- Explanation of how LangChain will be used.
+- Explanation of how LangGraph will be used.
+- Conceptual MVP.
+- Initial conceptual architecture.
+- Portfolio success criteria.
+- Agent workflow: ingest evidence, normalize evidence, classify task scope, check protocol rules, detect missing evidence, generate structured decision, human review, persist audit result.
+- Conceptual structured decision schemas.
+- Conceptual future internal agent tools.
+- Required operational documentation updates.
 
 ## Allowed files
 
-- `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`
+- `README.md`
+- `docs/product/ric-ai-delivery-auditor.md`
+- `docs/architecture/langchain-ai-delivery-auditor-mvp.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -24,27 +42,21 @@ Build and validate candidate `ric-orchestrator-candidate:037a-evidence-hardened`
 
 ## Blocked in this task
 
-Run `ollama cp`, promote any runtime, overwrite `ric-orchestrator-runtime:latest`, delete models, modify Architect files, modify `runtime/ric-orchestrator/Modelfile`, modify app/code/package/deploy files, open a new READY task beyond this validation record, commit, push, use broad `git add .`.
+Create a new repository, create `apps/web`, create `apps/api`, install LangChain, install LangGraph, add dependencies, create a database, create UI, alter runtime files, alter any `Modelfile`, implement real AI integration, automate Git, run `ollama create`, run `ollama cp`, promote any runtime, delete models, modify app/code/package/deploy files, open another READY task, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules - Remote DONE per current task context. Evidence: `docs/validation/orchestrator-evidence-source-rules-036a.md`.
+RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate - REVIEW / rejected candidate. Evidence: `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`.
 
 ## Current task result
 
-RIC-STUDIO-037A is in REVIEW.
+RIC-STUDIO-038A is in REVIEW.
 
-Candidate `ric-orchestrator-candidate:037a-evidence-hardened` was created from `runtime/ric-orchestrator/Modelfile`.
+Direction was reconciled without opening `RIC-STUDIO-LANGCHAIN-001` or any other parallel task. The task kept ID `RIC-STUDIO-038A` and was retitled `Define LangChain AI Delivery Auditor Public MVP Scope`.
 
-Post-create evidence showed candidate ID `d4cd40dd1862`, size 9.3 GB, architecture `qwen3`, parameters `14.8B`, quantization `Q4_K_M`, and capability `thinking`.
+Documentation updates created the public README, RIC AI Delivery Auditor product concept, LangChain/LangGraph conceptual MVP architecture, agent workflow, conceptual structured decision schemas, conceptual future internal tools, and operational records.
 
-The official runtime `ric-orchestrator-runtime:latest` remained ID `9e5cdcf8a6ae`, size 4.7 GB. It was not promoted, overwritten, or copied over.
-
-Validation battery result: 0 PASS, 6 FAIL. All scenarios failed operationally by timeout or incomplete response; scenarios 4, 5, and 6 also exposed visible `Thinking...` output. Final decision: REJECTED.
-
-Evidence: `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`.
-
-No `ollama cp`, runtime promotion, official runtime overwrite, model deletion, Architect file change, Modelfile edit, app/code/package/deploy change, READY task opening, commit, or push occurred.
+No code, dependency, app, API, database, runtime, Modelfile, AI integration, Git automation, commit, or push occurred.
 
 ## Gate status
 

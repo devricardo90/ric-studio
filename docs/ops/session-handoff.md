@@ -2,7 +2,68 @@
 
 ## Current handoff state
 
-RIC-STUDIO-037A is in REVIEW as `Validate Hardened Orchestrator Evidence Rules Candidate`.
+RIC-STUDIO-038A is in REVIEW as `Define LangChain AI Delivery Auditor Public MVP Scope`.
+
+The current READY task was reconciled after direction change. No `RIC-STUDIO-LANGCHAIN-001` task was opened. The ID remains `RIC-STUDIO-038A`.
+
+Task mode: documentation-only.
+
+Completed scope:
+
+- Public README in English.
+- RIC AI Delivery Auditor concept definition.
+- RIC Studio positioned as an AI-native portfolio project.
+- LangChain usage explained as the future agent layer for model interaction, tool calling, and structured output.
+- LangGraph usage explained as the future workflow layer for graph steps, persistence, and human-in-the-loop review.
+- Conceptual MVP.
+- Initial conceptual architecture.
+- Agent workflow: ingest evidence, normalize evidence, classify task scope, check protocol rules, detect missing evidence, generate structured decision, human review, persist audit result.
+- Conceptual structured decision schemas.
+- Conceptual future internal agent tools.
+- Portfolio success criteria.
+- Required operational documentation updates.
+
+Blocked:
+
+- Create a new repository.
+- Create `apps/web`.
+- Create `apps/api`.
+- Install LangChain.
+- Install LangGraph.
+- Add dependencies.
+- Create a database.
+- Create UI.
+- Alter runtime files or any `Modelfile`.
+- Implement real AI integration.
+- Automate Git.
+- Commit.
+- Push.
+
+Stop state: REVIEW.
+
+Changed files:
+
+- `README.md`.
+- `docs/product/ric-ai-delivery-auditor.md`.
+- `docs/architecture/langchain-ai-delivery-auditor-mvp.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Validation required before any future commit:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --stat`.
+- `git diff --check`.
+- Per-file diffs for all changed files.
+
+Important evidence note: an earlier uncommitted `docs/ops/execution-log.md` change had removed historical RIC-STUDIO-036A and RIC-STUDIO-037A sections. That was corrected before commit review. The current `docs/ops/execution-log.md` diff must remain append-only for RIC-STUDIO-038A.
+
+Previous handoff context: RIC-STUDIO-037A was recorded as `Validate Hardened Orchestrator Evidence Rules Candidate`.
 
 Evidence was created:
 
