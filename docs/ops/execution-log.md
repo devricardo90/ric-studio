@@ -1578,3 +1578,25 @@ Validation required before review:
 - `git diff --stat`.
 - `git diff --check`.
 - Raw per-file diffs for changed operational files.
+
+## RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
+
+State: READY
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
+
+Summary:
+
+- Promoted RIC-STUDIO-041A to READY after explicit Discussion Gate approval.
+- Defined this update as a documentation-only READY promotion.
+- Objective: add manual and documented negative input smoke coverage for `tools/auditor/audit.mjs`, proving the CLI blocks missing, inaccessible, invalid, malformed, or incomplete evidence with structured JSON and `COMMIT_BLOCKED`.
+- Allowed future scope: create small fixtures under `tools/auditor/fixtures/`, document negative smoke tests under `docs/validation/`, validate no file argument, missing file path, invalid JSON, JSON array instead of object, and incomplete sample evidence.
+- Planned future files: `tools/auditor/fixtures/invalid-json.json`, `tools/auditor/fixtures/array-evidence.json`, and `docs/validation/local-auditor-negative-input-smoke.md`.
+- Planned future validation: `node tools/auditor/audit.mjs`, `node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json`, and `node tools/auditor/audit.mjs tools/auditor/sample-evidence.json`.
+- Exit criteria: stop in REVIEW after implementation, document all five negative input scenarios, confirm all five scenarios return structured JSON with `decision` set to `COMMIT_BLOCKED`, and add no unsupported decision, dependency, package file, test runner, runtime, `Modelfile`, UI, framework, GitHub API, or automation.
+- Did not create or edit code, fixtures, future smoke validation documentation, dependencies, package files, test runner, runtime files, `Modelfile` files, UI, Next.js, LangChain, LangGraph, GitHub API integration, or automation.
+- Did not run future task smoke validation.
+- Did not open another READY task.
+- Did not commit or push.

@@ -2,23 +2,29 @@
 
 ## Current handoff state
 
-RIC-STUDIO-040B is in REVIEW as `Implement Local Auditor CLI Smoke Prototype`.
+RIC-STUDIO-041A is READY as `Add Local Auditor CLI Negative Input Smoke Coverage`.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Task mode: local zero-dependency CLI smoke prototype implementation.
+Task mode: documentation-only READY promotion.
 
-Execution scope:
+READY scope:
 
-- Created the smallest local zero-dependency Node.js CLI prototype.
-- Implemented behavior: read a JSON evidence file and emit a structured `COMMIT_BLOCKED` decision when required evidence is missing or incomplete.
-- Created intentionally incomplete sample evidence.
-- Created prototype README documentation.
-- Created smoke validation documentation.
+- Promoted RIC-STUDIO-041A to READY after Discussion Gate approval.
+- Registered the objective: add manual and documented negative input smoke coverage for `tools/auditor/audit.mjs`.
+- Registered allowed scope, out of scope boundaries, planned files, planned validation, and exit criteria.
+- Kept the future implementation limited to local zero-dependency Node.js and the `COMMIT_BLOCKED` decision.
 - Updated required operational documentation.
 
 Blocked:
 
+- Create or edit code.
+- Create fixtures.
+- Create future smoke validation documentation.
+- Run future smoke validation.
+- Implement `COMMIT_ALLOWED`.
+- Implement `PUSH_ALLOWED`.
+- Implement `LOCAL_DONE_CONFIRMED`.
 - Create app scaffold.
 - Add LangChain implementation.
 - Add LangGraph implementation.
@@ -33,7 +39,7 @@ Blocked:
 - Commit.
 - Push.
 
-Stop point after execution: REVIEW.
+Stop point after execution: READY promotion review.
 
 Authorized files:
 
@@ -43,10 +49,6 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `tools/auditor/audit.mjs`.
-- `tools/auditor/sample-evidence.json`.
-- `tools/auditor/README.md`.
-- `docs/validation/local-auditor-cli-smoke.md`.
 
 Validation required before REVIEW:
 
@@ -56,37 +58,42 @@ Validation required before REVIEW:
 - `git diff --check`.
 - Per-file diffs for all changed files.
 
-Created files:
+Created file:
 
-- `tools/auditor/audit.mjs`.
-- `tools/auditor/sample-evidence.json`.
-- `tools/auditor/README.md`.
-- `docs/validation/local-auditor-cli-smoke.md`.
+None.
 
-Current REVIEW task:
+Current READY task:
 
 ```text
-RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype
+RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
 ```
 
-Implementation files:
+Planned future files:
 
-- `tools/auditor/audit.mjs`.
-- `tools/auditor/sample-evidence.json`.
-- `tools/auditor/README.md`.
-- `docs/validation/local-auditor-cli-smoke.md`.
+- `tools/auditor/fixtures/invalid-json.json`.
+- `tools/auditor/fixtures/array-evidence.json`.
+- `docs/validation/local-auditor-negative-input-smoke.md`.
 
-Smoke validation command:
+Planned validation:
 
 ```powershell
+node tools/auditor/audit.mjs
+node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json
+node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json
+node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json
 node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
 ```
 
-Smoke validation returned `COMMIT_BLOCKED` with incomplete evidence from intentionally incomplete sample evidence.
+Exit criteria:
 
-No app scaffold, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js app, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+- RIC-STUDIO-041A stops in REVIEW after implementation.
+- All five negative input scenarios are documented.
+- All five scenarios return structured JSON with `decision` set to `COMMIT_BLOCKED`.
+- No unsupported decision, dependency, package file, test runner, runtime, `Modelfile`, UI, framework, GitHub API, or automation is added.
 
-Previous handoff context: RIC-STUDIO-040A is Remote DONE at commit `c436045` per current task context.
+No code change, fixture, future smoke validation file, future smoke validation execution, dependency, `package.json`, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
+
+Previous handoff context: RIC-STUDIO-040B is Remote DONE at commit `d489e91`.
 
 Previous handoff context: RIC-STUDIO-039A is Remote DONE per current task context.
 

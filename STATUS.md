@@ -2,27 +2,27 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype
+RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
 
 ## Scope
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
 
-Smallest local RIC AI Delivery Auditor CLI smoke prototype implementation.
+Documentation-only READY promotion for local auditor CLI negative input smoke coverage.
 
 Included scope:
 
-- Create a zero-dependency Node.js CLI prototype that reads a JSON evidence file and emits a structured `COMMIT_BLOCKED` decision when required evidence is missing or incomplete.
-- Create intentionally incomplete sample evidence.
-- Create README documentation for the prototype.
-- Create smoke validation documentation.
+- Promote RIC-STUDIO-041A to READY.
+- Register the objective: add manual/documented negative input smoke coverage for `tools/auditor/audit.mjs`.
+- Register allowed scope, out of scope boundaries, planned files, planned validation, and exit criteria.
+- Keep the prototype local, zero-dependency, and limited to the `COMMIT_BLOCKED` decision.
 - Update required operational documentation.
 
-Stop point: REVIEW. Commit and push require separate authorization.
+Stop point: READY promotion review. Commit and push require separate authorization.
 
 ## Allowed files
 
@@ -32,41 +32,49 @@ Stop point: REVIEW. Commit and push require separate authorization.
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `tools/auditor/audit.mjs`
-- `tools/auditor/sample-evidence.json`
-- `tools/auditor/README.md`
-- `docs/validation/local-auditor-cli-smoke.md`
 
 ## Blocked in this task
 
-Create app scaffold, add LangChain implementation, add LangGraph implementation, add dependencies, edit package files, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
+Create or edit code, create fixtures, create smoke validation documentation for the future task, run future smoke validation, implement `COMMIT_ALLOWED`, implement `PUSH_ALLOWED`, implement `LOCAL_DONE_CONFIRMED`, add dependencies, create `package.json`, add a test runner, create app scaffold, add LangChain implementation, add LangGraph implementation, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-040A - Define Local MVP Technical Scaffold - Remote DONE at commit `c436045` per current task context.
+RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype - Remote DONE at commit `d489e91`.
 
 ## Current task result
 
-RIC-STUDIO-040B is in REVIEW.
+RIC-STUDIO-041A is READY.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Implementation files created:
+Objective:
 
-- `tools/auditor/audit.mjs`
-- `tools/auditor/sample-evidence.json`
-- `tools/auditor/README.md`
-- `docs/validation/local-auditor-cli-smoke.md`
+Add manual and documented negative input smoke coverage for `tools/auditor/audit.mjs`, proving the CLI blocks missing, inaccessible, invalid, malformed, or incomplete evidence with structured JSON and `COMMIT_BLOCKED`.
 
-Smoke validation command:
+Planned files for future implementation:
+
+- `tools/auditor/fixtures/invalid-json.json`
+- `tools/auditor/fixtures/array-evidence.json`
+- `docs/validation/local-auditor-negative-input-smoke.md`
+
+Planned validation:
 
 ```powershell
+node tools/auditor/audit.mjs
+node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json
+node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json
+node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json
 node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
 ```
 
-Smoke validation returned `COMMIT_BLOCKED` with `evidence_quality` set to `incomplete`.
+Exit criteria:
 
-No package files, dependencies, TypeScript setup, Next.js app, LangChain implementation, LangGraph implementation, UI, GitHub API integration, automation, runtime change, Modelfile change, commit, or push occurred.
+- RIC-STUDIO-041A stops in REVIEW after implementation.
+- All five negative input scenarios are documented.
+- All five scenarios return structured JSON with `decision` set to `COMMIT_BLOCKED`.
+- No unsupported decision, dependency, package file, test runner, runtime, `Modelfile`, UI, framework, GitHub API, or automation is added.
+
+No code change, fixture, smoke validation file, future smoke validation execution, dependency, `package.json`, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred in this READY promotion.
 
 ## Gate status
 
