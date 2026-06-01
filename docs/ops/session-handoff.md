@@ -2,26 +2,23 @@
 
 ## Current handoff state
 
-RIC-STUDIO-041A is READY as `Add Local Auditor CLI Negative Input Smoke Coverage`.
+RIC-STUDIO-041A is in REVIEW as `Add Local Auditor CLI Negative Input Smoke Coverage`.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Task mode: documentation-only READY promotion.
+Task mode: manual negative input smoke coverage implementation.
 
-READY scope:
+Execution scope:
 
-- Promoted RIC-STUDIO-041A to READY after Discussion Gate approval.
-- Registered the objective: add manual and documented negative input smoke coverage for `tools/auditor/audit.mjs`.
-- Registered allowed scope, out of scope boundaries, planned files, planned validation, and exit criteria.
-- Kept the future implementation limited to local zero-dependency Node.js and the `COMMIT_BLOCKED` decision.
+- Created small negative input fixtures for `tools/auditor/audit.mjs`.
+- Created validation documentation under `docs/validation/`.
+- Validated no file argument, missing file path, invalid JSON, JSON array instead of object, and incomplete sample evidence.
+- Kept the implementation limited to local zero-dependency Node.js and the `COMMIT_BLOCKED` decision.
 - Updated required operational documentation.
 
 Blocked:
 
-- Create or edit code.
-- Create fixtures.
-- Create future smoke validation documentation.
-- Run future smoke validation.
+- Edit `tools/auditor/audit.mjs`.
 - Implement `COMMIT_ALLOWED`.
 - Implement `PUSH_ALLOWED`.
 - Implement `LOCAL_DONE_CONFIRMED`.
@@ -39,7 +36,7 @@ Blocked:
 - Commit.
 - Push.
 
-Stop point after execution: READY promotion review.
+Stop point after execution: REVIEW.
 
 Authorized files:
 
@@ -49,6 +46,9 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
+- `tools/auditor/fixtures/invalid-json.json`.
+- `tools/auditor/fixtures/array-evidence.json`.
+- `docs/validation/local-auditor-negative-input-smoke.md`.
 
 Validation required before REVIEW:
 
@@ -58,23 +58,27 @@ Validation required before REVIEW:
 - `git diff --check`.
 - Per-file diffs for all changed files.
 
-Created file:
-
-None.
-
-Current READY task:
-
-```text
-RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
-```
-
-Planned future files:
+Created files:
 
 - `tools/auditor/fixtures/invalid-json.json`.
 - `tools/auditor/fixtures/array-evidence.json`.
 - `docs/validation/local-auditor-negative-input-smoke.md`.
 
-Planned validation:
+Current REVIEW task:
+
+```text
+RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
+```
+
+Validation scenarios:
+
+- No file argument.
+- Missing file path.
+- Invalid JSON.
+- JSON array instead of object.
+- Incomplete sample evidence.
+
+Validation executed:
 
 ```powershell
 node tools/auditor/audit.mjs
@@ -84,14 +88,13 @@ node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json
 node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
 ```
 
-Exit criteria:
+Result:
 
-- RIC-STUDIO-041A stops in REVIEW after implementation.
 - All five negative input scenarios are documented.
 - All five scenarios return structured JSON with `decision` set to `COMMIT_BLOCKED`.
 - No unsupported decision, dependency, package file, test runner, runtime, `Modelfile`, UI, framework, GitHub API, or automation is added.
 
-No code change, fixture, future smoke validation file, future smoke validation execution, dependency, `package.json`, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
+No `tools/auditor/audit.mjs` change, dependency, `package.json`, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
 
 Previous handoff context: RIC-STUDIO-040B is Remote DONE at commit `d489e91`.
 

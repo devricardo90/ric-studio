@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
@@ -35,23 +35,21 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-041A is READY.
+RIC-STUDIO-041A is in REVIEW.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Scope: documentation-only READY promotion for local auditor CLI negative input smoke coverage.
+Scope: manual negative input smoke coverage for the local auditor CLI.
 
-Objective: add manual and documented negative input smoke coverage for `tools/auditor/audit.mjs`, proving the CLI blocks missing, inaccessible, invalid, malformed, or incomplete evidence with structured JSON and `COMMIT_BLOCKED`.
+Result: manual and documented negative input smoke coverage was added for `tools/auditor/audit.mjs`.
 
-Allowed future implementation scope: create small fixtures under `tools/auditor/fixtures/`, document negative smoke tests under `docs/validation/`, validate no file argument, missing file path, invalid JSON, JSON array instead of object, and incomplete sample evidence, while keeping only `COMMIT_BLOCKED`.
+Created files: `tools/auditor/fixtures/invalid-json.json`, `tools/auditor/fixtures/array-evidence.json`, and `docs/validation/local-auditor-negative-input-smoke.md`.
 
-Planned files: `tools/auditor/fixtures/invalid-json.json`, `tools/auditor/fixtures/array-evidence.json`, and `docs/validation/local-auditor-negative-input-smoke.md`.
+Validation executed: `node tools/auditor/audit.mjs`, `node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json`, and `node tools/auditor/audit.mjs tools/auditor/sample-evidence.json`.
 
-Planned validation: `node tools/auditor/audit.mjs`, `node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json`, and `node tools/auditor/audit.mjs tools/auditor/sample-evidence.json`.
+All five scenarios returned structured JSON with `decision` set to `COMMIT_BLOCKED`.
 
-Exit criteria: RIC-STUDIO-041A stops in REVIEW after implementation, all five negative input scenarios are documented, all five scenarios return structured JSON with `decision` set to `COMMIT_BLOCKED`, and no unsupported decision, dependency, package file, test runner, runtime, `Modelfile`, UI, framework, GitHub API, or automation is added.
-
-Blocked and not performed in this READY promotion: code changes, fixtures, future smoke validation documentation, future smoke validation execution, `COMMIT_ALLOWED`, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, UI, Next.js, LangChain, LangGraph, GitHub API, automation, commit, and push.
+Blocked and not performed in this implementation task: `tools/auditor/audit.mjs` changes, `COMMIT_ALLOWED`, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, UI, Next.js, LangChain, LangGraph, GitHub API, automation, commit, and push.
 
 ## READY note
 
