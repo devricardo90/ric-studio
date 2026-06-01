@@ -2,58 +2,48 @@
 
 ## Current handoff state
 
-RIC-STUDIO-038A is in REVIEW as `Define LangChain AI Delivery Auditor Public MVP Scope`.
+RIC-STUDIO-039A is in REVIEW as `Define Evidence Input and Decision Output Contracts`.
 
-The current READY task was reconciled after direction change. No `RIC-STUDIO-LANGCHAIN-001` task was opened. The ID remains `RIC-STUDIO-038A`.
+RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation is registered as the next execution sprint.
 
 Task mode: documentation-only.
 
 Completed scope:
 
-- Public README in English.
-- RIC AI Delivery Auditor concept definition.
-- RIC Studio positioned as an AI-native portfolio project.
-- LangChain usage explained as the future agent layer for model interaction, tool calling, and structured output.
-- LangGraph usage explained as the future workflow layer for graph steps, persistence, and human-in-the-loop review.
-- Conceptual MVP.
-- Initial conceptual architecture.
-- Agent workflow: ingest evidence, normalize evidence, classify task scope, check protocol rules, detect missing evidence, generate structured decision, human review, persist audit result.
-- Conceptual structured decision schemas.
-- Conceptual future internal agent tools.
-- Portfolio success criteria.
-- Required operational documentation updates.
+- Define what raw evidence the auditor can receive.
+- Define what structured decision the auditor can return.
+- Define decision categories: `COMMIT_BLOCKED`, `COMMIT_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `PUSH_ALLOWED`, `REMOTE_DONE_CONFIRMED`, and `DISCUSSION_GATE_RECOMMENDED`.
+- Define minimum required evidence for each decision.
+- Define blocked implementation boundaries.
+- Update required operational documentation.
 
 Blocked:
 
-- Create a new repository.
-- Create `apps/web`.
-- Create `apps/api`.
-- Install LangChain.
-- Install LangGraph.
+- Create app scaffold.
+- Add LangChain implementation.
 - Add dependencies.
-- Create a database.
-- Create UI.
+- Edit package files.
 - Alter runtime files or any `Modelfile`.
-- Implement real AI integration.
-- Automate Git.
+- Add GitHub API integration.
+- Create UI.
+- Add automation.
 - Commit.
 - Push.
 
-Stop state: REVIEW.
+Stop point after execution: REVIEW.
 
-Changed files:
+Authorized files:
 
-- `README.md`.
-- `docs/product/ric-ai-delivery-auditor.md`.
-- `docs/architecture/langchain-ai-delivery-auditor-mvp.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
+- `docs/product/auditor-contracts.md`.
+- `docs/architecture/evidence-decision-contract.md`.
 
-Validation required before any future commit:
+Validation required before REVIEW:
 
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
@@ -61,9 +51,24 @@ Validation required before any future commit:
 - `git diff --check`.
 - Per-file diffs for all changed files.
 
-Important evidence note: an earlier uncommitted `docs/ops/execution-log.md` change had removed historical RIC-STUDIO-036A and RIC-STUDIO-037A sections. That was corrected before commit review. The current `docs/ops/execution-log.md` diff must remain append-only for RIC-STUDIO-038A.
+Created contract documentation:
 
-Previous handoff context: RIC-STUDIO-037A was recorded as `Validate Hardened Orchestrator Evidence Rules Candidate`.
+- `docs/product/auditor-contracts.md`.
+- `docs/architecture/evidence-decision-contract.md`.
+
+The contracts define raw evidence input types, structured decision output format, decision categories, minimum required evidence per decision, evidence quality states, blocked implementation boundaries, and review validation requirements.
+
+No app scaffold, LangChain implementation, dependencies, package files, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+
+Previous handoff context: RIC-STUDIO-038A is Remote DONE per current task context.
+
+RIC-STUDIO-038A was recorded as `Define LangChain AI Delivery Auditor Public MVP Scope`.
+
+It positioned RIC Studio as an AI-native portfolio project and documented the public RIC AI Delivery Auditor MVP direction.
+
+No code, dependencies, app scaffold, UI, runtime change, Modelfile change, GitHub API integration, automation, commit, or push occurred.
+
+Earlier handoff context: RIC-STUDIO-037A was recorded as `Validate Hardened Orchestrator Evidence Rules Candidate`.
 
 Evidence was created:
 

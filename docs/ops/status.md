@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope
+RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts
 
 ## Product mode
 
@@ -35,15 +35,15 @@ Documentation and operational control only.
 
 ## Current task result
 
-RIC-STUDIO-038A is in REVIEW.
+RIC-STUDIO-039A is in REVIEW.
 
-The current READY task was reconciled without opening `RIC-STUDIO-LANGCHAIN-001` or any parallel task. The ID remains `RIC-STUDIO-038A`.
+RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation is registered as the next execution sprint.
 
-Scope: documentation-only public positioning and conceptual MVP definition for `RIC AI Delivery Auditor` as an AI-native project inside `ric-studio`, using LangChain and LangGraph as the central technical proof for agentic workflow, structured output, tool calling, human-in-the-loop review, and Protocolo Rick validation.
+Scope: documentation-only definition of evidence input and decision output contracts for the RIC AI Delivery Auditor MVP before implementation work.
 
-Completed documentation: public README in English, concept definition, LangChain/LangGraph usage, conceptual MVP, initial conceptual architecture, agent workflow, conceptual structured decision schemas, conceptual future internal tools, portfolio success criteria, and required operational documentation updates.
+Completed: defined raw evidence inputs, structured decision output, decision categories, minimum required evidence per decision, evidence quality states, blocked implementation boundaries, and required operational documentation.
 
-Blocked and not performed: new repository, `apps/web`, `apps/api`, LangChain install, LangGraph install, dependencies, database, UI, runtime or `Modelfile` changes, real AI integration, Git automation, commit, and push.
+Blocked and not performed: app scaffold, LangChain implementation, dependencies, package files, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, and push.
 
 ## READY note
 

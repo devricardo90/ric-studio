@@ -6,57 +6,58 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope
+RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts
 
 ## Scope
 
-Documentation-only task to define the public positioning and conceptual MVP for `RIC AI Delivery Auditor` as an AI-native project inside `ric-studio`, using LangChain and LangGraph as the central technical proof for agentic workflow, structured output, tool calling, human-in-the-loop review, and Protocolo Rick validation.
+RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation.
 
-The public product concept is: RIC AI Delivery Auditor - an AI-native software delivery tool that audits development evidence, validates task state transitions, and helps developers make safer commit, push, and release decisions using structured agentic reasoning.
+Documentation-only task to define the evidence input and decision output contracts for the RIC AI Delivery Auditor MVP before implementation work.
 
 Included scope:
 
-- Public README in English.
-- RIC AI Delivery Auditor concept definition.
-- Explanation of how LangChain will be used.
-- Explanation of how LangGraph will be used.
-- Conceptual MVP.
-- Initial conceptual architecture.
-- Portfolio success criteria.
-- Agent workflow: ingest evidence, normalize evidence, classify task scope, check protocol rules, detect missing evidence, generate structured decision, human review, persist audit result.
-- Conceptual structured decision schemas.
-- Conceptual future internal agent tools.
-- Required operational documentation updates.
+- Define what raw evidence the auditor can receive.
+- Define what structured decision the auditor can return.
+- Define decision categories: `COMMIT_BLOCKED`, `COMMIT_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `PUSH_ALLOWED`, `REMOTE_DONE_CONFIRMED`, and `DISCUSSION_GATE_RECOMMENDED`.
+- Define minimum required evidence for each decision.
+- Define blocked implementation boundaries.
+- Update required operational documentation.
+
+Stop point: after the documentation task executes, stop in REVIEW. Commit and push require separate authorization.
 
 ## Allowed files
 
-- `README.md`
-- `docs/product/ric-ai-delivery-auditor.md`
-- `docs/architecture/langchain-ai-delivery-auditor-mvp.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
+- `docs/product/auditor-contracts.md`
+- `docs/architecture/evidence-decision-contract.md`
 
 ## Blocked in this task
 
-Create a new repository, create `apps/web`, create `apps/api`, install LangChain, install LangGraph, add dependencies, create a database, create UI, alter runtime files, alter any `Modelfile`, implement real AI integration, automate Git, run `ollama create`, run `ollama cp`, promote any runtime, delete models, modify app/code/package/deploy files, open another READY task, commit, push, use broad `git add .`.
+Create app scaffold, add LangChain implementation, add dependencies, edit package files, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, open another READY task, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate - REVIEW / rejected candidate. Evidence: `docs/validation/orchestrator-candidate-037a-evidence-source-validation.md`.
+RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope - Remote DONE per current task context.
 
 ## Current task result
 
-RIC-STUDIO-038A is in REVIEW.
+RIC-STUDIO-039A is in REVIEW.
 
-Direction was reconciled without opening `RIC-STUDIO-LANGCHAIN-001` or any other parallel task. The task kept ID `RIC-STUDIO-038A` and was retitled `Define LangChain AI Delivery Auditor Public MVP Scope`.
+RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation is registered as the next execution sprint.
 
-Documentation updates created the public README, RIC AI Delivery Auditor product concept, LangChain/LangGraph conceptual MVP architecture, agent workflow, conceptual structured decision schemas, conceptual future internal tools, and operational records.
+Documentation created:
 
-No code, dependency, app, API, database, runtime, Modelfile, AI integration, Git automation, commit, or push occurred.
+- `docs/product/auditor-contracts.md`
+- `docs/architecture/evidence-decision-contract.md`
+
+The documentation defines raw evidence input types, structured decision output format, decision categories, minimum required evidence per decision, evidence quality states, blocked implementation boundaries, and review validation requirements.
+
+No code, dependencies, package files, app scaffold, UI, GitHub API integration, automation, runtime change, Modelfile change, commit, or push occurred.
 
 ## Gate status
 

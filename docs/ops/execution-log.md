@@ -1473,3 +1473,44 @@ Evidence required before review:
 - `git diff --stat`.
 - `git diff --check`.
 - Raw per-file diffs for all changed documentation files.
+
+## RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation.
+
+Summary:
+
+- Promoted RIC-STUDIO-039A to READY after explicit approval.
+- Registered RIC-STUDIO-SPRINT-001 as the next execution sprint for RIC Studio.
+- Defined the task mode as documentation-only.
+- Defined the objective: evidence input and decision output contracts for the RIC AI Delivery Auditor MVP before implementation work.
+- Authorized scope: raw evidence inputs, structured decision output, decision categories, minimum required evidence per decision, blocked implementation boundaries, and required operational documentation.
+- Authorized files: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, `docs/product/auditor-contracts.md`, and `docs/architecture/evidence-decision-contract.md`.
+- Blocked app scaffold, LangChain implementation, dependencies, package files, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, and push.
+- The contract content itself was not implemented in this READY promotion update.
+- `docs/product/auditor-contracts.md` and `docs/architecture/evidence-decision-contract.md` were not created in this promotion update.
+
+Execution result:
+
+- Created `docs/product/auditor-contracts.md`.
+- Created `docs/architecture/evidence-decision-contract.md`.
+- Defined raw evidence input types.
+- Defined structured decision output format.
+- Defined decision categories: `COMMIT_BLOCKED`, `COMMIT_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `PUSH_ALLOWED`, `REMOTE_DONE_CONFIRMED`, and `DISCUSSION_GATE_RECOMMENDED`.
+- Defined minimum evidence required for each decision.
+- Defined evidence quality states: `missing`, `incomplete`, `contradictory`, `stale`, and `sufficient`.
+- Defined blocked implementation boundaries.
+- Stopped in REVIEW.
+- No app scaffold, LangChain implementation, dependencies, package files, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+
+Validation required before REVIEW:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --stat`.
+- `git diff --check`.
+- Raw per-file diffs for all changed files.
