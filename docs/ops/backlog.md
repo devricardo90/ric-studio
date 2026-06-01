@@ -14,6 +14,7 @@
 - RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate. REVIEW - candidate rejected; 0 PASS, 6 FAIL; no promotion, commit, or push.
 - RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope. REVIEW - documentation-only public MVP scope completed; no code, dependencies, runtime, Modelfile, app, API, commit, or push.
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts. REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push.
+- RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype. REVIEW - zero-dependency Node.js CLI prototype created; smoke returns COMMIT_BLOCKED for incomplete evidence; no commit or push.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -34,7 +35,7 @@
 
 ## READY
 
-- RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype. READY - future zero-dependency Node.js CLI smoke prototype; no implementation created in READY promotion.
+No task is READY.
 
 ## IN_PROGRESS
 
@@ -77,7 +78,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Execute RIC-STUDIO-040B only after explicit implementation authorization. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-040B. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
