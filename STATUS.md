@@ -6,20 +6,19 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
+RIC-STUDIO-042A - Define Commit Allow Evidence Contract
 
 ## Scope
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
 
-Manual negative input smoke coverage for the local auditor CLI.
+Documentation-only commit allow evidence contract definition.
 
 Included scope:
 
-- Create small negative input fixtures for `tools/auditor/audit.mjs`.
-- Document negative smoke coverage under `docs/validation/`.
-- Validate no file argument, missing file path, invalid JSON, JSON array instead of object, and incomplete sample evidence.
-- Keep the prototype local, zero-dependency, and limited to the `COMMIT_BLOCKED` decision.
+- Define the minimum evidence contract required before a future local auditor CLI implementation may return `COMMIT_ALLOWED`.
+- Define required input fields, optional input fields, required Git evidence, task evidence, validation evidence, untracked file rules, CRLF rules, always-block conditions, expected future JSON output shape, and explicit non-goals.
+- Keep this task documentation-only.
 - Update required operational documentation.
 
 Stop point: REVIEW. Commit and push require separate authorization.
@@ -32,47 +31,27 @@ Stop point: REVIEW. Commit and push require separate authorization.
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `tools/auditor/fixtures/invalid-json.json`
-- `tools/auditor/fixtures/array-evidence.json`
-- `docs/validation/local-auditor-negative-input-smoke.md`
+- `docs/architecture/commit-allow-evidence-contract.md`
 
 ## Blocked in this task
 
-Edit `tools/auditor/audit.mjs`, implement `COMMIT_ALLOWED`, implement `PUSH_ALLOWED`, implement `LOCAL_DONE_CONFIRMED`, add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add LangChain implementation, add LangGraph implementation, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
+Edit `tools/auditor/audit.mjs`, implement `COMMIT_ALLOWED`, implement `PUSH_ALLOWED`, implement `LOCAL_DONE_CONFIRMED`, create fixtures, run smoke validation for `COMMIT_ALLOWED`, add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add LangChain implementation, add LangGraph implementation, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype - Remote DONE at commit `d489e91`.
+RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage - Remote DONE at commit `e440b1f`.
 
 ## Current task result
 
-RIC-STUDIO-041A is in REVIEW.
+RIC-STUDIO-042A is in REVIEW.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Result:
+Created `docs/architecture/commit-allow-evidence-contract.md`.
 
-Manual and documented negative input smoke coverage was added for `tools/auditor/audit.mjs`.
+The contract defines required input fields, optional input fields, required Git evidence, required task evidence, required validation evidence, untracked file rules, CRLF and whitespace rules, always-block conditions, expected future `COMMIT_ALLOWED` JSON output shape, and explicit non-goals.
 
-Created files:
-
-- `tools/auditor/fixtures/invalid-json.json`
-- `tools/auditor/fixtures/array-evidence.json`
-- `docs/validation/local-auditor-negative-input-smoke.md`
-
-Validation executed:
-
-```powershell
-node tools/auditor/audit.mjs
-node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json
-node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json
-node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json
-node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
-```
-
-All five scenarios returned structured JSON with `decision` set to `COMMIT_BLOCKED`.
-
-No `tools/auditor/audit.mjs` change, unsupported decision, dependency, package file, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
+No `tools/auditor/audit.mjs` change, `COMMIT_ALLOWED` implementation, `PUSH_ALLOWED` implementation, `LOCAL_DONE_CONFIRMED` implementation, fixture, smoke validation for `COMMIT_ALLOWED`, dependency, package file, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
 
 ## Gate status
 

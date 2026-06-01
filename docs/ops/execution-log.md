@@ -1613,3 +1613,23 @@ Execution result:
 - Did not implement `COMMIT_ALLOWED`, `PUSH_ALLOWED`, or `LOCAL_DONE_CONFIRMED`.
 - Did not add dependencies, create or edit `package.json`, add a test runner, change runtime files, alter `Modelfile` files, create UI, add Next.js, LangChain, LangGraph, GitHub API integration, or automation.
 - Did not commit or push.
+
+## RIC-STUDIO-042A - Define Commit Allow Evidence Contract
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
+
+Summary:
+
+- Opened RIC-STUDIO-042A after RIC-STUDIO-041A reached Remote DONE at commit `e440b1f`.
+- Defined this task as documentation-only.
+- Created `docs/architecture/commit-allow-evidence-contract.md`.
+- Defined required input fields, optional input fields, required Git evidence, required task evidence, required validation evidence, untracked file rules, CRLF and whitespace rules, always-block conditions, expected future `COMMIT_ALLOWED` JSON output shape, and explicit non-goals.
+- Did not edit `tools/auditor/audit.mjs`.
+- Did not implement `COMMIT_ALLOWED`, `PUSH_ALLOWED`, or `LOCAL_DONE_CONFIRMED`.
+- Did not create fixtures or run smoke validation for `COMMIT_ALLOWED`.
+- Did not add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add TypeScript setup, create UI, add Next.js, LangChain, LangGraph, GitHub API integration, automation, runtime changes, or `Modelfile` changes.
+- Did not commit or push.

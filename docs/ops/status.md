@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
+RIC-STUDIO-042A - Define Commit Allow Evidence Contract
 
 ## Product mode
 
@@ -35,21 +35,19 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-041A is in REVIEW.
+RIC-STUDIO-042A is in REVIEW.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Scope: manual negative input smoke coverage for the local auditor CLI.
+Scope: documentation-only commit allow evidence contract definition.
 
-Result: manual and documented negative input smoke coverage was added for `tools/auditor/audit.mjs`.
+Result: created `docs/architecture/commit-allow-evidence-contract.md`.
 
-Created files: `tools/auditor/fixtures/invalid-json.json`, `tools/auditor/fixtures/array-evidence.json`, and `docs/validation/local-auditor-negative-input-smoke.md`.
+The contract defines the minimum evidence required before a future local auditor CLI implementation may return `COMMIT_ALLOWED`.
 
-Validation executed: `node tools/auditor/audit.mjs`, `node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json`, `node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json`, and `node tools/auditor/audit.mjs tools/auditor/sample-evidence.json`.
+Covered areas: required input fields, optional input fields, required Git evidence, required task evidence, required validation evidence, untracked file rules, CRLF and whitespace rules, always-block conditions, expected future `COMMIT_ALLOWED` JSON output shape, and explicit non-goals.
 
-All five scenarios returned structured JSON with `decision` set to `COMMIT_BLOCKED`.
-
-Blocked and not performed in this implementation task: `tools/auditor/audit.mjs` changes, `COMMIT_ALLOWED`, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, UI, Next.js, LangChain, LangGraph, GitHub API, automation, commit, and push.
+Blocked and not performed in this documentation-only task: `tools/auditor/audit.mjs` changes, `COMMIT_ALLOWED`, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, fixtures, smoke validation for `COMMIT_ALLOWED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, UI, Next.js, LangChain, LangGraph, GitHub API, automation, commit, and push.
 
 ## READY note
 

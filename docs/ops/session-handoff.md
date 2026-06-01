@@ -2,18 +2,18 @@
 
 ## Current handoff state
 
-RIC-STUDIO-041A is in REVIEW as `Add Local Auditor CLI Negative Input Smoke Coverage`.
+RIC-STUDIO-042A is in REVIEW as `Define Commit Allow Evidence Contract`.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Task mode: manual negative input smoke coverage implementation.
+Task mode: documentation-only evidence contract definition.
 
 Execution scope:
 
-- Created small negative input fixtures for `tools/auditor/audit.mjs`.
-- Created validation documentation under `docs/validation/`.
-- Validated no file argument, missing file path, invalid JSON, JSON array instead of object, and incomplete sample evidence.
-- Kept the implementation limited to local zero-dependency Node.js and the `COMMIT_BLOCKED` decision.
+- Created `docs/architecture/commit-allow-evidence-contract.md`.
+- Defined the minimum evidence contract required before a future local auditor CLI implementation may return `COMMIT_ALLOWED`.
+- Covered required and optional input fields, Git evidence, task evidence, validation evidence, untracked file rules, CRLF rules, always-block conditions, expected future output shape, and explicit non-goals.
+- Kept the task documentation-only.
 - Updated required operational documentation.
 
 Blocked:
@@ -22,6 +22,8 @@ Blocked:
 - Implement `COMMIT_ALLOWED`.
 - Implement `PUSH_ALLOWED`.
 - Implement `LOCAL_DONE_CONFIRMED`.
+- Create fixtures.
+- Run smoke validation for `COMMIT_ALLOWED`.
 - Create app scaffold.
 - Add LangChain implementation.
 - Add LangGraph implementation.
@@ -46,9 +48,7 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `tools/auditor/fixtures/invalid-json.json`.
-- `tools/auditor/fixtures/array-evidence.json`.
-- `docs/validation/local-auditor-negative-input-smoke.md`.
+- `docs/architecture/commit-allow-evidence-contract.md`.
 
 Validation required before REVIEW:
 
@@ -60,43 +60,35 @@ Validation required before REVIEW:
 
 Created files:
 
-- `tools/auditor/fixtures/invalid-json.json`.
-- `tools/auditor/fixtures/array-evidence.json`.
-- `docs/validation/local-auditor-negative-input-smoke.md`.
+- `docs/architecture/commit-allow-evidence-contract.md`.
 
 Current REVIEW task:
 
 ```text
-RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage
+RIC-STUDIO-042A - Define Commit Allow Evidence Contract
 ```
 
-Validation scenarios:
+Contract coverage:
 
-- No file argument.
-- Missing file path.
-- Invalid JSON.
-- JSON array instead of object.
-- Incomplete sample evidence.
-
-Validation executed:
-
-```powershell
-node tools/auditor/audit.mjs
-node tools/auditor/audit.mjs tools/auditor/fixtures/missing-file.json
-node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json
-node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json
-node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
-```
+- Required input fields.
+- Optional input fields.
+- Required Git evidence.
+- Required task evidence.
+- Required validation evidence.
+- Untracked file rules.
+- CRLF and whitespace rules.
+- Always-block conditions.
+- Expected future `COMMIT_ALLOWED` JSON output shape.
+- Explicit non-goals.
 
 Result:
 
-- All five negative input scenarios are documented.
-- All five scenarios return structured JSON with `decision` set to `COMMIT_BLOCKED`.
-- No unsupported decision, dependency, package file, test runner, runtime, `Modelfile`, UI, framework, GitHub API, or automation is added.
+- Documentation-only contract completed.
+- No CLI implementation, fixture, smoke validation for `COMMIT_ALLOWED`, dependency, package file, test runner, runtime, `Modelfile`, UI, framework, GitHub API, or automation was added.
 
-No `tools/auditor/audit.mjs` change, dependency, `package.json`, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
+No `tools/auditor/audit.mjs` change, `COMMIT_ALLOWED` implementation, dependency, `package.json`, test runner, runtime change, Modelfile change, UI, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, automation, commit, or push occurred.
 
-Previous handoff context: RIC-STUDIO-040B is Remote DONE at commit `d489e91`.
+Previous handoff context: RIC-STUDIO-041A is Remote DONE at commit `e440b1f`.
 
 Previous handoff context: RIC-STUDIO-039A is Remote DONE per current task context.
 
