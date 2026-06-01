@@ -14,6 +14,7 @@
 - RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate (REVIEW - candidate rejected; 0 PASS, 6 FAIL; no promotion, commit, or push)
 - RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope (REVIEW - documentation-only public MVP scope completed; no code, dependencies, runtime, Modelfile, app, API, commit, or push)
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts (REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push)
+- RIC-STUDIO-040A - Define Local MVP Technical Scaffold (REVIEW - documentation-only scaffold plan completed; future 040B CLI prototype defined; no app scaffold, scripts, dependencies, package files, runtime, Modelfile, UI, automation, commit, or push)
 
 ## REJECTED / REVIEW CLOSED
 
@@ -68,7 +69,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-039A documentation-only changes and raw diffs. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-040A documentation-only scaffold plan with raw diffs. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

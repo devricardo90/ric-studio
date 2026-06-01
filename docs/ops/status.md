@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts
+RIC-STUDIO-040A - Define Local MVP Technical Scaffold
 
 ## Product mode
 
@@ -35,15 +35,15 @@ Documentation and operational control only.
 
 ## Current task result
 
-RIC-STUDIO-039A is in REVIEW.
+RIC-STUDIO-040A is in REVIEW.
 
-RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation is registered as the next execution sprint.
+RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Scope: documentation-only definition of evidence input and decision output contracts for the RIC AI Delivery Auditor MVP before implementation work.
+Scope: documentation-only planning for the smallest useful local RIC AI Delivery Auditor MVP technical scaffold.
 
-Completed: defined raw evidence inputs, structured decision output, decision categories, minimum required evidence per decision, evidence quality states, blocked implementation boundaries, and required operational documentation.
+Completed: documented the recommended future scaffold as a zero-dependency local Node.js CLI script, defined future implementation task `RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype`, listed future files, validation commands, and blocked boundaries.
 
-Blocked and not performed: app scaffold, LangChain implementation, dependencies, package files, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, and push.
+Blocked and not performed: app scaffold, CLI implementation, `tools/auditor/` directory, smoke test file, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, and push.
 
 ## READY note
 

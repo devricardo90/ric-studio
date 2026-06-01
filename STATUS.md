@@ -6,24 +6,25 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts
+RIC-STUDIO-040A - Define Local MVP Technical Scaffold
 
 ## Scope
 
-RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation.
+RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
 
-Documentation-only task to define the evidence input and decision output contracts for the RIC AI Delivery Auditor MVP before implementation work.
+Documentation-only planning task to define the smallest useful local RIC AI Delivery Auditor MVP technical scaffold.
 
 Included scope:
 
-- Define what raw evidence the auditor can receive.
-- Define what structured decision the auditor can return.
-- Define decision categories: `COMMIT_BLOCKED`, `COMMIT_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `PUSH_ALLOWED`, `REMOTE_DONE_CONFIRMED`, and `DISCUSSION_GATE_RECOMMENDED`.
-- Define minimum required evidence for each decision.
+- Inspect current repository structure.
+- Recommend the smallest local MVP scaffold option.
+- Define the future implementation task and exact files it should create or change.
+- Define validation commands for the future implementation task.
 - Define blocked implementation boundaries.
+- Document the local MVP technical scaffold plan.
 - Update required operational documentation.
 
-Stop point: after the documentation task executes, stop in REVIEW. Commit and push require separate authorization.
+Stop point: REVIEW. Commit and push require separate authorization.
 
 ## Allowed files
 
@@ -33,31 +34,33 @@ Stop point: after the documentation task executes, stop in REVIEW. Commit and pu
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/product/auditor-contracts.md`
-- `docs/architecture/evidence-decision-contract.md`
+- `docs/architecture/local-mvp-technical-scaffold.md`
 
 ## Blocked in this task
 
-Create app scaffold, add LangChain implementation, add dependencies, edit package files, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, open another READY task, commit, push, use broad `git add .`.
+Create app scaffold, create scripts, create `tools/auditor/`, add CLI implementation, add LangChain implementation, add LangGraph implementation, add dependencies, edit package files, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, open another READY task, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope - Remote DONE per current task context.
+RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts - Remote DONE per current task context.
 
 ## Current task result
 
-RIC-STUDIO-039A is in REVIEW.
+RIC-STUDIO-040A is in REVIEW.
 
-RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation is registered as the next execution sprint.
+RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
 Documentation created:
 
-- `docs/product/auditor-contracts.md`
-- `docs/architecture/evidence-decision-contract.md`
+- `docs/architecture/local-mvp-technical-scaffold.md`
 
-The documentation defines raw evidence input types, structured decision output format, decision categories, minimum required evidence per decision, evidence quality states, blocked implementation boundaries, and review validation requirements.
+Planning result:
 
-No code, dependencies, package files, app scaffold, UI, GitHub API integration, automation, runtime change, Modelfile change, commit, or push occurred.
+- Recommended the smallest future scaffold as a zero-dependency local Node.js CLI script.
+- Defined future implementation task `RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype`.
+- Defined future implementation files without creating them.
+
+No app scaffold, CLI implementation, `tools/auditor/` directory, smoke test file, dependencies, package files, TypeScript setup, Next.js app, LangChain implementation, LangGraph implementation, UI, GitHub API integration, automation, runtime change, Modelfile change, commit, or push occurred.
 
 ## Gate status
 

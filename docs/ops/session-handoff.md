@@ -2,27 +2,35 @@
 
 ## Current handoff state
 
-RIC-STUDIO-039A is in REVIEW as `Define Evidence Input and Decision Output Contracts`.
+RIC-STUDIO-040A is in REVIEW as `Define Local MVP Technical Scaffold`.
 
-RIC-STUDIO-SPRINT-001 - Auditor Contract Foundation is registered as the next execution sprint.
+RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Task mode: documentation-only.
+Task mode: documentation-only planning.
 
 Completed scope:
 
-- Define what raw evidence the auditor can receive.
-- Define what structured decision the auditor can return.
-- Define decision categories: `COMMIT_BLOCKED`, `COMMIT_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `PUSH_ALLOWED`, `REMOTE_DONE_CONFIRMED`, and `DISCUSSION_GATE_RECOMMENDED`.
-- Define minimum required evidence for each decision.
-- Define blocked implementation boundaries.
-- Update required operational documentation.
+- Inspected the current repository structure.
+- Recommended the smallest local MVP scaffold option.
+- Defined future implementation task `RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype`.
+- Defined exact future files for the implementation task.
+- Defined validation commands for the future implementation task.
+- Defined blocked implementation boundaries.
+- Documented the local MVP technical scaffold plan.
+- Updated required operational documentation.
 
 Blocked:
 
 - Create app scaffold.
+- Create `tools/auditor/`.
+- Create scripts.
+- Add CLI implementation.
 - Add LangChain implementation.
+- Add LangGraph implementation.
 - Add dependencies.
 - Edit package files.
+- Add TypeScript setup.
+- Create Next.js app.
 - Alter runtime files or any `Modelfile`.
 - Add GitHub API integration.
 - Create UI.
@@ -40,8 +48,7 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `docs/product/auditor-contracts.md`.
-- `docs/architecture/evidence-decision-contract.md`.
+- `docs/architecture/local-mvp-technical-scaffold.md`.
 
 Validation required before REVIEW:
 
@@ -51,16 +58,27 @@ Validation required before REVIEW:
 - `git diff --check`.
 - Per-file diffs for all changed files.
 
-Created contract documentation:
+Created file:
 
-- `docs/product/auditor-contracts.md`.
-- `docs/architecture/evidence-decision-contract.md`.
+- `docs/architecture/local-mvp-technical-scaffold.md`.
 
-The contracts define raw evidence input types, structured decision output format, decision categories, minimum required evidence per decision, evidence quality states, blocked implementation boundaries, and review validation requirements.
+Future implementation task:
 
-No app scaffold, LangChain implementation, dependencies, package files, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+```text
+RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype
+```
 
-Previous handoff context: RIC-STUDIO-038A is Remote DONE per current task context.
+Future implementation files are documented in `docs/architecture/local-mvp-technical-scaffold.md` but were not created in RIC-STUDIO-040A.
+
+No app scaffold, CLI implementation, `tools/auditor/` directory, smoke test file, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js app, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+
+Previous handoff context: RIC-STUDIO-039A is Remote DONE per current task context.
+
+RIC-STUDIO-039A was recorded as `Define Evidence Input and Decision Output Contracts`.
+
+It documented raw evidence input types, structured decision output format, decision categories, minimum required evidence per decision, evidence quality states, and blocked implementation boundaries.
+
+Earlier handoff context: RIC-STUDIO-038A is Remote DONE per current task context.
 
 RIC-STUDIO-038A was recorded as `Define LangChain AI Delivery Auditor Public MVP Scope`.
 

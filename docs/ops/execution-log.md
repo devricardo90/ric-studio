@@ -1514,3 +1514,30 @@ Validation required before REVIEW:
 - `git diff --stat`.
 - `git diff --check`.
 - Raw per-file diffs for all changed files.
+
+## RIC-STUDIO-040A - Define Local MVP Technical Scaffold
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
+
+Summary:
+
+- Corrected RIC-STUDIO-040A after commit gate blocked the previous mixed planning/implementation scope.
+- Converted RIC-STUDIO-040A into a documentation-only technical planning task.
+- Created `docs/architecture/local-mvp-technical-scaffold.md`.
+- Recommended the future smallest implementation option as a zero-dependency local Node.js CLI script.
+- Defined future implementation task `RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype`.
+- Documented future implementation files without creating them.
+- Documented validation commands and blocked scope for the future implementation task.
+- No app scaffold, CLI implementation, `tools/auditor/` directory, smoke test file, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js app, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+
+Validation required before commit review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --stat`.
+- `git diff --check`.
+- Raw per-file diffs for all changed files.
