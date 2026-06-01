@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Task
 
-RIC-STUDIO-040A - Define Local MVP Technical Scaffold
+RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype
 
 ## Product mode
 
@@ -14,7 +14,7 @@ Local-first.
 
 ## MVP mode
 
-Documentation and operational control only.
+Minimal local implementation planning with operational control.
 
 ## Official agents
 
@@ -35,15 +35,19 @@ Documentation and operational control only.
 
 ## Current task result
 
-RIC-STUDIO-040A is in REVIEW.
+RIC-STUDIO-040B is READY.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Scope: documentation-only planning for the smallest useful local RIC AI Delivery Auditor MVP technical scaffold.
+Scope: documentation-only READY promotion for the smallest local zero-dependency Node.js CLI prototype.
 
-Completed: documented the recommended future scaffold as a zero-dependency local Node.js CLI script, defined future implementation task `RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype`, listed future files, validation commands, and blocked boundaries.
+Goal for future implementation: create a zero-dependency Node.js CLI prototype that reads a JSON evidence file and emits a structured `COMMIT_BLOCKED` decision when required evidence is missing or incomplete.
 
-Blocked and not performed: app scaffold, CLI implementation, `tools/auditor/` directory, smoke test file, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, and push.
+Future implementation files: `tools/auditor/audit.mjs`, `tools/auditor/sample-evidence.json`, `tools/auditor/README.md`, and `docs/validation/local-auditor-cli-smoke.md`.
+
+Future validation command: `node tools/auditor/audit.mjs tools/auditor/sample-evidence.json`.
+
+Blocked and not performed in this READY promotion: `tools/auditor/` directory creation, scripts, sample JSON, smoke documentation, app scaffold, CLI implementation, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, and push.
 
 ## READY note
 

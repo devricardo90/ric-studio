@@ -2,28 +2,29 @@
 
 ## Current handoff state
 
-RIC-STUDIO-040A is in REVIEW as `Define Local MVP Technical Scaffold`.
+RIC-STUDIO-040B is READY as `Implement Local Auditor CLI Smoke Prototype`.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Task mode: documentation-only planning.
+Task mode: documentation-only READY promotion.
 
-Completed scope:
+READY scope:
 
-- Inspected the current repository structure.
-- Recommended the smallest local MVP scaffold option.
-- Defined future implementation task `RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype`.
-- Defined exact future files for the implementation task.
-- Defined validation commands for the future implementation task.
-- Defined blocked implementation boundaries.
-- Documented the local MVP technical scaffold plan.
+- Promoted RIC-STUDIO-040B to READY.
+- Defined the future implementation goal: create the smallest local zero-dependency Node.js CLI prototype.
+- Defined future behavior: read a JSON evidence file and emit a structured `COMMIT_BLOCKED` decision when required evidence is missing or incomplete.
+- Defined future implementation files.
+- Defined the future validation command.
+- Defined blocked boundaries for the READY promotion.
 - Updated required operational documentation.
 
 Blocked:
 
-- Create app scaffold.
 - Create `tools/auditor/`.
 - Create scripts.
+- Create sample JSON.
+- Create smoke documentation.
+- Create app scaffold.
 - Add CLI implementation.
 - Add LangChain implementation.
 - Add LangGraph implementation.
@@ -38,7 +39,7 @@ Blocked:
 - Commit.
 - Push.
 
-Stop point after execution: REVIEW.
+Stop point after execution: READY promotion review.
 
 Authorized files:
 
@@ -48,7 +49,6 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `docs/architecture/local-mvp-technical-scaffold.md`.
 
 Validation required before REVIEW:
 
@@ -60,17 +60,30 @@ Validation required before REVIEW:
 
 Created file:
 
-- `docs/architecture/local-mvp-technical-scaffold.md`.
+None.
 
-Future implementation task:
+Current READY task:
 
 ```text
 RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype
 ```
 
-Future implementation files are documented in `docs/architecture/local-mvp-technical-scaffold.md` but were not created in RIC-STUDIO-040A.
+Future implementation files:
 
-No app scaffold, CLI implementation, `tools/auditor/` directory, smoke test file, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js app, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+- `tools/auditor/audit.mjs`.
+- `tools/auditor/sample-evidence.json`.
+- `tools/auditor/README.md`.
+- `docs/validation/local-auditor-cli-smoke.md`.
+
+Future validation command:
+
+```powershell
+node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
+```
+
+No CLI implementation, `tools/auditor/` directory, script, sample JSON, smoke documentation, app scaffold, LangChain implementation, LangGraph implementation, dependencies, package files, TypeScript setup, Next.js app, runtime changes, `Modelfile` changes, GitHub API integration, UI, automation, commit, or push occurred.
+
+Previous handoff context: RIC-STUDIO-040A is Remote DONE at commit `c436045` per current task context.
 
 Previous handoff context: RIC-STUDIO-039A is Remote DONE per current task context.
 

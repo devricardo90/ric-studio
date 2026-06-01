@@ -2,29 +2,28 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-040A - Define Local MVP Technical Scaffold
+RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype
 
 ## Scope
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
 
-Documentation-only planning task to define the smallest useful local RIC AI Delivery Auditor MVP technical scaffold.
+Documentation-only READY promotion for the smallest local RIC AI Delivery Auditor CLI smoke prototype.
 
 Included scope:
 
-- Inspect current repository structure.
-- Recommend the smallest local MVP scaffold option.
-- Define the future implementation task and exact files it should create or change.
-- Define validation commands for the future implementation task.
-- Define blocked implementation boundaries.
-- Document the local MVP technical scaffold plan.
+- Promote RIC-STUDIO-040B to READY.
+- Define the future implementation goal: create a zero-dependency Node.js CLI prototype that reads a JSON evidence file and emits a structured `COMMIT_BLOCKED` decision when required evidence is missing or incomplete.
+- Define future implementation files.
+- Define the future validation command.
+- Define blocked boundaries for this READY promotion.
 - Update required operational documentation.
 
-Stop point: REVIEW. Commit and push require separate authorization.
+Stop point: READY promotion review. Commit and push require separate authorization.
 
 ## Allowed files
 
@@ -34,33 +33,35 @@ Stop point: REVIEW. Commit and push require separate authorization.
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/architecture/local-mvp-technical-scaffold.md`
 
 ## Blocked in this task
 
-Create app scaffold, create scripts, create `tools/auditor/`, add CLI implementation, add LangChain implementation, add LangGraph implementation, add dependencies, edit package files, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, open another READY task, commit, push, use broad `git add .`.
+Create `tools/auditor/`, create scripts, create sample JSON, create smoke documentation, create app scaffold, add CLI implementation, add LangChain implementation, add LangGraph implementation, add dependencies, edit package files, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add GitHub API integration, create UI, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts - Remote DONE per current task context.
+RIC-STUDIO-040A - Define Local MVP Technical Scaffold - Remote DONE at commit `c436045` per current task context.
 
 ## Current task result
 
-RIC-STUDIO-040A is in REVIEW.
+RIC-STUDIO-040B is READY.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Documentation created:
+Future implementation files:
 
-- `docs/architecture/local-mvp-technical-scaffold.md`
+- `tools/auditor/audit.mjs`
+- `tools/auditor/sample-evidence.json`
+- `tools/auditor/README.md`
+- `docs/validation/local-auditor-cli-smoke.md`
 
-Planning result:
+Future validation command:
 
-- Recommended the smallest future scaffold as a zero-dependency local Node.js CLI script.
-- Defined future implementation task `RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype`.
-- Defined future implementation files without creating them.
+```powershell
+node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
+```
 
-No app scaffold, CLI implementation, `tools/auditor/` directory, smoke test file, dependencies, package files, TypeScript setup, Next.js app, LangChain implementation, LangGraph implementation, UI, GitHub API integration, automation, runtime change, Modelfile change, commit, or push occurred.
+No CLI implementation, `tools/auditor/` directory, script, sample JSON, smoke documentation, package files, dependencies, TypeScript setup, Next.js app, LangChain implementation, LangGraph implementation, UI, GitHub API integration, automation, runtime change, Modelfile change, commit, or push occurred.
 
 ## Gate status
 

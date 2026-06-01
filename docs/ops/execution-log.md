@@ -1541,3 +1541,29 @@ Validation required before commit review:
 - `git diff --stat`.
 - `git diff --check`.
 - Raw per-file diffs for all changed files.
+
+## RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype
+
+State: READY
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
+
+Summary:
+
+- Promoted RIC-STUDIO-040B to READY by explicit current request after RIC-STUDIO-040A reached Remote DONE at commit `c436045` per current task context.
+- Defined this update as a documentation-only READY promotion.
+- Defined the future implementation goal: create the smallest local zero-dependency Node.js CLI prototype that reads a JSON evidence file and emits a structured `COMMIT_BLOCKED` decision when required evidence is missing or incomplete.
+- Defined future implementation files: `tools/auditor/audit.mjs`, `tools/auditor/sample-evidence.json`, `tools/auditor/README.md`, and `docs/validation/local-auditor-cli-smoke.md`.
+- Defined the future validation command: `node tools/auditor/audit.mjs tools/auditor/sample-evidence.json`.
+- Did not create `tools/auditor/`, scripts, sample JSON, smoke documentation, package files, dependencies, TypeScript setup, Next.js app, LangChain implementation, LangGraph implementation, GitHub API integration, UI, automation, runtime changes, or `Modelfile` changes.
+- Did not commit or push.
+
+Validation required before review:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --stat`.
+- `git diff --check`.
+- Raw per-file diffs for changed operational files.
