@@ -206,7 +206,11 @@ function readEvidence(filePath) {
   }
 
   try {
-    const rawEvidence = readFileSync(filePath, "utf8");
+    const evidenceBuffer = readFileSync(filePath);
+    const rawEvidence =
+      evidenceBuffer[0] === 0xff && evidenceBuffer[1] === 0xfe
+        ? evidenceBuffer.toString("utf16le").replace(/^\uFEFF/, "")
+        : evidenceBuffer.toString("utf8").replace(/^\uFEFF/, "");
     const evidence = JSON.parse(rawEvidence);
 
     if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) {

@@ -2,25 +2,33 @@
 
 ## Current handoff state
 
-RIC-STUDIO-044A is in REVIEW as `Implement Real Local Evidence Input for Auditor`.
+RIC-STUDIO-045A is in REVIEW as `Implement Read-Only Local Evidence Pack Generator`.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Task mode: local read-only evidence input integration.
+Task mode: local read-only evidence pack generation.
 
 Execution scope:
 
-- Confirmed the auditor accepts a local evidence JSON file path from the command line.
-- Added one tracked local/manual evidence example.
-- Created real evidence input smoke validation documentation.
-- Preserved existing `COMMIT_BLOCKED` and `COMMIT_ALLOWED` behavior.
+- Added a zero-dependency Node CLI that prints structured evidence JSON to stdout.
+- Collected safe read-only local Git evidence only.
+- Preserved human control by keeping the generator non-authoritative.
+- Confirmed the existing auditor can read generated evidence from a temporary file produced by Windows PowerShell 5 redirection or UTF-8-preserving redirection.
+- Corrected the auditor file-reading path to support UTF-8 and UTF-16LE with BOM.
+- Created evidence pack generator smoke validation documentation.
 - Updated required operational documentation.
 
 Blocked:
 
-- Git automation.
-- Commit automation.
-- Push automation.
+- Git automation beyond read-only evidence collection.
+- Git add.
+- Git commit.
+- Git push.
+- Git reset.
+- Git checkout.
+- Git clean.
+- File deletion.
+- Automatic file modification by the generator.
 - GitHub API integration.
 - `.github` workflow changes.
 - UI.
@@ -53,8 +61,9 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `tools/auditor/fixtures/real-local-evidence.example.json`.
-- `docs/validation/local-auditor-real-evidence-input-smoke.md`.
+- `tools/auditor/audit.mjs`.
+- `tools/auditor/collect-evidence.mjs`.
+- `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
 
 Validation required before REVIEW:
 
@@ -62,34 +71,43 @@ Validation required before REVIEW:
 - `git status -sb`.
 - `git diff --stat`.
 - `git diff --check`.
-- `node tools/auditor/audit.mjs tools/auditor/fixtures/real-local-evidence.example.json`.
-- `node tools/auditor/audit.mjs tools/auditor/fixtures/missing-real-local-evidence.json`.
-- `node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json`.
+- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit`.
+- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit > .tmp-auditor-evidence.json`.
+- `node tools/auditor/audit.mjs .tmp-auditor-evidence.json`.
+- `Remove-Item .tmp-auditor-evidence.json`.
 
 Created files:
 
-- `tools/auditor/fixtures/real-local-evidence.example.json`.
-- `docs/validation/local-auditor-real-evidence-input-smoke.md`.
+- `tools/auditor/collect-evidence.mjs`.
+- `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
 
 Current REVIEW task:
 
 ```text
-RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor
+RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator
 ```
 
 Validation executed:
 
-- `node tools/auditor/audit.mjs tools/auditor/fixtures/real-local-evidence.example.json`.
-- `node tools/auditor/audit.mjs tools/auditor/fixtures/missing-real-local-evidence.json`.
-- `node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json`.
+- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit`.
+- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit > .tmp-auditor-evidence.json`.
+- `node tools/auditor/audit.mjs .tmp-auditor-evidence.json`.
+- `Remove-Item .tmp-auditor-evidence.json`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --stat`.
+- `git diff --check`.
 
 Result:
 
-- The real local evidence example returned `COMMIT_ALLOWED`.
-- The missing file path and invalid JSON scenarios returned controlled `COMMIT_BLOCKED` decisions.
-- The auditor remained read-only and did not execute Git commands or modify files.
+- The generator printed JSON to stdout.
+- The temporary evidence file was created only by explicit shell redirection and then removed.
+- The exact Windows PowerShell 5 `>` redirection command created a UTF-16LE file and the auditor read it successfully.
+- UTF-8-preserving `cmd /c` redirection also produced evidence the auditor read successfully.
+- In both cases the auditor returned controlled `COMMIT_BLOCKED` with `file_diffs` and `validation_output` missing.
+- The generator remained a collector and did not claim `COMMIT_ALLOWED`.
 
-No `tools/auditor/audit.mjs` change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependency, `package.json`, test runner, runtime change, Modelfile change, Next.js app, LangChain implementation, LangGraph implementation, automation, commit, or push occurred.
+`tools/auditor/audit.mjs` changed only to support UTF-8 and UTF-16LE with BOM evidence file decoding. No decision authority change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependency, `package.json`, test runner, runtime change, Modelfile change, Next.js app, LangChain implementation, LangGraph implementation, automation, commit, or push occurred.
 
 Previous handoff context: RIC-STUDIO-043A is Remote DONE at commit `5964b4f`.
 

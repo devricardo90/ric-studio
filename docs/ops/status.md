@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor
+RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator
 
 ## Product mode
 
@@ -35,19 +35,21 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-044A is in REVIEW.
+RIC-STUDIO-045A is in REVIEW.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Scope: first real local evidence input example for the auditor CLI.
+Scope: read-only local evidence pack generator for the auditor CLI.
 
-Result: added `tools/auditor/fixtures/real-local-evidence.example.json` and `docs/validation/local-auditor-real-evidence-input-smoke.md`.
+Result: added `tools/auditor/collect-evidence.mjs` and `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
 
-The auditor already accepted a JSON evidence file path from the command line, so no `tools/auditor/audit.mjs` change was needed.
+The generator prints structured JSON to stdout by default, writes no files by default, and collects only read-only local Git evidence.
 
-Validation confirms the auditor reads the real local evidence example path, returns `COMMIT_ALLOWED` for complete evidence, and returns controlled `COMMIT_BLOCKED` decisions for missing and invalid evidence inputs.
+Validation confirms the generator prints JSON to stdout and can be read by the existing auditor when redirected by Windows PowerShell 5 or UTF-8-preserving output. The auditor now supports evidence files encoded as UTF-8 or UTF-16LE with BOM.
 
-Blocked and not performed in this implementation task: Git automation, commit automation, push automation, GitHub API integration, `.github` workflow changes, UI, server, database, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, Next.js, LangChain, LangGraph, automation, commit, and push.
+The generator preserves human control: it keeps `human_review_required` true, lists authority actions as blocked, and does not claim `COMMIT_ALLOWED`.
+
+`tools/auditor/audit.mjs` changed only to decode UTF-8 and UTF-16LE with BOM evidence files. Blocked and not performed in this implementation task: git add, git commit, git push, git reset, git checkout, git clean, file deletion, automatic file modification by the generator, Git automation beyond read-only evidence collection, GitHub API integration, `.github` workflow changes, UI, server, database, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, Next.js, LangChain, LangGraph, automation, commit, and push.
 
 ## READY note
 

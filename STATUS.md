@@ -6,20 +6,20 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor
+RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator
 
 ## Scope
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
 
-First real local evidence input example for the auditor CLI.
+Read-only local evidence pack generator for the auditor CLI.
 
 Included scope:
 
-- Confirm the auditor accepts a real local evidence JSON file path from the command line.
-- Add one tracked local/manual evidence example.
-- Document the real evidence input smoke validation.
-- Preserve existing `COMMIT_BLOCKED` and `COMMIT_ALLOWED` behavior.
+- Add a zero-dependency Node CLI that prints a local evidence package to stdout.
+- Collect safe read-only Git evidence only.
+- Preserve human control by keeping the generator non-authoritative.
+- Confirm the existing auditor can read generated evidence from a temporary file.
 - Update required operational documentation.
 
 Stop point: REVIEW. Commit and push require separate authorization.
@@ -32,30 +32,33 @@ Stop point: REVIEW. Commit and push require separate authorization.
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `tools/auditor/fixtures/real-local-evidence.example.json`
-- `docs/validation/local-auditor-real-evidence-input-smoke.md`
+- `tools/auditor/audit.mjs`
+- `tools/auditor/collect-evidence.mjs`
+- `docs/validation/local-auditor-evidence-pack-generator-smoke.md`
 
 ## Blocked in this task
 
-Git automation, commit automation, push automation, GitHub API integration, `.github` workflow changes, UI, server, database, implement `PUSH_ALLOWED`, implement `LOCAL_DONE_CONFIRMED`, implement `REMOTE_DONE_CONFIRMED`, add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add LangChain implementation, add LangGraph implementation, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
+Git add, git commit, git push, git reset, git checkout, git clean, file deletion, automatic file modification by the generator, Git automation beyond read-only evidence collection, GitHub API integration, `.github` workflow changes, UI, server, database, implement `PUSH_ALLOWED`, implement `LOCAL_DONE_CONFIRMED`, implement `REMOTE_DONE_CONFIRMED`, add dependencies, create or edit `package.json`, add a test runner, create app scaffold, add LangChain implementation, add LangGraph implementation, add TypeScript setup, create Next.js app, change runtime files, alter any `Modelfile`, add automation, run `ollama create`, run `ollama cp`, promote any runtime, delete models, commit, push, use broad `git add .`.
 
 ## Previous task
 
-RIC-STUDIO-043A - Implement Commit Allowed Decision From Evidence Contract - Remote DONE at commit `5964b4f`.
+RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor - Remote DONE.
 
 ## Current task result
 
-RIC-STUDIO-044A is in REVIEW.
+RIC-STUDIO-045A is in REVIEW.
 
 RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
 
-Added `tools/auditor/fixtures/real-local-evidence.example.json`.
+Added `tools/auditor/collect-evidence.mjs`.
 
-Created `docs/validation/local-auditor-real-evidence-input-smoke.md`.
+Created `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
 
-Validation confirms the auditor reads the real local evidence example path from the command line, returns `COMMIT_ALLOWED` for complete evidence, and returns controlled `COMMIT_BLOCKED` decisions for missing and invalid evidence inputs.
+Validation confirms the generator prints JSON to stdout, writes no files by default, and collects only read-only Git evidence. The auditor now reads generated evidence files encoded as UTF-8 or UTF-16LE with BOM, so Windows PowerShell 5 redirected evidence no longer fails as missing `valid_json`.
 
-No `tools/auditor/audit.mjs` change was needed. No Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, dependency, package file, test runner, runtime change, Modelfile change, Next.js app, LangChain implementation, LangGraph implementation, automation, commit, or push occurred.
+The generated evidence keeps `human_review_required` true, blocks commit/push/Remote DONE authority actions, and does not claim `COMMIT_ALLOWED`. The generator is a collector; the existing auditor remains the decision authority.
+
+`tools/auditor/audit.mjs` was changed only to support UTF-8 and UTF-16LE with BOM evidence file decoding. No decision authority change was made. No git add, commit, push, reset, checkout, clean, file deletion, GitHub API integration, `.github` workflow, UI, server, database, dependency, package file, test runner, runtime change, Modelfile change, Next.js app, LangChain implementation, LangGraph implementation, automation, commit, or push occurred.
 
 ## Gate status
 

@@ -1676,3 +1676,38 @@ Summary:
 - Did not edit `tools/auditor/audit.mjs`.
 - Did not add Git automation, commit automation, push automation, GitHub API integration, `.github` workflows, UI, server, database, dependencies, package files, test runner, runtime changes, or `Modelfile` changes.
 - Did not commit or push.
+
+## RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation.
+
+Summary:
+
+- Opened RIC-STUDIO-045A after RIC-STUDIO-044A reached Remote DONE.
+- Added `tools/auditor/collect-evidence.mjs` as a zero-dependency Node CLI.
+- The CLI accepts `--task` and `--gate` and prints structured JSON to stdout.
+- The generator runs only read-only local Git evidence commands.
+- The generator writes no files by default.
+- The generator keeps `human_review_required` true and lists authority actions as blocked.
+- The generator does not claim `COMMIT_ALLOWED`; the existing auditor remains the decision authority.
+- Added `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
+- Validated generator stdout output, explicit redirection to a temporary evidence file, auditor read of generated evidence with UTF-8-preserving redirection, temporary file cleanup, and Git scope checks.
+- Observed a Windows PowerShell 5 caveat: the exact `>` redirection command writes the temporary file as UTF-16LE, which the existing UTF-8 auditor reports as `valid_json` missing.
+- The existing auditor read the generated package and returned controlled `COMMIT_BLOCKED`, as expected for repository-only evidence without implementation validation evidence or per-file diffs.
+- Did not edit `tools/auditor/audit.mjs`.
+- Did not add git add, commit, push, reset, checkout, clean, file deletion, GitHub API integration, `.github` workflows, UI, server, database, dependencies, package files, LangChain, LangGraph, runtime changes, `Modelfile` changes, Ollama changes, or automation.
+- Did not commit or push.
+
+Correction:
+
+- Updated `tools/auditor/audit.mjs` to read evidence files as raw bytes and decode UTF-8 or UTF-16LE with BOM.
+- Revalidated Windows PowerShell 5 redirected generated evidence.
+- The PowerShell redirected generated evidence no longer fails as missing `valid_json`.
+- The auditor still returns controlled `COMMIT_BLOCKED` for repository-only evidence missing `file_diffs` and `validation_output`.
+- Decision authority was not changed.
+- The generator still does not claim `COMMIT_ALLOWED`.
+- No dependencies, package file changes, Git automation, commit, or push occurred.
