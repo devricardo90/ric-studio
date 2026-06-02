@@ -6,23 +6,25 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP
+RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract
 
 ## Scope
 
 RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning.
 
-Documentation-only architecture definition for a future LangGraph auditor workflow.
+Documentation-only implementation contract for a future LangGraph auditor workflow.
 
 Included scope:
 
-- Define the future LangGraph workflow before installing or implementing LangGraph.
-- Define workflow nodes, transitions, JSON contracts, human gates, read-only boundaries, and forbidden automation.
-- Document how the current evidence collector and deterministic auditor fit into the future workflow.
-- Keep LangGraph as future orchestration only, not uncontrolled authority.
+- Define future LangGraph implementation boundaries.
+- Define what LangGraph may orchestrate and what it must not decide.
+- Define how `tools/auditor/audit.mjs` remains the deterministic decision authority.
+- Define how `tools/auditor/collect-evidence.mjs` remains the evidence source.
+- Define future graph input/output contracts, minimal future file/folder structure, dependency-install prerequisites, and validation criteria before implementation.
+- Keep the human gate mandatory for commit, push, release, Local DONE, and Remote DONE decisions.
 - Update required operational documentation.
 
-Stop point: REVIEW. Commit and push require separate authorization.
+Stop point after execution: REVIEW. Commit and push require separate authorization.
 
 ## Allowed files
 
@@ -32,29 +34,29 @@ Stop point: REVIEW. Commit and push require separate authorization.
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/architecture/langgraph-auditor-workflow-mvp.md`
+- `docs/architecture/langgraph-auditor-implementation-contract.md`
 
 ## Blocked in this task
 
-LangGraph install, LangChain install, dependency changes, `package.json` changes, code implementation, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, GitHub API integration, `.github` workflow changes, Git automation, commit automation, push automation, Ollama changes, `Modelfile` changes, runtime changes, new READY task after completion, git add, commit, push, reset, checkout, clean, file deletion, or automation.
+LangGraph install, LangChain install, dependency installation, `package.json` or lockfile changes, code implementation, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, GitHub API integration, `.github` workflow changes, Git automation, commit automation, push automation, Ollama changes, `Modelfile` changes, runtime changes, more than one READY task, git add, commit, push, reset, checkout, clean, file deletion, or automation.
 
 ## Previous task
 
-RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator - Remote DONE at commit `64fcf58`.
+RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP - Remote DONE at commit `e16c34c`.
 
 ## Current task result
 
-RIC-STUDIO-046A is in REVIEW.
+RIC-STUDIO-046B is in REVIEW.
 
 RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning is registered.
 
-Created `docs/architecture/langgraph-auditor-workflow-mvp.md`.
+Implemented RIC-STUDIO-046B as a documentation-only implementation contract task.
 
-The architecture defines the LangGraph Auditor Workflow MVP purpose, current integration points, workflow nodes, state transitions, JSON contracts, human-in-the-loop boundaries, read-only guarantees, forbidden automation, LangGraph orchestration-only role, and future MVP validation strategy.
+Created `docs/architecture/langgraph-auditor-implementation-contract.md`.
 
-The current collector remains `tools/auditor/collect-evidence.mjs`. The current deterministic decision authority remains `tools/auditor/audit.mjs`.
+The contract defines runtime boundaries, LangGraph orchestration limits, deterministic auditor authority, evidence collector role, future graph input/output contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria before implementation, mandatory human gate requirements, and forbidden automation boundaries.
 
-No LangGraph install, LangChain install, dependency change, package file change, code implementation, auditor change, collector change, UI, server, database, GitHub API integration, `.github` workflow, Git automation, commit automation, push automation, Ollama change, `Modelfile` change, runtime change, new READY task, commit, or push occurred.
+No LangGraph install, LangChain install, dependency change, package file change, code implementation, auditor change, collector change, UI, server, database, GitHub API integration, `.github` workflow, Git automation, commit automation, push automation, Ollama change, `Modelfile` change, runtime change, extra READY task, commit, or push occurred.
 
 ## Gate status
 

@@ -1737,3 +1737,24 @@ Summary:
 - Did not change dependencies, `package.json`, code, auditor files, collector files, UI, server, database, GitHub API integration, `.github`, Git automation, Ollama, runtime files, or any `Modelfile`.
 - Did not open a new READY task after completion.
 - Did not commit or push.
+
+## RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning.
+
+Summary:
+
+- Opened RIC-STUDIO-046B after Discussion Gate approval.
+- Confirmed RIC-STUDIO-046A is Remote DONE and repository state was clean and synchronized at `e16c34c`.
+- Defined this as a documentation-only implementation contract task.
+- Created `docs/architecture/langgraph-auditor-implementation-contract.md`.
+- Scope: define future LangGraph implementation boundaries, orchestration limits, deterministic auditor authority, evidence collector role, future input/output contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria, and mandatory human gate boundaries.
+- Allowed files: `docs/architecture/langgraph-auditor-implementation-contract.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Blocked LangGraph install, LangChain install, dependency installation, `package.json` or lockfile changes, workflow code, auditor changes, collector changes, Git automation, runtime/Ollama/Modelfile changes, UI, server, database, GitHub API integration, `.github`, more than one READY task, commit, and push.
+- Defined runtime boundaries, what LangGraph may orchestrate, what LangGraph must not decide, deterministic auditor authority, evidence source role, future graph input/output contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria before implementation, human gate requirements, and forbidden automation boundaries.
+- Did not open any additional READY task.
+- Did not commit or push.

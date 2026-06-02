@@ -2,27 +2,27 @@
 
 ## Current handoff state
 
-RIC-STUDIO-046A is in REVIEW as `Define LangGraph Auditor Workflow MVP`.
+RIC-STUDIO-046B is in REVIEW as `Define LangGraph Auditor Implementation Contract`.
 
 RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning is registered.
 
-Task mode: documentation-only architecture definition.
+Task mode: documentation-only implementation contract definition.
 
 Execution scope:
 
-- Created the LangGraph Auditor Workflow MVP architecture document.
-- Defined workflow nodes, state transitions, JSON contracts, human gates, read-only guarantees, forbidden automation, and future validation strategy.
-- Documented `tools/auditor/collect-evidence.mjs` as the current evidence source.
-- Documented `tools/auditor/audit.mjs` as the current deterministic decision authority.
-- Kept LangGraph as future orchestration only, not uncontrolled authority.
-- Updated required operational documentation.
+- Created `docs/architecture/langgraph-auditor-implementation-contract.md`.
+- Defined future LangGraph implementation boundaries.
+- Defined what LangGraph may orchestrate and what it must not decide.
+- Preserved `tools/auditor/audit.mjs` as deterministic decision authority.
+- Preserved `tools/auditor/collect-evidence.mjs` as evidence source.
+- Defined future graph input/output contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria, human gate requirements, and forbidden automation boundaries.
 
 Blocked:
 
 - LangGraph install.
 - LangChain install.
-- Dependency changes.
-- `package.json` changes.
+- Dependency installation.
+- `package.json` or lockfile changes.
 - Code implementation.
 - Changes to `tools/auditor/audit.mjs`.
 - Changes to `tools/auditor/collect-evidence.mjs`.
@@ -36,7 +36,7 @@ Blocked:
 - Database.
 - Ollama changes.
 - Alter runtime files or any `Modelfile`.
-- New READY task after completion.
+- More than one READY task.
 - Commit.
 - Push.
 
@@ -50,7 +50,7 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `docs/architecture/langgraph-auditor-workflow-mvp.md`.
+- `docs/architecture/langgraph-auditor-implementation-contract.md`.
 
 Validation required before REVIEW:
 
@@ -58,16 +58,16 @@ Validation required before REVIEW:
 - `git status -sb`.
 - `git diff --stat`.
 - `git diff --check`.
-- `git diff -- docs/architecture/langgraph-auditor-workflow-mvp.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+- `git diff -- docs/architecture/langgraph-auditor-implementation-contract.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
 
 Created files:
 
-- `docs/architecture/langgraph-auditor-workflow-mvp.md`.
+- `docs/architecture/langgraph-auditor-implementation-contract.md`.
 
 Current REVIEW task:
 
 ```text
-RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP
+RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract
 ```
 
 Validation executed:
@@ -76,17 +76,21 @@ Validation executed:
 - `git status -sb`.
 - `git diff --stat`.
 - `git diff --check`.
-- `git diff -- docs/architecture/langgraph-auditor-workflow-mvp.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+- `git diff -- docs/architecture/langgraph-auditor-implementation-contract.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
 
 Result:
 
-- The architecture document defines all required workflow nodes.
-- State transitions and JSON contracts are defined.
-- Current collector and auditor integration points are documented.
-- Human gate and read-only boundaries are explicit.
-- Forbidden scope is explicit.
+- RIC-STUDIO-046B is in REVIEW.
+- READY is empty.
+- The implementation contract document exists.
+- Runtime boundaries are explicit.
+- LangGraph orchestration limits are explicit.
+- Deterministic auditor authority is preserved.
+- Evidence collector role is preserved.
+- Future graph input/output contracts are defined.
+- Human gate remains mandatory for commit, push, release, Local DONE, and Remote DONE.
 
-No LangGraph install, LangChain install, dependency change, `package.json` change, code implementation, auditor change, collector change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, new READY task, commit, or push occurred.
+No LangGraph install, LangChain install, dependency change, `package.json` or lockfile change, code implementation, auditor change, collector change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, extra READY task, commit, or push occurred.
 
 Previous handoff context: RIC-STUDIO-043A is Remote DONE at commit `5964b4f`.
 

@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP
+RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract
 
 ## Product mode
 
@@ -35,21 +35,21 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-046A is in REVIEW.
+RIC-STUDIO-046B is in REVIEW.
 
 RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning is registered.
 
-Scope: documentation-only architecture definition for a future LangGraph auditor workflow.
+Scope: documentation-only implementation contract for a future LangGraph auditor workflow.
 
-Result: created `docs/architecture/langgraph-auditor-workflow-mvp.md`.
+Result: created `docs/architecture/langgraph-auditor-implementation-contract.md`.
 
-The architecture defines workflow nodes, state transitions, JSON input/output contracts, human-in-the-loop boundaries, read-only guarantees, forbidden automation, and future MVP validation strategy.
+The contract defines runtime boundaries, what LangGraph may orchestrate, what LangGraph must not decide, deterministic auditor authority, evidence collector role, future graph contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria, and mandatory human gate boundaries.
 
-Current integration points are preserved: `tools/auditor/collect-evidence.mjs` remains the evidence source and `tools/auditor/audit.mjs` remains the deterministic decision authority.
+Current integration points must be preserved: `tools/auditor/collect-evidence.mjs` remains the evidence source and `tools/auditor/audit.mjs` remains the deterministic decision authority.
 
-LangGraph is documented as future orchestration only, not uncontrolled authority.
+LangGraph must remain future orchestration only, not uncontrolled authority.
 
-Blocked and not performed in this documentation-only task: LangGraph install, LangChain install, dependency changes, `package.json` changes, code implementation, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, GitHub API integration, `.github` workflow changes, Git automation, commit automation, push automation, Ollama changes, `Modelfile` changes, runtime changes, new READY task after completion, commit, and push.
+Blocked and not performed in this documentation-only task: LangGraph install, LangChain install, dependency installation, `package.json` or lockfile changes, code implementation, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, GitHub API integration, `.github` workflow changes, Git automation, commit automation, push automation, Ollama changes, `Modelfile` changes, runtime changes, more than one READY task, commit, and push.
 
 ## READY note
 

@@ -14,7 +14,7 @@
 - RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate (REVIEW - candidate rejected; 0 PASS, 6 FAIL; no promotion, commit, or push)
 - RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope (REVIEW - documentation-only public MVP scope completed; no code, dependencies, runtime, Modelfile, app, API, commit, or push)
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts (REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push)
-- RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP (REVIEW - documentation-only architecture; no implementation, dependencies, commit, or push)
+- RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract (REVIEW - documentation-only contract; no implementation, dependencies, commit, or push)
 
 ## REJECTED / REVIEW CLOSED
 
@@ -58,6 +58,7 @@ No task is Local DONE.
 - RIC-STUDIO-043A - Implement Commit Allowed Decision From Evidence Contract (Remote DONE at commit `5964b4f`)
 - RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor (Remote DONE)
 - RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator (Remote DONE at commit `64fcf58`)
+- RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP (Remote DONE at commit `e16c34c`)
 
 ## REVIEW
 
@@ -76,7 +77,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-046A. Do not commit or push without explicit authorization.
+Review RIC-STUDIO-046B. Do not commit or push without explicit authorization.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
