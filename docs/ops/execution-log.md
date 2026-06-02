@@ -1711,3 +1711,29 @@ Correction:
 - Decision authority was not changed.
 - The generator still does not claim `COMMIT_ALLOWED`.
 - No dependencies, package file changes, Git automation, commit, or push occurred.
+
+## RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning.
+
+Summary:
+
+- Opened RIC-STUDIO-046A after Discussion Gate approval and repository hygiene confirmation.
+- Created `docs/architecture/langgraph-auditor-workflow-mvp.md`.
+- Defined the purpose of the LangGraph Auditor Workflow MVP.
+- Documented current integration points: `tools/auditor/collect-evidence.mjs` as evidence source and `tools/auditor/audit.mjs` as deterministic decision authority.
+- Defined workflow nodes: Collect Evidence, Parse Evidence, Scope Audit, Validation Audit, Risk Classification, Decision, Human Gate, and Final Report.
+- Defined state transitions between nodes, including blocked and invalid evidence paths.
+- Defined JSON input/output contracts for workflow input, evidence package, node findings, workflow state, and final report.
+- Defined human-in-the-loop boundaries and read-only guarantees.
+- Defined forbidden automation and blocked future actions.
+- Documented LangGraph as future orchestration only, not uncontrolled authority.
+- Defined MVP validation strategy for a future implementation task.
+- Did not install LangGraph or LangChain.
+- Did not change dependencies, `package.json`, code, auditor files, collector files, UI, server, database, GitHub API integration, `.github`, Git automation, Ollama, runtime files, or any `Modelfile`.
+- Did not open a new READY task after completion.
+- Did not commit or push.

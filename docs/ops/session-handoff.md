@@ -2,52 +2,41 @@
 
 ## Current handoff state
 
-RIC-STUDIO-045A is in REVIEW as `Implement Read-Only Local Evidence Pack Generator`.
+RIC-STUDIO-046A is in REVIEW as `Define LangGraph Auditor Workflow MVP`.
 
-RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
+RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning is registered.
 
-Task mode: local read-only evidence pack generation.
+Task mode: documentation-only architecture definition.
 
 Execution scope:
 
-- Added a zero-dependency Node CLI that prints structured evidence JSON to stdout.
-- Collected safe read-only local Git evidence only.
-- Preserved human control by keeping the generator non-authoritative.
-- Confirmed the existing auditor can read generated evidence from a temporary file produced by Windows PowerShell 5 redirection or UTF-8-preserving redirection.
-- Corrected the auditor file-reading path to support UTF-8 and UTF-16LE with BOM.
-- Created evidence pack generator smoke validation documentation.
+- Created the LangGraph Auditor Workflow MVP architecture document.
+- Defined workflow nodes, state transitions, JSON contracts, human gates, read-only guarantees, forbidden automation, and future validation strategy.
+- Documented `tools/auditor/collect-evidence.mjs` as the current evidence source.
+- Documented `tools/auditor/audit.mjs` as the current deterministic decision authority.
+- Kept LangGraph as future orchestration only, not uncontrolled authority.
 - Updated required operational documentation.
 
 Blocked:
 
-- Git automation beyond read-only evidence collection.
-- Git add.
-- Git commit.
-- Git push.
-- Git reset.
-- Git checkout.
-- Git clean.
-- File deletion.
-- Automatic file modification by the generator.
+- LangGraph install.
+- LangChain install.
+- Dependency changes.
+- `package.json` changes.
+- Code implementation.
+- Changes to `tools/auditor/audit.mjs`.
+- Changes to `tools/auditor/collect-evidence.mjs`.
+- Git automation.
+- Commit automation.
+- Push automation.
 - GitHub API integration.
 - `.github` workflow changes.
 - UI.
 - Server.
 - Database.
-- Implement `PUSH_ALLOWED`.
-- Implement `LOCAL_DONE_CONFIRMED`.
-- Implement `REMOTE_DONE_CONFIRMED`.
-- Create app scaffold.
-- Add LangChain implementation.
-- Add LangGraph implementation.
-- Add dependencies.
-- Edit package files.
-- Add TypeScript setup.
-- Create Next.js app.
+- Ollama changes.
 - Alter runtime files or any `Modelfile`.
-- Add GitHub API integration.
-- Create UI.
-- Add automation.
+- New READY task after completion.
 - Commit.
 - Push.
 
@@ -61,9 +50,7 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `tools/auditor/audit.mjs`.
-- `tools/auditor/collect-evidence.mjs`.
-- `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
+- `docs/architecture/langgraph-auditor-workflow-mvp.md`.
 
 Validation required before REVIEW:
 
@@ -71,43 +58,35 @@ Validation required before REVIEW:
 - `git status -sb`.
 - `git diff --stat`.
 - `git diff --check`.
-- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit`.
-- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit > .tmp-auditor-evidence.json`.
-- `node tools/auditor/audit.mjs .tmp-auditor-evidence.json`.
-- `Remove-Item .tmp-auditor-evidence.json`.
+- `git diff -- docs/architecture/langgraph-auditor-workflow-mvp.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
 
 Created files:
 
-- `tools/auditor/collect-evidence.mjs`.
-- `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
+- `docs/architecture/langgraph-auditor-workflow-mvp.md`.
 
 Current REVIEW task:
 
 ```text
-RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator
+RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP
 ```
 
 Validation executed:
 
-- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit`.
-- `node tools/auditor/collect-evidence.mjs --task RIC-STUDIO-045A --gate commit > .tmp-auditor-evidence.json`.
-- `node tools/auditor/audit.mjs .tmp-auditor-evidence.json`.
-- `Remove-Item .tmp-auditor-evidence.json`.
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
 - `git diff --stat`.
 - `git diff --check`.
+- `git diff -- docs/architecture/langgraph-auditor-workflow-mvp.md STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
 
 Result:
 
-- The generator printed JSON to stdout.
-- The temporary evidence file was created only by explicit shell redirection and then removed.
-- The exact Windows PowerShell 5 `>` redirection command created a UTF-16LE file and the auditor read it successfully.
-- UTF-8-preserving `cmd /c` redirection also produced evidence the auditor read successfully.
-- In both cases the auditor returned controlled `COMMIT_BLOCKED` with `file_diffs` and `validation_output` missing.
-- The generator remained a collector and did not claim `COMMIT_ALLOWED`.
+- The architecture document defines all required workflow nodes.
+- State transitions and JSON contracts are defined.
+- Current collector and auditor integration points are documented.
+- Human gate and read-only boundaries are explicit.
+- Forbidden scope is explicit.
 
-`tools/auditor/audit.mjs` changed only to support UTF-8 and UTF-16LE with BOM evidence file decoding. No decision authority change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependency, `package.json`, test runner, runtime change, Modelfile change, Next.js app, LangChain implementation, LangGraph implementation, automation, commit, or push occurred.
+No LangGraph install, LangChain install, dependency change, `package.json` change, code implementation, auditor change, collector change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, new READY task, commit, or push occurred.
 
 Previous handoff context: RIC-STUDIO-043A is Remote DONE at commit `5964b4f`.
 

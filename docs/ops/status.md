@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator
+RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP
 
 ## Product mode
 
@@ -35,21 +35,21 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-045A is in REVIEW.
+RIC-STUDIO-046A is in REVIEW.
 
-RIC-STUDIO-SPRINT-002 - Local MVP Technical Foundation is registered.
+RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning is registered.
 
-Scope: read-only local evidence pack generator for the auditor CLI.
+Scope: documentation-only architecture definition for a future LangGraph auditor workflow.
 
-Result: added `tools/auditor/collect-evidence.mjs` and `docs/validation/local-auditor-evidence-pack-generator-smoke.md`.
+Result: created `docs/architecture/langgraph-auditor-workflow-mvp.md`.
 
-The generator prints structured JSON to stdout by default, writes no files by default, and collects only read-only local Git evidence.
+The architecture defines workflow nodes, state transitions, JSON input/output contracts, human-in-the-loop boundaries, read-only guarantees, forbidden automation, and future MVP validation strategy.
 
-Validation confirms the generator prints JSON to stdout and can be read by the existing auditor when redirected by Windows PowerShell 5 or UTF-8-preserving output. The auditor now supports evidence files encoded as UTF-8 or UTF-16LE with BOM.
+Current integration points are preserved: `tools/auditor/collect-evidence.mjs` remains the evidence source and `tools/auditor/audit.mjs` remains the deterministic decision authority.
 
-The generator preserves human control: it keeps `human_review_required` true, lists authority actions as blocked, and does not claim `COMMIT_ALLOWED`.
+LangGraph is documented as future orchestration only, not uncontrolled authority.
 
-`tools/auditor/audit.mjs` changed only to decode UTF-8 and UTF-16LE with BOM evidence files. Blocked and not performed in this implementation task: git add, git commit, git push, git reset, git checkout, git clean, file deletion, automatic file modification by the generator, Git automation beyond read-only evidence collection, GitHub API integration, `.github` workflow changes, UI, server, database, `PUSH_ALLOWED`, `LOCAL_DONE_CONFIRMED`, `REMOTE_DONE_CONFIRMED`, dependencies, `package.json`, test runner, runtime changes, `Modelfile` changes, Next.js, LangChain, LangGraph, automation, commit, and push.
+Blocked and not performed in this documentation-only task: LangGraph install, LangChain install, dependency changes, `package.json` changes, code implementation, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, GitHub API integration, `.github` workflow changes, Git automation, commit automation, push automation, Ollama changes, `Modelfile` changes, runtime changes, new READY task after completion, commit, and push.
 
 ## READY note
 
