@@ -1740,7 +1740,7 @@ Summary:
 
 ## RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract
 
-State: REVIEW
+State: Remote DONE
 
 Sprint:
 
@@ -1758,3 +1758,32 @@ Summary:
 - Defined runtime boundaries, what LangGraph may orchestrate, what LangGraph must not decide, deterministic auditor authority, evidence source role, future graph input/output contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria before implementation, human gate requirements, and forbidden automation boundaries.
 - Did not open any additional READY task.
 - Did not commit or push.
+- Local DONE commit: `7d6df8c`.
+- Remote DONE after controlled push to `origin/main` at commit `7d6df8c`.
+
+## RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-047 - Auditor Read-Only Smoke Workflow.
+
+Summary:
+
+- Opened RIC-STUDIO-047A after Discussion Gate approval with modified dependency-free scope.
+- Confirmed RIC-STUDIO-046B is Remote DONE at commit `7d6df8c`.
+- Current repository state was clean and synchronized with `origin/main` at `7d6df8c` before opening READY.
+- Scope: create a minimal read-only local Node.js smoke workflow that mirrors future graph node shape without installing or importing LangGraph.
+- Required implementation shape: load evidence, parse evidence, call or preserve `tools/auditor/audit.mjs` as deterministic authority, and format a smoke report.
+- Human gate must remain mandatory in the output/report.
+- Allowed files: `tools/auditor/smoke-workflow.mjs`, `tools/auditor/README.md`, `docs/validation/auditor-read-only-smoke-047a.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Blocked LangGraph install/import, LangChain install, dependency installation, package metadata, lockfiles, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, `.github`, runtime/Ollama/Modelfile changes, UI, server, database, deploy, GitHub API integration, Git automation, more than one READY task, commit, and push.
+- Required validation before REVIEW: `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`, `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/invalid-json.json`, `git status --short --untracked-files=all`, `git status -sb`, `git diff --stat`, and `git diff --check`.
+- Implemented `tools/auditor/smoke-workflow.mjs`.
+- Updated `tools/auditor/README.md` with usage and boundaries.
+- Created `docs/validation/auditor-read-only-smoke-047a.md`.
+- Preserved `tools/auditor/audit.mjs` as deterministic authority.
+- Preserved `tools/auditor/collect-evidence.mjs` unchanged.
+- Validation passed for complete commit evidence and invalid JSON evidence.
+- No LangGraph import, LangGraph install, LangChain install, dependency install, package metadata, lockfile, runtime, Ollama, `Modelfile`, `.github`, UI, server, database, deploy, Git automation, staging, commit, or push occurred.

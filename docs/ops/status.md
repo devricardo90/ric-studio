@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract
+RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow
 
 ## Product mode
 
@@ -35,21 +35,32 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-046B is in REVIEW.
+RIC-STUDIO-047A is in REVIEW after dependency-free smoke workflow implementation.
 
-RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning is registered.
+RIC-STUDIO-SPRINT-047 - Auditor Read-Only Smoke Workflow is registered.
 
-Scope: documentation-only implementation contract for a future LangGraph auditor workflow.
+Scope: dependency-free local implementation smoke that mirrors the future LangGraph auditor workflow boundary without installing or importing LangGraph.
 
-Result: created `docs/architecture/langgraph-auditor-implementation-contract.md`.
+Discussion Gate approved opening RIC-STUDIO-047A with modified dependency-free scope.
 
-The contract defines runtime boundaries, what LangGraph may orchestrate, what LangGraph must not decide, deterministic auditor authority, evidence collector role, future graph contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria, and mandatory human gate boundaries.
+Implemented shape: added `tools/auditor/smoke-workflow.mjs`, implemented local read-only orchestration steps for load evidence, parse evidence, deterministic auditor authority, and smoke report formatting, and documented validation in `docs/validation/auditor-read-only-smoke-047a.md`.
 
-Current integration points must be preserved: `tools/auditor/collect-evidence.mjs` remains the evidence source and `tools/auditor/audit.mjs` remains the deterministic decision authority.
+Current integration points must be preserved: `tools/auditor/collect-evidence.mjs` remains unchanged and `tools/auditor/audit.mjs` remains the deterministic decision authority.
 
-LangGraph must remain future orchestration only, not uncontrolled authority.
+The smoke workflow does not decide commit, push, release, Local DONE, or Remote DONE by itself. Human gate remains mandatory in the output/report.
 
-Blocked and not performed in this documentation-only task: LangGraph install, LangChain install, dependency installation, `package.json` or lockfile changes, code implementation, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, GitHub API integration, `.github` workflow changes, Git automation, commit automation, push automation, Ollama changes, `Modelfile` changes, runtime changes, more than one READY task, commit, and push.
+Validation completed:
+
+- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/invalid-json.json`
+- `git status --short --untracked-files=all`
+- `git status -sb`
+- `git diff --stat`
+- `git diff --check`
+
+No commit or push has occurred.
+
+Blocked in this READY task: LangGraph install or import, LangChain install, dependency installation, dependency changes, package metadata, lockfiles, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, deploy, GitHub API integration, `.github`, Git automation, commit automation, push automation, Ollama, `Modelfile`, runtime changes, more than one READY task, commit, and push.
 
 ## READY note
 

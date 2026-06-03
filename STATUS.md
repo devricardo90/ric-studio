@@ -6,22 +6,24 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract
+RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow
 
 ## Scope
 
-RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning.
+RIC-STUDIO-SPRINT-047 - Auditor Read-Only Smoke Workflow.
 
-Documentation-only implementation contract for a future LangGraph auditor workflow.
+Dependency-free local implementation smoke that mirrors the future LangGraph auditor workflow boundary without installing or importing LangGraph.
 
 Included scope:
 
-- Define future LangGraph implementation boundaries.
-- Define what LangGraph may orchestrate and what it must not decide.
-- Define how `tools/auditor/audit.mjs` remains the deterministic decision authority.
-- Define how `tools/auditor/collect-evidence.mjs` remains the evidence source.
-- Define future graph input/output contracts, minimal future file/folder structure, dependency-install prerequisites, and validation criteria before implementation.
-- Keep the human gate mandatory for commit, push, release, Local DONE, and Remote DONE decisions.
+- Add `tools/auditor/smoke-workflow.mjs`.
+- Implement local read-only orchestration steps that mirror the future graph: load evidence, parse evidence, call or preserve `tools/auditor/audit.mjs` as deterministic authority, and format a smoke report.
+- Keep `tools/auditor/audit.mjs` as the final deterministic decision authority.
+- Keep `tools/auditor/collect-evidence.mjs` unchanged.
+- Keep the workflow read-only and dependency-free.
+- Keep the workflow from deciding commit, push, release, Local DONE, or Remote DONE by itself.
+- Keep the human gate mandatory in the output/report.
+- Document validation evidence in `docs/validation/auditor-read-only-smoke-047a.md`.
 - Update required operational documentation.
 
 Stop point after execution: REVIEW. Commit and push require separate authorization.
@@ -34,29 +36,42 @@ Stop point after execution: REVIEW. Commit and push require separate authorizati
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/architecture/langgraph-auditor-implementation-contract.md`
+- `tools/auditor/smoke-workflow.mjs`
+- `tools/auditor/README.md`
+- `docs/validation/auditor-read-only-smoke-047a.md`
 
 ## Blocked in this task
 
-LangGraph install, LangChain install, dependency installation, `package.json` or lockfile changes, code implementation, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, GitHub API integration, `.github` workflow changes, Git automation, commit automation, push automation, Ollama changes, `Modelfile` changes, runtime changes, more than one READY task, git add, commit, push, reset, checkout, clean, file deletion, or automation.
+LangGraph install, LangGraph import, LangChain install, dependency installation, any dependency change, creating or modifying `package.json`, creating or modifying any lockfile, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, `.github` changes, runtime changes, Ollama changes, `Modelfile` changes, UI, server, database, deploy, GitHub API integration, Git automation, staging, commit, push, more than one READY task, or any workflow behavior that performs Git writes, file edits, deploy, release, or automation.
 
 ## Previous task
 
-RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP - Remote DONE at commit `e16c34c`.
+RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract - Remote DONE at commit `7d6df8c`.
 
 ## Current task result
 
-RIC-STUDIO-046B is in REVIEW.
+RIC-STUDIO-047A is in REVIEW after implementing the dependency-free read-only smoke workflow.
 
-RIC-STUDIO-SPRINT-046 - LangGraph Auditor Workflow Planning is registered.
+Discussion Gate approved a modified dependency-free scope.
 
-Implemented RIC-STUDIO-046B as a documentation-only implementation contract task.
+RIC-STUDIO-046A documented the LangGraph Auditor Workflow MVP architecture.
 
-Created `docs/architecture/langgraph-auditor-implementation-contract.md`.
+RIC-STUDIO-046B documented the LangGraph Auditor Implementation Contract and is Remote DONE at commit `7d6df8c`.
 
-The contract defines runtime boundaries, LangGraph orchestration limits, deterministic auditor authority, evidence collector role, future graph input/output contracts, minimal future file/folder structure, dependency-install prerequisites, validation criteria before implementation, mandatory human gate requirements, and forbidden automation boundaries.
+RIC-STUDIO-047A created a minimal read-only smoke workflow using local Node.js only. It did not install or import LangGraph.
 
-No LangGraph install, LangChain install, dependency change, package file change, code implementation, auditor change, collector change, UI, server, database, GitHub API integration, `.github` workflow, Git automation, commit automation, push automation, Ollama change, `Modelfile` change, runtime change, extra READY task, commit, or push occurred.
+Validation completed before REVIEW:
+
+- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/invalid-json.json`
+- `git status --short --untracked-files=all`
+- `git status -sb`
+- `git diff --stat`
+- `git diff --check`
+
+Validation evidence: `docs/validation/auditor-read-only-smoke-047a.md`.
+
+No commit or push has occurred.
 
 ## Gate status
 
