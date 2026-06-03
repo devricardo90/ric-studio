@@ -2,35 +2,41 @@
 
 ## Current handoff state
 
-RIC-STUDIO-047A is in REVIEW as `Implement Auditor Read-Only Smoke Workflow`.
+RIC-STUDIO-048A is in REVIEW as `Define Package and Dependency Policy for Auditor Runtime`.
 
-RIC-STUDIO-SPRINT-047 - Auditor Read-Only Smoke Workflow is registered.
+RIC-STUDIO-SPRINT-048 - Auditor Package and Dependency Policy is registered.
 
-Task mode: dependency-free local Node.js implementation smoke.
+Task mode: documentation-only policy definition.
 
 Execution scope:
 
-- Add `tools/auditor/smoke-workflow.mjs`.
-- Implement local read-only orchestration steps that mirror future graph nodes: load evidence, parse evidence, call or preserve deterministic auditor authority, and format a smoke report.
-- Preserve `tools/auditor/audit.mjs` as deterministic decision authority.
-- Preserve `tools/auditor/collect-evidence.mjs` unchanged.
-- Keep the smoke workflow dependency-free and local Node.js only.
-- Do not install or import LangGraph yet.
-- Ensure the workflow does not decide commit, push, release, Local DONE, or Remote DONE by itself.
-- Keep human gate mandatory in the output/report.
-- Document validation evidence in `docs/validation/auditor-read-only-smoke-047a.md`.
+- Create `docs/architecture/auditor-package-dependency-policy.md` when execution is separately authorized.
+- Define package manager policy before LangGraph or LangChain installation.
+- Define that RIC-STUDIO-048A must not create package metadata or install dependencies.
+- Define npm as the default future package manager because it ships with Node.
+- Define pnpm reconsideration only if workspace or monorepo needs appear later.
+- Define `tools/auditor/` as the preferred future package metadata location for auditor-specific runtime dependencies.
+- Define that repo root package metadata is forbidden unless a later task intentionally creates a repo-wide JavaScript package.
+- Define lockfile policy: exactly one lockfile beside package metadata.
+- Define that if npm is used under `tools/auditor/` later, the only allowed lockfile should be `tools/auditor/package-lock.json`.
+- Define later dependency policy: LangGraph plus only minimal LangChain-related packages required by official docs at install time.
+- Define future script policy, package setup validation prerequisites, and DONE criteria for future package setup and LangGraph implementation tasks.
 
 Blocked:
 
 - LangGraph install.
 - LangGraph import.
 - LangChain install.
+- LangChain import.
 - Dependency installation.
 - Dependency changes.
 - `package.json` or lockfile changes.
+- Package metadata creation.
+- Lockfile creation.
 - Changes to `tools/auditor/audit.mjs`.
 - Changes to `tools/auditor/collect-evidence.mjs`.
-- Workflow Git writes, staging, commit, push, file edits, deploy, release, or automation.
+- Changes to `tools/auditor/smoke-workflow.mjs`.
+- Auditor code changes.
 - Git automation.
 - Commit automation.
 - Push automation.
@@ -45,7 +51,7 @@ Blocked:
 - Commit.
 - Push.
 
-Current stop point: REVIEW. Commit and push require separate authorization.
+Current state: REVIEW. Commit and push require separate authorization.
 
 Authorized files:
 
@@ -55,28 +61,29 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `tools/auditor/smoke-workflow.mjs`.
-- `tools/auditor/README.md`.
-- `docs/validation/auditor-read-only-smoke-047a.md`.
+- `docs/architecture/auditor-package-dependency-policy.md`.
 
-Implementation validation completed:
+Validation completed before REVIEW:
 
-- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`.
-- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/invalid-json.json`.
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
 - `git diff --stat`.
 - `git diff --check`.
+- `Test-Path package.json`.
+- `Test-Path package-lock.json`.
+- `Test-Path pnpm-lock.yaml`.
+- `Test-Path yarn.lock`.
+- `Test-Path npm-shrinkwrap.json`.
+- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`.
 
 Created files:
 
-- `tools/auditor/smoke-workflow.mjs`.
-- `docs/validation/auditor-read-only-smoke-047a.md`.
+- `docs/architecture/auditor-package-dependency-policy.md`.
 
 Current REVIEW task:
 
 ```text
-RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow
+RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime
 ```
 
 READY opening validation executed:
@@ -85,15 +92,21 @@ READY opening validation executed:
 - `git status -sb`.
 - `git rev-parse HEAD`.
 - `git rev-parse origin/main`.
+- `Test-Path package.json`.
+- `Test-Path package-lock.json`.
+- `Test-Path pnpm-lock.yaml`.
+- `Test-Path yarn.lock`.
+- `Test-Path npm-shrinkwrap.json`.
 
 Result:
 
-- RIC-STUDIO-046B is Remote DONE at commit `7d6df8c`.
-- Repository is clean and synchronized with `origin/main` at `7d6df8c`.
-- RIC-STUDIO-047A is in REVIEW.
-- Dependency-free read-only smoke workflow implementation and validation are complete.
+- RIC-STUDIO-047A is Remote DONE at commit `dbbe63d`.
+- Repository is clean and synchronized with `origin/main` at `dbbe63d`.
+- No root package metadata or lockfile exists.
+- RIC-STUDIO-048A is in REVIEW.
+- Policy document implementation is complete at `docs/architecture/auditor-package-dependency-policy.md`.
 
-No LangGraph install or import, LangChain install, dependency change, `package.json` or lockfile change, auditor change, collector change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, extra READY task, commit, or push occurred.
+No LangGraph install or import, LangChain install or import, dependency change, `package.json` or lockfile creation, auditor code change, collector change, smoke workflow change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, extra READY task, commit, or push occurred.
 
 Previous handoff context: RIC-STUDIO-043A is Remote DONE at commit `5964b4f`.
 

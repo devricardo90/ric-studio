@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow
+RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime
 
 ## Product mode
 
@@ -35,32 +35,51 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-047A is in REVIEW after dependency-free smoke workflow implementation.
+RIC-STUDIO-048A is in REVIEW after documentation-only policy implementation.
 
-RIC-STUDIO-SPRINT-047 - Auditor Read-Only Smoke Workflow is registered.
+RIC-STUDIO-SPRINT-048 - Auditor Package and Dependency Policy is registered.
 
-Scope: dependency-free local implementation smoke that mirrors the future LangGraph auditor workflow boundary without installing or importing LangGraph.
+Scope: documentation-only policy task to define package and dependency rules before any LangGraph or LangChain installation.
 
-Discussion Gate approved opening RIC-STUDIO-047A with modified dependency-free scope.
+Discussion Gate approved opening RIC-STUDIO-048A as documentation-only.
 
-Implemented shape: added `tools/auditor/smoke-workflow.mjs`, implemented local read-only orchestration steps for load evidence, parse evidence, deterministic auditor authority, and smoke report formatting, and documented validation in `docs/validation/auditor-read-only-smoke-047a.md`.
+Current repository state before READY opening: clean and synchronized with `origin/main` at `dbbe63d`.
 
-Current integration points must be preserved: `tools/auditor/collect-evidence.mjs` remains unchanged and `tools/auditor/audit.mjs` remains the deterministic decision authority.
+Purpose: define package manager policy, package metadata location policy, lockfile policy, dependency rules, future LangGraph/LangChain install prerequisites, script policy, validation commands, and DONE criteria.
 
-The smoke workflow does not decide commit, push, release, Local DONE, or Remote DONE by itself. Human gate remains mandatory in the output/report.
+Allowed files: `docs/architecture/auditor-package-dependency-policy.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
 
-Validation completed:
+Policy decisions to document:
 
-- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
-- `node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/invalid-json.json`
+- RIC-STUDIO-048A must not create package metadata.
+- RIC-STUDIO-048A must not install dependencies.
+- Preferred future package manager: npm by default because it ships with Node.
+- Reconsider pnpm only if workspace or monorepo needs appear later.
+- Preferred future package metadata location: `tools/auditor/` for auditor-specific runtime dependencies.
+- Repo root package metadata is forbidden unless a later task intentionally creates a repo-wide JavaScript package.
+- Lockfile policy: exactly one lockfile beside package metadata.
+- If npm is used under `tools/auditor/` later, the only allowed lockfile should be `tools/auditor/package-lock.json`.
+- Later dependency policy: LangGraph plus only minimal LangChain-related packages required by official docs at install time.
+- No broad LangChain install by default unless explicitly justified.
+
+Validation required before REVIEW:
+
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `git diff --stat`
 - `git diff --check`
+- `Test-Path package.json`
+- `Test-Path package-lock.json`
+- `Test-Path pnpm-lock.yaml`
+- `Test-Path yarn.lock`
+- `Test-Path npm-shrinkwrap.json`
+- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`
 
-No commit or push has occurred.
+Forbidden in this task: creating package metadata, creating lockfiles, installing dependencies, importing or implementing LangGraph or LangChain, modifying auditor code, modifying `tools/auditor/audit.mjs`, `tools/auditor/collect-evidence.mjs`, or `tools/auditor/smoke-workflow.mjs`, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation changes, additional READY tasks, commit, and push.
 
-Blocked in this READY task: LangGraph install or import, LangChain install, dependency installation, dependency changes, package metadata, lockfiles, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, UI, server, database, deploy, GitHub API integration, `.github`, Git automation, commit automation, push automation, Ollama, `Modelfile`, runtime changes, more than one READY task, commit, and push.
+Policy document created: `docs/architecture/auditor-package-dependency-policy.md`.
+
+No package metadata, lockfile, dependency install, code change, commit, or push occurred.
 
 ## READY note
 

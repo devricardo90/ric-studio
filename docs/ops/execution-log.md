@@ -1395,7 +1395,7 @@ Summary:
 
 ## RIC-STUDIO-036A - Harden Orchestrator Evidence Source Rules
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -1763,7 +1763,7 @@ Summary:
 
 ## RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow
 
-State: REVIEW
+State: Remote DONE
 
 Sprint:
 
@@ -1787,3 +1787,29 @@ Summary:
 - Preserved `tools/auditor/collect-evidence.mjs` unchanged.
 - Validation passed for complete commit evidence and invalid JSON evidence.
 - No LangGraph import, LangGraph install, LangChain install, dependency install, package metadata, lockfile, runtime, Ollama, `Modelfile`, `.github`, UI, server, database, deploy, Git automation, staging, commit, or push occurred.
+- Local DONE commit: `dbbe63d`.
+- Remote DONE after controlled push to `origin/main` at commit `dbbe63d`.
+
+## RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-048 - Auditor Package and Dependency Policy.
+
+Summary:
+
+- Opened RIC-STUDIO-048A after Discussion Gate approval.
+- Confirmed RIC-STUDIO-047A is Remote DONE at commit `dbbe63d`.
+- Current repository state was clean and synchronized with `origin/main` at `dbbe63d` before opening READY.
+- Current package state: no `package.json`, `package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`, or `npm-shrinkwrap.json` exists.
+- Scope: documentation-only package and dependency policy before any LangGraph or LangChain installation.
+- Required policy decisions: no package metadata or dependency installation in 048A, npm as default future package manager, pnpm reconsideration only for workspace/monorepo needs, `tools/auditor/` as preferred future metadata location, root package metadata forbidden unless a later repo-wide JavaScript package task approves it, exactly one lockfile beside metadata, `tools/auditor/package-lock.json` as the only later npm lockfile under `tools/auditor/`, minimal LangGraph/LangChain dependency rules, future script policy, validation prerequisites, and DONE criteria.
+- Allowed files: `docs/architecture/auditor-package-dependency-policy.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Blocked package metadata, lockfiles, dependency installation, LangGraph/LangChain import or implementation, auditor code changes, `tools/auditor/audit.mjs`, `tools/auditor/collect-evidence.mjs`, `tools/auditor/smoke-workflow.mjs`, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation changes, additional READY tasks, commit, and push.
+- Created `docs/architecture/auditor-package-dependency-policy.md`.
+- Defined package manager policy, package metadata location policy, lockfile policy, future dependency rules, script policy, validation requirements, and DONE criteria for future package setup and LangGraph implementation tasks.
+- Preserved npm as the default future package manager and `tools/auditor/` as the preferred future metadata location.
+- Preserved the rule that RIC-STUDIO-048A creates no package metadata or lockfiles and installs no dependencies.
+- No package metadata, lockfile, dependency install, LangGraph/LangChain import or implementation, auditor code change, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation change, additional READY task, commit, or push occurred.
