@@ -1818,7 +1818,7 @@ Summary:
 
 ## RIC-STUDIO-049A - Define Auditor Package Setup Scope
 
-State: REVIEW
+State: Remote DONE
 
 Sprint:
 
@@ -1841,3 +1841,73 @@ Summary:
 - Defined allowed future `package.json` fields, allowed npm scripts, forbidden scripts, dependency-install prerequisites, validation gates, and DONE criteria for the later package setup task.
 - Confirmed dependency installation and LangGraph/LangChain remain postponed.
 - No package metadata, lockfile, dependency install, LangGraph/LangChain import or implementation, auditor code change, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation change, additional READY task, commit, or push occurred.
+- Local DONE commit: `f4c9876`.
+- Remote DONE after controlled push to `origin/main` at commit `f4c9876`.
+
+## RIC-STUDIO-050A - Create Auditor Package Metadata
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-050 - Auditor Package Metadata.
+
+Summary:
+
+- Opened RIC-STUDIO-050A after Discussion Gate approval.
+- Confirmed RIC-STUDIO-049A is Remote DONE at commit `f4c9876`.
+- Repository state before READY opening was clean and synchronized with `origin/main` at `f4c9876`.
+- Current package state before READY opening: no root `package.json`, no `tools/auditor/package.json`, no root `package-lock.json`, no `tools/auditor/package-lock.json`, no `pnpm-lock.yaml`, no `yarn.lock`, and no `npm-shrinkwrap.json` exists.
+- Scope of initial update: READY opening only.
+- Scope of execution update: metadata-only package creation.
+- Allowed files for execution: `tools/auditor/package.json`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Approved future execution scope: create only `tools/auditor/package.json`.
+- Approved future package fields: `name`, `version`, `private`, `description`, `type`, and `scripts`.
+- Approved future scripts: `smoke:read-only` and `smoke:invalid-json`.
+- Approved future content boundary keeps the package private, version `0.0.0`, type `module`, and scripts that call existing local smoke workflow fixtures.
+- Blocked during READY opening: creating root `package.json`, creating `tools/auditor/package.json`, creating any lockfile, installing dependencies, importing or implementing LangGraph or LangChain, modifying auditor code, modifying runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation files, opening any additional READY task, commit, and push.
+- No package metadata, lockfile, dependency install, LangGraph/LangChain import or implementation, auditor code change, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation change, additional READY task, commit, or push occurred.
+- Created `tools/auditor/package.json` with only the approved fields: `name`, `version`, `private`, `description`, `type`, and `scripts`.
+- Added only the approved scripts: `smoke:read-only` and `smoke:invalid-json`.
+- Did not create root `package.json`.
+- Did not create any lockfile.
+- Did not add dependencies, devDependencies, optionalDependencies, peerDependencies, or packageManager.
+- Did not install dependencies.
+- Did not import or implement LangGraph or LangChain.
+- Did not modify `tools/auditor/audit.mjs`, `tools/auditor/collect-evidence.mjs`, or `tools/auditor/smoke-workflow.mjs`.
+- Did not modify runtime, Ollama, Modelfile, UI, server, database, deploy, `.github`, or Git automation files.
+- Stopped in REVIEW.
+- Did not commit or push.
+
+Validation required after READY opening:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `Test-Path package.json`.
+- `Test-Path tools/auditor/package.json`.
+- `Test-Path package-lock.json`.
+- `Test-Path tools/auditor/package-lock.json`.
+- `Test-Path pnpm-lock.yaml`.
+- `Test-Path yarn.lock`.
+- `Test-Path npm-shrinkwrap.json`.
+- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`.
+- `git diff --stat`.
+- `git diff --check`.
+
+Validation required after execution:
+
+- `Test-Path package.json`.
+- `Test-Path tools/auditor/package.json`.
+- `Test-Path package-lock.json`.
+- `Test-Path tools/auditor/package-lock.json`.
+- `Test-Path pnpm-lock.yaml`.
+- `Test-Path yarn.lock`.
+- `Test-Path npm-shrinkwrap.json`.
+- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`.
+- `npm --prefix tools/auditor run smoke:read-only`.
+- `npm --prefix tools/auditor run smoke:invalid-json`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- tools/auditor/package.json STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.

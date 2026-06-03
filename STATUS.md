@@ -6,32 +6,28 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-049A - Define Auditor Package Setup Scope
+RIC-STUDIO-050A - Create Auditor Package Metadata
 
 ## Scope
 
-RIC-STUDIO-SPRINT-049 - Auditor Package Setup Scope.
+RIC-STUDIO-SPRINT-050 - Auditor Package Metadata.
 
-Documentation-only task to define the exact future package setup boundary before creating package metadata or installing dependencies.
+Metadata-only execution for the auditor package metadata task.
 
-Included scope:
+Executed scope:
 
-- Create `docs/architecture/auditor-package-setup-scope.md` when execution is separately authorized.
-- Define the future package metadata location.
-- Define the only future allowed `package.json` path as `tools/auditor/package.json`.
-- Confirm root package metadata remains forbidden unless a future task explicitly creates a repo-wide JavaScript package.
-- Define future npm lockfile handling.
-- Define allowed future `package.json` fields.
-- Define allowed future npm scripts.
-- Define forbidden scripts.
-- Define dependency-install prerequisites.
-- Define validation gates before package setup.
-- Define DONE criteria for the later package setup task.
-- Confirm dependency installation remains postponed.
-- Confirm LangGraph/LangChain remain postponed.
-- Update required operational documentation.
+- Created only `tools/auditor/package.json`.
+- Do not create root `package.json`.
+- Do not create any lockfile.
+- Do not run `npm install`.
+- Do not install dependencies.
+- Do not add LangGraph or LangChain.
+- Do not modify `tools/auditor/audit.mjs`.
+- Do not modify `tools/auditor/collect-evidence.mjs`.
+- Do not modify `tools/auditor/smoke-workflow.mjs`.
+- Keep auditor authority unchanged.
 
-Stop point after execution: REVIEW. Commit and push require separate authorization.
+Stop point after execution: REVIEW. Commit and push remain blocked.
 
 ## Allowed files
 
@@ -41,21 +37,21 @@ Stop point after execution: REVIEW. Commit and push require separate authorizati
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/architecture/auditor-package-setup-scope.md`
+- `tools/auditor/package.json`
 
 ## Blocked in this task
 
-Creating `package.json`, creating `tools/auditor/package.json`, creating `package-lock.json`, creating `tools/auditor/package-lock.json`, creating `pnpm-lock.yaml`, creating `yarn.lock`, creating `npm-shrinkwrap.json`, installing dependencies, importing or implementing LangGraph, importing or implementing LangChain, auditor code changes, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, changes to `tools/auditor/smoke-workflow.mjs`, runtime changes, Ollama changes, `Modelfile` changes, UI, server, database, deploy, `.github`, Git automation, opening any additional READY task, commit, and push.
+Creating root `package.json`, creating `package-lock.json`, creating `tools/auditor/package-lock.json`, creating `pnpm-lock.yaml`, creating `yarn.lock`, creating `npm-shrinkwrap.json`, installing dependencies, adding dependencies/devDependencies/optionalDependencies/peerDependencies/packageManager, importing or implementing LangGraph, importing or implementing LangChain, auditor code changes, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, changes to `tools/auditor/smoke-workflow.mjs`, runtime changes, Ollama changes, `Modelfile` changes, UI, server, database, deploy, `.github`, Git automation, opening any additional READY task, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime - Remote DONE at commit `8a52eda`.
+RIC-STUDIO-049A - Define Auditor Package Setup Scope - Remote DONE at commit `f4c9876`.
 
 ## Current task result
 
-RIC-STUDIO-049A is in REVIEW after defining the auditor package setup scope.
+RIC-STUDIO-050A is in REVIEW after creating minimal auditor package metadata.
 
-Discussion Gate approved a documentation-only package setup scope task.
+Discussion Gate approved a metadata-only package task.
 
 RIC-STUDIO-046A documented the LangGraph Auditor Workflow MVP architecture.
 
@@ -65,14 +61,34 @@ RIC-STUDIO-047A implemented the dependency-free read-only auditor smoke workflow
 
 RIC-STUDIO-048A defined the auditor package and dependency policy and is Remote DONE at commit `8a52eda`.
 
-RIC-STUDIO-049A defined the exact future package setup boundary before creating package metadata or installing dependencies in `docs/architecture/auditor-package-setup-scope.md`.
+RIC-STUDIO-049A defined the exact future package setup boundary before creating package metadata or installing dependencies in `docs/architecture/auditor-package-setup-scope.md` and is Remote DONE at commit `f4c9876`.
 
-Validation completed before REVIEW:
+RIC-STUDIO-050A created `tools/auditor/package.json` with this content boundary:
+
+```json
+{
+  "name": "@ric-studio/auditor",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Local read-only auditor smoke workflow metadata.",
+  "type": "module",
+  "scripts": {
+    "smoke:read-only": "node smoke-workflow.mjs --evidence fixtures/commit-allowed-evidence.json",
+    "smoke:invalid-json": "node smoke-workflow.mjs --evidence fixtures/invalid-json.json"
+  }
+}
+```
+
+Allowed `package.json` fields used: `name`, `version`, `private`, `description`, `type`, and `scripts`.
+
+Allowed scripts used: `smoke:read-only` and `smoke:invalid-json`.
+
+Forbidden scripts: lifecycle scripts, dependency installation scripts, Git scripts, release scripts, scripts that edit files, scripts that generate lockfiles, scripts that call package managers, and scripts that invoke LangGraph or LangChain.
+
+Validation completed during READY opening:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
-- `git diff --stat`
-- `git diff --check`
 - `Test-Path package.json`
 - `Test-Path tools/auditor/package.json`
 - `Test-Path package-lock.json`
@@ -81,8 +97,28 @@ Validation completed before REVIEW:
 - `Test-Path yarn.lock`
 - `Test-Path npm-shrinkwrap.json`
 - `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`
+- `git diff --stat`
+- `git diff --check`
 
-No package metadata, lockfile, dependency install, code change, commit, or push occurred.
+Validation completed during execution:
+
+- `Test-Path package.json`
+- `Test-Path tools/auditor/package.json`
+- `Test-Path package-lock.json`
+- `Test-Path tools/auditor/package-lock.json`
+- `Test-Path pnpm-lock.yaml`
+- `Test-Path yarn.lock`
+- `Test-Path npm-shrinkwrap.json`
+- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`
+- `npm --prefix tools/auditor run smoke:read-only`
+- `npm --prefix tools/auditor run smoke:invalid-json`
+- `git status --short --untracked-files=all`
+- `git status -sb`
+- `git diff --stat`
+- `git diff --check`
+- `git diff -- tools/auditor/package.json STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`
+
+No root package metadata, lockfile, dependency install, dependency field, package manager field, LangGraph/LangChain change, auditor code change, commit, or push occurred.
 
 ## Gate status
 

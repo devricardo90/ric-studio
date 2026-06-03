@@ -1,0 +1,11 @@
+{
+  "name": "@ric-studio/auditor",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Local read-only auditor smoke workflow metadata.",
+  "type": "module",
+  "scripts": {
+    "smoke:read-only": "node smoke-workflow.mjs --evidence fixtures/commit-allowed-evidence.json",
+    "smoke:invalid-json": "node smoke-workflow.mjs --evidence fixtures/invalid-json.json"
+  }
+}
