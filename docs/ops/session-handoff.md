@@ -2,25 +2,27 @@
 
 ## Current handoff state
 
-RIC-STUDIO-048A is in REVIEW as `Define Package and Dependency Policy for Auditor Runtime`.
+RIC-STUDIO-049A is in REVIEW as `Define Auditor Package Setup Scope`.
 
-RIC-STUDIO-SPRINT-048 - Auditor Package and Dependency Policy is registered.
+RIC-STUDIO-SPRINT-049 - Auditor Package Setup Scope is registered.
 
-Task mode: documentation-only policy definition.
+Task mode: documentation-only package setup scope definition.
 
 Execution scope:
 
-- Create `docs/architecture/auditor-package-dependency-policy.md` when execution is separately authorized.
-- Define package manager policy before LangGraph or LangChain installation.
-- Define that RIC-STUDIO-048A must not create package metadata or install dependencies.
-- Define npm as the default future package manager because it ships with Node.
-- Define pnpm reconsideration only if workspace or monorepo needs appear later.
-- Define `tools/auditor/` as the preferred future package metadata location for auditor-specific runtime dependencies.
-- Define that repo root package metadata is forbidden unless a later task intentionally creates a repo-wide JavaScript package.
-- Define lockfile policy: exactly one lockfile beside package metadata.
-- Define that if npm is used under `tools/auditor/` later, the only allowed lockfile should be `tools/auditor/package-lock.json`.
-- Define later dependency policy: LangGraph plus only minimal LangChain-related packages required by official docs at install time.
-- Define future script policy, package setup validation prerequisites, and DONE criteria for future package setup and LangGraph implementation tasks.
+- Create `docs/architecture/auditor-package-setup-scope.md` when execution is separately authorized.
+- Define the future package metadata location.
+- Define the only future allowed `package.json` path as `tools/auditor/package.json`.
+- Confirm root package metadata remains forbidden unless a future task explicitly creates a repo-wide JavaScript package.
+- Define future npm lockfile handling.
+- Define allowed future `package.json` fields.
+- Define allowed future npm scripts.
+- Define forbidden scripts.
+- Define dependency-install prerequisites.
+- Define validation gates before package setup.
+- Define DONE criteria for the later package setup task.
+- Confirm dependency installation remains postponed.
+- Confirm LangGraph/LangChain remain postponed.
 
 Blocked:
 
@@ -31,6 +33,8 @@ Blocked:
 - Dependency installation.
 - Dependency changes.
 - `package.json` or lockfile changes.
+- `tools/auditor/package.json` creation.
+- `tools/auditor/package-lock.json` creation.
 - Package metadata creation.
 - Lockfile creation.
 - Changes to `tools/auditor/audit.mjs`.
@@ -61,7 +65,7 @@ Authorized files:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
-- `docs/architecture/auditor-package-dependency-policy.md`.
+- `docs/architecture/auditor-package-setup-scope.md`.
 
 Validation completed before REVIEW:
 
@@ -70,7 +74,9 @@ Validation completed before REVIEW:
 - `git diff --stat`.
 - `git diff --check`.
 - `Test-Path package.json`.
+- `Test-Path tools/auditor/package.json`.
 - `Test-Path package-lock.json`.
+- `Test-Path tools/auditor/package-lock.json`.
 - `Test-Path pnpm-lock.yaml`.
 - `Test-Path yarn.lock`.
 - `Test-Path npm-shrinkwrap.json`.
@@ -78,12 +84,12 @@ Validation completed before REVIEW:
 
 Created files:
 
-- `docs/architecture/auditor-package-dependency-policy.md`.
+- `docs/architecture/auditor-package-setup-scope.md`.
 
 Current REVIEW task:
 
 ```text
-RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime
+RIC-STUDIO-049A - Define Auditor Package Setup Scope
 ```
 
 READY opening validation executed:
@@ -93,18 +99,20 @@ READY opening validation executed:
 - `git rev-parse HEAD`.
 - `git rev-parse origin/main`.
 - `Test-Path package.json`.
+- `Test-Path tools/auditor/package.json`.
 - `Test-Path package-lock.json`.
+- `Test-Path tools/auditor/package-lock.json`.
 - `Test-Path pnpm-lock.yaml`.
 - `Test-Path yarn.lock`.
 - `Test-Path npm-shrinkwrap.json`.
 
 Result:
 
-- RIC-STUDIO-047A is Remote DONE at commit `dbbe63d`.
-- Repository is clean and synchronized with `origin/main` at `dbbe63d`.
-- No root package metadata or lockfile exists.
-- RIC-STUDIO-048A is in REVIEW.
-- Policy document implementation is complete at `docs/architecture/auditor-package-dependency-policy.md`.
+- RIC-STUDIO-048A is Remote DONE at commit `8a52eda`.
+- Repository is clean and synchronized with `origin/main` at `8a52eda`.
+- No root package metadata, auditor package metadata, or lockfile exists.
+- RIC-STUDIO-049A is in REVIEW.
+- Package setup scope document implementation is complete at `docs/architecture/auditor-package-setup-scope.md`.
 
 No LangGraph install or import, LangChain install or import, dependency change, `package.json` or lockfile creation, auditor code change, collector change, smoke workflow change, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, extra READY task, commit, or push occurred.
 

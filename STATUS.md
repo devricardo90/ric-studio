@@ -6,27 +6,29 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime
+RIC-STUDIO-049A - Define Auditor Package Setup Scope
 
 ## Scope
 
-RIC-STUDIO-SPRINT-048 - Auditor Package and Dependency Policy.
+RIC-STUDIO-SPRINT-049 - Auditor Package Setup Scope.
 
-Documentation-only policy task to define package and dependency rules before any LangGraph or LangChain installation.
+Documentation-only task to define the exact future package setup boundary before creating package metadata or installing dependencies.
 
 Included scope:
 
-- Create `docs/architecture/auditor-package-dependency-policy.md` when execution is separately authorized.
-- Document that RIC-STUDIO-048A must not create package metadata or install dependencies.
-- Define npm as the default future package manager because it ships with Node.
-- Define that pnpm should be reconsidered only if workspace or monorepo needs appear later.
-- Define `tools/auditor/` as the preferred future package metadata location for auditor-specific runtime dependencies.
-- Define that repo root package metadata is forbidden unless a later task intentionally creates a repo-wide JavaScript package.
-- Define lockfile policy: exactly one lockfile beside package metadata.
-- Define that if npm is used under `tools/auditor/` later, the only allowed lockfile should be `tools/auditor/package-lock.json`.
-- Define later dependency policy for LangGraph plus only minimal LangChain-related packages required by official docs at install time.
-- Define that broad LangChain install is forbidden by default unless explicitly justified.
-- Define future script policy, validation requirements before package setup, and DONE criteria for package setup and LangGraph implementation tasks.
+- Create `docs/architecture/auditor-package-setup-scope.md` when execution is separately authorized.
+- Define the future package metadata location.
+- Define the only future allowed `package.json` path as `tools/auditor/package.json`.
+- Confirm root package metadata remains forbidden unless a future task explicitly creates a repo-wide JavaScript package.
+- Define future npm lockfile handling.
+- Define allowed future `package.json` fields.
+- Define allowed future npm scripts.
+- Define forbidden scripts.
+- Define dependency-install prerequisites.
+- Define validation gates before package setup.
+- Define DONE criteria for the later package setup task.
+- Confirm dependency installation remains postponed.
+- Confirm LangGraph/LangChain remain postponed.
 - Update required operational documentation.
 
 Stop point after execution: REVIEW. Commit and push require separate authorization.
@@ -39,21 +41,21 @@ Stop point after execution: REVIEW. Commit and push require separate authorizati
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/architecture/auditor-package-dependency-policy.md`
+- `docs/architecture/auditor-package-setup-scope.md`
 
 ## Blocked in this task
 
-Creating `package.json`, creating `package-lock.json`, creating `pnpm-lock.yaml`, creating `yarn.lock`, creating `npm-shrinkwrap.json`, installing dependencies, importing or implementing LangGraph, importing or implementing LangChain, auditor code changes, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, changes to `tools/auditor/smoke-workflow.mjs`, runtime changes, Ollama changes, `Modelfile` changes, UI, server, database, deploy, `.github`, Git automation, opening any additional READY task, commit, and push.
+Creating `package.json`, creating `tools/auditor/package.json`, creating `package-lock.json`, creating `tools/auditor/package-lock.json`, creating `pnpm-lock.yaml`, creating `yarn.lock`, creating `npm-shrinkwrap.json`, installing dependencies, importing or implementing LangGraph, importing or implementing LangChain, auditor code changes, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, changes to `tools/auditor/smoke-workflow.mjs`, runtime changes, Ollama changes, `Modelfile` changes, UI, server, database, deploy, `.github`, Git automation, opening any additional READY task, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow - Remote DONE at commit `dbbe63d`.
+RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime - Remote DONE at commit `8a52eda`.
 
 ## Current task result
 
-RIC-STUDIO-048A is in REVIEW after defining the package and dependency policy.
+RIC-STUDIO-049A is in REVIEW after defining the auditor package setup scope.
 
-Discussion Gate approved a documentation-only package and dependency policy task.
+Discussion Gate approved a documentation-only package setup scope task.
 
 RIC-STUDIO-046A documented the LangGraph Auditor Workflow MVP architecture.
 
@@ -61,7 +63,9 @@ RIC-STUDIO-046B documented the LangGraph Auditor Implementation Contract and is 
 
 RIC-STUDIO-047A implemented the dependency-free read-only auditor smoke workflow and is Remote DONE at commit `dbbe63d`.
 
-RIC-STUDIO-048A defined package manager policy, package metadata location policy, lockfile policy, dependency rules, future LangGraph/LangChain install prerequisites, validation commands, and DONE criteria in `docs/architecture/auditor-package-dependency-policy.md`.
+RIC-STUDIO-048A defined the auditor package and dependency policy and is Remote DONE at commit `8a52eda`.
+
+RIC-STUDIO-049A defined the exact future package setup boundary before creating package metadata or installing dependencies in `docs/architecture/auditor-package-setup-scope.md`.
 
 Validation completed before REVIEW:
 
@@ -70,7 +74,9 @@ Validation completed before REVIEW:
 - `git diff --stat`
 - `git diff --check`
 - `Test-Path package.json`
+- `Test-Path tools/auditor/package.json`
 - `Test-Path package-lock.json`
+- `Test-Path tools/auditor/package-lock.json`
 - `Test-Path pnpm-lock.yaml`
 - `Test-Path yarn.lock`
 - `Test-Path npm-shrinkwrap.json`

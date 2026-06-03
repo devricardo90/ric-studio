@@ -1813,3 +1813,31 @@ Summary:
 - Preserved npm as the default future package manager and `tools/auditor/` as the preferred future metadata location.
 - Preserved the rule that RIC-STUDIO-048A creates no package metadata or lockfiles and installs no dependencies.
 - No package metadata, lockfile, dependency install, LangGraph/LangChain import or implementation, auditor code change, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation change, additional READY task, commit, or push occurred.
+- Local DONE commit: `8a52eda`.
+- Remote DONE after controlled push to `origin/main` at commit `8a52eda`.
+
+## RIC-STUDIO-049A - Define Auditor Package Setup Scope
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-049 - Auditor Package Setup Scope.
+
+Summary:
+
+- Opened RIC-STUDIO-049A after Discussion Gate approval.
+- Confirmed RIC-STUDIO-048A is Remote DONE at commit `8a52eda`.
+- Current repository state was clean and synchronized with `origin/main` at `8a52eda` before opening READY.
+- Current package state: no root `package.json`, no `tools/auditor/package.json`, no root `package-lock.json`, no `tools/auditor/package-lock.json`, no `pnpm-lock.yaml`, no `yarn.lock`, and no `npm-shrinkwrap.json` exists.
+- Scope: documentation-only package setup scope before package metadata or dependency installation.
+- Required scope decisions: future package metadata location, only future allowed `package.json` path as `tools/auditor/package.json`, root package metadata remains forbidden unless a future task explicitly creates a repo-wide JavaScript package, future npm lockfile handling, allowed future `package.json` fields, allowed future npm scripts, forbidden scripts, dependency-install prerequisites, validation gates before package setup, DONE criteria for the later package setup task, dependency installation remains postponed, and LangGraph/LangChain remain postponed.
+- Allowed files: `docs/architecture/auditor-package-setup-scope.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Blocked package metadata, lockfiles, dependency installation, LangGraph/LangChain import or implementation, auditor code changes, `tools/auditor/audit.mjs`, `tools/auditor/collect-evidence.mjs`, `tools/auditor/smoke-workflow.mjs`, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation changes, additional READY tasks, commit, and push.
+- Created `docs/architecture/auditor-package-setup-scope.md`.
+- Defined the exact future package metadata location and future allowed `package.json` path as `tools/auditor/package.json`.
+- Confirmed root package metadata remains forbidden unless a future repo-wide JavaScript package task explicitly approves it.
+- Defined future npm lockfile handling and kept lockfile generation postponed.
+- Defined allowed future `package.json` fields, allowed npm scripts, forbidden scripts, dependency-install prerequisites, validation gates, and DONE criteria for the later package setup task.
+- Confirmed dependency installation and LangGraph/LangChain remain postponed.
+- No package metadata, lockfile, dependency install, LangGraph/LangChain import or implementation, auditor code change, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation change, additional READY task, commit, or push occurred.

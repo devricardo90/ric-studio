@@ -14,7 +14,7 @@
 - RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate (REVIEW - candidate rejected; 0 PASS, 6 FAIL; no promotion, commit, or push)
 - RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope (REVIEW - documentation-only public MVP scope completed; no code, dependencies, runtime, Modelfile, app, API, commit, or push)
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts (REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push)
-- RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime (REVIEW - documentation-only policy defined; no package metadata, lockfiles, dependencies, code change, commit, or push)
+- RIC-STUDIO-049A - Define Auditor Package Setup Scope (REVIEW - documentation-only package setup scope defined; no package metadata, lockfiles, dependencies, code change, commit, or push)
 
 ## REJECTED / REVIEW CLOSED
 
@@ -61,6 +61,7 @@ No task is Local DONE.
 - RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP (Remote DONE at commit `e16c34c`)
 - RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract (Remote DONE at commit `7d6df8c`)
 - RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow (Remote DONE at commit `dbbe63d`)
+- RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime (Remote DONE at commit `8a52eda`)
 
 ## REVIEW
 
@@ -79,7 +80,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-048A evidence. Commit only after explicit human approval; push remains blocked without a separate Push Gate.
+Review RIC-STUDIO-049A evidence. Commit only after explicit human approval; push remains blocked without a separate Push Gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
