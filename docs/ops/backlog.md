@@ -14,7 +14,7 @@
 - RIC-STUDIO-037A - Validate Hardened Orchestrator Evidence Rules Candidate. REVIEW - candidate rejected; 0 PASS, 6 FAIL; no promotion, commit, or push.
 - RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope. REVIEW - documentation-only public MVP scope completed; no code, dependencies, runtime, Modelfile, app, API, commit, or push.
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts. REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push.
-- RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract. REVIEW - documentation-only contract completed; no implementation, package changes, dependencies, lockfiles, node_modules, commit, or push.
+- RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -84,6 +84,7 @@ No task is Local DONE.
 - RIC-STUDIO-049A - Define Auditor Package Setup Scope. Remote DONE at commit `f4c9876`.
 - RIC-STUDIO-050A - Create Auditor Package Metadata. Remote DONE at commit `ada132e`.
 - RIC-STUDIO-051A - Validate Auditor Package Metadata Scripts. Remote DONE at commit `1f9731e`.
+- RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract. Remote DONE at commit `933e1cd`.
 
 ## Discussion Gate
 
@@ -91,7 +92,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review the RIC-STUDIO-052A contract. Commit only after explicit human approval; push remains blocked.
+Review RIC-STUDIO-053A evaluator implementation and validation evidence. Commit only after explicit human approval; push remains blocked.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

@@ -6,35 +6,40 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract
+RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator
 
 ## Scope
 
-RIC-STUDIO-SPRINT-052 - End-to-End Local Audit Session Contract.
+RIC-STUDIO-SPRINT-053 - Dependency-Free Deterministic Auditor Evaluator.
 
-Documentation-only contract definition completed.
+Dependency-free deterministic evaluator implementation and validation completed.
 
 Current baseline:
 
-- RIC-STUDIO-051A is Remote DONE at commit `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
-- Repository was clean and synchronized with `origin/main` at `1f9731e53d34c4168702f16dc818ad3c9b8fce48` before READY opening.
+- RIC-STUDIO-052A is Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
+- Repository was clean and synchronized with `origin/main` at `933e1cd0a064291eb1bf00e0aaabda55a94eabf2` before READY opening.
 - `tools/auditor/package.json` exists.
 - Root `package.json`, lockfiles, and root or auditor `node_modules` directories are absent.
 - No dependencies, LangGraph, or LangChain are installed.
-- Protected auditor files have no working-tree changes.
+- `tools/auditor/collect-evidence.mjs`, `tools/auditor/smoke-workflow.mjs`, and package metadata had no working-tree changes.
 
 Executed scope:
 
-- Created `docs/architecture/local-auditor-session-contract.md`.
-- Defined required operator inputs, safe evidence assembly, collector and deterministic-authority integration boundaries, diff and untracked-file rules, validation evidence rules, read-only output, mandatory human gate, future validation scenarios, and later implementation boundaries.
-- Corrected `tools/auditor/README.md` to record the two supported package smoke scripts and the remaining session-assembly gap.
-- Reconciled RIC-STUDIO-051A as Remote DONE.
+- Refactored `tools/auditor/audit.mjs` to export `evaluateEvidence(evidence)`.
+- Preserved the existing file-path CLI and deterministic decisions.
+- Added a direct-entry guard so normal imports do not execute the CLI.
+- Preserved compatibility with `tools/auditor/smoke-workflow.mjs`.
+- Updated the Auditor README and local session contract for the approved evaluator interface.
+- Created `docs/validation/local-auditor-evaluator-smoke-053a.md`.
+- Reconciled RIC-STUDIO-052A as Remote DONE.
 - Stop in REVIEW before commit or push.
 
 ## Allowed files
 
-- `docs/architecture/local-auditor-session-contract.md`
+- `tools/auditor/audit.mjs`
 - `tools/auditor/README.md`
+- `docs/architecture/local-auditor-session-contract.md`
+- `docs/validation/local-auditor-evaluator-smoke-053a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -44,24 +49,24 @@ Executed scope:
 
 ## Blocked in this task
 
-Modifying package files or auditor implementation files, creating implementation files, creating lockfiles or `node_modules`, installing dependencies, implementing stdin or an exported evaluator, importing or implementing LangGraph or LangChain, Git automation, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes, opening another READY task, commit, and push.
+Creating `tools/auditor/audit-session.mjs`, modifying `tools/auditor/collect-evidence.mjs`, modifying `tools/auditor/smoke-workflow.mjs`, modifying package files, creating fixtures or temporary evidence files, creating lockfiles or `node_modules`, installing dependencies, importing or implementing LangGraph or LangChain, Git automation, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes, opening another READY task, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-051A - Validate Auditor Package Metadata Scripts - Remote DONE at commit `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
+RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract - Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
 
 ## Current task result
 
-RIC-STUDIO-052A is in REVIEW after defining the contract for the first useful end-to-end local Auditor session.
+RIC-STUDIO-053A is in REVIEW after exposing and validating the dependency-free deterministic evaluator.
 
 Execution results:
 
-- Defined a dependency-free future session that combines explicit operator evidence with current repository evidence.
-- Preserved `tools/auditor/collect-evidence.mjs` as read-only evidence source.
-- Preserved `tools/auditor/audit.mjs` as deterministic authority.
-- Selected a separately scoped exported deterministic evaluator refactor as the preferred future integration direction without implementing it.
-- Defined conservative handling for tracked diffs, untracked files, raw validation evidence, stdout-only reports, and mandatory human review.
-- Kept LangGraph/LangChain postponed.
+- Normal import exposes `evaluateEvidence` without CLI stdout side effects.
+- In-memory evaluator preserves fixture decisions, missing evidence, blocked actions, and mandatory human review.
+- Missing path, invalid JSON, array evidence, and incomplete evidence remain `COMMIT_BLOCKED`.
+- Complete commit evidence remains `COMMIT_ALLOWED`.
+- Existing package smoke workflows remain compatible and passing.
+- Collector, smoke workflow, and package metadata remain unchanged.
 - Task stopped in REVIEW before commit or push.
 
 Validation required before REVIEW:
@@ -79,11 +84,14 @@ Validation required before REVIEW:
 - `Test-Path npm-shrinkwrap.json`
 - `Test-Path node_modules`
 - `Test-Path tools/auditor/node_modules`
-- `git diff --exit-code -- tools/auditor/package.json tools/auditor/audit.mjs tools/auditor/collect-evidence.mjs tools/auditor/smoke-workflow.mjs`
+- Required CLI and in-memory evaluator validation.
+- `cmd /c npm --prefix tools/auditor run smoke:read-only`
+- `cmd /c npm --prefix tools/auditor run smoke:invalid-json`
+- `git diff --exit-code -- tools/auditor/package.json tools/auditor/collect-evidence.mjs tools/auditor/smoke-workflow.mjs`
 - `git diff --stat`
 - `git diff --check`
 
-No package file, auditor implementation file, implementation code, lockfile, `node_modules`, dependency, LangGraph/LangChain change, runtime change, commit, or push occurred during execution.
+No session runner, package change, collector change, smoke workflow change, fixture, temporary evidence file, lockfile, `node_modules`, dependency, LangGraph/LangChain change, runtime change, commit, or push occurred during execution.
 
 ## Gate status
 

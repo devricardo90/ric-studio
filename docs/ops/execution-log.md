@@ -1973,7 +1973,7 @@ Execution result:
 
 ## RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract
 
-State: REVIEW
+State: Remote DONE
 
 Sprint:
 
@@ -2015,3 +2015,59 @@ Validation required before REVIEW:
 - `git diff --exit-code -- tools/auditor/package.json tools/auditor/audit.mjs tools/auditor/collect-evidence.mjs tools/auditor/smoke-workflow.mjs`.
 - `git diff --stat`.
 - `git diff --check`.
+- Local DONE commit: `933e1cd`.
+- Remote DONE after controlled push to `origin/main` at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
+
+## RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-053 - Dependency-Free Deterministic Auditor Evaluator.
+
+Summary:
+
+- Opened RIC-STUDIO-053A after Discussion Gate approval with the modified evaluator-first scope.
+- Confirmed RIC-STUDIO-052A is Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
+- Repository state before READY opening was clean and synchronized with `origin/main` at `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
+- Refactored `tools/auditor/audit.mjs` to export `evaluateEvidence(evidence)` for deterministic in-memory evidence evaluation.
+- Preserved the existing file-path CLI and structured stdout decision output.
+- Added a direct-entry guard so normal imports do not execute the CLI.
+- Preserved one shared deterministic decision implementation for the CLI and evaluator.
+- Preserved `COMMIT_ALLOWED`, all validated `COMMIT_BLOCKED` behaviors, blocked actions, and mandatory human review.
+- Confirmed normal import produces no CLI stdout side effect and exposes `evaluateEvidence`.
+- Confirmed in-memory array evidence remains `COMMIT_BLOCKED` with `valid_evidence_object`.
+- Confirmed in-memory incomplete evidence remains `COMMIT_BLOCKED` with the same missing evidence as the CLI.
+- Confirmed in-memory complete commit evidence remains `COMMIT_ALLOWED`.
+- Confirmed missing path, invalid JSON, array evidence, and incomplete evidence remain blocked through the CLI.
+- Confirmed both existing package smoke workflows remain compatible and pass.
+- Updated `tools/auditor/README.md` and made the approved small evaluator-interface adjustment to `docs/architecture/local-auditor-session-contract.md`.
+- Created `docs/validation/local-auditor-evaluator-smoke-053a.md`.
+- Preserved `tools/auditor/collect-evidence.mjs`, `tools/auditor/smoke-workflow.mjs`, and package metadata unchanged.
+- Blocked session runner creation, fixture creation, temporary evidence files, dependencies, lockfiles, `node_modules`, LangGraph/LangChain, Git automation, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes, another READY task, commit, and push.
+- No forbidden file or action occurred.
+- Stopped in REVIEW.
+
+Validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git rev-parse HEAD`.
+- `git rev-parse origin/main`.
+- `node tools/auditor/audit.mjs`.
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/invalid-json.json`.
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/array-evidence.json`.
+- `node tools/auditor/audit.mjs tools/auditor/sample-evidence.json`.
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/commit-allowed-evidence.json`.
+- Normal import side-effect check.
+- In-memory evaluator fixture decision checks.
+- `cmd /c npm --prefix tools/auditor run smoke:read-only`.
+- `cmd /c npm --prefix tools/auditor run smoke:invalid-json`.
+- `git diff --exit-code -- tools/auditor/package.json tools/auditor/collect-evidence.mjs tools/auditor/smoke-workflow.mjs`.
+- `git diff --stat`.
+- `git diff --check`.
+- `Test-Path package-lock.json`.
+- `Test-Path tools/auditor/package-lock.json`.
+- `Test-Path node_modules`.
+- `Test-Path tools/auditor/node_modules`.

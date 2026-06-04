@@ -1,4 +1,6 @@
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const REQUIRED_EVIDENCE_FIELDS = [
   "task_id",
@@ -234,21 +236,42 @@ function readEvidence(filePath) {
   }
 }
 
-const filePath = process.argv[2];
-const { evidence, missingEvidence } = readEvidence(filePath);
-const isCommitAllowedCandidate =
-  evidence.expected_state_before_commit !== undefined ||
-  evidence.validation_commands !== undefined ||
-  evidence.allowed_files !== undefined;
-const evaluatedMissingEvidence =
-  missingEvidence.length > 0
-    ? missingEvidence
-    : isCommitAllowedCandidate
-      ? findCommitAllowedMissingEvidence(evidence)
-      : REQUIRED_EVIDENCE_FIELDS.filter((field) => isMissingOrEmpty(evidence[field]));
-const decision =
-  isCommitAllowedCandidate && evaluatedMissingEvidence.length === 0
+function evaluateLoadedEvidence(evidence, initialMissingEvidence = []) {
+  const isCommitAllowedCandidate =
+    evidence.expected_state_before_commit !== undefined ||
+    evidence.validation_commands !== undefined ||
+    evidence.allowed_files !== undefined;
+  const evaluatedMissingEvidence =
+    initialMissingEvidence.length > 0
+      ? initialMissingEvidence
+      : isCommitAllowedCandidate
+        ? findCommitAllowedMissingEvidence(evidence)
+        : REQUIRED_EVIDENCE_FIELDS.filter((field) => isMissingOrEmpty(evidence[field]));
+
+  return isCommitAllowedCandidate && evaluatedMissingEvidence.length === 0
     ? allowedDecision(evidence)
     : blockedDecision(evidence, evaluatedMissingEvidence);
+}
 
-process.stdout.write(`${JSON.stringify(decision, null, 2)}\n`);
+export function evaluateEvidence(evidence) {
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) {
+    return evaluateLoadedEvidence({}, ["valid_evidence_object"]);
+  }
+
+  return evaluateLoadedEvidence(evidence);
+}
+
+function runCli(filePath) {
+  const { evidence, missingEvidence } = readEvidence(filePath);
+  const decision = evaluateLoadedEvidence(evidence, missingEvidence);
+
+  process.stdout.write(`${JSON.stringify(decision, null, 2)}\n`);
+}
+
+function isCliEntryPoint() {
+  return Boolean(process.argv[1]) && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+}
+
+if (isCliEntryPoint()) {
+  runCli(process.argv[2]);
+}

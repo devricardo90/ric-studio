@@ -214,7 +214,7 @@ The future session must not:
 
 `tools/auditor/audit.mjs` remains the deterministic decision authority.
 
-The future implementation must use an explicitly approved integration interface. The preferred later design is a separately scoped refactor that exports a deterministic evaluator while preserving the current CLI behavior.
+The approved integration interface is an exported deterministic evaluator that preserves the current CLI behavior.
 
 Why this interface is preferred:
 
@@ -223,7 +223,21 @@ Why this interface is preferred:
 - It supports in-memory evidence assembly.
 - It can preserve one deterministic implementation for both CLI and session usage.
 
-That refactor is not authorized by RIC-STUDIO-052A. Until separately approved and validated, the existing file-path CLI remains authoritative.
+RIC-STUDIO-053A is the separately approved task that exposes and validates this evaluator. The file-path CLI and exported evaluator must remain two interfaces to the same deterministic authority.
+
+The approved evaluator interface is:
+
+```javascript
+evaluateEvidence(evidence)
+```
+
+Interface rules:
+
+- `evidence` is an in-memory JSON-compatible evidence object.
+- The function returns the structured deterministic decision object.
+- Importing the module normally must not execute the CLI or write to stdout.
+- A missing, null, array, or otherwise non-object evidence value returns controlled `COMMIT_BLOCKED`.
+- The evaluator must preserve the same decision logic, blocked actions, and human review requirement as the CLI.
 
 Any later authority-interface refactor must prove:
 

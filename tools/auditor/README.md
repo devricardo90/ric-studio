@@ -1,13 +1,21 @@
 # Local Auditor CLI
 
-`audit.mjs` is a smallest-possible local Node.js CLI prototype for the RIC AI Delivery Auditor.
+`audit.mjs` is a smallest-possible local Node.js CLI and importable deterministic evaluator for the RIC AI Delivery Auditor.
 
-It reads a JSON evidence file from the command line, checks for the minimum evidence fields required for the first commit gate smoke test, and emits a structured JSON decision. The current prototype is intentionally local, deterministic, and dependency-free.
+The CLI reads a JSON evidence file from the command line, checks for the minimum evidence fields required for the first commit gate smoke test, and emits a structured JSON decision. The exported `evaluateEvidence(evidence)` function evaluates an in-memory evidence object with the same deterministic decision logic and does not execute the CLI when imported normally. The current prototype is intentionally local, deterministic, and dependency-free.
 
 ## Run
 
 ```powershell
 node tools/auditor/audit.mjs tools/auditor/sample-evidence.json
+```
+
+Import the deterministic evaluator:
+
+```javascript
+import { evaluateEvidence } from "./audit.mjs";
+
+const decision = evaluateEvidence(evidence);
 ```
 
 Run the read-only smoke workflow:
@@ -23,7 +31,7 @@ node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/commit-a
 3. run the deterministic auditor authority
 4. format a smoke report
 
-The deterministic authority remains `tools/auditor/audit.mjs`. The smoke workflow executes the existing CLI-shaped module with a temporary `process.argv` and stdout capture shim because `audit.mjs` currently reads `process.argv` at module scope. The workflow does not copy or replace the auditor decision logic.
+The deterministic authority remains `tools/auditor/audit.mjs`. The smoke workflow remains compatible with the CLI entry point and does not copy or replace the auditor decision logic. Normal module imports do not execute the CLI or write to stdout.
 
 ## Supported Decision
 

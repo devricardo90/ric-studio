@@ -2,36 +2,38 @@
 
 ## Current handoff state
 
-RIC-STUDIO-052A is in REVIEW as `Define End-to-End Local Audit Session Contract`.
+RIC-STUDIO-053A is in REVIEW as `Expose Dependency-Free Deterministic Auditor Evaluator`.
 
-RIC-STUDIO-SPRINT-052 - End-to-End Local Audit Session Contract is registered.
+RIC-STUDIO-SPRINT-053 - Dependency-Free Deterministic Auditor Evaluator is registered.
 
-Task mode: documentation-only contract definition completed.
+Task mode: dependency-free deterministic evaluator implementation and validation completed.
 
 Executed scope:
 
-- Created `docs/architecture/local-auditor-session-contract.md`.
-- Defined required operator inputs and safe evidence assembly.
-- Defined integration boundaries for `tools/auditor/collect-evidence.mjs` and `tools/auditor/audit.mjs`.
-- Defined tracked diff, untracked file, validation evidence, read-only output, and mandatory human gate rules.
-- Defined minimum future validation scenarios and a narrow later implementation boundary.
-- Corrected `tools/auditor/README.md` to record supported package smoke scripts.
-- Reconciled RIC-STUDIO-051A as Remote DONE.
+- Refactored `tools/auditor/audit.mjs` to export `evaluateEvidence(evidence)`.
+- Preserved the file-path CLI and deterministic decision behavior.
+- Added a direct-entry guard so normal imports do not execute the CLI.
+- Preserved smoke workflow compatibility.
+- Updated the README and local audit session contract.
+- Created `docs/validation/local-auditor-evaluator-smoke-053a.md`.
+- Reconciled RIC-STUDIO-052A as Remote DONE.
 - Stop in REVIEW before commit or push.
 
 Execution result:
 
-- Preserved the collector as read-only evidence source and `audit.mjs` as deterministic authority.
-- Defined the future first implementation as dependency-free, stdout-first, default-no-write, and human-gated.
-- Selected a separately scoped exported deterministic evaluator refactor as the preferred future integration direction without implementing it.
-- Kept dependency installation and LangGraph/LangChain postponed.
-- No implementation, package change, dependency, lockfile, `node_modules`, commit, or push occurred.
+- Normal import has no CLI stdout side effect and exposes the evaluator.
+- In-memory evaluator preserves existing fixture decisions, blocked actions, and human review.
+- Negative CLI cases remain `COMMIT_BLOCKED`; complete evidence remains `COMMIT_ALLOWED`.
+- Existing package smoke workflows remain passing.
+- Collector, smoke workflow, and package metadata remain unchanged.
+- No session runner, dependency, lockfile, `node_modules`, commit, or push occurred.
 - Stopped in REVIEW before commit or push.
 
 Forbidden boundaries:
 
-- Do not modify `tools/auditor/package.json`, `tools/auditor/audit.mjs`, `tools/auditor/collect-evidence.mjs`, or `tools/auditor/smoke-workflow.mjs`.
-- Do not create implementation files or implement stdin or an exported evaluator.
+- Do not create `tools/auditor/audit-session.mjs`.
+- Do not modify `tools/auditor/package.json`, `tools/auditor/collect-evidence.mjs`, or `tools/auditor/smoke-workflow.mjs`.
+- Do not create fixtures or temporary evidence files.
 - Do not create root package metadata, lockfiles, or `node_modules`.
 - Do not run `npm install` or `npm ci`, install dependencies, or add dependency or package-manager fields.
 - Do not install, import, or implement LangGraph or LangChain.
@@ -58,8 +60,8 @@ Validation completed during READY opening:
 
 Current repository context:
 
-- RIC-STUDIO-051A is Remote DONE at commit `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
-- Repository was clean and synchronized with `origin/main` at `1f9731e53d34c4168702f16dc818ad3c9b8fce48` before READY opening.
+- RIC-STUDIO-052A is Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
+- Repository was clean and synchronized with `origin/main` at `933e1cd0a064291eb1bf00e0aaabda55a94eabf2` before READY opening.
 - No root `package.json` exists.
 - `tools/auditor/package.json` exists and contains only approved metadata.
 - No `package-lock.json`, `tools/auditor/package-lock.json`, `pnpm-lock.yaml`, `yarn.lock`, or `npm-shrinkwrap.json` exists.
@@ -121,10 +123,12 @@ Blocked during execution:
 
 RIC-STUDIO-050A reached Remote DONE at `ada132e978ad2c114e9746446f719eaebc0b1cdf`.
 
-Authorized files for RIC-STUDIO-052A execution:
+Authorized files for RIC-STUDIO-053A execution:
 
-- `docs/architecture/local-auditor-session-contract.md`.
+- `tools/auditor/audit.mjs`.
 - `tools/auditor/README.md`.
+- `docs/architecture/local-auditor-session-contract.md`.
+- `docs/validation/local-auditor-evaluator-smoke-053a.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -153,18 +157,18 @@ Validation completed during RIC-STUDIO-050A execution:
 Current REVIEW task:
 
 ```text
-RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract
+RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator
 ```
 
 Result:
 
-- RIC-STUDIO-051A is Remote DONE at commit `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
-- RIC-STUDIO-052A is in REVIEW.
+- RIC-STUDIO-052A is Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
+- RIC-STUDIO-053A is in REVIEW.
 - `tools/auditor/package.json` exists with approved metadata only.
 - No root package metadata, lockfile, or `node_modules` exists.
-- The end-to-end local audit session contract was created and the README package-script support statement was corrected.
+- The deterministic evaluator was exported and validated while preserving CLI and smoke workflow behavior.
 
-No LangGraph install or import, LangChain install or import, dependency change, root `package.json` creation, lockfile creation, `node_modules` creation, auditor implementation change, session implementation, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, extra READY task, commit, or push occurred during execution.
+No LangGraph install or import, LangChain install or import, dependency change, root `package.json` creation, lockfile creation, `node_modules` creation, session runner, collector change, smoke workflow change, package metadata change, fixture creation, temporary evidence file, Git automation, commit automation, push automation, GitHub API integration, `.github` workflow, UI, server, database, Ollama change, runtime change, Modelfile change, extra READY task, commit, or push occurred during execution.
 
 Previous handoff context: RIC-STUDIO-043A is Remote DONE at commit `5964b4f`.
 

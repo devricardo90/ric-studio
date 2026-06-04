@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract
+RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator
 
 ## Product mode
 
@@ -35,15 +35,15 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-052A is in REVIEW after documentation-only contract definition.
+RIC-STUDIO-053A is in REVIEW after dependency-free deterministic evaluator implementation and validation.
 
-RIC-STUDIO-SPRINT-052 - End-to-End Local Audit Session Contract is registered.
+RIC-STUDIO-SPRINT-053 - Dependency-Free Deterministic Auditor Evaluator is registered.
 
-Scope for this update: define the first useful end-to-end local Auditor session before implementation.
+Scope for this update: expose an importable in-memory evaluator while preserving the existing file-path CLI.
 
-RIC-STUDIO-051A is Remote DONE at commit `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
+RIC-STUDIO-052A is Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
 
-Repository state before READY opening: clean and synchronized with `origin/main` at `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
+Repository state before READY opening: clean and synchronized with `origin/main` at `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
 
 Current package boundary:
 
@@ -52,22 +52,28 @@ Current package boundary:
 - No dependencies, LangGraph, or LangChain are installed.
 - Protected auditor files have no working-tree changes.
 
-Allowed files: `docs/architecture/local-auditor-session-contract.md`, `tools/auditor/README.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+Allowed files: `tools/auditor/audit.mjs`, `tools/auditor/README.md`, `docs/architecture/local-auditor-session-contract.md`, `docs/validation/local-auditor-evaluator-smoke-053a.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
 
 Executed scope:
 
-- Created `docs/architecture/local-auditor-session-contract.md`.
-- Defined operator inputs, safe evidence assembly, collector and deterministic-authority integration, tracked/untracked file rules, validation evidence, read-only structured output, mandatory human gate, future validation scenarios, and later implementation boundaries.
-- Corrected `tools/auditor/README.md` to state that `smoke:read-only` and `smoke:invalid-json` are supported.
-- Reconciled RIC-STUDIO-051A as Remote DONE.
+- Exported `evaluateEvidence(evidence)` from `tools/auditor/audit.mjs`.
+- Preserved the existing file-path CLI and structured stdout decisions.
+- Added a direct-entry guard so normal imports do not execute the CLI.
+- Preserved compatibility with the existing smoke workflow.
+- Updated the README and local session contract.
+- Created `docs/validation/local-auditor-evaluator-smoke-053a.md`.
+- Reconciled RIC-STUDIO-052A as Remote DONE.
 - Stop in REVIEW before commit or push.
 
 Execution results:
 
-- Preserved `tools/auditor/collect-evidence.mjs` as read-only evidence source and `tools/auditor/audit.mjs` as deterministic authority.
-- Defined a future dependency-free session with no hidden writes and mandatory human review.
-- Selected a separately scoped exported deterministic evaluator refactor as the preferred future authority integration direction without implementing it.
-- Kept dependency installation and LangGraph/LangChain postponed.
+- Importing `audit.mjs` normally produces no CLI stdout and exposes `evaluateEvidence`.
+- In-memory evaluator matches existing fixture decisions.
+- All validated negative cases remain `COMMIT_BLOCKED`.
+- Complete commit evidence remains `COMMIT_ALLOWED`.
+- Blocked actions and mandatory human review remain preserved.
+- Existing package smoke workflows remain passing.
+- `tools/auditor/collect-evidence.mjs`, `tools/auditor/smoke-workflow.mjs`, and package metadata remain unchanged.
 
 Validation required before REVIEW:
 
@@ -84,13 +90,16 @@ Validation required before REVIEW:
 - `Test-Path npm-shrinkwrap.json`
 - `Test-Path node_modules`
 - `Test-Path tools/auditor/node_modules`
-- `git diff --exit-code -- tools/auditor/package.json tools/auditor/audit.mjs tools/auditor/collect-evidence.mjs tools/auditor/smoke-workflow.mjs`
+- Required CLI and in-memory evaluator validation.
+- `cmd /c npm --prefix tools/auditor run smoke:read-only`
+- `cmd /c npm --prefix tools/auditor run smoke:invalid-json`
+- `git diff --exit-code -- tools/auditor/package.json tools/auditor/collect-evidence.mjs tools/auditor/smoke-workflow.mjs`
 - `git diff --stat`
 - `git diff --check`
 
-Forbidden: modifying package files or auditor implementation files; creating implementation files, lockfiles, or `node_modules`; installing dependencies; implementing stdin or an exported evaluator; importing or implementing LangGraph or LangChain; Git automation; runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes; additional READY tasks; commit; and push.
+Forbidden: creating a session runner; modifying collector, smoke workflow, or package metadata; creating fixtures or temporary evidence files; installing dependencies; creating lockfiles or `node_modules`; importing or implementing LangGraph or LangChain; Git automation; runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes; additional READY tasks; commit; and push.
 
-RIC-STUDIO-052A stopped in REVIEW. No package file, auditor implementation file, implementation code, lockfile, `node_modules`, dependency, LangGraph/LangChain change, runtime change, commit, or push occurred during execution.
+RIC-STUDIO-053A stopped in REVIEW. No session runner, package change, collector change, smoke workflow change, fixture, temporary evidence file, lockfile, `node_modules`, dependency, LangGraph/LangChain change, runtime change, commit, or push occurred during execution.
 
 ## READY note
 
