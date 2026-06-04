@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator
+RIC-STUDIO-054A - Implement Dependency-Free Local Audit Session Runner
 
 ## Product mode
 
@@ -35,7 +35,24 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-053A is in REVIEW after dependency-free deterministic evaluator implementation and validation.
+RIC-STUDIO-054A is in REVIEW. Implementation of the session runner in `tools/auditor/audit-session.mjs` is complete and validated.
+
+Authorized scope for 054A:
+
+- Implement `tools/auditor/audit-session.mjs` (JS ESM, dependency-free).
+- Session assembly and report generation in structured JSON.
+- Handle technical errors (exit code 1) vs audit decisions (exit code 0).
+- Privacy-first report (no raw evidence dump).
+
+## REVIEW note
+
+RIC-STUDIO-054A reached REVIEW.
+Implementation and smoke tests (positive, blocked, error) completed successfully.
+Worktree contains only the authorized files.
+
+## Previous task result
+
+RIC-STUDIO-053A is Remote DONE at commit `840375a`.
 
 RIC-STUDIO-SPRINT-053 - Dependency-Free Deterministic Auditor Evaluator is registered.
 

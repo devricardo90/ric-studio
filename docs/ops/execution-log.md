@@ -2071,3 +2071,20 @@ Validation:
 - `Test-Path tools/auditor/package-lock.json`.
 - `Test-Path node_modules`.
 - `Test-Path tools/auditor/node_modules`.
+## RIC-STUDIO-054A - Implement Dependency-Free Local Audit Session Runner
+
+State: REVIEW
+
+Summary:
+
+- Implemented tools/auditor/audit-session.mjs as a dependency-free JS ESM runner.
+- Integrated with evaluateEvidence from audit.mjs.
+- Implemented structured JSON output for stdout with privacy-first approach.
+- Handled technical errors (exit code 1) and audit decisions (exit code 0).
+- Validated with smoke tests:
+  - Positive (COMMIT_ALLOWED): EXIT 0.
+  - Blocked (COMMIT_BLOCKED): EXIT 0.
+  - Missing file: EXIT 1.
+  - Invalid JSON: EXIT 1.
+- Updated README.md and created validation evidence in docs/validation/local-auditor-session-runner-smoke-054a.md.
+- No side effects, no dependencies, no Git automation.

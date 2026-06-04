@@ -18,7 +18,17 @@ import { evaluateEvidence } from "./audit.mjs";
 const decision = evaluateEvidence(evidence);
 ```
 
-Run the read-only smoke workflow:
+### Local Audit Session Runner
+
+Execute the dependency-free session runner with an evidence file:
+
+```powershell
+node tools/auditor/audit-session.mjs --evidence <path/to/evidence.json>
+```
+
+The runner provides a structured JSON report on `stdout` including the audit decision, session status, and safe metadata.
+
+### Read-only Smoke Workflow
 
 ```powershell
 node tools/auditor/smoke-workflow.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json

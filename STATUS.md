@@ -6,40 +6,38 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator
+RIC-STUDIO-054A - Implement Dependency-Free Local Audit Session Runner
 
 ## Scope
 
-RIC-STUDIO-SPRINT-053 - Dependency-Free Deterministic Auditor Evaluator.
+RIC-STUDIO-SPRINT-054 - Local Audit Session Runner.
 
-Dependency-free deterministic evaluator implementation and validation completed.
+Implementation of the first dependency-free local audit session runner.
 
 Current baseline:
 
-- RIC-STUDIO-052A is Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
-- Repository was clean and synchronized with `origin/main` at `933e1cd0a064291eb1bf00e0aaabda55a94eabf2` before READY opening.
-- `tools/auditor/package.json` exists.
-- Root `package.json`, lockfiles, and root or auditor `node_modules` directories are absent.
-- No dependencies, LangGraph, or LangChain are installed.
-- `tools/auditor/collect-evidence.mjs`, `tools/auditor/smoke-workflow.mjs`, and package metadata had no working-tree changes.
+- RIC-STUDIO-053A is Remote DONE at commit `840375a`.
+- Repository is clean and synchronized with `origin/main` at `840375a`.
+- `tools/auditor/audit.mjs` exports `evaluateEvidence(evidence)`.
 
 Executed scope:
 
-- Refactored `tools/auditor/audit.mjs` to export `evaluateEvidence(evidence)`.
-- Preserved the existing file-path CLI and deterministic decisions.
-- Added a direct-entry guard so normal imports do not execute the CLI.
-- Preserved compatibility with `tools/auditor/smoke-workflow.mjs`.
-- Updated the Auditor README and local session contract for the approved evaluator interface.
-- Created `docs/validation/local-auditor-evaluator-smoke-053a.md`.
-- Reconciled RIC-STUDIO-052A as Remote DONE.
-- Stop in REVIEW before commit or push.
+- Created `tools/auditor/audit-session.mjs` as the session runner entry point.
+- Implemented JavaScript ESM (dependency-free) session assembly and report generation.
+- Consumes `evaluateEvidence` from `audit.mjs`.
+- Outputs structured JSON to `stdout` containing safe metadata, decision, status, and justification.
+- Prohibits raw evidence dump in the report for privacy.
+- Handles technical errors (invalid path, malformed JSON) with exit code 1.
+- Audit decisions (e.g., `COMMIT_BLOCKED`) exit with `0`.
+- Validated with smoke tests for positive, blocked, and error scenarios.
+- Updated `tools/auditor/README.md` with usage instructions.
+- Created validation documentation in `docs/validation/local-auditor-session-runner-smoke-054a.md`.
 
 ## Allowed files
 
-- `tools/auditor/audit.mjs`
+- `tools/auditor/audit-session.mjs`
 - `tools/auditor/README.md`
-- `docs/architecture/local-auditor-session-contract.md`
-- `docs/validation/local-auditor-evaluator-smoke-053a.md`
+- `docs/validation/local-auditor-session-runner-smoke-054a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -49,15 +47,15 @@ Executed scope:
 
 ## Blocked in this task
 
-Creating `tools/auditor/audit-session.mjs`, modifying `tools/auditor/collect-evidence.mjs`, modifying `tools/auditor/smoke-workflow.mjs`, modifying package files, creating fixtures or temporary evidence files, creating lockfiles or `node_modules`, installing dependencies, importing or implementing LangGraph or LangChain, Git automation, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes, opening another READY task, commit, and push.
+Modifying `tools/auditor/collect-evidence.mjs`, modifying `tools/auditor/smoke-workflow.mjs`, modifying package files, creating fixtures or temporary evidence files, creating lockfiles or `node_modules`, installing dependencies, importing or implementing LangGraph or LangChain, Git automation, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes, opening another READY task, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract - Remote DONE at commit `933e1cd0a064291eb1bf00e0aaabda55a94eabf2`.
+RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator - Remote DONE at commit `840375a`.
 
 ## Current task result
 
-RIC-STUDIO-053A is in REVIEW after exposing and validating the dependency-free deterministic evaluator.
+RIC-STUDIO-054A is in REVIEW after successful implementation and smoke testing.
 
 Execution results:
 
