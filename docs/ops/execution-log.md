@@ -1916,7 +1916,7 @@ Validation required after execution:
 
 ## RIC-STUDIO-051A - Validate Auditor Package Metadata Scripts
 
-State: REVIEW
+State: Remote DONE
 
 Sprint:
 
@@ -1968,3 +1968,50 @@ Execution result:
 - No dependency installation or LangGraph/LangChain installation, import, or implementation occurred.
 - No runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation change, additional READY task, commit, or push occurred.
 - Stopped in REVIEW.
+- Local DONE commit: `1f9731e`.
+- Remote DONE after controlled push to `origin/main` at commit `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
+
+## RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract
+
+State: REVIEW
+
+Sprint:
+
+- RIC-STUDIO-SPRINT-052 - End-to-End Local Audit Session Contract.
+
+Summary:
+
+- Opened RIC-STUDIO-052A after Discussion Gate approval.
+- Confirmed RIC-STUDIO-051A is Remote DONE at commit `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
+- Repository state before READY opening was clean and synchronized with `origin/main` at `1f9731e53d34c4168702f16dc818ad3c9b8fce48`.
+- Scope: documentation-only definition of the first useful end-to-end local Auditor session.
+- Allowed files: `docs/architecture/local-auditor-session-contract.md`, `tools/auditor/README.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Created `docs/architecture/local-auditor-session-contract.md`.
+- Defined mandatory operator inputs, safe evidence assembly layers, tracked diff and untracked-file safety, validation evidence requirements, collector integration boundaries, deterministic authority integration boundaries, read-only structured output, mandatory human gate, minimum future validation scenarios, risks, and later implementation boundaries.
+- Preserved `tools/auditor/collect-evidence.mjs` as the read-only evidence source.
+- Preserved `tools/auditor/audit.mjs` as the deterministic decision authority.
+- Selected a separately scoped exported deterministic evaluator refactor as the preferred future integration direction without implementing it.
+- Corrected `tools/auditor/README.md` to state that the validated `smoke:read-only` and `smoke:invalid-json` package scripts are supported and that end-to-end session assembly remains unsupported.
+- Reconciled RIC-STUDIO-051A as Remote DONE.
+- Blocked package changes, auditor implementation changes, implementation files, dependency installation, lockfiles, `node_modules`, LangGraph/LangChain, stdin or evaluator implementation, Git automation, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github` changes, another READY task, commit, and push.
+- No forbidden implementation, package, dependency, lockfile, `node_modules`, runtime, commit, or push action occurred.
+- Stopped in REVIEW.
+
+Validation required before REVIEW:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git rev-parse HEAD`.
+- `git rev-parse origin/main`.
+- `Test-Path package.json`.
+- `Test-Path tools/auditor/package.json`.
+- `Test-Path package-lock.json`.
+- `Test-Path tools/auditor/package-lock.json`.
+- `Test-Path pnpm-lock.yaml`.
+- `Test-Path yarn.lock`.
+- `Test-Path npm-shrinkwrap.json`.
+- `Test-Path node_modules`.
+- `Test-Path tools/auditor/node_modules`.
+- `git diff --exit-code -- tools/auditor/package.json tools/auditor/audit.mjs tools/auditor/collect-evidence.mjs tools/auditor/smoke-workflow.mjs`.
+- `git diff --stat`.
+- `git diff --check`.

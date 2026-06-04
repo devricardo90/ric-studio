@@ -51,6 +51,9 @@ This smoke prototype intentionally does not support:
 - dependency installation
 - TypeScript
 - frameworks
-- package scripts
+- end-to-end local audit session assembly
+- automatic task scope or validation evidence collection
 - GitHub API integration
 - Git automation
+
+The package currently provides the validated `smoke:read-only` and `smoke:invalid-json` scripts. They run existing fixture-based smoke workflows and do not install dependencies, create lockfiles, or automate Git.
