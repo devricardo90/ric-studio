@@ -6,89 +6,68 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-050A - Create Auditor Package Metadata
+RIC-STUDIO-051A - Validate Auditor Package Metadata Scripts
 
 ## Scope
 
-RIC-STUDIO-SPRINT-050 - Auditor Package Metadata.
+RIC-STUDIO-SPRINT-051 - Auditor Package Metadata Script Validation.
 
-Metadata-only execution for the auditor package metadata task.
+Validation/documentation-only execution completed.
+
+Current baseline:
+
+- RIC-STUDIO-050A is Remote DONE at commit `ada132e978ad2c114e9746446f719eaebc0b1cdf`.
+- Repository was clean and synchronized with `origin/main` at `ada132e978ad2c114e9746446f719eaebc0b1cdf` before READY opening.
+- `tools/auditor/package.json` exists.
+- Root `package.json`, lockfiles, and root or auditor `node_modules` directories are absent.
+- No dependencies, LangGraph, or LangChain are installed.
+- Protected auditor files have no working-tree changes.
 
 Executed scope:
 
-- Created only `tools/auditor/package.json`.
-- Do not create root `package.json`.
-- Do not create any lockfile.
-- Do not run `npm install`.
-- Do not install dependencies.
-- Do not add LangGraph or LangChain.
-- Do not modify `tools/auditor/audit.mjs`.
-- Do not modify `tools/auditor/collect-evidence.mjs`.
-- Do not modify `tools/auditor/smoke-workflow.mjs`.
-- Keep auditor authority unchanged.
-
-Stop point after execution: REVIEW. Commit and push remain blocked.
+- Run `cmd /c npm --prefix tools/auditor run smoke:read-only`.
+- Run `cmd /c npm --prefix tools/auditor run smoke:invalid-json`.
+- Create `docs/validation/auditor-package-metadata-smoke-051a.md`.
+- Document commands, exit codes, important output, and boundary checks.
+- Confirm no lockfile, `node_modules`, dependency installation, or auditor behavior change occurs.
+- Stop in REVIEW before commit or push.
 
 ## Allowed files
 
+- `docs/validation/auditor-package-metadata-smoke-051a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `tools/auditor/package.json`
 
 ## Blocked in this task
 
-Creating root `package.json`, creating `package-lock.json`, creating `tools/auditor/package-lock.json`, creating `pnpm-lock.yaml`, creating `yarn.lock`, creating `npm-shrinkwrap.json`, installing dependencies, adding dependencies/devDependencies/optionalDependencies/peerDependencies/packageManager, importing or implementing LangGraph, importing or implementing LangChain, auditor code changes, changes to `tools/auditor/audit.mjs`, changes to `tools/auditor/collect-evidence.mjs`, changes to `tools/auditor/smoke-workflow.mjs`, runtime changes, Ollama changes, `Modelfile` changes, UI, server, database, deploy, `.github`, Git automation, opening any additional READY task, commit, and push.
+Modifying package or auditor source files, creating lockfiles or `node_modules`, running `npm install` or `npm ci`, installing dependencies, adding dependency or package-manager fields, importing or implementing LangGraph or LangChain, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation changes, opening another READY task, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-049A - Define Auditor Package Setup Scope - Remote DONE at commit `f4c9876`.
+RIC-STUDIO-050A - Create Auditor Package Metadata - Remote DONE at commit `ada132e978ad2c114e9746446f719eaebc0b1cdf`.
 
 ## Current task result
 
-RIC-STUDIO-050A is in REVIEW after creating minimal auditor package metadata.
+RIC-STUDIO-051A is in REVIEW after both approved package scripts passed and validation evidence was created at `docs/validation/auditor-package-metadata-smoke-051a.md`.
 
-Discussion Gate approved a metadata-only package task.
+Execution results:
 
-RIC-STUDIO-046A documented the LangGraph Auditor Workflow MVP architecture.
-
-RIC-STUDIO-046B documented the LangGraph Auditor Implementation Contract and is Remote DONE at commit `7d6df8c`.
-
-RIC-STUDIO-047A implemented the dependency-free read-only auditor smoke workflow and is Remote DONE at commit `dbbe63d`.
-
-RIC-STUDIO-048A defined the auditor package and dependency policy and is Remote DONE at commit `8a52eda`.
-
-RIC-STUDIO-049A defined the exact future package setup boundary before creating package metadata or installing dependencies in `docs/architecture/auditor-package-setup-scope.md` and is Remote DONE at commit `f4c9876`.
-
-RIC-STUDIO-050A created `tools/auditor/package.json` with this content boundary:
-
-```json
-{
-  "name": "@ric-studio/auditor",
-  "version": "0.0.0",
-  "private": true,
-  "description": "Local read-only auditor smoke workflow metadata.",
-  "type": "module",
-  "scripts": {
-    "smoke:read-only": "node smoke-workflow.mjs --evidence fixtures/commit-allowed-evidence.json",
-    "smoke:invalid-json": "node smoke-workflow.mjs --evidence fixtures/invalid-json.json"
-  }
-}
-```
-
-Allowed `package.json` fields used: `name`, `version`, `private`, `description`, `type`, and `scripts`.
-
-Allowed scripts used: `smoke:read-only` and `smoke:invalid-json`.
-
-Forbidden scripts: lifecycle scripts, dependency installation scripts, Git scripts, release scripts, scripts that edit files, scripts that generate lockfiles, scripts that call package managers, and scripts that invoke LangGraph or LangChain.
+- `cmd /c npm --prefix tools/auditor run smoke:read-only` exited `0`; deterministic authority remained preserved and returned `COMMIT_ALLOWED`.
+- `cmd /c npm --prefix tools/auditor run smoke:invalid-json` exited `0`; parsing was blocked and deterministic authority remained preserved and returned `COMMIT_BLOCKED`.
+- No lockfile, `node_modules`, dependency installation, package change, or auditor source change occurred.
+- No LangGraph or LangChain installation, import, or implementation occurred.
+- Task stopped in REVIEW before commit or push.
 
 Validation completed during READY opening:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
+- `git rev-parse HEAD`
+- `git rev-parse origin/main`
 - `Test-Path package.json`
 - `Test-Path tools/auditor/package.json`
 - `Test-Path package-lock.json`
@@ -96,29 +75,12 @@ Validation completed during READY opening:
 - `Test-Path pnpm-lock.yaml`
 - `Test-Path yarn.lock`
 - `Test-Path npm-shrinkwrap.json`
-- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`
+- `Test-Path node_modules`
+- `Test-Path tools/auditor/node_modules`
 - `git diff --stat`
 - `git diff --check`
 
-Validation completed during execution:
-
-- `Test-Path package.json`
-- `Test-Path tools/auditor/package.json`
-- `Test-Path package-lock.json`
-- `Test-Path tools/auditor/package-lock.json`
-- `Test-Path pnpm-lock.yaml`
-- `Test-Path yarn.lock`
-- `Test-Path npm-shrinkwrap.json`
-- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`
-- `npm --prefix tools/auditor run smoke:read-only`
-- `npm --prefix tools/auditor run smoke:invalid-json`
-- `git status --short --untracked-files=all`
-- `git status -sb`
-- `git diff --stat`
-- `git diff --check`
-- `git diff -- tools/auditor/package.json STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`
-
-No root package metadata, lockfile, dependency install, dependency field, package manager field, LangGraph/LangChain change, auditor code change, commit, or push occurred.
+No package file, lockfile, `node_modules`, dependency, LangGraph/LangChain change, auditor source change, commit, or push occurred during execution.
 
 ## Gate status
 

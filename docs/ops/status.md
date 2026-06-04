@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-050A - Create Auditor Package Metadata
+RIC-STUDIO-051A - Validate Auditor Package Metadata Scripts
 
 ## Product mode
 
@@ -35,60 +35,48 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-050A is in REVIEW after creating minimal auditor package metadata.
+RIC-STUDIO-051A is in REVIEW after successful validation/documentation-only execution.
 
-RIC-STUDIO-SPRINT-050 - Auditor Package Metadata is registered.
+RIC-STUDIO-SPRINT-051 - Auditor Package Metadata Script Validation is registered.
 
-Scope for this update: metadata-only execution.
+Scope for this update: execute and document the two existing package metadata scripts.
 
-Discussion Gate approved opening RIC-STUDIO-050A as a narrow package metadata task.
+RIC-STUDIO-050A is Remote DONE at commit `ada132e978ad2c114e9746446f719eaebc0b1cdf`.
 
-Current repository state before READY opening: clean and synchronized with `origin/main` at `f4c9876`.
+Repository state before READY opening: clean and synchronized with `origin/main` at `ada132e978ad2c114e9746446f719eaebc0b1cdf`.
 
-Purpose: create minimal package metadata for the auditor runtime under `tools/auditor/` before any dependency installation.
+Current package boundary:
 
-Allowed files: `tools/auditor/package.json`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- `tools/auditor/package.json` exists.
+- Root `package.json`, lockfiles, and root or auditor `node_modules` directories are absent.
+- No dependencies, LangGraph, or LangChain are installed.
+- Protected auditor files have no working-tree changes.
+
+Allowed files: `docs/validation/auditor-package-metadata-smoke-051a.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
 
 Executed scope:
 
-- Created only `tools/auditor/package.json`.
-- Do not create root `package.json`.
-- Do not create any lockfile.
-- Do not run `npm install`.
-- Do not install dependencies.
-- Do not add LangGraph or LangChain.
-- Do not modify `tools/auditor/audit.mjs`.
-- Do not modify `tools/auditor/collect-evidence.mjs`.
-- Do not modify `tools/auditor/smoke-workflow.mjs`.
-- Keep auditor authority unchanged.
+- Run `cmd /c npm --prefix tools/auditor run smoke:read-only`.
+- Run `cmd /c npm --prefix tools/auditor run smoke:invalid-json`.
+- Create `docs/validation/auditor-package-metadata-smoke-051a.md`.
+- Document commands, exit codes, important output, and boundary checks.
+- Confirm no lockfile, `node_modules`, dependency installation, or auditor behavior change occurs.
+- Stop in REVIEW before commit or push.
 
-Allowed `package.json` fields used: `name`, `version`, `private`, `description`, `type`, and `scripts`.
+Execution results:
 
-Allowed scripts used:
+- `smoke:read-only` exited `0`; report remained dependency-free and read-only, deterministic authority was preserved, and the decision was `COMMIT_ALLOWED`.
+- `smoke:invalid-json` exited `0`; evidence parsing was blocked, deterministic authority was preserved, and the decision was `COMMIT_BLOCKED`.
+- Created `docs/validation/auditor-package-metadata-smoke-051a.md`.
+- No lockfile, `node_modules`, dependency installation, package change, or auditor source change occurred.
+- No LangGraph or LangChain installation, import, or implementation occurred.
 
-- `smoke:read-only`.
-- `smoke:invalid-json`.
-
-Created package content boundary:
-
-```json
-{
-  "name": "@ric-studio/auditor",
-  "version": "0.0.0",
-  "private": true,
-  "description": "Local read-only auditor smoke workflow metadata.",
-  "type": "module",
-  "scripts": {
-    "smoke:read-only": "node smoke-workflow.mjs --evidence fixtures/commit-allowed-evidence.json",
-    "smoke:invalid-json": "node smoke-workflow.mjs --evidence fixtures/invalid-json.json"
-  }
-}
-```
-
-Validation completed during execution:
+Validation completed during READY opening:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
+- `git rev-parse HEAD`
+- `git rev-parse origin/main`
 - `Test-Path package.json`
 - `Test-Path tools/auditor/package.json`
 - `Test-Path package-lock.json`
@@ -96,20 +84,14 @@ Validation completed during execution:
 - `Test-Path pnpm-lock.yaml`
 - `Test-Path yarn.lock`
 - `Test-Path npm-shrinkwrap.json`
-- `rg --files -g "package.json" -g "package-lock.json" -g "pnpm-lock.yaml" -g "yarn.lock" -g "npm-shrinkwrap.json"`
-- `npm --prefix tools/auditor run smoke:read-only`
-- `npm --prefix tools/auditor run smoke:invalid-json`
+- `Test-Path node_modules`
+- `Test-Path tools/auditor/node_modules`
 - `git diff --stat`
 - `git diff --check`
-- `git diff -- tools/auditor/package.json STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`
 
-Forbidden in this task: creating root `package.json`, creating `package-lock.json`, creating `tools/auditor/package-lock.json`, creating `pnpm-lock.yaml`, creating `yarn.lock`, creating `npm-shrinkwrap.json`, installing dependencies, adding dependencies/devDependencies/optionalDependencies/peerDependencies/packageManager, importing or implementing LangGraph or LangChain, modifying auditor code, modifying `tools/auditor/audit.mjs`, `tools/auditor/collect-evidence.mjs`, or `tools/auditor/smoke-workflow.mjs`, runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation changes, additional READY tasks, commit, and push.
+Forbidden: modifying package or auditor source files; creating lockfiles or `node_modules`; running `npm install` or `npm ci`; installing dependencies; importing or implementing LangGraph or LangChain; runtime/Ollama/Modelfile/UI/server/database/deploy/`.github`/Git automation changes; additional READY tasks; commit; and push.
 
-RIC-STUDIO-049A is Remote DONE at commit `f4c9876`.
-
-No root package metadata, lockfile, dependency install, dependency field, package manager field, LangGraph/LangChain change, auditor code change, commit, or push occurred.
-
-RIC-STUDIO-050A stopped in REVIEW after creating only `tools/auditor/package.json` and validating the approved boundaries.
+RIC-STUDIO-051A stopped in REVIEW. No package file, lockfile, `node_modules`, dependency, LangGraph/LangChain change, auditor source change, commit, or push occurred during execution.
 
 ## READY note
 
