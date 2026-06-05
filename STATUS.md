@@ -2,22 +2,24 @@
 
 ## Current state
 
-Remote DONE
+READY
 
 ## Active task
 
-No active task.
+RIC-STUDIO-057A - Define Protocol Findings Semantics For Local Auditor
 
 ## Scope
 
-RIC-STUDIO-SPRINT-056 - Local Auditor Evidence Contract Refinement.
+RIC-STUDIO-SPRINT-057 - Local Auditor Protocol Findings Semantics.
 
-Operational state reconciliation after RIC-STUDIO-056A completed and was pushed.
+Documentation-only contract task to define protocol findings before changing runtime behavior.
 
 Current baseline:
 
 - RIC-STUDIO-056A is Remote DONE at commit `e5fd0c7742c283e17dc84908e75e18a1fea90303`.
-- Remote DONE repository state is clean and synchronized with `origin/main` at `e5fd0c7742c283e17dc84908e75e18a1fea90303`.
+- RIC-STUDIO-056R is Remote DONE at commit `eb1644517460c3aba1cdcf300d5acbac82511e43`.
+- Repository was clean and synchronized with `origin/main` at `eb1644517460c3aba1cdcf300d5acbac82511e43` before READY opening.
+- No READY task was active before opening RIC-STUDIO-057A.
 - `tools/auditor/audit.mjs` exports `evaluateEvidence(evidence)`.
 - `tools/auditor/audit-session.mjs` exists as a dependency-free session runner.
 - RIC-STUDIO-055A proved the allowed fixture returns `COMMIT_ALLOWED` and the blocked fixture returns `COMMIT_BLOCKED`.
@@ -25,11 +27,14 @@ Current baseline:
 
 Objective:
 
-- Reconcile operational documentation after RIC-STUDIO-056A reached Remote DONE.
-- Record the Remote DONE commit.
-- Record repository state as clean and synchronized with `origin/main`.
-- Remove stale REVIEW and commit/push-blocked language for RIC-STUDIO-056A.
-- Keep no active READY task.
+- Define how local auditor protocol violations should be represented separately from missing evidence before changing runtime behavior.
+- Clarify the difference between missing evidence and protocol findings.
+- Define expected structure and naming for protocol findings.
+- Define how allowed-file and blocked-file violations should be represented.
+- Define how protocol findings relate to `COMMIT_BLOCKED`.
+- Define human-readable report expectations.
+- Define future implementation boundaries for `tools/auditor/audit.mjs`.
+- Keep warning/partial-confidence future-only.
 
 ## Allowed files
 
@@ -40,7 +45,12 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in reconciliation
+## Future implementation candidate files
+
+- `docs/architecture/local-auditor-protocol-findings.md`
+- `docs/architecture/local-auditor-evidence-contract.md` only if a short cross-reference is necessary
+
+## Files changed in READY opening
 
 - `STATUS.md`
 - `backlog.md`
@@ -51,39 +61,34 @@ Objective:
 
 ## Blocked in this task
 
-Implementation, docs/architecture changes, docs/validation changes, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, new fixtures, Git automation, hooks, CI, push automation, dependency installation, package or lockfile changes, `node_modules`, runtime/model/Ollama changes, app/UI/backend changes, `.github` changes, opening another READY task, commit, and push.
+Implementation, creating `docs/architecture/local-auditor-protocol-findings.md` during READY opening, editing `docs/architecture/local-auditor-evidence-contract.md` during READY opening, docs/validation changes, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, new fixtures, Git automation, hooks, CI, push automation, dependency installation, package or lockfile changes, `node_modules`, runtime/model/Ollama changes, app/UI/backend changes, `.github` changes, opening another READY task besides RIC-STUDIO-057A, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-055A - Validate Local Audit Session Runner Against Real Commit Gate Evidence - Remote DONE at commit `27a39ea2e20e21fdc076e30b331a97059f2189ca`.
+RIC-STUDIO-056R - Operational state reconciliation after RIC-STUDIO-056A - Remote DONE at commit `eb1644517460c3aba1cdcf300d5acbac82511e43`.
 
 ## Current task result
 
-RIC-STUDIO-056A is Remote DONE at commit `e5fd0c7742c283e17dc84908e75e18a1fea90303`.
+RIC-STUDIO-057A is READY. No implementation has occurred.
 
 Execution results:
 
-- Created `docs/architecture/local-auditor-evidence-contract.md`.
-- Defined the evidence contract purpose and human decision-support boundary.
-- Documented required and optional evidence fields.
-- Clarified missing evidence vs protocol violations.
-- Documented expected `COMMIT_ALLOWED` and `COMMIT_BLOCKED` semantics.
-- Documented why push and Remote DONE remain blocked after `COMMIT_ALLOWED`.
-- Recorded warning/partial-confidence as future behavior only.
-- Recorded the privacy rule, dynamic timestamp caveat, 055A limitations, and future implementation candidates.
-- Did not edit the 055A validation note.
-- No auditor source, fixture, package, runtime, model, Ollama, app, UI, backend, or `.github` files were changed.
-- Remote DONE repository state is clean and synchronized with `origin/main`.
-- No active READY task is open.
+- Opened RIC-STUDIO-057A as a documentation/contract READY task.
+- Registered future candidate file `docs/architecture/local-auditor-protocol-findings.md` without creating it.
+- Registered optional future cross-reference in `docs/architecture/local-auditor-evidence-contract.md` without editing it.
+- No auditor source, fixture, package, runtime, model, Ollama, app, UI, backend, architecture, validation, or `.github` files were changed.
+- No READY task besides RIC-STUDIO-057A is open.
 
-Validation required before REVIEW:
+Validation required after READY opening:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
-- Confirm only authorized files changed.
+- Confirm only the six operational files changed.
+- Confirm `docs/architecture/local-auditor-protocol-findings.md` was not created.
+- Confirm `docs/architecture/local-auditor-evidence-contract.md` was not edited.
 - Confirm no `tools/auditor` source files changed.
 - Confirm no fixture files were created or edited.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, or `.github` change.

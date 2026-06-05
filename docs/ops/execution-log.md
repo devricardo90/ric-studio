@@ -2178,3 +2178,32 @@ Remote DONE reconciliation:
 - No active READY task is open after reconciliation.
 - No implementation, docs/architecture, docs/validation, tools/auditor, fixture, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, or `.github` change occurred during reconciliation.
 - No commit or push occurred during reconciliation.
+
+## RIC-STUDIO-057A - Define Protocol Findings Semantics For Local Auditor
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-057A to READY by explicit current request after Discussion Gate recommendation.
+- Confirmed RIC-STUDIO-056R is Remote DONE at commit `eb1644517460c3aba1cdcf300d5acbac82511e43`.
+- Repository state before READY opening was clean and synchronized with `origin/main` at `eb1644517460c3aba1cdcf300d5acbac82511e43`.
+- Scope of this update: READY opening only.
+- Objective: define how local auditor protocol violations should be represented separately from missing evidence before changing runtime behavior.
+- Focus areas: missing evidence vs protocol findings; protocol finding structure and naming; allowed-file and blocked-file violations; relation to `COMMIT_BLOCKED`; human-readable report expectations; future implementation boundaries for `tools/auditor/audit.mjs`; warning/partial-confidence remains future-only.
+- Allowed files for READY opening: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Future implementation candidate files: `docs/architecture/local-auditor-protocol-findings.md`; `docs/architecture/local-auditor-evidence-contract.md` only if a short cross-reference is necessary.
+- Blocked during READY opening: implementation, creating `docs/architecture/local-auditor-protocol-findings.md`, editing `docs/architecture/local-auditor-evidence-contract.md`, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, fixture changes, package changes, lockfile changes, `node_modules`, runtime/model/Ollama changes, app/UI/backend changes, `.github` changes, Git automation, hooks, CI, push automation, additional READY tasks, commit, and push.
+- No implementation, architecture document, architecture cross-reference, auditor source edit, fixture, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, `.github`, commit, or push action occurred during READY opening.
+
+Validation required after READY opening:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- Confirm only the six operational files changed.
+- Confirm `docs/architecture/local-auditor-protocol-findings.md` was not created.
+- Confirm `docs/architecture/local-auditor-evidence-contract.md` was not edited.
+- Confirm no `tools/auditor`, fixture, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, or `.github` change.

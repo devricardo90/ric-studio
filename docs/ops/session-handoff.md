@@ -2,36 +2,34 @@
 
 ## Current handoff state
 
-RIC-STUDIO-056A is Remote DONE: `Refine Local Auditor Evidence Contract After Realistic Validation`.
+RIC-STUDIO-057A is READY: `Define Protocol Findings Semantics For Local Auditor`.
 
-RIC-STUDIO-056A is Remote DONE at commit `e5fd0c7742c283e17dc84908e75e18a1fea90303`.
+RIC-STUDIO-056R is Remote DONE at commit `eb1644517460c3aba1cdcf300d5acbac82511e43`.
 
-Task mode: Operational state reconciled. No active READY task is open.
+Task mode: Documentation/contract READY task opened. No implementation has occurred.
 
 Current repository context:
 
-- Remote DONE repository state is clean and synchronized with `origin/main` at `e5fd0c7742c283e17dc84908e75e18a1fea90303`.
+- Repository was clean and synchronized with `origin/main` at `eb1644517460c3aba1cdcf300d5acbac82511e43` before READY opening.
 - Known non-blocking warning: Git may report permission warnings reading `C:\Users\ricardodev/.config/git/ignore`; this is not repository dirtiness when `git status` shows no changed files.
 - `tools/auditor/audit.mjs` exposes `evaluateEvidence(evidence)`.
 - `tools/auditor/audit-session.mjs` exists as a dependency-free session runner.
 - RIC-STUDIO-055A proved the allowed realistic fixture returns `COMMIT_ALLOWED` and the blocked realistic fixture returns `COMMIT_BLOCKED`.
 - RIC-STUDIO-055A did not create a warning fixture because the current evaluator has no warning decision path.
 
-Executed scope:
+Objective:
 
-- Created `docs/architecture/local-auditor-evidence-contract.md`.
-- Documented the evidence contract purpose and human decision-support boundary.
-- Documented required and optional evidence fields.
-- Clarified missing evidence vs protocol violations.
-- Defined expected `COMMIT_ALLOWED` and `COMMIT_BLOCKED` semantics.
-- Documented why push and Remote DONE remain blocked after `COMMIT_ALLOWED`.
-- Documented warning/partial-confidence as future behavior only.
-- Documented privacy rule, dynamic timestamp caveat, current limitations from RIC-STUDIO-055A, and future implementation candidates.
-- Did not update `docs/validation/local-auditor-real-commit-gate-validation-055a.md`; no follow-up note was necessary.
+- Define how local auditor protocol violations should be represented separately from missing evidence before changing runtime behavior.
+- Clarify missing evidence vs protocol findings.
+- Define expected protocol finding structure and naming.
+- Define allowed-file and blocked-file violation representation.
+- Define how protocol findings relate to `COMMIT_BLOCKED`.
+- Define human-readable report expectations.
+- Define future implementation boundaries for `tools/auditor/audit.mjs`.
+- Keep warning/partial-confidence future-only.
 
-Changed files:
+READY opening allowed files:
 
-- `docs/architecture/local-auditor-evidence-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -39,24 +37,33 @@ Changed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-Forbidden boundaries preserved:
+Future implementation candidate files:
 
-- No edit to `docs/validation/local-auditor-real-commit-gate-validation-055a.md`.
+- `docs/architecture/local-auditor-protocol-findings.md`.
+- `docs/architecture/local-auditor-evidence-contract.md` only if a short cross-reference is necessary.
+
+Forbidden boundaries for READY opening:
+
+- No implementation.
+- No creation of `docs/architecture/local-auditor-protocol-findings.md`.
+- No edit to `docs/architecture/local-auditor-evidence-contract.md`.
 - No edit to `tools/auditor/audit.mjs` or `tools/auditor/audit-session.mjs`.
 - No new fixtures.
 - No Git automation, hooks, CI, push automation, commit, or push.
 - No dependency installation, package change, lockfile change, or `node_modules`.
 - No runtime/model/Ollama, app/UI/backend, `.github`, deploy, or database change.
-- No new READY task.
+- No READY task besides RIC-STUDIO-057A.
 
-Validation required after reconciliation:
+Validation required after READY opening:
 
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
 - `git diff --name-only`.
 - `git diff --stat`.
 - `git diff --check`.
-- Confirm only authorized files changed.
+- Confirm only the six operational files changed.
+- Confirm `docs/architecture/local-auditor-protocol-findings.md` was not created.
+- Confirm `docs/architecture/local-auditor-evidence-contract.md` was not edited.
 - Confirm no `tools/auditor` source files changed.
 - Confirm no fixture files were created or edited.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, or `.github` change.
