@@ -1,0 +1,53 @@
+{
+  "task_id": "RIC-STUDIO-058A",
+  "requested_gate": "commit",
+  "expected_state_before_commit": "REVIEW",
+  "allowed_files": [
+    "package.json",
+    "tools/auditor/audit.mjs",
+    "tools/auditor/fixtures/protocol-findings-allowed-file-violation.json",
+    "tools/auditor/fixtures/protocol-findings-blocked-file-violation.json",
+    "docs/validation/local-auditor-protocol-findings-validation-058a.md",
+    "STATUS.md",
+    "backlog.md",
+    "docs/ops/status.md",
+    "docs/ops/backlog.md",
+    "docs/ops/execution-log.md",
+    "docs/ops/session-handoff.md"
+  ],
+  "blocked_files": [
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "yarn.lock",
+    "npm-shrinkwrap.json",
+    "node_modules",
+    "tools/auditor/audit-session.mjs",
+    ".github",
+    "runtime/ric-orchestrator/Modelfile",
+    "runtime/ric-architect/Modelfile"
+  ],
+  "blocked_actions": [
+    "push",
+    "remote_done",
+    "git_automation"
+  ],
+  "implementation_summary": "Evidence includes a changed path listed in blocked_files, so commit must remain blocked through a protocol finding.",
+  "git_status_short": " M package.json",
+  "git_status_sb": "## main...origin/main",
+  "git_diff_stat": " package.json | 1 +\n 1 file changed, 1 insertion(+)",
+  "git_diff_check": "No whitespace errors.",
+  "file_diffs": {
+    "package.json": "Raw diff present for blocked changed path."
+  },
+  "validation_commands": [
+    "node tools/auditor/audit.mjs tools/auditor/fixtures/protocol-findings-blocked-file-violation.json"
+  ],
+  "validation_outputs": {
+    "protocol_findings_blocked_file_violation": "COMMIT_BLOCKED"
+  },
+  "validation_interpretation": {
+    "overall": "pass",
+    "summary": "Validation evidence is present; the block is caused by the blocked changed path."
+  }
+}

@@ -90,10 +90,36 @@ function validationPassed(interpretation) {
   return typeof overall === "string" && overall.trim().toLowerCase() === "pass";
 }
 
-function findCommitAllowedMissingEvidence(evidence) {
+function makeProtocolFinding({ code, path, evidenceField, message }) {
+  return {
+    code,
+    severity: "blocker",
+    path,
+    evidence_field: evidenceField,
+    message,
+  };
+}
+
+function dedupeProtocolFindings(protocolFindings) {
+  const seen = new Set();
+
+  return protocolFindings.filter((finding) => {
+    const key = `${finding.code}:${finding.path || ""}:${finding.evidence_field || ""}`;
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
+function findCommitAllowedFindings(evidence) {
   const missingEvidence = COMMIT_ALLOWED_REQUIRED_FIELDS.filter((field) =>
     isMissingOrEmpty(evidence[field])
   );
+  const protocolFindings = [];
 
   if (evidence.requested_gate !== "commit") {
     missingEvidence.push("requested_gate_commit");
@@ -141,11 +167,25 @@ function findCommitAllowedMissingEvidence(evidence) {
 
     for (const changedPath of changedPaths) {
       if (!allowedFiles.has(changedPath)) {
-        missingEvidence.push(`allowed_file:${changedPath}`);
+        protocolFindings.push(
+          makeProtocolFinding({
+            code: "allowed_file_violation",
+            path: changedPath,
+            evidenceField: "git_status_short",
+            message: "Changed path is not listed in allowed_files.",
+          })
+        );
       }
 
       if (blockedFiles.has(changedPath)) {
-        missingEvidence.push(`blocked_file:${changedPath}`);
+        protocolFindings.push(
+          makeProtocolFinding({
+            code: "blocked_file_violation",
+            path: changedPath,
+            evidenceField: "git_status_short",
+            message: "Changed path is listed in blocked_files.",
+          })
+        );
       }
 
       if (
@@ -158,10 +198,13 @@ function findCommitAllowedMissingEvidence(evidence) {
     }
   }
 
-  return [...new Set(missingEvidence)];
+  return {
+    missingEvidence: [...new Set(missingEvidence)],
+    protocolFindings: dedupeProtocolFindings(protocolFindings),
+  };
 }
 
-function blockedDecision(evidence = {}, missingEvidence = []) {
+function blockedDecision(evidence = {}, missingEvidence = [], protocolFindings = []) {
   return {
     decision: "COMMIT_BLOCKED",
     task_id: typeof evidence.task_id === "string" && evidence.task_id.trim()
@@ -174,6 +217,7 @@ function blockedDecision(evidence = {}, missingEvidence = []) {
     result: "blocked",
     evidence_quality: "incomplete",
     missing_evidence: missingEvidence,
+    protocol_findings: protocolFindings,
     allowed_actions: [],
     blocked_actions: ["commit", "push", "remote_done"],
     human_review_required: true,
@@ -241,16 +285,33 @@ function evaluateLoadedEvidence(evidence, initialMissingEvidence = []) {
     evidence.expected_state_before_commit !== undefined ||
     evidence.validation_commands !== undefined ||
     evidence.allowed_files !== undefined;
-  const evaluatedMissingEvidence =
-    initialMissingEvidence.length > 0
-      ? initialMissingEvidence
-      : isCommitAllowedCandidate
-        ? findCommitAllowedMissingEvidence(evidence)
-        : REQUIRED_EVIDENCE_FIELDS.filter((field) => isMissingOrEmpty(evidence[field]));
+  const evaluatedFindings = (() => {
+    if (initialMissingEvidence.length > 0) {
+      return {
+        missingEvidence: initialMissingEvidence,
+        protocolFindings: [],
+      };
+    }
 
-  return isCommitAllowedCandidate && evaluatedMissingEvidence.length === 0
+    if (isCommitAllowedCandidate) {
+      return findCommitAllowedFindings(evidence);
+    }
+
+    return {
+      missingEvidence: REQUIRED_EVIDENCE_FIELDS.filter((field) => isMissingOrEmpty(evidence[field])),
+      protocolFindings: [],
+    };
+  })();
+
+  return isCommitAllowedCandidate &&
+    evaluatedFindings.missingEvidence.length === 0 &&
+    evaluatedFindings.protocolFindings.length === 0
     ? allowedDecision(evidence)
-    : blockedDecision(evidence, evaluatedMissingEvidence);
+    : blockedDecision(
+        evidence,
+        evaluatedFindings.missingEvidence,
+        evaluatedFindings.protocolFindings
+      );
 }
 
 export function evaluateEvidence(evidence) {

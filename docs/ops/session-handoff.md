@@ -2,39 +2,35 @@
 
 ## Current handoff state
 
-RIC-STUDIO-058A is READY: `Implement Protocol Findings In Local Auditor Evaluator`.
+RIC-STUDIO-058A is in REVIEW: `Implement Protocol Findings In Local Auditor Evaluator`.
 
-RIC-STUDIO-057R is Remote DONE at commit `92e5a37fb3ad64f3112524cab819030a57d2c71e`.
+RIC-STUDIO-058A READY opening is Remote DONE at commit `7afeb57ce8bd7d91865414712c7158b72cad46ba`.
 
-Task mode: READY opening only completed. Next step is implementation. Do not commit or push without an explicit gate.
+Task mode: Implementation completed. Stop in REVIEW after reporting evidence. Do not commit or push.
 
 Current repository context:
 
-- Repository was clean and synchronized with `origin/main` at `92e5a37fb3ad64f3112524cab819030a57d2c71e` before READY opening.
-- RIC-STUDIO-058A is the only READY task.
+- Repository was clean and synchronized with `origin/main` at `7afeb57ce8bd7d91865414712c7158b72cad46ba` before implementation.
+- No READY task is active after implementation.
 - Known non-blocking warning: Git may report permission warnings reading `C:\Users\ricardodev/.config/git/ignore`; this is not repository dirtiness when `git status` shows no changed files.
 - `tools/auditor/audit.mjs` exposes `evaluateEvidence(evidence)`.
 - `tools/auditor/audit-session.mjs` exists as a dependency-free session runner.
 - RIC-STUDIO-055A proved the allowed realistic fixture returns `COMMIT_ALLOWED` and the blocked realistic fixture returns `COMMIT_BLOCKED`.
 - RIC-STUDIO-055A did not create a warning fixture because the current evaluator has no warning decision path.
 
-RIC-STUDIO-058A objective:
+RIC-STUDIO-058A objective completed:
 
 - Update `tools/auditor/audit.mjs` so changed paths outside `allowed_files` and changed paths inside `blocked_files` are represented through structured `protocol_findings` instead of `missing_evidence`.
 - Preserve conservative `COMMIT_BLOCKED` behavior.
 - Preserve existing `COMMIT_ALLOWED` behavior.
 - Limit implementation to `allowed_file_violation` and `blocked_file_violation`.
 
-Future implementation candidate files:
+Files changed:
 
 - `tools/auditor/audit.mjs`
 - `tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`
 - `tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
 - `docs/validation/local-auditor-protocol-findings-validation-058a.md`
-- `docs/architecture/local-auditor-protocol-findings.md` only if a short implementation note is necessary
-
-RIC-STUDIO-058A READY opening changed files:
-
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -44,32 +40,33 @@ RIC-STUDIO-058A READY opening changed files:
 
 Forbidden boundaries preserved:
 
-- No implementation during READY opening.
-- No edit to `tools/auditor/audit.mjs` during READY opening.
+- No validation failure protocol findings.
+- No diff-check protocol findings.
+- No blocked-action protocol findings.
+- No warning or partial-confidence behavior.
 - No edit to `tools/auditor/audit-session.mjs`.
-- No fixture creation or edit during READY opening.
-- No docs/validation creation during READY opening.
-- No docs/architecture edit during READY opening.
+- No docs/architecture edit; no implementation note was necessary.
 - No Git automation, hooks, CI, push automation, commit, or push.
 - No dependency installation, package change, lockfile change, or `node_modules`.
 - No runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change.
-- No READY task besides RIC-STUDIO-058A.
-- Validation failure semantics, diff-check failure semantics, warning behavior, partial-confidence behavior, automation, and `audit-session.mjs` changes remain out of scope.
+- No model integration or unattended decisions.
+- No new READY task.
 
-Validation required after READY opening:
+Validation required before REVIEW:
 
 - `git status --short --untracked-files=all`.
 - `git status -sb`.
 - `git diff --name-only`.
 - `git diff --stat`.
 - `git diff --check`.
-- Confirm only the six operational files changed.
-- Confirm no `tools/auditor` files changed.
-- Confirm no fixture files changed.
-- Confirm no docs/validation file was created.
-- Confirm no docs/architecture file changed.
+- Run existing allowed fixture and confirm `COMMIT_ALLOWED`.
+- Run existing blocked fixture and confirm `COMMIT_BLOCKED`.
+- Run allowed-file violation fixture and confirm `allowed_file_violation` protocol finding with no `allowed_file:<path>` missing evidence.
+- Run blocked-file violation fixture and confirm `blocked_file_violation` protocol finding with no `blocked_file:<path>` missing evidence.
+- Confirm only authorized files changed.
+- Confirm `tools/auditor/audit-session.mjs` unchanged.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change.
-- Confirm RIC-STUDIO-058A is the only READY task.
+- Confirm no new READY task.
 
 Historical validation reference from earlier auditor package setup:
 

@@ -2239,7 +2239,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-058A - Implement Protocol Findings In Local Auditor Evaluator
 
-State: READY
+State: REVIEW
 
 Summary:
 
@@ -2269,3 +2269,28 @@ Validation required after READY opening:
 - Confirm no docs/architecture file changed.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` changes.
 - Confirm RIC-STUDIO-058A is the only READY task.
+
+Implementation:
+
+- Confirmed clean synchronized baseline at `HEAD == origin/main == 7afeb57ce8bd7d91865414712c7158b72cad46ba` before implementation.
+- Updated `tools/auditor/audit.mjs` so changed paths outside `allowed_files` are represented as structured `allowed_file_violation` protocol findings instead of `missing_evidence` entries like `allowed_file:<path>`.
+- Updated `tools/auditor/audit.mjs` so changed paths inside `blocked_files` are represented as structured `blocked_file_violation` protocol findings instead of `missing_evidence` entries like `blocked_file:<path>`.
+- Preserved `COMMIT_ALLOWED` behavior for `tools/auditor/fixtures/commit-allowed-evidence.json` and `tools/auditor/fixtures/realistic-commit-allowed-evidence.json`.
+- Preserved conservative `COMMIT_BLOCKED` behavior for `tools/auditor/fixtures/realistic-commit-blocked-evidence.json`.
+- Added `tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`.
+- Added `tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`.
+- Added `docs/validation/local-auditor-protocol-findings-validation-058a.md`.
+- Did not edit `tools/auditor/audit-session.mjs`.
+- Did not edit `docs/architecture/local-auditor-protocol-findings.md`; no implementation note was necessary.
+- No validation failure protocol findings, diff-check protocol findings, blocked-action protocol findings, warning behavior, partial-confidence behavior, automation, model integration, or unattended decisions were added.
+- No package, lockfile, dependency installation, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hooks, CI, push automation, new READY task, commit, or push occurred.
+
+Validation completed:
+
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/commit-allowed-evidence.json`: `COMMIT_ALLOWED`, empty `missing_evidence`, empty `protocol_findings`.
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/realistic-commit-allowed-evidence.json`: `COMMIT_ALLOWED`, empty `missing_evidence`, empty `protocol_findings`.
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/realistic-commit-blocked-evidence.json`: `COMMIT_BLOCKED`, empty `missing_evidence`, protocol findings include `allowed_file_violation` and `blocked_file_violation` for `tools/auditor/audit-session.mjs`.
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`: `COMMIT_BLOCKED`, protocol findings include `allowed_file_violation` for `docs/unauthorized-protocol-finding.md`, and `missing_evidence` does not include `allowed_file:docs/unauthorized-protocol-finding.md`.
+- `node tools/auditor/audit.mjs tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`: `COMMIT_BLOCKED`, protocol findings include `blocked_file_violation` for `package.json`, and `missing_evidence` does not include `blocked_file:package.json`.
+- `git diff --check`: PASS.
+- RIC-STUDIO-058A stopped in REVIEW.
