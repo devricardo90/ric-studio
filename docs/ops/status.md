@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Task
 
-RIC-STUDIO-054A - Implement Dependency-Free Local Audit Session Runner
+RIC-STUDIO-055A - Validate Local Audit Session Runner Against Real Commit Gate Evidence
 
 ## Product mode
 
@@ -35,22 +35,52 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-054A is in REVIEW. Implementation of the session runner in `tools/auditor/audit-session.mjs` is complete and validated.
+RIC-STUDIO-055A is READY. This is a controlled validation/documentation task for the existing local audit session runner.
 
-Authorized scope for 054A:
+Current baseline:
 
-- Implement `tools/auditor/audit-session.mjs` (JS ESM, dependency-free).
-- Session assembly and report generation in structured JSON.
-- Handle technical errors (exit code 1) vs audit decisions (exit code 0).
-- Privacy-first report (no raw evidence dump).
+- RIC-STUDIO-054A is Remote DONE at commit `4f84b367be6cd883b0b3946fc822fe9e4ec21ba1`.
+- Repository was clean and synchronized with `origin/main` at `4f84b367be6cd883b0b3946fc822fe9e4ec21ba1` before READY opening.
+- `tools/auditor/audit.mjs` exports `evaluateEvidence(evidence)`.
+- `tools/auditor/audit-session.mjs` exists and is dependency-free.
 
-## REVIEW note
+Authorized objective for 055A:
 
-RIC-STUDIO-054A reached REVIEW.
-Implementation and smoke tests (positive, blocked, error) completed successfully.
-Worktree contains only the authorized files.
+- Use existing auditor tooling only.
+- Create or reuse realistic evidence fixtures based on real Commit Gate scenarios.
+- Validate whether `audit-session.mjs` produces useful structured JSON for human decision-making.
+- Document results, limitations, false positives, false negatives, and next-step recommendations.
+
+Authorized implementation files for 055A after separate execution approval:
+
+- `docs/validation/local-auditor-real-commit-gate-validation-055a.md`
+- `tools/auditor/fixtures/realistic-commit-allowed-evidence.json`
+- `tools/auditor/fixtures/realistic-commit-blocked-evidence.json`
+- `tools/auditor/fixtures/realistic-commit-warning-evidence.json` only if needed
+
+Blocked:
+
+- No implementation during READY opening.
+- No Git automation, hooks, CI, push automation, commit, or push.
+- No dependency installation, package change, lockfile change, or `node_modules`.
+- No runtime/model/Ollama, app/UI/backend, `.github`, deploy, or database change.
+- No edit to `tools/auditor/audit-session.mjs` or `tools/auditor/audit.mjs`.
+- No additional READY task.
+
+Validation required after READY opening:
+
+- `git status --short --untracked-files=all`
+- `git status -sb`
+- `git diff --name-only`
+- `git diff --stat`
+- `git diff --check`
+- Confirm only the six authorized operational files changed.
+- Confirm no validation document or realistic fixture file was created.
+- Confirm no package, lockfile, `node_modules`, app/UI/backend/runtime/model/Ollama change.
 
 ## Previous task result
+
+RIC-STUDIO-054A is Remote DONE at commit `4f84b367be6cd883b0b3946fc822fe9e4ec21ba1`.
 
 RIC-STUDIO-053A is Remote DONE at commit `840375a`.
 
