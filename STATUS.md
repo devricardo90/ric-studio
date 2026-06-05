@@ -2,29 +2,29 @@
 
 ## Current state
 
-Discussion Gate
+READY
 
 ## Active task
 
-No active task.
+RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner
 
 ## Scope
 
-RIC-STUDIO-058R - Operational state reconciliation after RIC-STUDIO-058A.
+RIC-STUDIO-SPRINT-059 - Local Audit Session Protocol Findings Validation.
 
-Operational documentation reconciliation only. RIC-STUDIO-058A is Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
+READY opening only for a validation/documentation-only task.
 
 Current baseline:
 
+- RIC-STUDIO-058R is Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
 - RIC-STUDIO-058A is Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
-- Repository is clean and synchronized with `origin/main` at `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
+- Repository was clean and synchronized with `origin/main` at `f9a3f80301decc5064556d904f854893c94b818f` before READY opening.
 - RIC-STUDIO-058A READY opening is Remote DONE at commit `7afeb57ce8bd7d91865414712c7158b72cad46ba`.
 - RIC-STUDIO-057R is Remote DONE at commit `92e5a37fb3ad64f3112524cab819030a57d2c71e`.
 - RIC-STUDIO-057A is Remote DONE at commit `eab6d38dd7e49edcbc7ba28d210471125ece5562`.
 - RIC-STUDIO-056A is Remote DONE at commit `e5fd0c7742c283e17dc84908e75e18a1fea90303`.
 - RIC-STUDIO-056R is Remote DONE at commit `eb1644517460c3aba1cdcf300d5acbac82511e43`.
-- No READY task is active after reconciliation.
-- RIC-STUDIO-059A has not been opened.
+- No READY task was active before opening RIC-STUDIO-059A.
 - `tools/auditor/audit.mjs` exports `evaluateEvidence(evidence)`.
 - `tools/auditor/audit-session.mjs` exists as a dependency-free session runner.
 - RIC-STUDIO-055A proved the allowed fixture returns `COMMIT_ALLOWED` and the blocked fixture returns `COMMIT_BLOCKED`.
@@ -32,12 +32,11 @@ Current baseline:
 
 Objective:
 
-- Reconcile operational documentation so RIC-STUDIO-058A is recorded as Remote DONE.
-- Record commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
-- Record repository state as clean and synchronized with `origin/main`.
-- Correct stale REVIEW and commit/push-blocked language for RIC-STUDIO-058A.
-- Keep no active READY task.
-- Do not open RIC-STUDIO-059A or any new READY task.
+- Open RIC-STUDIO-059A as READY.
+- Validate whether `tools/auditor/audit-session.mjs` preserves, surfaces, and reports `protocol_findings` from the evaluator when run through the full session runner path.
+- Document whether protocol findings are visible in session reports.
+- If the session runner omits `protocol_findings`, document that as a validation finding.
+- Do not fix session runner behavior in RIC-STUDIO-059A.
 
 ## Allowed files
 
@@ -59,15 +58,15 @@ Objective:
 
 ## Blocked in this task
 
-Implementation changes, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, fixture changes, docs/validation changes, docs/architecture changes, package changes, lockfile changes, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI, opening RIC-STUDIO-059A or any READY task, commit, and push.
+During READY opening: implementation changes, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, fixture changes, docs/validation creation, docs/architecture changes, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, any READY task besides RIC-STUDIO-059A, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-058A - Implement Protocol Findings In Local Auditor Evaluator - Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
+RIC-STUDIO-058R - Operational state reconciliation after RIC-STUDIO-058A - Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
 
 ## Current task result
 
-RIC-STUDIO-058A is Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
+RIC-STUDIO-059A is READY.
 
 Execution results:
 
@@ -85,22 +84,32 @@ Execution results:
 - Repository is clean and synchronized with `origin/main` at `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
 - Stale REVIEW and commit/push-blocked language for RIC-STUDIO-058A was corrected.
 - No READY task is active.
-- RIC-STUDIO-059A has not been opened.
+- No successor READY task was opened during RIC-STUDIO-058R reconciliation.
+- Promoted RIC-STUDIO-059A to READY by explicit current request.
+- Future validation candidate file: `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`.
+- Future validation should use existing fixtures only; fixture edits are not authorized.
+- Expected future validation commands:
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/realistic-commit-blocked-evidence.json`
+- No implementation, auditor source edit, fixture edit, docs/validation creation, docs/architecture edit, package, lockfile, dependency installation, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push occurred during READY opening.
+- RIC-STUDIO-059A is the only READY task.
 
-Validation required for reconciliation:
+Validation required after READY opening:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
-- `git rev-parse HEAD`
-- `git rev-parse origin/main`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
 - Confirm only the six operational files changed.
-- Confirm RIC-STUDIO-058A is Remote DONE at `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
-- Confirm no READY task is active.
-- Confirm RIC-STUDIO-059A was not opened.
-- Confirm no docs/architecture, docs/validation, `tools/auditor`, fixture, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change.
+- Confirm no `tools/auditor` files changed.
+- Confirm no fixture files changed.
+- Confirm no docs/validation file was created.
+- Confirm no docs/architecture file changed.
+- Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change.
+- Confirm RIC-STUDIO-059A is the only READY task.
 
 ## Gate status
 

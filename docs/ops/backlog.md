@@ -35,7 +35,7 @@
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner. READY - validation/documentation only; no runtime code changes.
 
 ## IN_PROGRESS
 
@@ -92,6 +92,7 @@ No task is Local DONE.
 - RIC-STUDIO-057A - Define Protocol Findings Semantics For Local Auditor. Remote DONE at commit `eab6d38dd7e49edcbc7ba28d210471125ece5562`.
 - RIC-STUDIO-057R - Reconcile RIC-STUDIO-057A Operational State. Remote DONE at commit `92e5a37fb3ad64f3112524cab819030a57d2c71e`.
 - RIC-STUDIO-058A - Implement Protocol Findings In Local Auditor Evaluator. Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
+- RIC-STUDIO-058R - Reconcile RIC-STUDIO-058A Operational State. Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
 
 ## Discussion Gate
 
@@ -99,7 +100,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Discuss and scope the next task after RIC-STUDIO-058A. RIC-STUDIO-059A has not been opened and no READY task is active.
+Validate RIC-STUDIO-059A through the audit session runner. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

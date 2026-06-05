@@ -2301,6 +2301,44 @@ Remote DONE reconciliation:
 - Remote DONE repository state is clean and synchronized with `origin/main` at `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
 - Stale REVIEW and commit/push-blocked language for RIC-STUDIO-058A was corrected in operational docs.
 - No active READY task is open after reconciliation.
-- RIC-STUDIO-059A was not opened.
+- No successor READY task was opened during RIC-STUDIO-058R reconciliation.
 - No implementation, docs/architecture, docs/validation, `tools/auditor`, fixture, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change occurred during reconciliation.
 - No Git automation, hooks, CI, commit, or push occurred during reconciliation.
+
+## RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-059A to READY by explicit current request after Discussion Gate recommendation.
+- Confirmed RIC-STUDIO-058R is Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
+- Repository state before READY opening was clean and synchronized with `origin/main` at `f9a3f80301decc5064556d904f854893c94b818f`.
+- Objective: validate whether `tools/auditor/audit-session.mjs` preserves, surfaces, and reports `protocol_findings` from the evaluator when run through the full session runner path.
+- Purpose: document whether protocol findings are visible in session reports. If the session runner omits `protocol_findings`, document that as a validation finding.
+- No session runner fix is authorized in RIC-STUDIO-059A.
+- READY opening allowed files: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Future validation candidate file: `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`.
+- Existing fixtures for future validation only: `tools/auditor/fixtures/commit-allowed-evidence.json`, `tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`, `tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`, and `tools/auditor/fixtures/realistic-commit-blocked-evidence.json`.
+- Expected future validation commands:
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
+  - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/realistic-commit-blocked-evidence.json`
+- Blocked during READY opening: implementation, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, fixture changes, docs/validation creation, docs/architecture changes, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, any READY task besides RIC-STUDIO-059A, commit, and push.
+- No implementation, auditor source edit, fixture edit, docs/validation creation, docs/architecture edit, package, lockfile, dependency installation, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push occurred during READY opening.
+
+Validation required after READY opening:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- Confirm only the six operational files changed.
+- Confirm no `tools/auditor` files changed.
+- Confirm no fixture files changed.
+- Confirm no docs/validation file was created.
+- Confirm no docs/architecture file changed.
+- Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` changes.
+- Confirm RIC-STUDIO-059A is the only READY task.
