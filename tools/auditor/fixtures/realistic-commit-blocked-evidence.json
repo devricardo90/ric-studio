@@ -1,0 +1,73 @@
+{
+  "task_id": "RIC-STUDIO-055A",
+  "requested_gate": "commit",
+  "expected_state_before_commit": "REVIEW",
+  "allowed_files": [
+    "docs/validation/local-auditor-real-commit-gate-validation-055a.md",
+    "tools/auditor/fixtures/realistic-commit-allowed-evidence.json",
+    "tools/auditor/fixtures/realistic-commit-blocked-evidence.json",
+    "STATUS.md",
+    "backlog.md",
+    "docs/ops/status.md",
+    "docs/ops/backlog.md",
+    "docs/ops/execution-log.md",
+    "docs/ops/session-handoff.md"
+  ],
+  "blocked_files": [
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "yarn.lock",
+    "npm-shrinkwrap.json",
+    "node_modules",
+    "tools/auditor/node_modules",
+    "tools/auditor/audit-session.mjs",
+    "tools/auditor/audit.mjs",
+    ".github",
+    "runtime/ric-orchestrator/Modelfile",
+    "runtime/ric-architect/Modelfile"
+  ],
+  "blocked_actions": [
+    "push",
+    "remote_done",
+    "git_automation",
+    "dependency_install",
+    "runtime_change"
+  ],
+  "implementation_summary": "Attempted Commit Gate evidence includes an unauthorized auditor source edit, so commit must remain blocked even though validation output is otherwise present.",
+  "git_status_short": " M tools/auditor/audit-session.mjs\n?? docs/validation/local-auditor-real-commit-gate-validation-055a.md\n?? tools/auditor/fixtures/realistic-commit-allowed-evidence.json\n?? tools/auditor/fixtures/realistic-commit-blocked-evidence.json\n M STATUS.md\n M backlog.md\n M docs/ops/status.md\n M docs/ops/backlog.md\n M docs/ops/execution-log.md\n M docs/ops/session-handoff.md",
+  "git_status_sb": "## main...origin/main",
+  "git_diff_stat": " tools/auditor/audit-session.mjs                                  | unauthorized source edit\n docs/validation/local-auditor-real-commit-gate-validation-055a.md | new validation documentation\n tools/auditor/fixtures/realistic-commit-allowed-evidence.json      | new positive evidence fixture\n tools/auditor/fixtures/realistic-commit-blocked-evidence.json      | new blocked evidence fixture\n STATUS.md                                                        | operational state update\n backlog.md                                                       | backlog state update\n docs/ops/status.md                                               | operations status update\n docs/ops/backlog.md                                              | operations backlog update\n docs/ops/execution-log.md                                        | execution log update\n docs/ops/session-handoff.md                                      | session handoff update",
+  "git_diff_check": "No whitespace errors.",
+  "file_diffs": {
+    "tools/auditor/audit-session.mjs": "Unauthorized source edit present in the evidence and must block commit.",
+    "docs/validation/local-auditor-real-commit-gate-validation-055a.md": "New validation note records command outputs, expected and actual decisions, usefulness, limitations, false positives, false negatives, and next recommendation.",
+    "tools/auditor/fixtures/realistic-commit-allowed-evidence.json": "New realistic positive Commit Gate evidence fixture expected to produce COMMIT_ALLOWED.",
+    "tools/auditor/fixtures/realistic-commit-blocked-evidence.json": "New realistic blocked Commit Gate evidence fixture expected to produce COMMIT_BLOCKED.",
+    "STATUS.md": "Operational state updated from READY to REVIEW for RIC-STUDIO-055A after validation.",
+    "backlog.md": "Backlog updated for RIC-STUDIO-055A REVIEW.",
+    "docs/ops/status.md": "Operations status updated for RIC-STUDIO-055A REVIEW.",
+    "docs/ops/backlog.md": "Operations backlog updated for RIC-STUDIO-055A REVIEW.",
+    "docs/ops/execution-log.md": "Execution log updated with RIC-STUDIO-055A validation summary.",
+    "docs/ops/session-handoff.md": "Session handoff updated for RIC-STUDIO-055A REVIEW."
+  },
+  "validation_commands": [
+    "node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/realistic-commit-allowed-evidence.json",
+    "node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/realistic-commit-blocked-evidence.json",
+    "git status --short --untracked-files=all",
+    "git status -sb",
+    "git diff --name-only",
+    "git diff --stat",
+    "git diff --check"
+  ],
+  "validation_outputs": {
+    "realistic_commit_allowed_fixture": "COMMIT_ALLOWED",
+    "realistic_commit_blocked_fixture": "COMMIT_BLOCKED",
+    "unauthorized_source_edit": "present_in_evidence",
+    "diff_check": "pass"
+  },
+  "validation_interpretation": {
+    "overall": "pass",
+    "summary": "Validation commands are present, but the evidence includes a changed path outside allowed_files and inside blocked_files, so the deterministic evaluator should block commit."
+  }
+}
