@@ -2,11 +2,11 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Task
 
-RIC-STUDIO-055A - Validate Local Audit Session Runner Against Real Commit Gate Evidence
+RIC-STUDIO-056A - Refine Local Auditor Evidence Contract After Realistic Validation
 
 ## Product mode
 
@@ -35,27 +35,28 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-055A is in REVIEW after validating the existing local audit session runner against realistic Commit Gate evidence.
+RIC-STUDIO-056A is READY. This is a documentation/contract refinement task; implementation has not started.
 
 Current baseline:
 
-- RIC-STUDIO-055A READY opening is Remote DONE at commit `3647890c22b7f2079441b75bedf74612bc1335fb`.
-- Repository was clean and synchronized with `origin/main` at `3647890c22b7f2079441b75bedf74612bc1335fb` before implementation.
+- RIC-STUDIO-055A is Remote DONE at commit `27a39ea2e20e21fdc076e30b331a97059f2189ca`.
+- Repository was clean and synchronized with `origin/main` at `27a39ea2e20e21fdc076e30b331a97059f2189ca` before READY opening.
 - `tools/auditor/audit.mjs` exports `evaluateEvidence(evidence)`.
 - `tools/auditor/audit-session.mjs` exists and is dependency-free.
+- RIC-STUDIO-055A proved the allowed realistic fixture returns `COMMIT_ALLOWED` and the blocked realistic fixture returns `COMMIT_BLOCKED`.
+- RIC-STUDIO-055A did not create a warning fixture because the current evaluator has no warning decision path.
 
-Executed objective for 055A:
+Authorized objective for 056A:
 
-- Use existing auditor tooling only.
-- Created realistic allowed and blocked Commit Gate evidence fixtures.
-- Validated whether `audit-session.mjs` produces useful structured JSON for human decision-making.
-- Documented results, limitations, false positives, false negatives, and next-step recommendations.
+- Refine the local auditor evidence input contract and expected decision semantics based on RIC-STUDIO-055A, without changing runtime behavior.
+- Clarify required vs optional evidence fields.
+- Clarify the difference between missing evidence and protocol violations.
+- Clarify expected semantics for `COMMIT_ALLOWED` and `COMMIT_BLOCKED`.
+- Treat warning/partial-confidence as future behavior only, not implementation now.
+- Preserve human decision-support boundaries.
 
-Changed files:
+Allowed files for READY opening:
 
-- `docs/validation/local-auditor-real-commit-gate-validation-055a.md`
-- `tools/auditor/fixtures/realistic-commit-allowed-evidence.json`
-- `tools/auditor/fixtures/realistic-commit-blocked-evidence.json`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -63,11 +64,17 @@ Changed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-Validation result:
+Future implementation candidate files:
 
-- Allowed fixture expected `COMMIT_ALLOWED` and returned `COMMIT_ALLOWED`.
-- Blocked fixture expected `COMMIT_BLOCKED` and returned `COMMIT_BLOCKED`.
-- Warning fixture was not created because the current evaluator has no warning decision path.
+- `docs/architecture/local-auditor-evidence-contract.md`
+- `docs/validation/local-auditor-real-commit-gate-validation-055a.md` only if a short follow-up note is necessary
+
+READY opening result:
+
+- No implementation was performed.
+- No contract document was created.
+- No 055A validation note was edited.
+- No auditor source, fixture, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, or `.github` files were changed.
 
 Blocked:
 
@@ -75,21 +82,27 @@ Blocked:
 - No dependency installation, package change, lockfile change, or `node_modules`.
 - No runtime/model/Ollama, app/UI/backend, `.github`, deploy, or database change.
 - No edit to `tools/auditor/audit-session.mjs` or `tools/auditor/audit.mjs`.
+- No implementation during READY opening.
+- No creation of `docs/architecture/local-auditor-evidence-contract.md` during READY opening.
+- No edit to `docs/validation/local-auditor-real-commit-gate-validation-055a.md` during READY opening.
+- No new fixtures.
 - No additional READY task.
 
-Validation required before REVIEW:
+Validation required after READY opening:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
-- Session runner command for allowed fixture.
-- Session runner command for blocked fixture.
-- Confirm only authorized files changed.
-- Confirm no package, lockfile, `node_modules`, auditor source, app/UI/backend/runtime/model/Ollama, or `.github` change.
+- Confirm only the six operational files changed.
+- Confirm `docs/architecture/local-auditor-evidence-contract.md` was not created.
+- Confirm `docs/validation/local-auditor-real-commit-gate-validation-055a.md` was not edited.
+- Confirm no `tools/auditor`, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, or `.github` change.
 
 ## Previous task result
+
+RIC-STUDIO-055A is Remote DONE at commit `27a39ea2e20e21fdc076e30b331a97059f2189ca`.
 
 RIC-STUDIO-054A is Remote DONE at commit `4f84b367be6cd883b0b3946fc822fe9e4ec21ba1`.
 

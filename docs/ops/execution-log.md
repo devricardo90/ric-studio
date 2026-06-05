@@ -2129,3 +2129,32 @@ Implementation:
 - Updated operational docs to place RIC-STUDIO-055A in REVIEW after validation.
 - No edit to `tools/auditor/audit-session.mjs` or `tools/auditor/audit.mjs`.
 - No Git automation, hooks, CI, push automation, dependency installation, package change, lockfile change, `node_modules`, runtime/model/Ollama change, app/UI/backend change, `.github` change, additional READY task, commit, or push occurred.
+
+## RIC-STUDIO-056A - Refine Local Auditor Evidence Contract After Realistic Validation
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-056A to READY by explicit current request after Post RIC-STUDIO-055A Discussion Gate recommendation.
+- Confirmed RIC-STUDIO-055A is Remote DONE at commit `27a39ea2e20e21fdc076e30b331a97059f2189ca`.
+- Repository state before READY opening was clean and synchronized with `origin/main` at `27a39ea2e20e21fdc076e30b331a97059f2189ca`.
+- Scope of this update: READY opening only.
+- Objective: refine the local auditor evidence input contract and expected decision semantics based on RIC-STUDIO-055A, without changing runtime behavior.
+- Focus areas: required vs optional evidence fields; missing evidence vs protocol violations; expected semantics for `COMMIT_ALLOWED` and `COMMIT_BLOCKED`; warning/partial-confidence as future behavior only; human decision-support boundaries.
+- Allowed files for READY opening: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Future implementation candidate files: `docs/architecture/local-auditor-evidence-contract.md`; `docs/validation/local-auditor-real-commit-gate-validation-055a.md` only if a short follow-up note is necessary.
+- Blocked during READY opening: implementation, creating `docs/architecture/local-auditor-evidence-contract.md`, editing `docs/validation/local-auditor-real-commit-gate-validation-055a.md`, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, new fixtures, Git automation, hooks, CI, push automation, dependency installation, package changes, lockfile changes, `node_modules`, runtime/model/Ollama changes, app/UI/backend changes, `.github` changes, additional READY tasks, commit, and push.
+- No implementation, contract document, validation-note edit, auditor source edit, fixture, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, `.github`, commit, or push action occurred during READY opening.
+
+Validation required after READY opening:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- Confirm only the six operational files changed.
+- Confirm `docs/architecture/local-auditor-evidence-contract.md` was not created.
+- Confirm `docs/validation/local-auditor-real-commit-gate-validation-055a.md` was not edited.
+- Confirm no `tools/auditor`, package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend, or `.github` change.
