@@ -2,54 +2,34 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation
+RIC-STUDIO-063A - Document Local Auditor Validation Usage
 
 ## Scope
 
-RIC-STUDIO-SPRINT-062 - Audit Session Contract Validation.
-
-Dependency-free local validation task executed. Audit runtime behavior and evaluator logic were not modified.
+RIC-STUDIO-063A - Document Local Auditor Validation Usage. READY - documentation-only task to explain when and how to run local auditor validation commands, including node tools/auditor/validate-session-contract.mjs, before audit session report contract changes; no validator, audit runtime, evaluator, fixture, package, dependency, CI, runtime, app, commit, or push changes during READY promotion.
 
 Current baseline:
 
+- RIC-STUDIO-062A is in REVIEW.
+- RIC-STUDIO-062A added a minimal dependency-free validation path that verifies `tools/auditor/audit-session.mjs` emits the required structured report fields from `docs/architecture/local-auditor-session-contract.md`.
 - RIC-STUDIO-061A is Remote DONE at commit `a103728`.
 - RIC-STUDIO-061A defined the audit session report contract in `docs/architecture/local-auditor-session-contract.md`.
 - RIC-STUDIO-060A is Remote DONE at commit `6102050`.
 - RIC-STUDIO-060A fixed `tools/auditor/audit-session.mjs` so the structured session report now surfaces `protocol_findings`.
-- The current risk is future contract drift: report fields may be removed, renamed, or silently omitted without validation.
-- Discussion Gate recommended a minimal dependency-free validation follow-up before broader harness work.
-- RIC-STUDIO-059A is Remote DONE at commit `6516cbf`.
-- RIC-STUDIO-059A documented that `evaluateEvidence` preserves `protocol_findings`.
-- RIC-STUDIO-059A proved that `tools/auditor/audit-session.mjs` does not surface `protocol_findings` in the session report.
-- Repository was clean and synchronized with `origin/main` at `610205084a672e91ffdd208239d8421a16efe9d3` before READY promotion.
-- RIC-STUDIO-058R is Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
-- RIC-STUDIO-058A is Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
-- Repository was clean and synchronized with `origin/main` at `f9a3f80301decc5064556d904f854893c94b818f` before READY opening.
-- RIC-STUDIO-058A READY opening is Remote DONE at commit `7afeb57ce8bd7d91865414712c7158b72cad46ba`.
-- RIC-STUDIO-057R is Remote DONE at commit `92e5a37fb3ad64f3112524cab819030a57d2c71e`.
-- RIC-STUDIO-057A is Remote DONE at commit `eab6d38dd7e49edcbc7ba28d210471125ece5562`.
-- RIC-STUDIO-056A is Remote DONE at commit `e5fd0c7742c283e17dc84908e75e18a1fea90303`.
-- RIC-STUDIO-056R is Remote DONE at commit `eb1644517460c3aba1cdcf300d5acbac82511e43`.
-- No READY task was active before opening RIC-STUDIO-059A.
-- `tools/auditor/audit.mjs` exports `evaluateEvidence(evidence)`.
-- `tools/auditor/audit-session.mjs` exists as a dependency-free session runner.
-- RIC-STUDIO-055A proved the allowed fixture returns `COMMIT_ALLOWED` and the blocked fixture returns `COMMIT_BLOCKED`.
-- No warning fixture was created in 055A because the current evaluator has no warning decision path.
+- Repository was clean and synchronized with `origin/main` before 063A READY promotion.
 
 Objective:
 
-- Add a minimal dependency-free validation path that verifies `tools/auditor/audit-session.mjs` emits the required structured report fields from `docs/architecture/local-auditor-session-contract.md`.
-- Explicitly check `protocol_findings` in allowed and blocked outputs.
-- Stop in REVIEW after implementation and validation.
+- Document local auditor validation usage in operational and status files.
+- Explain when and how to run local auditor validation commands.
+- Stop in REVIEW after documentation updates.
 
 ## Allowed files
 
-- `tools/auditor/validate-session-contract.mjs`
-- `docs/validation/local-auditor-session-contract-validation-062a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -59,39 +39,16 @@ Objective:
 
 ## Files changed in implementation
 
-- `tools/auditor/validate-session-contract.mjs`
-- `docs/validation/local-auditor-session-contract-validation-062a.md`
-- `STATUS.md`
-- `backlog.md`
-- `docs/ops/status.md`
-- `docs/ops/backlog.md`
-- `docs/ops/execution-log.md`
-- `docs/ops/session-handoff.md`
+None.
 
 ## Blocked in this task
 
-Editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, fixture changes, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI/CD, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, commit, and push.
+Editing `tools/auditor/README.md`, `docs/architecture/local-auditor-session-contract.md`, `docs/validation/local-auditor-session-contract-validation-062a.md`, `tools/auditor/validate-session-contract.mjs`, `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, fixtures, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-061A - Define Audit Session Report Contract - Remote DONE at commit `a103728`.
+RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation - in REVIEW.
 
-## Current task result
-
-RIC-STUDIO-062A is in REVIEW.
-
-Execution results:
-
-- Confirmed repository was clean and synchronized with `origin/main` at `1766a94faa8aa7b7eadba99c491412d58eebcc3a` before implementation.
-- Added `tools/auditor/validate-session-contract.mjs`.
-- Added `docs/validation/local-auditor-session-contract-validation-062a.md`.
-- The validator runs the existing audit session runner against existing allowed and blocked protocol-finding fixtures, parses JSON output, and checks the required completed report fields.
-- The validator explicitly checks `protocol_findings` is present as `[]` for the allowed fixture and populated for the blocked protocol-finding fixture.
-- Stopped in REVIEW after implementation and validation.
-- Did not edit `tools/auditor/audit-session.mjs`.
-- Did not edit `tools/auditor/audit.mjs`.
-- Did not edit fixtures.
-- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, Git automation, commit, or push action occurred.
 
 RIC-STUDIO-059A result:
 

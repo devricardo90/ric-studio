@@ -17,82 +17,10 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 
-## REJECTED / REVIEW CLOSED
-
-- RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns
-- RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator
-- RIC-STUDIO-011B - Benchmark Qwen3 14B With Thinking Suppressed And Short Operational Template
-
-## Local DONE
-
-No task is Local DONE.
-
-## Remote DONE
-
-- RIC-STUDIO-001 - Define Local MVP Scope and Agent Roles
-- RIC-STUDIO-002 - Validate Local Orchestrator Workflow With Controlled Smoke Tests
-- RIC-STUDIO-003A - Execute Local Orchestrator Smoke Tests Batch 1
-- RIC-STUDIO-003B - Diagnose Commit-Allow Overblocking
-- RIC-STUDIO-004B - Establish Clean Versioned Runtime Source
-- RIC-STUDIO-005A - Build Candidate Runtime From Versioned Modelfile
-- RIC-STUDIO-006A - Run Candidate Runtime Behavioral Smoke Tests
-- RIC-STUDIO-007A - Validate Candidate Runtime With Real Workflow Simulation
-- RIC-STUDIO-008A - Standardize Runtime Gate Vocabulary Before Promotion
-- RIC-STUDIO-009A - Define Local Orchestrator Error Log
-- RIC-STUDIO-011C - Fix Qwen3 Orchestrator State Routing And Next-Task Synthesis
-- RIC-STUDIO-012A - Promote Approved Qwen3 Orchestrator Candidate To Official Runtime
-- RIC-STUDIO-013A - Refine Official Runtime Prompt For Evidence Claims And Role Boundaries
-- RIC-STUDIO-015A - Align Official Runtime Modelfile Base With Approved Qwen3 14B Runtime
-- RIC-STUDIO-016A - Rebuild And Validate Runtime Candidate From Qwen3 Modelfile
-- RIC-STUDIO-017A - Promote Validated Qwen3 Refined Runtime Candidate To Official Runtime
-- RIC-STUDIO-018A - Record Agent Success Patterns From Clinic Booking Robust Tasks
-- RIC-STUDIO-019A - Refine Runtime Behavior and Response Format
-- RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime
-- RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests
-- RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime
-- RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios (Remote DONE at commit `6dcdf17`)
-- RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation (Remote DONE at commit `105c220`)
-- RIC-STUDIO-040A - Define Local MVP Technical Scaffold (Remote DONE at commit `c436045`)
-- RIC-STUDIO-040B - Implement Local Auditor CLI Smoke Prototype (Remote DONE at commit `d489e91`)
-- RIC-STUDIO-041A - Add Local Auditor CLI Negative Input Smoke Coverage (Remote DONE at commit `e440b1f`)
-- RIC-STUDIO-042A - Define Commit Allow Evidence Contract (Remote DONE at commit `96dc318`)
-- RIC-STUDIO-043A - Implement Commit Allowed Decision From Evidence Contract (Remote DONE at commit `5964b4f`)
-- RIC-STUDIO-044A - Implement Real Local Evidence Input for Auditor (Remote DONE)
-- RIC-STUDIO-045A - Implement Read-Only Local Evidence Pack Generator (Remote DONE at commit `64fcf58`)
-- RIC-STUDIO-046A - Define LangGraph Auditor Workflow MVP (Remote DONE at commit `e16c34c`)
-- RIC-STUDIO-046B - Define LangGraph Auditor Implementation Contract (Remote DONE at commit `7d6df8c`)
-- RIC-STUDIO-047A - Implement Auditor Read-Only Smoke Workflow (Remote DONE at commit `dbbe63d`)
-- RIC-STUDIO-048A - Define Package and Dependency Policy for Auditor Runtime (Remote DONE at commit `8a52eda`)
-- RIC-STUDIO-049A - Define Auditor Package Setup Scope (Remote DONE at commit `f4c9876`)
-- RIC-STUDIO-050A - Create Auditor Package Metadata (Remote DONE at commit `ada132e`)
-- RIC-STUDIO-051A - Validate Auditor Package Metadata Scripts (Remote DONE at commit `1f9731e`)
-- RIC-STUDIO-052A - Define End-to-End Local Audit Session Contract (Remote DONE at commit `933e1cd`)
-- RIC-STUDIO-054A - Implement Dependency-Free Local Audit Session Runner (Remote DONE at commit `4f84b367be6cd883b0b3946fc822fe9e4ec21ba1`)
-- RIC-STUDIO-055A - Validate Local Audit Session Runner Against Real Commit Gate Evidence (Remote DONE at commit `27a39ea2e20e21fdc076e30b331a97059f2189ca`)
-- RIC-STUDIO-056A - Refine Local Auditor Evidence Contract After Realistic Validation (Remote DONE at commit `e5fd0c7742c283e17dc84908e75e18a1fea90303`)
-- RIC-STUDIO-056R - Reconcile RIC-STUDIO-056A Operational State (Remote DONE at commit `eb1644517460c3aba1cdcf300d5acbac82511e43`)
-- RIC-STUDIO-057A - Define Protocol Findings Semantics For Local Auditor (Remote DONE at commit `eab6d38dd7e49edcbc7ba28d210471125ece5562`)
-- RIC-STUDIO-057R - Reconcile RIC-STUDIO-057A Operational State (Remote DONE at commit `92e5a37fb3ad64f3112524cab819030a57d2c71e`)
-- RIC-STUDIO-058A - Implement Protocol Findings In Local Auditor Evaluator (Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`)
-- RIC-STUDIO-058R - Reconcile RIC-STUDIO-058A Operational State (Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`)
-- RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner (Remote DONE at commit `6516cbf`)
-- RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report (Remote DONE at commit `6102050`)
-- RIC-STUDIO-061A - Define Audit Session Report Contract (Remote DONE at commit `a103728`)
-
-## REVIEW
-
-- RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline (0 PASS, 5 FAIL â€” timeout, extended thinking not suppressed)
-- RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime (Remote DONE)
-- RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime (Remote DONE)
-- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow (Remote DONE â€” 1 PASS, 1 FAIL)
-- RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate (Remote DONE)
-- RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime (Remote DONE per current task context; 4 PASS, 1 FAIL smoke tests; `ric-architect-qwen-v2:latest` promoted to `b2ba1b3efeae`; backup `6a94ce329010`; sem commit)
-- RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios (Remote DONE at commit `6dcdf17`; evidence in `docs/validation/two-model-production-workflow-029a.md`)
-- RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate (REVIEW - evidence in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`; candidate rejected; sem commit)
-
 ## READY
 
-No task is READY.
+- RIC-STUDIO-063A - Document Local Auditor Validation Usage. READY - documentation-only task to explain when and how to run local auditor validation commands, including node tools/auditor/validate-session-contract.mjs, before audit session report contract changes; no validator, audit runtime, evaluator, fixture, package, dependency, CI, runtime, app, commit, or push changes during READY promotion.
+
 
 ## Next safe step
 

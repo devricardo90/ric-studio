@@ -2577,3 +2577,49 @@ Implementation validation required:
 - `git diff --name-only`.
 - `git diff --stat`.
 - `git diff --check`.
+
+## RIC-STUDIO-063A - Document Local Auditor Validation Usage
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-063A to READY as an operational/status documentation update only.
+- READY scope: documentation-only task to explain when and how to run local auditor validation commands, including `node tools/auditor/validate-session-contract.mjs`, before audit session report contract changes.
+- Baseline: RIC-STUDIO-062A is in REVIEW. Repository clean and synchronized with `origin/main` before 063A READY promotion.
+- No validator, audit runtime, evaluator, fixture, package, dependency, CI, runtime, app, commit, or push changes during READY promotion.
+
+Allowed files for READY promotion:
+
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+Forbidden during READY promotion:
+
+- Editing `tools/auditor/README.md`.
+- Editing `docs/architecture/local-auditor-session-contract.md`.
+- Editing `docs/validation/local-auditor-session-contract-validation-062a.md`.
+- Editing `tools/auditor/validate-session-contract.mjs`.
+- Editing `tools/auditor/audit-session.mjs`.
+- Editing `tools/auditor/audit.mjs`.
+- Editing fixtures.
+- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
+
+Validation required:
+
+- `git status --short --untracked-files=all`
+- `git status -sb`
+- `git rev-parse HEAD`
+- `git rev-parse origin/main`
+- `git diff --name-only`
+- `git diff --stat`
+- `git diff --check`
+
+READY promotion completed:
+
+- Only operational/status documentation was updated.
+- Confirmed no README, validator, audit runtime, evaluator, fixture, package, lockfile, CI, runtime, app, commit, or push change was performed.

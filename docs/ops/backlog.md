@@ -17,26 +17,9 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 
-## REJECTED / REVIEW CLOSED
-
-- RIC-STUDIO-010A - Improve Local Orchestrator Prompt From Logged Error Patterns.
-- RIC-STUDIO-011A - Benchmark Larger Base Model For Local Orchestrator.
-- RIC-STUDIO-011B - Benchmark Qwen3 14B With Thinking Suppressed And Short Operational Template.
-
-## REVIEW
-
-- RIC-STUDIO-023A - Validate Official Runtime Behavior And Latency Baseline. 0 PASS, 5 FAIL. Extended thinking not suppressible in current Ollama 0.24.0 / CPU-hybrid configuration.
-- RIC-STUDIO-025A - Promote Qwen 7B Candidate To Official Orchestrator Runtime. Remote DONE.
-- RIC-STUDIO-026A - Create Qwen 7B RIC Architect Candidate Runtime. Remote DONE.
-- RIC-STUDIO-027A - Validate Architect And Orchestrator Two-Model Workflow. Remote DONE â€” 1 PASS, 1 FAIL.
-- RIC-STUDIO-028A - Fix Architect Domain Context And Retest Candidate. Remote DONE.
-- RIC-STUDIO-028B - Promote Architect Contextfix Candidate To Official Runtime. Remote DONE per current task context. `ric-architect-qwen-v2:latest` promoted to ID `b2ba1b3efeae`. Backup `6a94ce329010`. Smoke tests: 4 PASS, 1 FAIL (React vs Django Admin). Sem commit.
-- RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`. Evidence: `docs/validation/two-model-production-workflow-029a.md`.
-- RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. REVIEW - evidence in `docs/validation/architect-candidate-031a-pragmatic-mvp.md`. Candidate rejected. Sem commit.
-
 ## READY
 
-No task is READY.
+- RIC-STUDIO-063A - Document Local Auditor Validation Usage. READY - documentation-only task to explain when and how to run local auditor validation commands, including node tools/auditor/validate-session-contract.mjs, before audit session report contract changes; no validator, audit runtime, evaluator, fixture, package, dependency, CI, runtime, app, commit, or push changes during READY promotion.
 
 ## IN_PROGRESS
 

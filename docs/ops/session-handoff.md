@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-062A is in REVIEW: `Add Minimal Audit Session Contract Validation`.
+RIC-STUDIO-063A is READY: `Document Local Auditor Validation Usage`.
+
+RIC-STUDIO-062A is in REVIEW.
 
 RIC-STUDIO-061A is Remote DONE at commit `a103728`.
 
