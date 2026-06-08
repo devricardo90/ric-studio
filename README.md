@@ -1,66 +1,113 @@
 # RIC Studio
 
-RIC Studio is an AI-native software delivery portfolio project.
+RIC Studio is a documentation-first AI-assisted development orchestration workspace.
 
-It explores how agentic workflows can audit development evidence, validate delivery state transitions, and support safer commit, push, and release decisions before automation is allowed to act.
+It is focused on controlled task execution, audit evidence, review gates, and Git discipline. The project explores how a human-led workflow can use AI assistance without allowing uncontrolled code changes, unclear scope, missing validation, or premature commit and push actions.
 
-## Public Concept
+RIC Studio is a portfolio project, not a finished commercial platform. Its value is in demonstrating AI workflow governance, developer operations discipline, validation-first thinking, and practical risk control around AI-assisted software delivery.
 
-The public product concept is **RIC AI Delivery Auditor**.
+## The Problem
 
-RIC AI Delivery Auditor is an AI-native software delivery tool that audits development evidence, validates task state transitions, and helps developers make safer commit, push, and release decisions using structured agentic reasoning.
+AI coding tools can move quickly, but speed creates risk when the workflow does not force clear evidence and review boundaries.
 
-The project is intentionally documentation-first at this stage. The current repository defines the product scope, conceptual MVP, agent workflow, structured decision model, and operating protocol before adding runtime integrations.
+RIC Studio is designed around these delivery problems:
 
-## Why This Exists
+- uncontrolled AI coding outside the accepted scope;
+- unclear task boundaries;
+- missing or stale validation evidence;
+- premature commit or push decisions;
+- automation acting without human approval;
+- weak visibility into why a task is allowed, blocked, or still in review.
 
-Modern AI-assisted development can generate code quickly, but delivery still depends on evidence:
+The project treats delivery as an evidence-based process instead of a free-form chat. A task should not advance just because code was changed. It advances only when scope, changed files, validation results, and approval gates support the next state.
 
-- Was the task scope clear?
-- Were the right files changed?
-- Were tests or checks actually run?
-- Is evidence missing, stale, or contradictory?
-- Is the task ready for commit, push, release, or human review?
+## Core Workflow
 
-RIC Studio frames those questions as a structured audit workflow instead of a free-form chat response.
+RIC Studio uses explicit task states to keep AI-assisted work controlled.
 
-## LangChain And LangGraph Direction
+- **Discussion Gate**: scope, objective, allowed files, forbidden files, validation commands, and commit boundaries are discussed before work begins.
+- **READY**: a task has accepted scope and boundaries, but implementation has not started.
+- **REVIEW**: implementation or documentation work has been completed locally and needs human review.
+- **Local DONE**: local review is complete, but remote state has not been confirmed.
+- **Remote DONE**: the approved work has been pushed and verified against the remote repository.
 
-The intended public MVP uses LangChain and LangGraph as the technical proof for the AI-native workflow:
+This lifecycle makes the project state visible. It also prevents a task from quietly moving from idea to implementation to push without explicit checkpoints.
 
-- **LangChain** provides the agent layer for model interaction, tool calling, and structured output.
-- **LangGraph** provides the workflow layer for explicit audit steps, state transitions, persistence, and human-in-the-loop review.
+## Human Approval Gates
 
-The MVP does not install or run LangChain or LangGraph yet. This repository currently documents the product and architecture boundary only.
+Human approval is part of the workflow, not an afterthought.
 
-## Conceptual Agent Workflow
+- No task is promoted to READY without an agreed objective, scope, allowed files, forbidden files, validation commands, and commit boundary.
+- No commit should happen without concrete audit evidence and explicit approval.
+- No push should happen without post-commit verification and explicit approval.
+- No Remote DONE state should be claimed unless the remote repository confirms it.
 
-The RIC AI Delivery Auditor workflow is:
+The goal is not to remove the human reviewer. The goal is to give the reviewer better evidence and clearer decisions.
 
-1. Ingest evidence.
-2. Normalize evidence.
-3. Classify task scope.
-4. Check protocol rules.
-5. Detect missing evidence.
-6. Generate a structured decision.
-7. Request human review.
-8. Persist the audit result.
+## Audit Evidence
 
-The workflow is based on the Protocolo Rick operating model: no delivery state should advance without explicit scope, concrete evidence, and a reviewed decision.
+RIC Studio records the evidence needed to support task decisions.
 
-## Conceptual MVP
+Examples of audit evidence include:
 
-The first public MVP is documentation-only:
+- raw command outputs such as `git status`, `git diff`, validation commands, and test results;
+- exact changed files;
+- validation results and relevant excerpts;
+- checks that forbidden files or forbidden scopes were not touched;
+- commit and remote references when a task reaches Remote DONE.
 
-- Public product positioning.
-- Conceptual architecture.
-- Agent workflow definition.
-- Structured decision schemas.
-- Future internal tool definitions.
-- Portfolio success criteria.
-- Operational records for task state and validation.
+This evidence is used to decide whether a task can continue, must stop for review, or needs more validation.
 
-The MVP excludes application code, UI, API, database, dependency installation, runtime changes, Git automation, and real AI integration.
+## Local Auditor
+
+The repository includes a local auditor path under `tools/auditor/`.
+
+The local auditor is intentionally narrow. It supports structured local review decisions; it does not replace human approval.
+
+Current local auditor capabilities include:
+
+- an audit-session report for local review;
+- visible `protocol_findings` in the session report;
+- an audit session report contract;
+- a dependency-free local contract validator;
+- README usage documentation for local validator commands;
+- realistic workflow validation evidence showing allowed and blocked review paths.
+
+The local auditor helps show how evidence can be turned into a structured decision:
+
+- `COMMIT_ALLOWED` means the evidence supports only the specific allowed action, usually commit, and still requires human review.
+- `COMMIT_BLOCKED` means the workflow must stop until the reported issue is corrected and validation is rerun.
+- `protocol_findings` explain protocol-level blockers such as forbidden file changes.
+
+## What Is Not Automated Yet
+
+RIC Studio intentionally does not automate high-risk delivery actions by default. The following delivery actions are not automated:
+
+Not automated yet:
+
+- no blind commits;
+- no blind pushes;
+- no CI integration unless explicitly approved;
+- no package scripts unless explicitly approved;
+- no dependency or lockfile changes unless explicitly approved;
+- no runtime, model, or Ollama changes unless explicitly approved;
+- no autonomous production changes;
+- no app, backend, frontend, database, or deploy changes unless a scoped task approves them.
+
+These limits are part of the design. The project demonstrates how automation can be introduced only after scope, evidence, and approval rules are clear.
+
+## Why This Matters Technically
+
+RIC Studio demonstrates a practical operating model for AI-assisted delivery:
+
+- converting vague implementation requests into scoped tasks;
+- separating planning, execution, review, commit, push, and remote verification;
+- preserving raw evidence for delivery decisions;
+- blocking unsafe state transitions;
+- making AI assistance accountable to human approval gates;
+- documenting what is allowed, forbidden, and still unproven.
+
+For a recruiter, technical reviewer, or collaborator, the project shows disciplined engineering behavior around AI tools: clear scope, validation-first execution, risk control, and honest boundaries. It does not claim full automation or production SaaS readiness.
 
 ## Documentation
 
@@ -69,10 +116,11 @@ The MVP excludes application code, UI, API, database, dependency installation, r
 - [Product requirements](docs/product/prd.md)
 - [MVP scope](docs/product/mvp-scope.md)
 - [Local product architecture](docs/architecture/local-product-architecture.md)
+- [Local auditor workflow validation](docs/validation/local-auditor-workflow-usage-validation-064a.md)
 
 ## Current Status
 
-RIC Studio is in a documentation and operating-model phase. The repository should demonstrate clear AI-native delivery thinking before implementation begins.
+RIC Studio is in a documentation and operating-model phase with a small local auditor workflow already validated. The next work should continue to respect explicit task scope, evidence, human approval, and Git boundaries.
 
 ## Technical References
 

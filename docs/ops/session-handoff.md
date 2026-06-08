@@ -2,44 +2,43 @@
 
 ## Current handoff state
 
-RIC-STUDIO-065A is READY: `Position RIC Studio README For Portfolio Review`.
+RIC-STUDIO-065A is in REVIEW: `Position RIC Studio README For Portfolio Review`.
 
 RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: READY promotion completed as operational/status documentation only. Stop in REVIEW. Do not edit README, commit, or push without explicit authorization.
+Task mode: documentation-only README positioning completed. Stop in REVIEW. Do not commit or push without explicit authorization.
 
 Current repository context:
 
 - The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
 - RIC-STUDIO-064A validated the documented local auditor workflow in `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
-- RIC-STUDIO-065A is now READY to improve public-facing README/portfolio positioning.
-- The README update has not been implemented yet.
-- No README, code, auditor source, validator, fixture, package, CI, runtime, app, commit, or push change occurred during READY promotion.
+- RIC-STUDIO-065A updated `README.md` for public-facing README/portfolio positioning.
+- The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
+- No code, auditor source, validator, fixture, package, CI, runtime, app, commit, or push change occurred.
 
 ## Next steps
 
-1. Await explicit human approval before executing RIC-STUDIO-065A.
-2. During execution, update only `README.md` plus required operational/status docs.
-3. Validate README positioning and confirm only allowed files changed.
+1. Review `README.md`.
+2. If approved, prepare commit only after explicit commit gate approval.
+3. Do not push without explicit push gate approval.
 
 ## Blocked
 
-- Editing `README.md` during READY promotion.
 - Editing code.
 - Editing `tools/auditor/**`.
 - Fixture changes.
 - Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, commit, and push.
 
-RIC-STUDIO-065A future validation commands:
+RIC-STUDIO-065A validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
-- `rg -n "RIC Studio|portfolio|human approval|audit evidence|local auditor|not automated|Discussion Gate|READY|Remote DONE" README.md`
+- `rg -n "RIC Studio|documentation-first|AI-assisted|Discussion Gate|READY|REVIEW|Local DONE|Remote DONE|human approval|audit evidence|local auditor|protocol_findings|not automated|portfolio|commit|push" README.md`
 
 RIC-STUDIO-061A result:
 
