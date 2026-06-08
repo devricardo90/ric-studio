@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
@@ -12,7 +12,7 @@ RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner
 
 RIC-STUDIO-SPRINT-059 - Local Audit Session Protocol Findings Validation.
 
-READY opening only for a validation/documentation-only task.
+Validation/documentation-only task.
 
 Current baseline:
 
@@ -46,6 +46,7 @@ Objective:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
+- `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`
 
 ## Files changed in implementation
 
@@ -55,6 +56,7 @@ Objective:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
+- `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`
 
 ## Blocked in this task
 
@@ -66,9 +68,25 @@ RIC-STUDIO-058R - Operational state reconciliation after RIC-STUDIO-058A - Remot
 
 ## Current task result
 
-RIC-STUDIO-059A is READY.
+RIC-STUDIO-059A is in REVIEW after validation/documentation.
 
 Execution results:
+
+- Confirmed clean synchronized validation baseline at `HEAD == origin/main == 2f8e8613fe483d1134e252e6b02f1575bd924a82`.
+- Ran the four required `node tools/auditor/audit-session.mjs --evidence ...` commands.
+- Confirmed `COMMIT_ALLOWED` remains clean for `tools/auditor/fixtures/commit-allowed-evidence.json`.
+- Confirmed direct evaluator output includes `protocol_findings` for the three blocked protocol-finding scenarios.
+- Confirmed the full session runner report does not display `protocol_findings`.
+- Confirmed blocked session reports therefore do not expose enough protocol-finding detail for human review.
+- Documented the validation gap in `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`.
+- Recommended a future scoped correction task to include `protocol_findings` in the session report while preserving the privacy-first no-raw-evidence boundary.
+- No code was changed.
+- Did not edit `tools/auditor/audit-session.mjs`.
+- Did not edit `tools/auditor/audit.mjs`.
+- Did not edit fixtures.
+- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hook, CI, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push action occurred.
+
+Prior READY-opening results:
 
 - Confirmed clean synchronized implementation baseline at `HEAD == origin/main == 7afeb57ce8bd7d91865414712c7158b72cad46ba`.
 - Updated `tools/auditor/audit.mjs` so changed paths outside `allowed_files` now produce structured `allowed_file_violation` protocol findings.

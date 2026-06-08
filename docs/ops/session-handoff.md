@@ -2,11 +2,11 @@
 
 ## Current handoff state
 
-RIC-STUDIO-059A is READY: `Validate Protocol Findings Through Audit Session Runner`.
+RIC-STUDIO-059A is in REVIEW: `Validate Protocol Findings Through Audit Session Runner`.
 
 RIC-STUDIO-058R is Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
 
-Task mode: READY opening only completed. Next step is validation/documentation only. Do not commit or push without an explicit gate.
+Task mode: validation/documentation completed. Stop in REVIEW. Do not commit or push without an explicit gate.
 
 Current repository context:
 
@@ -24,6 +24,18 @@ RIC-STUDIO-059A objective:
 - Document whether protocol findings are visible in session reports.
 - If the session runner omits `protocol_findings`, document that as a validation finding.
 - Do not fix session runner behavior in RIC-STUDIO-059A.
+
+RIC-STUDIO-059A validation result:
+
+- Starting validation baseline was clean and synchronized at `HEAD == origin/main == 2f8e8613fe483d1134e252e6b02f1575bd924a82`.
+- Required session-runner commands were executed for the allowed fixture, allowed-file protocol violation fixture, blocked-file protocol violation fixture, and realistic blocked fixture.
+- Direct evaluator output preserves `protocol_findings` for the blocked protocol-finding scenarios.
+- `tools/auditor/audit-session.mjs` does not display `protocol_findings` in the session report.
+- Blocked protocol-finding session reports show `COMMIT_BLOCKED` with empty `missing_evidence` and generic next-step text, so they lack enough human-review detail.
+- Evidence is documented in `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`.
+- Recommendation: future scoped correction task should include `protocol_findings` in the session report while preserving the privacy-first no-raw-evidence boundary.
+- No code was changed.
+- `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, and fixtures were not edited.
 
 Future validation candidate file:
 

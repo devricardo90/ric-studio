@@ -2307,7 +2307,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner
 
-State: READY
+State: REVIEW
 
 Summary:
 
@@ -2342,3 +2342,21 @@ Validation required after READY opening:
 - Confirm no docs/architecture file changed.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` changes.
 - Confirm RIC-STUDIO-059A is the only READY task.
+
+Validation completed:
+
+- Confirmed clean synchronized validation baseline at `HEAD == origin/main == 2f8e8613fe483d1134e252e6b02f1575bd924a82`.
+- Ran `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`.
+- Ran `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`.
+- Ran `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`.
+- Ran `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/realistic-commit-blocked-evidence.json`.
+- Confirmed the clean allowed fixture returns `COMMIT_ALLOWED` through the session runner.
+- Confirmed the three blocked protocol-finding fixtures return `COMMIT_BLOCKED` through the session runner.
+- Compared direct evaluator output and confirmed `evaluateEvidence` preserves `protocol_findings`.
+- Confirmed the full session report does not display `protocol_findings`.
+- Confirmed blocked protocol-finding session reports do not expose enough finding detail for human review.
+- Documented evidence and the validation gap in `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`.
+- Recommendation: future scoped correction task should include `protocol_findings` in the session report while preserving the privacy-first no-raw-evidence boundary.
+- No code was changed.
+- Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, or fixtures.
+- No package, lockfile, dependency installation, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push occurred.

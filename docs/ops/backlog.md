@@ -15,6 +15,7 @@
 - RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope. REVIEW - documentation-only public MVP scope completed; no code, dependencies, runtime, Modelfile, app, API, commit, or push.
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts. REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push.
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
+- RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner. REVIEW - session runner omits evaluator protocol_findings from reports; validation documented; no code changes.
 
 ## REJECTED / REVIEW CLOSED
 
@@ -35,7 +36,7 @@
 
 ## READY
 
-- RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner. READY - validation/documentation only; no runtime code changes.
+No task is READY.
 
 ## IN_PROGRESS
 
@@ -100,7 +101,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Validate RIC-STUDIO-059A through the audit session runner. Do not commit or push without an explicit gate.
+Review RIC-STUDIO-059A validation evidence. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

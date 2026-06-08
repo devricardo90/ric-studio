@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
@@ -35,7 +35,7 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-059A is READY.
+RIC-STUDIO-059A is in REVIEW after validation/documentation.
 
 Current baseline:
 
@@ -69,6 +69,7 @@ Allowed files:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
+- `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`
 
 Files changed in implementation:
 
@@ -78,8 +79,22 @@ Files changed in implementation:
 - `docs/ops/backlog.md`.
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
+- `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`.
 
 Execution result:
+
+- Confirmed clean synchronized validation baseline at `HEAD == origin/main == 2f8e8613fe483d1134e252e6b02f1575bd924a82`.
+- Ran the four required `node tools/auditor/audit-session.mjs --evidence ...` validation commands.
+- Confirmed the direct evaluator preserves `protocol_findings` for the blocked protocol-finding scenarios.
+- Confirmed `tools/auditor/audit-session.mjs` does not display `protocol_findings` in the session report.
+- Confirmed blocked protocol-finding session reports lack enough human-review detail.
+- Documented the gap in `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`.
+- Recommended a future scoped correction task to include `protocol_findings` in the session report.
+- No code was changed.
+- Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, or fixtures.
+- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hook, CI, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push action occurred.
+
+Prior READY-opening result:
 
 - Confirmed clean synchronized implementation baseline at `HEAD == origin/main == 7afeb57ce8bd7d91865414712c7158b72cad46ba`.
 - Updated `tools/auditor/audit.mjs` so changed paths outside `allowed_files` now produce structured `allowed_file_violation` protocol findings.
