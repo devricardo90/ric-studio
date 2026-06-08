@@ -17,14 +17,14 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
+- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario (REVIEW - realistic local review scenario validated and documented; no auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change)
 
 ## READY
 
-- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario (READY - documentation-only validation evidence task; no validation evidence document created during READY promotion; no auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change)
 
 ## Next safe step
 
-Execute RIC-STUDIO-064A only after explicit human approval. Do not create `docs/validation/local-auditor-workflow-usage-validation-064a.md`, commit, or push during READY promotion.
+Review RIC-STUDIO-064A validation evidence. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

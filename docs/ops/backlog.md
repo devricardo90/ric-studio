@@ -17,10 +17,9 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage. REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change.
+- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario. REVIEW - realistic local review scenario validated and documented; no auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change.
 
 ## READY
-
-- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario. READY - documentation-only validation evidence task; no validation evidence document created during READY promotion; no auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change.
 
 ## IN_PROGRESS
 
