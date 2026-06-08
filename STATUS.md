@@ -6,30 +6,29 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-063A - Document Local Auditor Validation Usage
+RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario
 
 ## Scope
 
-RIC-STUDIO-063A - Document Local Auditor Validation Usage. Documentation-only task to explain when and how to run local auditor validation commands, including node tools/auditor/validate-session-contract.mjs, before audit session report contract changes.
+RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario. READY promotion only. Future execution should run and document a realistic local review scenario proving the documented local auditor validation flow works for humans and future agents before future audit-session report changes.
 
 Current baseline:
 
-- RIC-STUDIO-062A is in REVIEW.
-- RIC-STUDIO-062A added a minimal dependency-free validation path that verifies `tools/auditor/audit-session.mjs` emits the required structured report fields from `docs/architecture/local-auditor-session-contract.md`.
+- RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
+- RIC-STUDIO-063A documented local auditor validation usage in `tools/auditor/README.md`.
+- RIC-STUDIO-062A added `tools/auditor/validate-session-contract.mjs`.
 - RIC-STUDIO-061A is Remote DONE at commit `a103728`.
 - RIC-STUDIO-060A is Remote DONE at commit `6102050`.
-- Repository was clean and synchronized with `origin/main` at `e0b8f52` before implementation.
+- Repository was clean and synchronized with `origin/main` at `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9` before READY promotion.
 
 Objective:
 
-- Document local auditor validation usage in `tools/auditor/README.md`.
-- Explain when and how to run local auditor validation commands.
-- Update operational and status files.
-- Stop in REVIEW after documentation updates.
+- Promote RIC-STUDIO-064A to READY through operational/status documentation only.
+- Do not create the validation evidence document during READY promotion.
+- Stop in REVIEW after READY promotion documentation updates.
 
 ## Allowed files
 
-- `tools/auditor/README.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -37,9 +36,8 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in implementation
+## Files changed in READY promotion
 
-- `tools/auditor/README.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -49,23 +47,29 @@ Objective:
 
 ## Blocked in this task
 
-Editing `tools/auditor/validate-session-contract.mjs`, `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, fixtures, `docs/architecture/local-auditor-session-contract.md`, `docs/validation/local-auditor-session-contract-validation-062a.md`, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
+Creating `docs/validation/local-auditor-workflow-usage-validation-064a.md` during READY promotion, editing `tools/auditor/validate-session-contract.mjs`, editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, editing `tools/auditor/README.md`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation - in REVIEW.
+RIC-STUDIO-063A - Document Local Auditor Validation Usage - Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
 ## Current task result
 
-RIC-STUDIO-063A is in REVIEW.
+RIC-STUDIO-064A is READY.
 
-Execution results:
+READY promotion results:
 
-- Updated `tools/auditor/README.md` with validator purpose, usage, criteria, interpretation, and boundaries.
-- Verified README content with `rg`.
-- Verified `node tools/auditor/validate-session-contract.mjs` PASSES.
-- No implementation, audit runtime, evaluator, fixture, package, dependency, CI, runtime, or app change occurred.
-- Stopped in REVIEW for human approval.
+- Opened RIC-STUDIO-064A as READY by explicit approval after Discussion Gate recommendation.
+- READY scope is documentation-only validation evidence in a later execution step.
+- Did not create `docs/validation/local-auditor-workflow-usage-validation-064a.md` during READY promotion.
+- No auditor source, validator, fixture, README, package, dependency, CI, runtime, or app change occurred.
+- Stopped in REVIEW.
+
+Validation required during RIC-STUDIO-064A execution:
+
+- `node tools/auditor/validate-session-contract.mjs`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
 
 
 RIC-STUDIO-059A result:

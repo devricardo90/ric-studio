@@ -20,10 +20,11 @@
 
 ## READY
 
+- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario (READY - documentation-only validation evidence task; no validation evidence document created during READY promotion; no auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change)
 
 ## Next safe step
 
-Review RIC-STUDIO-062A. Do not commit or push without an explicit gate.
+Execute RIC-STUDIO-064A only after explicit human approval. Do not create `docs/validation/local-auditor-workflow-usage-validation-064a.md`, commit, or push during READY promotion.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

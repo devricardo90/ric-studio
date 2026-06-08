@@ -2611,3 +2611,57 @@ Implementation validation required:
 - `git diff --name-only`.
 - `git diff --stat`.
 - `git diff --check`.
+
+## RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-064A to READY by explicit current approval after Discussion Gate recommendation.
+- Confirmed RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
+- Repository state before READY promotion was clean and synchronized with `origin/main` at `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
+- READY scope: documentation-only validation evidence task to prove the documented local auditor validation flow works in a realistic review scenario for humans and future agents.
+- No validation evidence document was created during READY promotion.
+- No implementation was performed during READY promotion.
+
+Allowed files for READY promotion:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Allowed files during future RIC-STUDIO-064A execution:
+
+- `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden during READY promotion:
+
+- Creating `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
+- Editing `tools/auditor/validate-session-contract.mjs`.
+- Editing `tools/auditor/audit-session.mjs`.
+- Editing `tools/auditor/audit.mjs`.
+- Editing `tools/auditor/README.md`.
+- Editing fixtures.
+- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
+
+Validation required during future RIC-STUDIO-064A execution:
+
+- `node tools/auditor/validate-session-contract.mjs`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`.
+
+READY promotion completed:
+
+- Only operational/status documentation was updated.
+- Did not create a validation evidence document.
+- Did not edit auditor source, validator, fixtures, README, package files, lockfiles, dependencies, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
