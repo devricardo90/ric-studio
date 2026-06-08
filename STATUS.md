@@ -2,24 +2,26 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-061A - Define Audit Session Report Contract
+RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation
 
 ## Scope
 
-RIC-STUDIO-SPRINT-061 - Audit Session Report Contract.
+RIC-STUDIO-SPRINT-062 - Audit Session Contract Validation.
 
-Documentation-only contract task executed. Runtime code was not modified.
+READY opening only for a dependency-free local validation task. No validation script or validation report was created during this promotion step.
 
 Current baseline:
 
+- RIC-STUDIO-061A is Remote DONE at commit `a103728`.
+- RIC-STUDIO-061A defined the audit session report contract in `docs/architecture/local-auditor-session-contract.md`.
 - RIC-STUDIO-060A is Remote DONE at commit `6102050`.
 - RIC-STUDIO-060A fixed `tools/auditor/audit-session.mjs` so the structured session report now surfaces `protocol_findings`.
-- The root issue after RIC-STUDIO-060A is that the audit session report shape remains implicit and manually assembled.
-- Discussion Gate recommended a documentation-only follow-up before any new implementation or test task.
+- The current risk is future contract drift: report fields may be removed, renamed, or silently omitted without validation.
+- Discussion Gate recommended a minimal dependency-free validation follow-up before broader harness work.
 - RIC-STUDIO-059A is Remote DONE at commit `6516cbf`.
 - RIC-STUDIO-059A documented that `evaluateEvidence` preserves `protocol_findings`.
 - RIC-STUDIO-059A proved that `tools/auditor/audit-session.mjs` does not surface `protocol_findings` in the session report.
@@ -40,14 +42,13 @@ Current baseline:
 
 Objective:
 
-- Define the required structured output contract for `tools/auditor/audit-session.mjs`.
-- Require `protocol_findings` in every completed session report, defaulting to `[]`.
-- Preserve the privacy-first no-raw-evidence boundary.
-- Stop in REVIEW after documentation and validation.
+- Open RIC-STUDIO-062A as READY.
+- Add a minimal dependency-free validation path that verifies `tools/auditor/audit-session.mjs` emits the required structured report fields from `docs/architecture/local-auditor-session-contract.md`.
+- Explicitly check `protocol_findings` in allowed and blocked outputs.
+- Do not implement the validation script or validation report during this READY promotion step.
 
 ## Allowed files
 
-- `docs/architecture/local-auditor-session-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -57,7 +58,6 @@ Objective:
 
 ## Files changed in implementation
 
-- `docs/architecture/local-auditor-session-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -67,22 +67,23 @@ Objective:
 
 ## Blocked in this task
 
-Implementation changes, editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, fixture changes, docs/validation creation, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI/CD, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, commit, and push.
+During READY promotion: creating `tools/auditor/validate-session-contract.mjs`, creating `docs/validation/local-auditor-session-contract-validation-062a.md`, implementation changes, editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, fixture changes, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI/CD, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report - Remote DONE at commit `6102050`.
+RIC-STUDIO-061A - Define Audit Session Report Contract - Remote DONE at commit `a103728`.
 
 ## Current task result
 
-RIC-STUDIO-061A is in REVIEW.
+RIC-STUDIO-062A is READY.
 
 Execution results:
 
-- Confirmed repository was clean and synchronized with `origin/main` at `607316edbcf612f38984e7e9b741d59a9adb369f` before implementation.
-- Updated `docs/architecture/local-auditor-session-contract.md` as the audit session report contract.
-- Defined completed session report shape, required fields, mandatory `protocol_findings` with default `[]`, privacy-first no-raw-evidence boundary, error report shape, compatibility rule, and maintenance rule.
-- Stopped in REVIEW after documentation and validation.
+- Promoted RIC-STUDIO-062A to READY by explicit current request after Discussion Gate approval.
+- READY scope: dependency-free local validation task to verify `tools/auditor/audit-session.mjs` emits required structured report fields from `docs/architecture/local-auditor-session-contract.md`, including `protocol_findings` in allowed and blocked outputs.
+- No validation script was created during READY promotion.
+- No validation report was created during READY promotion.
+- No implementation was performed during READY promotion.
 - Did not edit `tools/auditor/audit-session.mjs`.
 - Did not edit `tools/auditor/audit.mjs`.
 - Did not edit fixtures.

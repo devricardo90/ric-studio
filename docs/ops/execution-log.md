@@ -2422,7 +2422,7 @@ READY promotion completed:
 
 ## RIC-STUDIO-061A - Define Audit Session Report Contract
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -2492,3 +2492,54 @@ Implementation validation required:
 - `rg -n "protocol_findings|session_status|audit_metadata|missing_evidence|human_review_required|next_step|exitWithError|privacy|raw evidence|default to \[\]" docs/architecture/local-auditor-session-contract.md`.
 - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`.
 - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-061A is Remote DONE at commit `a103728`.
+- The audit session report contract is defined in `docs/architecture/local-auditor-session-contract.md`.
+
+## RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-062A to READY by explicit current request after Discussion Gate approval.
+- Confirmed RIC-STUDIO-061A is Remote DONE at commit `a103728`.
+- READY scope: dependency-free local validation task to verify `tools/auditor/audit-session.mjs` emits required structured report fields from `docs/architecture/local-auditor-session-contract.md`, including `protocol_findings` in allowed and blocked outputs.
+- No validation script was created during READY promotion.
+- No validation report was created during READY promotion.
+- No implementation was performed during READY promotion.
+
+Allowed files for READY promotion:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden during READY promotion:
+
+- Creating `tools/auditor/validate-session-contract.mjs`.
+- Creating `docs/validation/local-auditor-session-contract-validation-062a.md`.
+- Editing `tools/auditor/audit-session.mjs`.
+- Editing `tools/auditor/audit.mjs`.
+- Editing fixtures.
+- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
+
+Validation required:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+
+READY promotion completed:
+
+- Only operational/status documentation was updated.
+- Did not create a validation script.
+- Did not create a validation report.
+- Did not edit code, fixtures, package files, lockfiles, dependencies, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
