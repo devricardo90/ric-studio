@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
@@ -35,7 +35,7 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-061A is READY.
+RIC-STUDIO-061A is in REVIEW.
 
 Current baseline:
 
@@ -63,14 +63,14 @@ Current baseline:
 
 Objective for 061A:
 
-- Open RIC-STUDIO-061A as READY.
 - Define the required structured output contract for `tools/auditor/audit-session.mjs`.
 - Require `protocol_findings` in every completed session report, defaulting to `[]`.
 - Preserve the privacy-first no-raw-evidence boundary.
-- Do not implement the contract document during this READY promotion step.
+- Stop in REVIEW after documentation and validation.
 
 Allowed files:
 
+- `docs/architecture/local-auditor-session-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -80,6 +80,7 @@ Allowed files:
 
 Files changed in implementation:
 
+- `docs/architecture/local-auditor-session-contract.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -89,13 +90,12 @@ Files changed in implementation:
 
 Execution result:
 
-- Promoted RIC-STUDIO-061A to READY by explicit current request after Discussion Gate approval.
-- Confirmed repository was clean and synchronized with `origin/main` at `610205084a672e91ffdd208239d8421a16efe9d3` before READY promotion.
-- READY scope: documentation-only contract task to define the required structured output contract for `tools/auditor/audit-session.mjs`, including mandatory `protocol_findings` in every completed session report with default `[]`.
-- No contract document was created or edited during READY promotion.
-- No implementation was performed during READY promotion.
+- Confirmed repository was clean and synchronized with `origin/main` at `607316edbcf612f38984e7e9b741d59a9adb369f` before implementation.
+- Updated `docs/architecture/local-auditor-session-contract.md` as the audit session report contract.
+- Defined completed session report shape, required fields, mandatory `protocol_findings` with default `[]`, privacy-first no-raw-evidence boundary, error report shape, compatibility rule, and maintenance rule.
+- Stopped in REVIEW after documentation and validation.
 - Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, or fixtures.
-- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, contract document, architecture doc, Git automation, commit, or push action occurred.
+- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, Git automation, commit, or push action occurred.
 
 RIC-STUDIO-059A result:
 
@@ -151,20 +151,20 @@ Blocked:
 - No warning behavior, partial-confidence behavior, model integration, or unattended decisions.
 - No READY task besides RIC-STUDIO-059A.
 
-Validation required after READY opening:
+Validation required before REVIEW close:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
-- Confirm only the six operational files changed.
+- `rg -n "protocol_findings|session_status|audit_metadata|missing_evidence|human_review_required|next_step|exitWithError|privacy|raw evidence|default to \[\]" docs/architecture/local-auditor-session-contract.md`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
+- Confirm only allowed documentation files changed.
 - Confirm no `tools/auditor` files changed.
 - Confirm no fixture files changed.
-- Confirm no docs/validation file was created.
-- Confirm no docs/architecture file changed.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change.
-- Confirm RIC-STUDIO-059A was the only READY task during the 059A READY opening.
 
 ## Previous task result
 

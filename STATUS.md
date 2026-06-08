@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
@@ -12,7 +12,7 @@ RIC-STUDIO-061A - Define Audit Session Report Contract
 
 RIC-STUDIO-SPRINT-061 - Audit Session Report Contract.
 
-READY opening only for a documentation-only contract task. No contract document implementation was performed during this promotion step.
+Documentation-only contract task executed. Runtime code was not modified.
 
 Current baseline:
 
@@ -40,14 +40,14 @@ Current baseline:
 
 Objective:
 
-- Open RIC-STUDIO-061A as READY.
 - Define the required structured output contract for `tools/auditor/audit-session.mjs`.
 - Require `protocol_findings` in every completed session report, defaulting to `[]`.
 - Preserve the privacy-first no-raw-evidence boundary.
-- Do not implement the contract document during this READY promotion step.
+- Stop in REVIEW after documentation and validation.
 
 ## Allowed files
 
+- `docs/architecture/local-auditor-session-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -57,6 +57,7 @@ Objective:
 
 ## Files changed in implementation
 
+- `docs/architecture/local-auditor-session-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -66,7 +67,7 @@ Objective:
 
 ## Blocked in this task
 
-During READY promotion: creating or editing the contract document, implementation changes, editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, fixture changes, docs/validation creation, docs/architecture changes, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI/CD, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, commit, and push.
+Implementation changes, editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, fixture changes, docs/validation creation, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI/CD, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, commit, and push.
 
 ## Previous task
 
@@ -74,19 +75,18 @@ RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report - Remote DON
 
 ## Current task result
 
-RIC-STUDIO-061A is READY.
+RIC-STUDIO-061A is in REVIEW.
 
 Execution results:
 
-- Promoted RIC-STUDIO-061A to READY by explicit current request after Discussion Gate approval.
-- Confirmed repository was clean and synchronized with `origin/main` at `610205084a672e91ffdd208239d8421a16efe9d3` before READY promotion.
-- READY scope: documentation-only contract task to define the required structured output contract for `tools/auditor/audit-session.mjs`, including mandatory `protocol_findings` in every completed session report with default `[]`.
-- No contract document was created or edited during READY promotion.
-- No implementation was performed during READY promotion.
+- Confirmed repository was clean and synchronized with `origin/main` at `607316edbcf612f38984e7e9b741d59a9adb369f` before implementation.
+- Updated `docs/architecture/local-auditor-session-contract.md` as the audit session report contract.
+- Defined completed session report shape, required fields, mandatory `protocol_findings` with default `[]`, privacy-first no-raw-evidence boundary, error report shape, compatibility rule, and maintenance rule.
+- Stopped in REVIEW after documentation and validation.
 - Did not edit `tools/auditor/audit-session.mjs`.
 - Did not edit `tools/auditor/audit.mjs`.
 - Did not edit fixtures.
-- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, contract document, architecture doc, Git automation, commit, or push action occurred.
+- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, Git automation, commit, or push action occurred.
 
 RIC-STUDIO-059A result:
 
@@ -132,20 +132,20 @@ Prior READY-opening results:
 - No implementation, auditor source edit, fixture edit, docs/validation creation, docs/architecture edit, package, lockfile, dependency installation, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push occurred during READY opening.
 - RIC-STUDIO-059A was the only READY task during the 059A READY opening.
 
-Validation required after READY opening:
+Validation required before REVIEW close:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
-- Confirm only the six operational files changed.
+- `rg -n "protocol_findings|session_status|audit_metadata|missing_evidence|human_review_required|next_step|exitWithError|privacy|raw evidence|default to \[\]" docs/architecture/local-auditor-session-contract.md`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
+- Confirm only allowed documentation files changed.
 - Confirm no `tools/auditor` files changed.
 - Confirm no fixture files changed.
-- Confirm no docs/validation file was created.
-- Confirm no docs/architecture file changed.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change.
-- Confirm RIC-STUDIO-059A was the only READY task during the 059A READY opening.
 
 ## Gate status
 

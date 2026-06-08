@@ -2422,7 +2422,7 @@ READY promotion completed:
 
 ## RIC-STUDIO-061A - Define Audit Session Report Contract
 
-State: READY
+State: REVIEW
 
 Summary:
 
@@ -2463,3 +2463,32 @@ READY promotion completed:
 - Only operational/status documentation was updated.
 - Did not create or edit the contract document.
 - Did not edit code, fixtures, package files, lockfiles, dependencies, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
+
+Execution summary:
+
+- Confirmed repository state before implementation was clean and synchronized with `origin/main` at `607316edbcf612f38984e7e9b741d59a9adb369f`.
+- Updated `docs/architecture/local-auditor-session-contract.md` as the audit session report contract.
+- Defined completed session report shape, required fields, mandatory `protocol_findings` with default `[]`, privacy-first no-raw-evidence boundary, error report shape, compatibility rule, and maintenance rule.
+- Updated operational docs to move RIC-STUDIO-061A from READY to REVIEW.
+- No runtime code, evaluator logic, fixtures, package files, lockfiles, dependencies, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push changed.
+
+Implementation allowed files:
+
+- `docs/architecture/local-auditor-session-contract.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Implementation validation required:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `rg -n "protocol_findings|session_status|audit_metadata|missing_evidence|human_review_required|next_step|exitWithError|privacy|raw evidence|default to \[\]" docs/architecture/local-auditor-session-contract.md`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`.

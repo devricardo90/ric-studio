@@ -2,16 +2,16 @@
 
 ## Current handoff state
 
-RIC-STUDIO-061A is READY: `Define Audit Session Report Contract`.
+RIC-STUDIO-061A is in REVIEW: `Define Audit Session Report Contract`.
 
 RIC-STUDIO-060A is Remote DONE at commit `6102050`.
 
-Task mode: READY promotion only completed. No contract document implementation has been performed for RIC-STUDIO-061A. Do not commit or push without an explicit gate.
+Task mode: documentation-only contract task executed. Do not commit or push without an explicit gate.
 
 Current repository context:
 
-- Repository was clean and synchronized with `origin/main` at `610205084a672e91ffdd208239d8421a16efe9d3` before READY promotion.
-- RIC-STUDIO-061A is the only READY task.
+- Repository was clean and synchronized with `origin/main` at `607316edbcf612f38984e7e9b741d59a9adb369f` before implementation.
+- No READY task is active.
 - Known non-blocking warning: Git may report permission warnings reading `C:\Users\ricardodev/.config/git/ignore`; this is not repository dirtiness when `git status` shows no changed files.
 - `tools/auditor/audit.mjs` exposes `evaluateEvidence(evidence)`.
 - `tools/auditor/audit-session.mjs` exists as a dependency-free session runner.
@@ -29,15 +29,16 @@ RIC-STUDIO-061A objective:
 - Preserve the privacy-first no-raw-evidence boundary.
 - Stop in REVIEW after documentation and validation; no commit or push.
 
-RIC-STUDIO-061A READY scope:
+RIC-STUDIO-061A completed scope:
 
 - Documentation-only contract task to define the required structured output contract for `tools/auditor/audit-session.mjs`.
-- The future implementation should update operational docs and the existing session contract document only after explicit execution approval.
-- `protocol_findings` must be mandatory in every completed session report with default `[]`.
-- No runtime, evaluator, fixture, dependency, CI, app, commit, or push changes are authorized.
+- Updated `docs/architecture/local-auditor-session-contract.md` as the audit session report contract.
+- Defined completed session report shape, required fields, mandatory `protocol_findings` with default `[]`, privacy-first no-raw-evidence boundary, error report shape, compatibility rule, and maintenance rule.
+- No runtime, evaluator, fixture, dependency, CI, app, commit, or push changes were performed.
 
-RIC-STUDIO-061A allowed files for READY promotion only:
+RIC-STUDIO-061A allowed files:
 
+- `docs/architecture/local-auditor-session-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -45,21 +46,23 @@ RIC-STUDIO-061A allowed files for READY promotion only:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-RIC-STUDIO-061A forbidden during READY promotion:
+RIC-STUDIO-061A forbidden:
 
-- Do not create or edit `docs/architecture/local-auditor-session-contract.md` during READY promotion.
 - Do not edit `tools/auditor/audit-session.mjs`.
 - Do not edit `tools/auditor/audit.mjs`.
 - Do not edit fixtures.
 - Do not change package files, lockfiles, dependencies, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
 
-RIC-STUDIO-061A READY promotion validation commands:
+RIC-STUDIO-061A validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
+- `rg -n "protocol_findings|session_status|audit_metadata|missing_evidence|human_review_required|next_step|exitWithError|privacy|raw evidence|default to \[\]" docs/architecture/local-auditor-session-contract.md`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
 
 RIC-STUDIO-059A validation result:
 
