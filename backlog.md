@@ -75,6 +75,7 @@ No task is Local DONE.
 - RIC-STUDIO-058A - Implement Protocol Findings In Local Auditor Evaluator (Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`)
 - RIC-STUDIO-058R - Reconcile RIC-STUDIO-058A Operational State (Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`)
 - RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner (Remote DONE at commit `6516cbf`)
+- RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report (Remote DONE at commit `6102050`)
 
 ## REVIEW
 
@@ -89,11 +90,11 @@ No task is Local DONE.
 
 ## READY
 
-- RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report (READY - small code fix scope; no implementation performed during READY promotion)
+- RIC-STUDIO-061A - Define Audit Session Report Contract (READY - documentation-only contract task to define the required structured output contract for tools/auditor/audit-session.mjs, including mandatory protocol_findings in every completed session report with default []; no runtime, evaluator, fixture, dependency, CI, app, commit, or push changes during READY promotion)
 
 ## Next safe step
 
-Implement RIC-STUDIO-060A only after human approval. Do not commit or push without an explicit gate.
+Implement RIC-STUDIO-061A only after human approval. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

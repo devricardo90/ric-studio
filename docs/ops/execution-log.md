@@ -2419,3 +2419,47 @@ READY promotion completed:
 - Only operational/status documentation was updated.
 - Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, fixtures, packages, lockfiles, dependencies, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, or architecture docs.
 - No commit or push occurred.
+
+## RIC-STUDIO-061A - Define Audit Session Report Contract
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-061A to READY by explicit current request after Discussion Gate approval.
+- Confirmed RIC-STUDIO-060A is Remote DONE at commit `6102050`.
+- Repository state before READY promotion was clean and synchronized with `origin/main` at `610205084a672e91ffdd208239d8421a16efe9d3`.
+- READY scope: documentation-only contract task to define the required structured output contract for `tools/auditor/audit-session.mjs`, including mandatory `protocol_findings` in every completed session report with default `[]`.
+- No contract document was created or edited during READY promotion.
+- No implementation was performed during READY promotion.
+
+Allowed files for READY promotion:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden during READY promotion:
+
+- Creating or editing `docs/architecture/local-auditor-session-contract.md`.
+- Editing `tools/auditor/audit-session.mjs`.
+- Editing `tools/auditor/audit.mjs`.
+- Editing fixtures.
+- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
+
+Validation required:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+
+READY promotion completed:
+
+- Only operational/status documentation was updated.
+- Did not create or edit the contract document.
+- Did not edit code, fixtures, package files, lockfiles, dependencies, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.

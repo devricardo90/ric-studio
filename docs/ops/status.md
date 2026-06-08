@@ -6,7 +6,7 @@ READY
 
 ## Task
 
-RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report
+RIC-STUDIO-061A - Define Audit Session Report Contract
 
 ## Product mode
 
@@ -35,14 +35,18 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-060A is READY.
+RIC-STUDIO-061A is READY.
 
 Current baseline:
 
+- RIC-STUDIO-060A is Remote DONE at commit `6102050`.
+- RIC-STUDIO-060A fixed `tools/auditor/audit-session.mjs` so the structured session report now surfaces `protocol_findings`.
+- The audit session report shape remains implicit and manually assembled, so future changes can silently omit important evaluator fields unless the output contract is documented.
+- Discussion Gate recommended a documentation-only follow-up before any new implementation or test task.
 - RIC-STUDIO-059A is Remote DONE at commit `6516cbf`.
 - RIC-STUDIO-059A documented that `evaluateEvidence` preserves `protocol_findings`.
 - RIC-STUDIO-059A proved that `tools/auditor/audit-session.mjs` does not surface `protocol_findings` in the session report.
-- Repository was clean and synchronized with `origin/main` at `6516cbfa846a9ecb94cbfeeda2273aeba870565c` before READY promotion.
+- Repository was clean and synchronized with `origin/main` at `610205084a672e91ffdd208239d8421a16efe9d3` before READY promotion.
 - RIC-STUDIO-058R is Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
 - RIC-STUDIO-058A is Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
 - Repository was clean and synchronized with `origin/main` at `f9a3f80301decc5064556d904f854893c94b818f` before READY opening.
@@ -57,13 +61,13 @@ Current baseline:
 - RIC-STUDIO-055A proved the allowed realistic fixture returns `COMMIT_ALLOWED` and the blocked realistic fixture returns `COMMIT_BLOCKED`.
 - RIC-STUDIO-055A did not create a warning fixture because the current evaluator has no warning decision path.
 
-Objective for 060A:
+Objective for 061A:
 
-- Open RIC-STUDIO-060A as READY.
-- Make `tools/auditor/audit-session.mjs` include evaluator `protocol_findings` in the structured session report.
-- Preserve existing `COMMIT_ALLOWED` and `COMMIT_BLOCKED` behavior.
+- Open RIC-STUDIO-061A as READY.
+- Define the required structured output contract for `tools/auditor/audit-session.mjs`.
+- Require `protocol_findings` in every completed session report, defaulting to `[]`.
 - Preserve the privacy-first no-raw-evidence boundary.
-- Do not implement the code fix during this READY promotion step.
+- Do not implement the contract document during this READY promotion step.
 
 Allowed files:
 
@@ -85,16 +89,13 @@ Files changed in implementation:
 
 Execution result:
 
-- Promoted RIC-STUDIO-060A to READY by explicit current request after Discussion Gate approval.
-- Confirmed repository was clean and synchronized with `origin/main` at `6516cbfa846a9ecb94cbfeeda2273aeba870565c` before READY promotion.
-- READY scope: small code fix to make `tools/auditor/audit-session.mjs` include evaluator `protocol_findings` in the structured session report.
-- No evaluator change is authorized unless implementation proves it is strictly necessary.
-- No fixture changes are expected.
-- Validation must use existing protocol-finding fixtures and document raw session outputs.
-- Stop in REVIEW after implementation and validation; no commit or push.
+- Promoted RIC-STUDIO-061A to READY by explicit current request after Discussion Gate approval.
+- Confirmed repository was clean and synchronized with `origin/main` at `610205084a672e91ffdd208239d8421a16efe9d3` before READY promotion.
+- READY scope: documentation-only contract task to define the required structured output contract for `tools/auditor/audit-session.mjs`, including mandatory `protocol_findings` in every completed session report with default `[]`.
+- No contract document was created or edited during READY promotion.
 - No implementation was performed during READY promotion.
 - Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, or fixtures.
-- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, architecture doc, Git automation, commit, or push action occurred.
+- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, contract document, architecture doc, Git automation, commit, or push action occurred.
 
 RIC-STUDIO-059A result:
 
