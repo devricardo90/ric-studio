@@ -72,6 +72,7 @@ function runSession() {
     result: decision.result,
     summary: decision.summary || (decision.decision === "COMMIT_BLOCKED" ? "Commit blocked by audit rules." : "N/A"),
     missing_evidence: decision.missing_evidence || [],
+    protocol_findings: decision.protocol_findings || [],
     allowed_actions: decision.allowed_actions,
     blocked_actions: decision.blocked_actions,
     human_review_required: decision.human_review_required,
