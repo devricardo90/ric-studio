@@ -2,20 +2,24 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner
+RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report
 
 ## Scope
 
-RIC-STUDIO-SPRINT-059 - Local Audit Session Protocol Findings Validation.
+RIC-STUDIO-SPRINT-060 - Audit Session Protocol Findings Report Surface.
 
-Validation/documentation-only task.
+READY opening only for a small code-fix task. No implementation was performed during this promotion step.
 
 Current baseline:
 
+- RIC-STUDIO-059A is Remote DONE at commit `6516cbf`.
+- RIC-STUDIO-059A documented that `evaluateEvidence` preserves `protocol_findings`.
+- RIC-STUDIO-059A proved that `tools/auditor/audit-session.mjs` does not surface `protocol_findings` in the session report.
+- Repository was clean and synchronized with `origin/main` at `6516cbfa846a9ecb94cbfeeda2273aeba870565c` before READY promotion.
 - RIC-STUDIO-058R is Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
 - RIC-STUDIO-058A is Remote DONE at commit `0a2d1de37c47a35c8c30e4ef5dd5a66ddb8added`.
 - Repository was clean and synchronized with `origin/main` at `f9a3f80301decc5064556d904f854893c94b818f` before READY opening.
@@ -32,11 +36,11 @@ Current baseline:
 
 Objective:
 
-- Open RIC-STUDIO-059A as READY.
-- Validate whether `tools/auditor/audit-session.mjs` preserves, surfaces, and reports `protocol_findings` from the evaluator when run through the full session runner path.
-- Document whether protocol findings are visible in session reports.
-- If the session runner omits `protocol_findings`, document that as a validation finding.
-- Do not fix session runner behavior in RIC-STUDIO-059A.
+- Open RIC-STUDIO-060A as READY.
+- Make `tools/auditor/audit-session.mjs` include evaluator `protocol_findings` in the structured session report.
+- Preserve existing `COMMIT_ALLOWED` and `COMMIT_BLOCKED` behavior.
+- Preserve the privacy-first no-raw-evidence boundary.
+- Do not implement the code fix during this READY promotion step.
 
 ## Allowed files
 
@@ -46,7 +50,6 @@ Objective:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`
 
 ## Files changed in implementation
 
@@ -56,21 +59,35 @@ Objective:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/local-auditor-session-protocol-findings-validation-059a.md`
 
 ## Blocked in this task
 
-During READY opening: implementation changes, editing `tools/auditor/audit.mjs`, editing `tools/auditor/audit-session.mjs`, fixture changes, docs/validation creation, docs/architecture changes, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, any READY task besides RIC-STUDIO-059A, commit, and push.
+During READY promotion: implementation changes, editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, fixture changes, docs/validation creation, docs/architecture changes, package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama changes, app/UI/backend/API/database/deploy changes, `.github` changes, Git automation, hooks, CI/CD, push automation, warning behavior, partial-confidence behavior, model integration, unattended decisions, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-058R - Operational state reconciliation after RIC-STUDIO-058A - Remote DONE at commit `f9a3f80301decc5064556d904f854893c94b818f`.
+RIC-STUDIO-059A - Validate Protocol Findings Through Audit Session Runner - Remote DONE at commit `6516cbf`.
 
 ## Current task result
 
-RIC-STUDIO-059A is in REVIEW after validation/documentation.
+RIC-STUDIO-060A is READY.
 
 Execution results:
+
+- Promoted RIC-STUDIO-060A to READY by explicit current request after Discussion Gate approval.
+- Confirmed repository was clean and synchronized with `origin/main` at `6516cbfa846a9ecb94cbfeeda2273aeba870565c` before READY promotion.
+- READY scope: small code fix to make `tools/auditor/audit-session.mjs` include evaluator `protocol_findings` in the structured session report.
+- No evaluator change is authorized unless implementation proves it is strictly necessary.
+- No fixture changes are expected.
+- Validation must use existing protocol-finding fixtures and document raw session outputs.
+- Stop in REVIEW after implementation and validation; no commit or push.
+- No implementation was performed during READY promotion.
+- Did not edit `tools/auditor/audit-session.mjs`.
+- Did not edit `tools/auditor/audit.mjs`.
+- Did not edit fixtures.
+- No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, architecture doc, Git automation, commit, or push action occurred.
+
+RIC-STUDIO-059A result:
 
 - Confirmed clean synchronized validation baseline at `HEAD == origin/main == 2f8e8613fe483d1134e252e6b02f1575bd924a82`.
 - Ran the four required `node tools/auditor/audit-session.mjs --evidence ...` commands.
@@ -112,7 +129,7 @@ Prior READY-opening results:
   - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
   - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/realistic-commit-blocked-evidence.json`
 - No implementation, auditor source edit, fixture edit, docs/validation creation, docs/architecture edit, package, lockfile, dependency installation, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push occurred during READY opening.
-- RIC-STUDIO-059A is the only READY task.
+- RIC-STUDIO-059A was the only READY task during the 059A READY opening.
 
 Validation required after READY opening:
 
@@ -127,7 +144,7 @@ Validation required after READY opening:
 - Confirm no docs/validation file was created.
 - Confirm no docs/architecture file changed.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` change.
-- Confirm RIC-STUDIO-059A is the only READY task.
+- Confirm RIC-STUDIO-059A was the only READY task during the 059A READY opening.
 
 ## Gate status
 

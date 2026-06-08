@@ -2091,7 +2091,7 @@ Summary:
 
 ## RIC-STUDIO-055A - Validate Local Audit Session Runner Against Real Commit Gate Evidence
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -2341,7 +2341,7 @@ Validation required after READY opening:
 - Confirm no docs/validation file was created.
 - Confirm no docs/architecture file changed.
 - Confirm no package, lockfile, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, or `.github` changes.
-- Confirm RIC-STUDIO-059A is the only READY task.
+- Confirm RIC-STUDIO-059A was the only READY task during the 059A READY opening.
 
 Validation completed:
 
@@ -2360,3 +2360,62 @@ Validation completed:
 - No code was changed.
 - Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, or fixtures.
 - No package, lockfile, dependency installation, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, Git automation, hooks, CI, push automation, warning behavior, partial-confidence behavior, model integration, unattended decision, commit, or push occurred.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-059A is Remote DONE at commit `6516cbf`.
+- Remote DONE repository state is clean and synchronized with `origin/main` at `6516cbfa846a9ecb94cbfeeda2273aeba870565c`.
+- Validation documented that `evaluateEvidence` preserves `protocol_findings`.
+- Validation proved that `tools/auditor/audit-session.mjs` does not surface `protocol_findings` in the session report.
+- No code fix was performed in RIC-STUDIO-059A.
+
+## RIC-STUDIO-060A - Surface Protocol Findings In Audit Session Report
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-060A to READY by explicit current request after Discussion Gate approval.
+- Confirmed RIC-STUDIO-059A is Remote DONE at commit `6516cbf`.
+- Repository state before READY promotion was clean and synchronized with `origin/main` at `6516cbfa846a9ecb94cbfeeda2273aeba870565c`.
+- READY scope: small code fix to make `tools/auditor/audit-session.mjs` include evaluator `protocol_findings` in the structured session report.
+- No evaluator change is authorized unless implementation proves it is strictly necessary.
+- No fixture changes are expected.
+- Validation must use existing protocol-finding fixtures and document raw session outputs.
+- Stop in REVIEW after implementation and validation; no commit or push.
+- No implementation was performed during READY promotion.
+
+Allowed files:
+
+- `tools/auditor/audit-session.mjs`.
+- `docs/validation/local-auditor-session-protocol-findings-fix-060a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden:
+
+- Editing `tools/auditor/audit.mjs` unless implementation proves it is strictly necessary.
+- Fixture changes unless implementation proves a narrow validation fixture is necessary.
+- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, broad architecture changes, Git automation, commit, or push.
+
+Validation required:
+
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-allowed-file-violation.json`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/realistic-commit-blocked-evidence.json`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+
+READY promotion completed:
+
+- Only operational/status documentation was updated.
+- Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, fixtures, packages, lockfiles, dependencies, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, or architecture docs.
+- No commit or push occurred.
