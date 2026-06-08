@@ -2,75 +2,33 @@
 
 ## Current handoff state
 
-RIC-STUDIO-063A is READY: `Document Local Auditor Validation Usage`.
+RIC-STUDIO-063A is in REVIEW: `Document Local Auditor Validation Usage`.
 
 RIC-STUDIO-062A is in REVIEW.
 
 RIC-STUDIO-061A is Remote DONE at commit `a103728`.
 
-Task mode: dependency-free local validation task executed. Do not commit or push without an explicit gate.
+Task mode: documentation-only implementation completed. Do not commit or push without explicit authorization.
 
 Current repository context:
 
-- No READY task is active.
-- Known non-blocking warning: Git may report permission warnings reading `C:\Users\ricardodev/.config/git/ignore`; this is not repository dirtiness when `git status` shows no changed files.
-- `tools/auditor/audit.mjs` exposes `evaluateEvidence(evidence)`.
-- `tools/auditor/audit-session.mjs` exists as a dependency-free session runner.
-- RIC-STUDIO-061A defined the required report contract in `docs/architecture/local-auditor-session-contract.md`.
-- RIC-STUDIO-060A fixed `tools/auditor/audit-session.mjs` so the structured session report now surfaces `protocol_findings`.
-- The current risk is future contract drift: report fields may be removed, renamed, or silently omitted without validation.
+- Documented local auditor validation usage in `tools/auditor/README.md`.
+- Explained validator purpose, when to run it, what is validated, interpretation of PASS/FAIL, and technical boundaries.
+- Verified README content with `rg`.
+- Verified `node tools/auditor/validate-session-contract.mjs` PASSES.
+- No code, fixture, package, or dependency changes occurred.
 
-RIC-STUDIO-062A objective:
+## Next steps
 
-- Add a minimal dependency-free validation path that verifies `tools/auditor/audit-session.mjs` emits the required structured report fields from `docs/architecture/local-auditor-session-contract.md`.
-- Explicitly check `protocol_findings` in allowed and blocked outputs.
-- Validate shape only, not business logic.
-- Stop in REVIEW after implementation and validation; no commit or push.
+1. Review RIC-STUDIO-063A documentation in `tools/auditor/README.md`.
+2. Review RIC-STUDIO-062A validator implementation.
+3. If approved, close tasks and prepare for Remote DONE after commit and push.
 
-RIC-STUDIO-062A READY scope:
+## Blocked
 
-- Dependency-free local validation task.
-- Use existing audit-session command outputs and existing fixtures.
-- Create no package scripts, dependencies, CI, broad harness, runtime changes, or fixture changes.
-- Implementation added a local validator and validation evidence only.
-
-RIC-STUDIO-062A allowed files:
-
-- `tools/auditor/validate-session-contract.mjs`
-- `docs/validation/local-auditor-session-contract-validation-062a.md`
-- `STATUS.md`
-- `backlog.md`
-- `docs/ops/status.md`
-- `docs/ops/backlog.md`
-- `docs/ops/execution-log.md`
-- `docs/ops/session-handoff.md`
-
-RIC-STUDIO-062A forbidden:
-
-- Do not edit `tools/auditor/audit-session.mjs`.
-- Do not edit `tools/auditor/audit.mjs`.
-- Do not edit fixtures.
-- Do not change package files, lockfiles, dependencies, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
-
-RIC-STUDIO-062A validation commands:
-
-- `node tools/auditor/validate-session-contract.mjs`
-- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
-- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
-- `git status --short --untracked-files=all`
-- `git status -sb`
-- `git diff --name-only`
-- `git diff --stat`
-- `git diff --check`
-
-RIC-STUDIO-062A result:
-
-- Added `tools/auditor/validate-session-contract.mjs`.
-- Added `docs/validation/local-auditor-session-contract-validation-062a.md`.
-- The validator runs `tools/auditor/audit-session.mjs` against existing allowed and blocked protocol-finding fixtures.
-- The validator parses JSON output and checks required completed session report fields.
-- The validator checks `protocol_findings` exists in allowed and blocked outputs, is `[]` for the allowed fixture, and is populated for the blocked protocol-finding fixture.
-- No audit runtime behavior, evaluator logic, fixtures, package files, dependencies, CI, app files, runtime/model/Ollama files, commit, or push changed.
+- Editing validator or auditor code during this handoff.
+- Fixture changes.
+- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, commit, and push.
 
 RIC-STUDIO-061A result:
 

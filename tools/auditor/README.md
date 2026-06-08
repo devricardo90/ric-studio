@@ -28,6 +28,42 @@ node tools/auditor/audit-session.mjs --evidence <path/to/evidence.json>
 
 The runner provides a structured JSON report on `stdout` including the audit decision, session status, and safe metadata.
 
+### Audit Session Contract Validation
+
+To ensure the session runner correctly implements the required report fields, use the dependency-free contract validator:
+
+```powershell
+node tools/auditor/validate-session-contract.mjs
+```
+
+#### When to Run
+- **Before** making any changes to `tools/auditor/audit-session.mjs`.
+- **After** any changes that may affect the audit session report shape.
+- **During Review** of tasks that modify audit session output or contracts.
+
+#### What is Validated
+The validator checks requirements from `docs/architecture/local-auditor-session-contract.md`:
+- **Required fields:** `session_status`, `audit_metadata`, `protocol_findings`, `missing_evidence`, `human_review_required`, and `next_step`.
+- **Nested metadata:** Correct structure for `audit_decision`, `auditor_authority`, and `evidence_source`.
+- **Protocol findings presence:** Verified in both allowed and blocked outputs.
+- **Protocol findings behavior:**
+    - `protocol_findings: []` for allowed output.
+    - Populated `protocol_findings` for blocked outputs involving protocol violations.
+
+#### How to Interpret Results
+- **PASS:** The current session report shape satisfies the local contract checks.
+- **FAIL:** Review must stop. The implementation or contract alignment must be corrected before proceeding.
+
+#### Boundaries
+- **No package scripts:** Run directly with `node`. No `npm` scripts are required.
+- **No CI integration:** This is a local-only tool. No CI authorization is granted.
+- **Dependency-free:** Uses only Node.js built-ins. No dependency changes are authorized.
+
+#### Related Files
+- `tools/auditor/validate-session-contract.mjs`
+- `docs/architecture/local-auditor-session-contract.md`
+- `docs/validation/local-auditor-session-contract-validation-062a.md`
+
 ### Read-only Smoke Workflow
 
 ```powershell

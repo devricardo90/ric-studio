@@ -2580,17 +2580,21 @@ Implementation validation required:
 
 ## RIC-STUDIO-063A - Document Local Auditor Validation Usage
 
-State: READY
+State: REVIEW
 
 Summary:
 
-- Promoted RIC-STUDIO-063A to READY as an operational/status documentation update only.
-- READY scope: documentation-only task to explain when and how to run local auditor validation commands, including `node tools/auditor/validate-session-contract.mjs`, before audit session report contract changes.
-- Baseline: RIC-STUDIO-062A is in REVIEW. Repository clean and synchronized with `origin/main` before 063A READY promotion.
-- No validator, audit runtime, evaluator, fixture, package, dependency, CI, runtime, app, commit, or push changes during READY promotion.
+- Documented local auditor validation usage in `tools/auditor/README.md`.
+- Explained validator purpose, when to run it, what is validated (fields, metadata structure, protocol findings behavior), interpretation of PASS/FAIL, and technical boundaries (dependency-free, no CI).
+- Verified README content documentation with `rg`.
+- Verified the validator still passes with `node tools/auditor/validate-session-contract.mjs`.
+- Updated status and backlog files to reflect implementation completion.
+- No validator code, audit runtime, evaluator, fixture, package, dependency, CI, runtime, or app change occurred.
+- Stopped in REVIEW for human approval.
 
-Allowed files for READY promotion:
+Implementation allowed files:
 
+- `tools/auditor/README.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -2598,28 +2602,12 @@ Allowed files for READY promotion:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-Forbidden during READY promotion:
+Implementation validation required:
 
-- Editing `tools/auditor/README.md`.
-- Editing `docs/architecture/local-auditor-session-contract.md`.
-- Editing `docs/validation/local-auditor-session-contract-validation-062a.md`.
-- Editing `tools/auditor/validate-session-contract.mjs`.
-- Editing `tools/auditor/audit-session.mjs`.
-- Editing `tools/auditor/audit.mjs`.
-- Editing fixtures.
-- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
-
-Validation required:
-
-- `git status --short --untracked-files=all`
-- `git status -sb`
-- `git rev-parse HEAD`
-- `git rev-parse origin/main`
-- `git diff --name-only`
-- `git diff --stat`
-- `git diff --check`
-
-READY promotion completed:
-
-- Only operational/status documentation was updated.
-- Confirmed no README, validator, audit runtime, evaluator, fixture, package, lockfile, CI, runtime, app, commit, or push change was performed.
+- `rg -n "validate-session-contract|audit session contract|protocol_findings|PASS|FAIL|no package scripts|no CI|dependency-free" tools/auditor/README.md`.
+- `node tools/auditor/validate-session-contract.mjs`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
