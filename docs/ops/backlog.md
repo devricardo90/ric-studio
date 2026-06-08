@@ -17,9 +17,10 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage. REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change.
-- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario. REVIEW - realistic local review scenario validated and documented; no auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change.
 
 ## READY
+
+- RIC-STUDIO-065A - Position RIC Studio README For Portfolio Review. READY - documentation-only task to improve the public-facing README so an external reviewer can understand RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, local auditor role, and intentional automation boundaries; no README edit, code, auditor source, validator, fixtures, package scripts, dependencies, CI, runtime/model/Ollama, app/backend/frontend/database/deploy, commit, or push changes during READY promotion.
 
 ## IN_PROGRESS
 
@@ -52,6 +53,7 @@ No task is Local DONE.
 - RIC-STUDIO-021A - Promote RIC-STUDIO-019A Candidate To Official Runtime.
 - RIC-STUDIO-022A - Define Minimal Validation Harness Requirements For Runtime Smoke Tests.
 - RIC-STUDIO-024A - Create Qwen 7B Orchestrator Candidate Runtime.
+- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario. Remote DONE at commit `8d9f893`.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`.
 - RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. Remote DONE at commit `105c220`.
 - RIC-STUDIO-040A - Define Local MVP Technical Scaffold. Remote DONE at commit `c436045`.

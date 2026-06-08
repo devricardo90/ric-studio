@@ -2,45 +2,44 @@
 
 ## Current handoff state
 
-RIC-STUDIO-064A is in REVIEW: `Validate Local Auditor Workflow Usage In Real Review Scenario`.
+RIC-STUDIO-065A is READY: `Position RIC Studio README For Portfolio Review`.
+
+RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-RIC-STUDIO-061A is Remote DONE at commit `a103728`.
-
-Task mode: documentation-only validation completed. Stop in REVIEW. Do not commit or push without explicit authorization.
+Task mode: READY promotion completed as operational/status documentation only. Stop in REVIEW. Do not edit README, commit, or push without explicit authorization.
 
 Current repository context:
 
-- RIC-STUDIO-060A fixed the audit session report to surface `protocol_findings`.
-- RIC-STUDIO-061A documented the audit session report contract.
-- RIC-STUDIO-062A added `tools/auditor/validate-session-contract.mjs`.
-- RIC-STUDIO-063A documented local auditor validation usage in `tools/auditor/README.md`.
-- RIC-STUDIO-064A validated the documented local auditor workflow in a realistic review scenario.
-- Evidence is documented in `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
-- The validator passed with `PASS audit session contract validation` when run outside the sandbox child-process restriction.
-- The allowed fixture returned `COMMIT_ALLOWED`, no protocol findings, commit allowed, push and Remote DONE blocked, and human review required.
-- The blocked fixture returned `COMMIT_BLOCKED`, a blocker protocol finding, no allowed actions, commit/push/Remote DONE blocked, and human review required.
-- No auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change occurred.
+- The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
+- RIC-STUDIO-064A validated the documented local auditor workflow in `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
+- RIC-STUDIO-065A is now READY to improve public-facing README/portfolio positioning.
+- The README update has not been implemented yet.
+- No README, code, auditor source, validator, fixture, package, CI, runtime, app, commit, or push change occurred during READY promotion.
 
 ## Next steps
 
-1. Review `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
-2. If approved, prepare commit only after explicit commit gate approval.
-3. Do not push without explicit push gate approval.
+1. Await explicit human approval before executing RIC-STUDIO-065A.
+2. During execution, update only `README.md` plus required operational/status docs.
+3. Validate README positioning and confirm only allowed files changed.
 
 ## Blocked
 
-- Editing validator or auditor code.
-- Editing `tools/auditor/README.md`.
+- Editing `README.md` during READY promotion.
+- Editing code.
+- Editing `tools/auditor/**`.
 - Fixture changes.
 - Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, commit, and push.
 
-RIC-STUDIO-064A validation commands run:
+RIC-STUDIO-065A future validation commands:
 
-- `node tools/auditor/validate-session-contract.mjs`
-- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
-- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
+- `git status --short --untracked-files=all`
+- `git status -sb`
+- `git diff --name-only`
+- `git diff --stat`
+- `git diff --check`
+- `rg -n "RIC Studio|portfolio|human approval|audit evidence|local auditor|not automated|Discussion Gate|READY|Remote DONE" README.md`
 
 RIC-STUDIO-061A result:
 

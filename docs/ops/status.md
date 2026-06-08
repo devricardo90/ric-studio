@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario
+RIC-STUDIO-065A - Position RIC Studio README For Portfolio Review
 
 ## Product mode
 
@@ -35,28 +35,23 @@ Minimal local implementation planning with operational control.
 
 ## Scope
 
-RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario. Documentation-only validation task to run and document a realistic local review scenario proving the documented local auditor validation flow works for humans and future agents before future audit-session report changes.
+RIC-STUDIO-065A - Position RIC Studio README For Portfolio Review. READY promotion only. Future execution should improve the public-facing README so an external reviewer can understand RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, local auditor role, and intentional automation boundaries.
 
 Current baseline:
 
+- RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 - RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
-- RIC-STUDIO-063A documented local auditor validation usage in `tools/auditor/README.md`.
-- RIC-STUDIO-062A added `tools/auditor/validate-session-contract.mjs`.
-- RIC-STUDIO-061A is Remote DONE at commit `a103728`.
-- RIC-STUDIO-060A is Remote DONE at commit `6102050`.
-- RIC-STUDIO-064A READY promotion is Remote DONE at commit `292557c210bb0dcfa568dd265073930fc7b939d9`.
-- Repository was clean and synchronized with `origin/main` at `292557c210bb0dcfa568dd265073930fc7b939d9` before implementation.
+- The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
+- Repository was clean and synchronized with `origin/main` at `8d9f893e5fe360abd02a06c1347309f3cb3d0170` before READY promotion.
 
 Objective:
 
-- Run the local auditor validator and representative session runner commands.
-- Document the realistic review scenario in `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
-- Update operational and status files.
-- Stop in REVIEW after documentation updates.
+- Promote RIC-STUDIO-065A to READY through operational/status documentation only.
+- Do not edit `README.md` during READY promotion.
+- Stop in REVIEW after READY promotion documentation updates.
 
 ## Allowed files
 
-- `docs/validation/local-auditor-workflow-usage-validation-064a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -64,9 +59,8 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in implementation
+## Files changed in READY promotion
 
-- `docs/validation/local-auditor-workflow-usage-validation-064a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -76,24 +70,22 @@ Objective:
 
 ## Blocked in this task
 
-Editing `tools/auditor/validate-session-contract.mjs`, editing `tools/auditor/audit-session.mjs`, editing `tools/auditor/audit.mjs`, editing `tools/auditor/README.md`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
+Editing `README.md` during READY promotion, editing code, editing `tools/auditor/**`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
 
 ## Previous task result
 
-RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
+RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 
 ## Current task result
 
-RIC-STUDIO-064A is in REVIEW.
+RIC-STUDIO-065A is READY.
 
-Execution results:
+READY promotion results:
 
-- Confirmed clean synchronized implementation baseline at `HEAD == origin/main == 292557c210bb0dcfa568dd265073930fc7b939d9`.
-- Verified `node tools/auditor/validate-session-contract.mjs` returns `PASS audit session contract validation` when run outside the sandbox child-process restriction.
-- Verified the allowed fixture returns `COMMIT_ALLOWED`, `protocol_findings: []`, `allowed_actions: ["commit"]`, blocked `push` and `remote_done`, and `human_review_required: true`.
-- Verified the blocked fixture returns `COMMIT_BLOCKED`, a populated blocker `protocol_findings` entry, no allowed actions, blocked `commit`, `push`, and `remote_done`, and `human_review_required: true`.
-- Created `docs/validation/local-auditor-workflow-usage-validation-064a.md`.
-- No auditor source, validator, fixture, README, package, dependency, CI, runtime, or app change occurred.
+- Opened RIC-STUDIO-065A as READY by explicit approval after Discussion Gate recommendation.
+- READY scope is documentation-only future README positioning plus operational/status docs.
+- Did not edit `README.md` during READY promotion.
+- No code, auditor source, validator, fixture, package, dependency, CI, runtime, or app change occurred.
 - Stopped in REVIEW.
 
 RIC-STUDIO-059A result:

@@ -17,14 +17,14 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
-- RIC-STUDIO-064A - Validate Local Auditor Workflow Usage In Real Review Scenario (REVIEW - realistic local review scenario validated and documented; no auditor source, validator, fixture, README, package, CI, runtime, app, commit, or push change)
 
 ## READY
 
+- RIC-STUDIO-065A - Position RIC Studio README For Portfolio Review. READY - documentation-only task to improve the public-facing README so an external reviewer can understand RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, local auditor role, and intentional automation boundaries; no README edit, code, auditor source, validator, fixtures, package scripts, dependencies, CI, runtime/model/Ollama, app/backend/frontend/database/deploy, commit, or push changes during READY promotion.
 
 ## Next safe step
 
-Review RIC-STUDIO-064A validation evidence. Do not commit or push without an explicit gate.
+Execute RIC-STUDIO-065A only after explicit human approval. Do not edit `README.md`, commit, or push during READY promotion.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -33,6 +33,8 @@ RIC-STUDIO-007A is Remote DONE and synchronized with `origin/main` at commit `f4
 RIC-STUDIO-006A is Remote DONE and synchronized with `origin/main` at commit `8e3796a`.
 
 RIC-STUDIO-005A is Remote DONE and synchronized with `origin/main` at commit `6610991`.
+
+RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 
 During RIC-STUDIO-004B, the clean versioned runtime source was created. No candidate model was created, no official runtime was promoted, and no behavioral model tests were executed in that task.
 
