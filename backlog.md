@@ -15,6 +15,7 @@
 - RIC-STUDIO-038A - Define LangChain AI Delivery Auditor Public MVP Scope (REVIEW - documentation-only public MVP scope completed; no code, dependencies, runtime, Modelfile, app, API, commit, or push)
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts (REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push)
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
+- RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 
 ## REJECTED / REVIEW CLOSED
 
@@ -91,11 +92,11 @@ No task is Local DONE.
 
 ## READY
 
-- RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (READY - dependency-free local validation task to verify tools/auditor/audit-session.mjs emits required structured report fields from docs/architecture/local-auditor-session-contract.md, including protocol_findings in allowed and blocked outputs; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push changes during READY promotion)
+No task is READY.
 
 ## Next safe step
 
-Implement RIC-STUDIO-062A only after human approval. Do not commit or push without an explicit gate.
+Review RIC-STUDIO-062A. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

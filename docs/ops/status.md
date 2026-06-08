@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
@@ -35,7 +35,7 @@ Minimal local implementation planning with operational control.
 
 ## Current task result
 
-RIC-STUDIO-062A is READY.
+RIC-STUDIO-062A is in REVIEW.
 
 Current baseline:
 
@@ -65,13 +65,14 @@ Current baseline:
 
 Objective for 062A:
 
-- Open RIC-STUDIO-062A as READY.
 - Add a minimal dependency-free validation path that verifies `tools/auditor/audit-session.mjs` emits the required structured report fields from `docs/architecture/local-auditor-session-contract.md`.
 - Explicitly check `protocol_findings` in allowed and blocked outputs.
-- Do not implement the validation script or validation report during this READY promotion step.
+- Stop in REVIEW after implementation and validation.
 
 Allowed files:
 
+- `tools/auditor/validate-session-contract.mjs`
+- `docs/validation/local-auditor-session-contract-validation-062a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -81,6 +82,8 @@ Allowed files:
 
 Files changed in implementation:
 
+- `tools/auditor/validate-session-contract.mjs`.
+- `docs/validation/local-auditor-session-contract-validation-062a.md`.
 - `STATUS.md`.
 - `backlog.md`.
 - `docs/ops/status.md`.
@@ -90,11 +93,12 @@ Files changed in implementation:
 
 Execution result:
 
-- Promoted RIC-STUDIO-062A to READY by explicit current request after Discussion Gate approval.
-- READY scope: dependency-free local validation task to verify `tools/auditor/audit-session.mjs` emits required structured report fields from `docs/architecture/local-auditor-session-contract.md`, including `protocol_findings` in allowed and blocked outputs.
-- No validation script was created during READY promotion.
-- No validation report was created during READY promotion.
-- No implementation was performed during READY promotion.
+- Confirmed repository was clean and synchronized with `origin/main` at `1766a94faa8aa7b7eadba99c491412d58eebcc3a` before implementation.
+- Added `tools/auditor/validate-session-contract.mjs`.
+- Added `docs/validation/local-auditor-session-contract-validation-062a.md`.
+- The validator runs the existing audit session runner against existing allowed and blocked protocol-finding fixtures, parses JSON output, and checks the required completed report fields.
+- The validator explicitly checks `protocol_findings` is present as `[]` for the allowed fixture and populated for the blocked protocol-finding fixture.
+- Stopped in REVIEW after implementation and validation.
 - Did not edit `tools/auditor/audit-session.mjs`, `tools/auditor/audit.mjs`, or fixtures.
 - No package, lockfile, dependency, `node_modules`, runtime/model/Ollama, app/UI/backend/API/database/deploy, `.github`, CI/CD, Git automation, commit, or push action occurred.
 
