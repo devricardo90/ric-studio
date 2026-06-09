@@ -17,10 +17,10 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage. REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change.
+- RIC-STUDIO-067A - Create External Reviewer Evidence Guide. REVIEW - concise external reviewer guide created; no README, code, auditor, fixture, package/dependency, CI, runtime/model/Ollama, app/backend/frontend/database/deploy, commit, or push change.
 
 ## READY
 
-- RIC-STUDIO-067A - Create External Reviewer Evidence Guide. READY - documentation-only task to create a short guide under docs/product/ that points external reviewers to README positioning, task lifecycle evidence, audit session contract, local auditor validation, workflow validation, README portfolio validation, human approval and Git discipline, and intentional automation boundaries; no guide creation, README edit, code, auditor files, fixtures, package/dependency files, CI, runtime/model/Ollama, app/backend/frontend/database/deploy, commit, or push changes during READY promotion.
 
 ## IN_PROGRESS
 
@@ -91,7 +91,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Execute RIC-STUDIO-067A only after human approval. Do not create the guide, commit, or push without an explicit gate.
+Review RIC-STUDIO-067A evidence guide. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

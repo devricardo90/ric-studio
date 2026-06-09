@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-067A is READY: `Create External Reviewer Evidence Guide`.
+RIC-STUDIO-067A is in REVIEW: `Create External Reviewer Evidence Guide`.
 
 RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
 
@@ -12,7 +12,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: documentation-only external reviewer evidence guide is READY. Do not create the guide, edit README, commit, or push without explicit authorization.
+Task mode: documentation-only external reviewer evidence guide completed. Stop in REVIEW. Do not edit README, commit, or push without explicit authorization.
 
 Current repository context:
 
@@ -22,19 +22,18 @@ Current repository context:
 - RIC-STUDIO-065A is Remote DONE at commit `5b532bd988d7524a869d9f395678d9f6549b5824`.
 - RIC-STUDIO-066A validation evidence was created in `docs/validation/readme-portfolio-positioning-validation-066a.md`.
 - RIC-STUDIO-066A final validation decision is PASS and is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
-- RIC-STUDIO-067A has been promoted to READY as an operational/status documentation update only.
+- RIC-STUDIO-067A created `docs/product/external-reviewer-evidence-guide.md`.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
-- No guide file, README edit, code, auditor source, validator, fixture, package, CI, runtime, app, commit, or push change occurred during READY promotion.
+- No README edit, code, auditor source, validator, fixture, package, CI, runtime, app, commit, or push change occurred during implementation.
 
 ## Next steps
 
-1. Execute RIC-STUDIO-067A only after human approval.
-2. Create `docs/product/external-reviewer-evidence-guide.md` only during approved implementation.
-3. Do not edit README, commit, or push without explicit approval.
+1. Review `docs/product/external-reviewer-evidence-guide.md`.
+2. If approved, prepare commit only after explicit commit gate approval.
+3. Do not push without explicit push gate approval.
 
 ## Blocked
 
-- Creating `docs/product/external-reviewer-evidence-guide.md` during READY promotion.
 - Editing `README.md`.
 - Editing code.
 - Editing `tools/auditor/**`.
