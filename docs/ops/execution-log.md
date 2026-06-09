@@ -2794,7 +2794,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-066A - Validate README Portfolio Positioning
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -2884,3 +2884,69 @@ Implementation validation required:
 - `git diff --stat`.
 - `git diff --check`.
 - `rg -n "RIC Studio|documentation-first|AI-assisted|Discussion Gate|READY|REVIEW|Local DONE|Remote DONE|human approval|audit evidence|local auditor|protocol_findings|not automated|portfolio|production SaaS|autonomous|commit|push" README.md`.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
+- The README portfolio validation evidence is synchronized with `origin/main`.
+
+## RIC-STUDIO-067A - Create External Reviewer Evidence Guide
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-067A to READY by explicit current approval after Discussion Gate recommendation.
+- Confirmed RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
+- Repository state before READY promotion was clean and synchronized with `origin/main` at `ec8137b30ad3079c9940cbb927e8626d2110001c`.
+- READY scope: documentation-only task to create a short guide under `docs/product/` that points external reviewers to README positioning, task lifecycle evidence, audit session contract, local auditor validation, workflow validation, README portfolio validation, human approval and Git discipline, and intentional automation boundaries.
+- No guide file was created during READY promotion.
+- No README edit was performed during READY promotion.
+- No implementation was performed during READY promotion.
+
+Allowed files for READY promotion:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Allowed files during future RIC-STUDIO-067A execution:
+
+- `docs/product/external-reviewer-evidence-guide.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden during READY promotion:
+
+- Creating `docs/product/external-reviewer-evidence-guide.md`.
+- Editing `README.md`.
+- Editing code.
+- Editing `tools/auditor/**`.
+- Editing fixtures.
+- Package changes, package script changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.
+
+Validation required during future RIC-STUDIO-067A execution:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git rev-parse HEAD`.
+- `git rev-parse origin/main`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `rg -n "README.md|local-auditor-session-contract|readme-portfolio-positioning-validation-066a|local-auditor-workflow-usage-validation-064a|local-auditor-session-contract-validation-062a|tools/auditor/README|Discussion Gate|READY|REVIEW|Local DONE|Remote DONE|human approval|audit evidence|automation boundaries" docs/product/external-reviewer-evidence-guide.md`.
+
+READY promotion completed:
+
+- Only operational/status documentation was updated.
+- Reconciled RIC-STUDIO-066A as Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
+- Did not create `docs/product/external-reviewer-evidence-guide.md`.
+- Did not edit `README.md`.
+- Did not edit code, auditor source, validator, fixtures, package files, lockfiles, dependencies, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, Git automation, commit, or push.

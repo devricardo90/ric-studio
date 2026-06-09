@@ -2,35 +2,34 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-066A - Validate README Portfolio Positioning
+RIC-STUDIO-067A - Create External Reviewer Evidence Guide
 
 ## Scope
 
-RIC-STUDIO-066A - Validate README Portfolio Positioning. Documentation-only validation task to review README.md for external portfolio/recruiter clarity, accuracy, honest maturity framing, human approval gates, audit evidence, local auditor role, task lifecycle explanation, and intentional automation boundaries.
+RIC-STUDIO-067A - Create External Reviewer Evidence Guide. READY - documentation-only task to create a short guide under docs/product/ that points external reviewers to README positioning, task lifecycle evidence, audit session contract, local auditor validation, workflow validation, README portfolio validation, human approval and Git discipline, and intentional automation boundaries; no guide creation, README edit, code, auditor files, fixtures, package/dependency files, CI, runtime/model/Ollama, app/backend/frontend/database/deploy, commit, or push changes during READY promotion.
 
 Current baseline:
 
+- RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
 - RIC-STUDIO-065A is Remote DONE at commit `5b532bd988d7524a869d9f395678d9f6549b5824`.
-- RIC-STUDIO-066A READY promotion is Remote DONE at commit `62dc25336b799d4ebe8288a503c982fa7b78ca27`.
 - RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 - RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 - The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
-- Repository was clean and synchronized with `origin/main` at `62dc25336b799d4ebe8288a503c982fa7b78ca27` before implementation.
+- Repository was clean and synchronized with `origin/main` at `ec8137b30ad3079c9940cbb927e8626d2110001c` before READY promotion.
 
 Objective:
 
-- Validate that `README.md` is clear, accurate, externally understandable, and suitable for portfolio/recruiter review.
-- Confirm README positioning does not overstate automation, production readiness, product maturity, or autonomous AI execution.
-- Create a narrow validation note.
-- Stop in REVIEW after validation execution.
+- Create a short external reviewer evidence guide during future execution.
+- Point reviewers to README positioning, task lifecycle evidence, audit session contract, local auditor validation, workflow validation, README portfolio validation, human approval and Git discipline, and intentional automation boundaries.
+- Do not create the guide during READY promotion.
+- Stop in REVIEW after future guide implementation.
 
 ## Allowed files
 
-- `docs/validation/readme-portfolio-positioning-validation-066a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -38,9 +37,9 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Allowed files during RIC-STUDIO-066A execution
+## Allowed files during future RIC-STUDIO-067A execution
 
-- `docs/validation/readme-portfolio-positioning-validation-066a.md`
+- `docs/product/external-reviewer-evidence-guide.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -48,9 +47,8 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in implementation
+## Files changed in READY promotion
 
-- `docs/validation/readme-portfolio-positioning-validation-066a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -60,22 +58,22 @@ Objective:
 
 ## Blocked in this task
 
-Editing `README.md`, editing code, editing `tools/auditor/**`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
+Creating `docs/product/external-reviewer-evidence-guide.md` during READY promotion, editing `README.md`, editing code, editing `tools/auditor/**`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-065A - Position RIC Studio README For Portfolio Review - Remote DONE at commit `5b532bd988d7524a869d9f395678d9f6549b5824`.
+RIC-STUDIO-066A - Validate README Portfolio Positioning - Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
 
 ## Current task result
 
-RIC-STUDIO-066A is in REVIEW.
+RIC-STUDIO-067A is READY.
 
-Execution results:
+READY promotion results:
 
-- Confirmed clean synchronized implementation baseline at `HEAD == origin/main == 62dc25336b799d4ebe8288a503c982fa7b78ca27`.
-- Reviewed README portfolio positioning with keyword evidence.
-- Created `docs/validation/readme-portfolio-positioning-validation-066a.md`.
-- Final validation decision: PASS.
+- Confirmed clean synchronized READY baseline at `HEAD == origin/main == ec8137b30ad3079c9940cbb927e8626d2110001c`.
+- Reconciled RIC-STUDIO-066A as Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
+- Promoted RIC-STUDIO-067A to READY as an operational/status documentation update only.
+- Did not create `docs/product/external-reviewer-evidence-guide.md`.
 - Did not edit `README.md`.
 - Did not edit code, auditor files, fixtures, package/dependency files, CI, runtime/model/Ollama files, app/backend/frontend/database/deploy files, commit, or push.
 

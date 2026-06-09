@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-066A is in REVIEW: `Validate README Portfolio Positioning`.
+RIC-STUDIO-067A is READY: `Create External Reviewer Evidence Guide`.
+
+RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
 
 RIC-STUDIO-065A is Remote DONE at commit `5b532bd988d7524a869d9f395678d9f6549b5824`.
 
@@ -10,7 +12,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: documentation-only README positioning validation completed. Stop in REVIEW. Do not edit README, commit, or push without explicit authorization.
+Task mode: documentation-only external reviewer evidence guide is READY. Do not create the guide, edit README, commit, or push without explicit authorization.
 
 Current repository context:
 
@@ -19,25 +21,27 @@ Current repository context:
 - RIC-STUDIO-065A updated `README.md` for public-facing README/portfolio positioning.
 - RIC-STUDIO-065A is Remote DONE at commit `5b532bd988d7524a869d9f395678d9f6549b5824`.
 - RIC-STUDIO-066A validation evidence was created in `docs/validation/readme-portfolio-positioning-validation-066a.md`.
-- RIC-STUDIO-066A final validation decision is PASS.
+- RIC-STUDIO-066A final validation decision is PASS and is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
+- RIC-STUDIO-067A has been promoted to READY as an operational/status documentation update only.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
-- No README edit, code, auditor source, validator, fixture, package, CI, runtime, app, commit, or push change occurred during validation.
+- No guide file, README edit, code, auditor source, validator, fixture, package, CI, runtime, app, commit, or push change occurred during READY promotion.
 
 ## Next steps
 
-1. Review `docs/validation/readme-portfolio-positioning-validation-066a.md`.
-2. If approved, prepare commit only after explicit commit gate approval.
-3. Do not push without explicit push gate approval.
+1. Execute RIC-STUDIO-067A only after human approval.
+2. Create `docs/product/external-reviewer-evidence-guide.md` only during approved implementation.
+3. Do not edit README, commit, or push without explicit approval.
 
 ## Blocked
 
+- Creating `docs/product/external-reviewer-evidence-guide.md` during READY promotion.
 - Editing `README.md`.
 - Editing code.
 - Editing `tools/auditor/**`.
 - Fixture changes.
 - Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github`, CI/CD, commit, and push.
 
-RIC-STUDIO-066A validation commands:
+RIC-STUDIO-067A validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
@@ -46,7 +50,7 @@ RIC-STUDIO-066A validation commands:
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
-- `rg -n "RIC Studio|documentation-first|AI-assisted|Discussion Gate|READY|REVIEW|Local DONE|Remote DONE|human approval|audit evidence|local auditor|protocol_findings|not automated|portfolio|production SaaS|autonomous" README.md`
+- `rg -n "README.md|local-auditor-session-contract|readme-portfolio-positioning-validation-066a|local-auditor-workflow-usage-validation-064a|local-auditor-session-contract-validation-062a|tools/auditor/README|Discussion Gate|READY|REVIEW|Local DONE|Remote DONE|human approval|audit evidence|automation boundaries" docs/product/external-reviewer-evidence-guide.md`
 
 RIC-STUDIO-061A result:
 
