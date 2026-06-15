@@ -16,18 +16,18 @@
 - RIC-STUDIO-039A - Define Evidence Input and Decision Output Contracts. REVIEW - documentation-only contracts completed; no app scaffold, LangChain, dependencies, package files, runtime, Modelfile, GitHub API, UI, automation, commit, or push.
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
-- RIC-STUDIO-063A - Document Local Auditor Validation Usage. REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change.
-- RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard. REVIEW - read-only auditor package/script/doc/evidence visibility added to local dashboard; no browser command execution, package, dependency, lockfile, deploy, CI, runtime, evaluator, fixture, commit, or push.
+- RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
 
 ## READY
 
 No task is READY.
 
-## IN_PROGRESS
-
-No task is IN_PROGRESS.
-
 ## Local DONE
+
+- RIC-STUDIO-071A - Correct Operator Dashboard State Resolution (Local DONE - dashboard no longer reports RIC-STUDIO-070A as active REVIEW after Remote DONE; no Git automation, write action, deploy, external API, dependency, package, lockfile, model/runtime change, UI redesign, commit, or push)
+
+## Next safe step
+
 
 No task is Local DONE.
 
@@ -62,6 +62,7 @@ No task is Local DONE.
 - RIC-STUDIO-068A - Define And Validate Local Operator Visibility Baseline. Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
 - RIC-STUDIO-069A - Create Local Operator Dashboard MVP. Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 - RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State. Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
+- RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard. Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`.
 - RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. Remote DONE at commit `105c220`.
 - RIC-STUDIO-040A - Define Local MVP Technical Scaffold. Remote DONE at commit `c436045`.
@@ -97,7 +98,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-070A evidence. Do not commit or push without an explicit gate.
+Review RIC-STUDIO-071A evidence. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

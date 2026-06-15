@@ -17,15 +17,18 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
-- RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard (REVIEW - read-only auditor package/script/doc/evidence visibility added to local dashboard; no browser command execution, package, dependency, lockfile, deploy, CI, runtime, evaluator, fixture, commit, or push)
 
 ## READY
 
 No task is READY.
 
+## Local DONE
+
+- RIC-STUDIO-071A - Correct Operator Dashboard State Resolution (Local DONE - dashboard no longer reports RIC-STUDIO-070A as active REVIEW after Remote DONE; no Git automation, write action, deploy, external API, dependency, package, lockfile, model/runtime change, UI redesign, commit, or push)
+
 ## Next safe step
 
-Review RIC-STUDIO-070A evidence. Do not commit or push without an explicit gate.
+Review RIC-STUDIO-071A evidence. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -50,6 +53,8 @@ RIC-STUDIO-068A is Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da
 RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 
 RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
+
+RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 
 During RIC-STUDIO-004B, the clean versioned runtime source was created. No candidate model was created, no official runtime was promoted, and no behavioral model tests were executed in that task.
 

@@ -249,13 +249,16 @@ async function collectState() {
       readText("docs/ops/session-handoff.md"),
     ]);
 
-  const currentState = section(statusText, "Current state").split(/\r?\n/)[0]?.trim() || "UNKNOWN";
-  const activeTask =
+  const operationalState = section(statusText, "Current state").split(/\r?\n/)[0]?.trim() || "UNKNOWN";
+  const statusTask =
     section(statusText, "Active task").split(/\r?\n/)[0]?.trim() ||
     section(statusText, "Task").split(/\r?\n/)[0]?.trim() ||
-    "No active task recorded";
+    "No operational task recorded";
   const readyTasks = listItems(section(backlogText, "READY"));
   const reviewTasks = listItems(section(backlogText, "REVIEW"));
+  const hasReadyTask = readyTasks.length > 0;
+  const currentState = hasReadyTask ? "READY" : "NO_READY_TASK";
+  const activeTask = hasReadyTask ? readyTasks[0] : "No active READY task recorded";
   const remoteDoneTasks = listItems(section(opsBacklogText, "Remote DONE")).slice(-12).reverse();
   const validationEvidence = await listValidationEvidence();
   const dashboardValidationExists = await exists("docs/validation/local-operator-dashboard-069a.md");
@@ -267,6 +270,8 @@ async function collectState() {
     mode: "local-only read-only operator dashboard",
     current_state: currentState,
     active_task: activeTask,
+    operational_state: operationalState,
+    operational_task: statusTask,
     ready_tasks: readyTasks,
     review_task_count: reviewTasks.length,
     review_tasks_sample: reviewTasks.slice(0, 6),
@@ -294,9 +299,9 @@ async function collectState() {
       "No successor task opening from this dashboard.",
     ],
     next_gate:
-      currentState === "REVIEW"
-        ? "Human review of RIC-STUDIO-069A evidence. Do not commit or push without explicit authorization."
-        : "Work only on the currently READY task within accepted scope.",
+      hasReadyTask
+        ? "Work only on the currently READY task within accepted scope."
+        : "Observation cycle: no READY task is active. Use Discussion Gate before opening the next task.",
     source_files: [
       "STATUS.md",
       "backlog.md",
@@ -474,6 +479,7 @@ function renderHtml(state) {
         <h2>Current Project State</h2>
         <span class="metric">State: <span class="state">${escapeHtml(state.current_state)}</span></span>
         <span class="metric">Active task: ${escapeHtml(state.active_task)}</span>
+        <span class="metric">Operational doc state: ${escapeHtml(state.operational_state)}</span>
         <span class="metric">Review queue entries: ${escapeHtml(state.review_task_count)}</span>
         <p class="muted">Product surface: RIC Studio is currently local protocol/tooling plus docs. The runnable surface is the local auditor and this local read-only dashboard, not a deployed web app.</p>
       </article>
@@ -486,7 +492,7 @@ function renderHtml(state) {
       <article class="card third">
         <h2>Next Gate</h2>
         <p>${escapeHtml(state.next_gate)}</p>
-        <p class="warn">Commit and push remain blocked until explicit human authorization.</p>
+        <p class="warn">The dashboard is read-only and does not authorize Git actions.</p>
       </article>
 
       <article class="card third">
@@ -663,6 +669,11 @@ async function runSmoke(server) {
     ["home_mentions_dashboard", home.body.includes("RIC Studio Operator Dashboard")],
     ["home_mentions_read_only", home.body.includes("Local-only and read-only")],
     ["api_has_active_task", typeof state.active_task === "string" && state.active_task.length > 0],
+    ["api_no_active_review_task_when_ready_empty", state.ready_tasks.length > 0 || !state.active_task.includes("REVIEW")],
+    [
+      "api_does_not_report_070a_active_after_remote_done",
+      state.active_task !== "RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard",
+    ],
     ["api_has_commands", Array.isArray(state.commands) && state.commands.length >= 4],
     ["api_blocks_writes", state.blocked_actions.some((action) => action.includes("No file writes"))],
     ["api_has_auditor_visibility", state.auditor_visibility?.package_exists === true],
@@ -676,7 +687,10 @@ async function runSmoke(server) {
     checks: Object.fromEntries(checks),
     current_state: state.current_state,
     active_task: state.active_task,
+    operational_state: state.operational_state,
+    operational_task: state.operational_task,
     ready_tasks: state.ready_tasks,
+    next_gate: state.next_gate,
     validation_evidence_count: state.validation_evidence.length,
     commands_count: state.commands.length,
     auditor_package_exists: state.auditor_visibility.package_exists,

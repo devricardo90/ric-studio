@@ -3167,7 +3167,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -3179,7 +3179,7 @@ Summary:
 - RIC-STUDIO-070A must not execute auditor commands from the browser.
 - No dashboard implementation was performed during READY opening.
 - RIC-STUDIO-070A implementation added read-only Auditor Visibility to the local Operator Dashboard.
-- RIC-STUDIO-070A is in REVIEW.
+- RIC-STUDIO-070A reached Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 - READY is empty and no RIC-STUDIO-071A was opened.
 
 Allowed files for READY opening:
@@ -3229,3 +3229,48 @@ Validation:
 - `Select-String -Path tools/operator-ui/server.mjs -Pattern "child_process|exec|spawn|writeFile|appendFile|git commit|git push|POST|PUT|PATCH|DELETE"`.
 - `node tools/operator-ui/server.mjs smoke`.
 - Browser validation if UI changed.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+- Remote DONE repository state is clean and synchronized with `origin/main` at `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+
+## RIC-STUDIO-071A - Correct Operator Dashboard State Resolution
+
+State: Local DONE
+
+Summary:
+
+- Reconciled RIC-STUDIO-070A as Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+- Corrected `tools/operator-ui/server.mjs` so displayed dashboard active task is resolved from READY backlog entries, not stale REVIEW text in `STATUS.md`.
+- Dashboard now reports `NO_READY_TASK`, `No active READY task recorded`, and an observation/Discussion Gate next step when READY is empty.
+- Created `docs/validation/operator-dashboard-state-resolution-071a.md`.
+- Updated `tools/operator-ui/README.md`.
+- RIC-STUDIO-071A is Local DONE after validation.
+- READY is empty and no successor task was opened.
+
+Allowed files:
+
+- `tools/operator-ui/server.mjs`.
+- `tools/operator-ui/README.md`.
+- `docs/validation/operator-dashboard-state-resolution-071a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/session-handoff.md`.
+- `docs/ops/execution-log.md`.
+
+Forbidden:
+
+- Git automation, dashboard write actions, deploy, external API calls, dependencies, package or lockfile changes, model/runtime changes, UI redesign, new product features, commit, or push.
+
+Validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `node tools/operator-ui/server.mjs smoke`.
+- Browser validation of `http://localhost:4310`.

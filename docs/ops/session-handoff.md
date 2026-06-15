@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-070A is in REVIEW: `Integrate Auditor Visibility Into Local Operator Dashboard`.
+RIC-STUDIO-071A is Local DONE: `Correct Operator Dashboard State Resolution`.
+
+RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 
 RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 
@@ -40,37 +42,39 @@ Current repository context:
 - RIC-STUDIO-069B reconciled the stale REVIEW state in operational docs and appended manual browser validation evidence.
 - RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 - RIC-STUDIO-070A added read-only Auditor Visibility to the local Operator Dashboard.
-- RIC-STUDIO-070A is in REVIEW.
+- RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+- RIC-STUDIO-071A corrected dashboard state resolution so stale REVIEW tasks are not shown as active when READY is empty.
+- RIC-STUDIO-071A is in REVIEW.
 - No task is READY.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
 - Required local auditor commands passed for report-only, allowed, and blocked paths.
-- No browser command execution, root package.json, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model, prompt, Modelfile, evaluator, fixture, RIC-STUDIO-071A, commit, or push change occurred during RIC-STUDIO-070A implementation.
+- No Git automation, dashboard write action, deploy, external API call, dependency, package or lockfile change, model/runtime change, UI redesign, new product feature, commit, or push occurred during RIC-STUDIO-071A implementation.
 
 ## Next steps
 
-1. Review RIC-STUDIO-070A implementation and validation evidence.
+1. Review RIC-STUDIO-071A implementation and validation evidence.
 2. Keep READY empty unless a later Discussion Gate explicitly opens a task.
 3. Do not commit or push without explicit commit and push gates.
 
 ## Blocked
 
-- Browser command execution.
-- `child_process`, `exec`, `spawn`, shell execution, or Git automation.
-- Commit/push buttons.
-- Adding root package.json.
-- Adding dependencies or lockfiles.
-- Adding UI framework, deploy setup, CI, or `.github`.
-- Runtime/Ollama/model, prompt, Modelfile, evaluator, or fixture changes.
-- Opening RIC-STUDIO-071A.
+- Git automation.
+- Dashboard write actions.
+- Deploy.
+- External API calls.
+- Dependencies, package, or lockfile changes.
+- Model/runtime changes.
+- UI redesign.
+- New product features.
 - Commit and push.
 
-RIC-STUDIO-070A implementation changed files:
+RIC-STUDIO-071A implementation changed files:
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
-- `docs/validation/operator-dashboard-auditor-integration-070a.md`
+- `docs/validation/operator-dashboard-state-resolution-071a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -78,15 +82,15 @@ RIC-STUDIO-070A implementation changed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-RIC-STUDIO-070A validation commands:
+RIC-STUDIO-071A validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `node tools/operator-ui/server.mjs smoke`
-- `Select-String -Path tools/operator-ui/server.mjs -Pattern "child_process|exec|spawn|writeFile|appendFile|git commit|git push|POST|PUT|PATCH|DELETE"`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
+- Browser validation of `http://localhost:4310`
 
 RIC-STUDIO-067R validation commands:
 

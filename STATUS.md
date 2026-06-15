@@ -2,18 +2,19 @@
 
 ## Current state
 
-REVIEW
+Local DONE
 
 ## Active task
 
-RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard
+RIC-STUDIO-071A - Correct Operator Dashboard State Resolution
 
 ## Scope
 
-RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard. Implementation added read-only local auditor visibility to the Operator Dashboard.
+RIC-STUDIO-071A - Correct Operator Dashboard State Resolution. Implementation corrects dashboard active-task resolution after Remote DONE.
 
 Current baseline:
 
+- RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 - RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 - RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 - RIC-STUDIO-068A is Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
@@ -25,13 +26,14 @@ Current baseline:
 - RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 - RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 - The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
-- Implementation baseline was clean and synchronized with `origin/main` at `f9ed22d8337f89078b39ac91153032c6fad2eb25`.
+- Implementation baseline was clean and synchronized with `origin/main` at `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 
 Objective:
 
-- Display auditor package metadata from `tools/auditor/package.json` when present.
-- Display available auditor scripts and commands as manual terminal text only.
-- Display relevant auditor docs/evidence references and expected auditor file presence.
+- Record RIC-STUDIO-070A as Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+- Correct dashboard state resolution so stale REVIEW tasks are not shown as active when READY is empty.
+- Display `No active READY task recorded` when no active task exists.
+- Point the next gate to observation or Discussion Gate when no READY task exists.
 - Keep the dashboard local-only and read-only.
 - Stop in REVIEW for human inspection.
 
@@ -48,7 +50,7 @@ Objective:
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
-- `docs/validation/operator-dashboard-auditor-integration-070a.md`
+- `docs/validation/operator-dashboard-state-resolution-071a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -58,24 +60,24 @@ Objective:
 
 ## Blocked in this task
 
-Browser command execution, `child_process`, `exec`, `spawn`, shell execution, Git automation, commit/push buttons, package metadata, dependency installation, lockfiles, UI frameworks, deploy or hosting setup, CI or `.github`, runtime/Ollama/model files, prompts or Modelfiles, evaluator logic, fixtures, RIC-STUDIO-071A, implementation of RIC-STUDIO-070A, commit, and push.
+Git automation, dashboard write actions, deploy, external API calls, dependencies, package or lockfile changes, model/runtime changes, UI redesign, new product features, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State - Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
+RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard - Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 
 ## Current task result
 
-RIC-STUDIO-070A is in REVIEW.
+RIC-STUDIO-071A is Local DONE.
 
 Execution results:
 
-- Added read-only Auditor Visibility to `tools/operator-ui/server.mjs`.
-- Dashboard now displays auditor package metadata, package scripts as manual command text, expected auditor file presence, auditor docs/evidence references, and latest known auditor validation evidence.
-- Updated `tools/operator-ui/README.md` with auditor visibility usage notes.
-- Created `docs/validation/operator-dashboard-auditor-integration-070a.md`.
-- RIC-STUDIO-070A is in REVIEW; READY is empty.
-- No browser command execution, package, dependency, lockfile, UI framework, deploy, CI, `.github`, runtime/Ollama/model/prompt, evaluator, fixture, RIC-STUDIO-071A, commit, or push change occurred.
+- Reconciled RIC-STUDIO-070A as Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+- Updated `tools/operator-ui/server.mjs` so displayed dashboard state is derived from READY backlog entries.
+- Dashboard now reports `NO_READY_TASK` and `No active READY task recorded` when READY is empty.
+- Updated `tools/operator-ui/README.md` with state-resolution behavior.
+- Created `docs/validation/operator-dashboard-state-resolution-071a.md`.
+- No Git automation, dashboard write action, deploy, external API call, dependency, package or lockfile change, model/runtime change, UI redesign, new product feature, commit, or push occurred.
 
 
 RIC-STUDIO-059A result:
