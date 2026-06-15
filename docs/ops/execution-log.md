@@ -3082,7 +3082,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-069A - Create Local Operator Dashboard MVP
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -3091,7 +3091,7 @@ Summary:
 - Dashboard starts at `http://localhost:4310` with `node tools/operator-ui/server.mjs`.
 - Dashboard smoke validation runs with `node tools/operator-ui/server.mjs smoke`.
 - Dashboard exposes `/api/state` and reads local operational docs and auditor package metadata.
-- RIC-STUDIO-069A is in REVIEW for human inspection.
+- RIC-STUDIO-069A reached Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 - READY is empty and no RIC-STUDIO-070A was opened.
 
 Allowed files during RIC-STUDIO-069A implementation:
@@ -3118,3 +3118,44 @@ Validation:
 Forbidden during implementation:
 
 - Adding root package.json, adding dependencies, creating lockfiles, adding UI framework, deploy setup, CI or `.github`, changing runtime/Ollama/model files, changing prompts or Modelfiles, changing evaluator logic, changing fixtures, opening RIC-STUDIO-070A, commit, or push.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
+- Manual browser validation passed after Remote DONE: dashboard renders in browser, title is visible, local-only/read-only warning is visible, Current Project State card is visible, Validation Evidence links are visible, and no write/deploy/git action buttons are visible.
+
+## RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State
+
+State: REVIEW
+
+Summary:
+
+- Reconciled stale operational docs after RIC-STUDIO-069A reached Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
+- Recorded manual browser validation evidence in `docs/validation/local-operator-dashboard-069a.md`.
+- Updated operational docs so RIC-STUDIO-069A is not the active REVIEW task after Remote DONE.
+- RIC-STUDIO-069B is in REVIEW for human inspection.
+- READY is empty and no RIC-STUDIO-070A was opened.
+- No dashboard code, package, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model/prompt/evaluator/fixture, commit, or push change occurred.
+
+Allowed files:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+- `docs/validation/local-operator-dashboard-069a.md`.
+
+Forbidden:
+
+- Changing `tools/operator-ui/server.mjs`, package files, dependencies, lockfiles, UI framework files, deploy setup, CI or `.github`, runtime/Ollama/model files, prompts or Modelfiles, evaluator logic, fixtures, opening RIC-STUDIO-070A, commit, or push.
+
+Validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `node tools/operator-ui/server.mjs smoke`.
