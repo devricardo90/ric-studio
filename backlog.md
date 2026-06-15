@@ -17,15 +17,14 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
-- RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State (REVIEW - documentation-only reconciliation; RIC-STUDIO-069A recorded as Remote DONE; browser validation evidence appended; no dashboard code, package, dependency, lockfile, deploy, CI, runtime, evaluator, fixture, commit, or push)
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard
 
 ## Next safe step
 
-Review RIC-STUDIO-069B evidence. Do not commit or push without an explicit gate.
+Execute RIC-STUDIO-070A only within the accepted READY scope. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -48,6 +47,8 @@ RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1
 RIC-STUDIO-068A is Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
 
 RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
+
+RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 
 During RIC-STUDIO-004B, the clean versioned runtime source was created. No candidate model was created, no official runtime was promoted, and no behavioral model tests were executed in that task.
 

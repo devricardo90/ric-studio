@@ -3126,14 +3126,14 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
 - Reconciled stale operational docs after RIC-STUDIO-069A reached Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 - Recorded manual browser validation evidence in `docs/validation/local-operator-dashboard-069a.md`.
 - Updated operational docs so RIC-STUDIO-069A is not the active REVIEW task after Remote DONE.
-- RIC-STUDIO-069B is in REVIEW for human inspection.
+- RIC-STUDIO-069B reached Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 - READY is empty and no RIC-STUDIO-070A was opened.
 - No dashboard code, package, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model/prompt/evaluator/fixture, commit, or push change occurred.
 
@@ -3159,3 +3159,63 @@ Validation:
 - `git diff --stat`.
 - `git diff --check`.
 - `node tools/operator-ui/server.mjs smoke`.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
+- Remote DONE repository state is clean and synchronized with `origin/main` at `66f7789051df1fa25705482652ced87c3fb3e810`.
+
+## RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-070A to READY after Discussion Gate recommendation and current approval.
+- Confirmed RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
+- Repository state before READY opening was clean and synchronized with `origin/main` at `66f7789051df1fa25705482652ced87c3fb3e810`.
+- READY scope: future implementation will add read-only Auditor Visibility to the local Operator Dashboard.
+- The future dashboard integration should display auditor package/script/doc/evidence metadata and manual commands.
+- RIC-STUDIO-070A must not execute auditor commands from the browser.
+- No dashboard implementation was performed during READY opening.
+- RIC-STUDIO-070A is the only READY task.
+
+Allowed files for READY opening:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Allowed files during future RIC-STUDIO-070A implementation:
+
+- `tools/operator-ui/server.mjs`.
+- `tools/operator-ui/README.md`.
+- `docs/validation/operator-dashboard-auditor-integration-070a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Future implementation objective:
+
+- Improve dashboard visibility by displaying whether `tools/auditor/package.json` exists, available auditor scripts from package metadata, existing auditor-related commands already documented, links to key auditor docs and validation files, latest known auditor validation evidence, and clear manual-run/read-only warnings.
+
+Forbidden during READY opening:
+
+- Editing `tools/operator-ui/server.mjs`, editing `tools/operator-ui/README.md`, creating `docs/validation/operator-dashboard-auditor-integration-070a.md`, executing auditor commands from the browser, adding `child_process`, `exec`, `spawn`, shell execution, Git automation, commit/push buttons, package metadata, dependencies, lockfiles, UI frameworks, deploy setup, CI or `.github`, runtime/Ollama/model/prompt changes, evaluator logic changes, fixture changes, RIC-STUDIO-071A, implementation of RIC-STUDIO-070A, commit, or push.
+
+Future validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `Select-String -Path tools/operator-ui/server.mjs -Pattern "child_process|exec|spawn|writeFile|appendFile|git commit|git push|POST|PUT|PATCH|DELETE"`.
+- `node tools/operator-ui/server.mjs smoke`.
+- Browser validation if UI changed.

@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-069B is in REVIEW: `Reconcile Operator Dashboard Remote DONE State`.
+RIC-STUDIO-070A is READY: `Integrate Auditor Visibility Into Local Operator Dashboard`.
+
+RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 
 RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 
@@ -20,7 +22,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: documentation-only reconciliation complete, awaiting human review. Do not commit or push without explicit authorization.
+Task mode: READY opening and operational reconciliation only. RIC-STUDIO-070A is ready for future implementation, but implementation has not started. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -36,30 +38,34 @@ Current repository context:
 - RIC-STUDIO-069A created `tools/operator-ui/server.mjs`, `tools/operator-ui/README.md`, and `docs/validation/local-operator-dashboard-069a.md`.
 - RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 - RIC-STUDIO-069B reconciled the stale REVIEW state in operational docs and appended manual browser validation evidence.
-- RIC-STUDIO-069B is in REVIEW.
-- No task is READY.
+- RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
+- RIC-STUDIO-070A was promoted to READY after Discussion Gate approval.
+- RIC-STUDIO-070A is the only READY task.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
 - Required local auditor commands passed for report-only, allowed, and blocked paths.
-- No dashboard code, root package.json, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model, prompt, Modelfile, evaluator, fixture, RIC-STUDIO-070A, commit, or push change occurred during RIC-STUDIO-069B reconciliation.
+- No dashboard implementation, browser command execution, root package.json, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model, prompt, Modelfile, evaluator, fixture, RIC-STUDIO-071A, commit, or push change occurred during RIC-STUDIO-070A READY opening.
 
 ## Next steps
 
-1. Review RIC-STUDIO-069B reconciliation evidence.
-2. Keep READY empty unless a later Discussion Gate explicitly opens a task.
+1. Execute RIC-STUDIO-070A only within the accepted READY scope.
+2. Keep the integration read-only; do not execute auditor commands from the browser.
 3. Do not commit or push without explicit commit and push gates.
 
 ## Blocked
 
+- Browser command execution.
+- `child_process`, `exec`, `spawn`, shell execution, or Git automation.
+- Commit/push buttons.
 - Adding root package.json.
 - Adding dependencies or lockfiles.
 - Adding UI framework, deploy setup, CI, or `.github`.
 - Runtime/Ollama/model, prompt, Modelfile, evaluator, or fixture changes.
-- Opening RIC-STUDIO-070A.
+- Opening RIC-STUDIO-071A.
 - Commit and push.
 
-RIC-STUDIO-069B reconciliation changed files:
+RIC-STUDIO-070A READY opening changed files:
 
 - `STATUS.md`
 - `backlog.md`
@@ -67,17 +73,25 @@ RIC-STUDIO-069B reconciliation changed files:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `docs/validation/local-operator-dashboard-069a.md`
 
-RIC-STUDIO-069B validation commands:
+RIC-STUDIO-070A future implementation allowed files:
+
+- `tools/operator-ui/server.mjs`
+- `tools/operator-ui/README.md`
+- `docs/validation/operator-dashboard-auditor-integration-070a.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+RIC-STUDIO-070A future validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
 - `node tools/operator-ui/server.mjs smoke`
-- `cmd /c npm --prefix tools/auditor run smoke:read-only`
-- `cmd /c npm --prefix tools/auditor run smoke:invalid-json`
-- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
-- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
+- `Select-String -Path tools/operator-ui/server.mjs -Pattern "child_process|exec|spawn|writeFile|appendFile|git commit|git push|POST|PUT|PATCH|DELETE"`
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
