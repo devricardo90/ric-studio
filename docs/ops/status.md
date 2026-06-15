@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
@@ -51,10 +51,10 @@ Current baseline:
 
 Objective:
 
-- Promote RIC-STUDIO-068A to READY after Discussion Gate approval.
-- Record future implementation scope for documenting and validating the smallest local owner-visible run path using existing local auditor commands.
-- Reconcile RIC-STUDIO-067R as Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
-- Do not implement RIC-STUDIO-068A during this READY opening.
+- Document the owner-facing local run path in `README.md`.
+- Validate existing local auditor commands that show report-only, allowed, and blocked structured JSON output.
+- Record validation evidence in `docs/validation/local-operator-visibility-baseline-068a.md`.
+- Stop in REVIEW for human evidence inspection.
 
 ## Allowed files
 
@@ -65,16 +65,7 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Allowed files during RIC-STUDIO-068A READY opening
-
-- `STATUS.md`
-- `backlog.md`
-- `docs/ops/status.md`
-- `docs/ops/backlog.md`
-- `docs/ops/execution-log.md`
-- `docs/ops/session-handoff.md`
-
-## Allowed files during future RIC-STUDIO-068A implementation
+## Allowed files during RIC-STUDIO-068A implementation
 
 - `README.md`
 - `tools/auditor/README.md`
@@ -86,8 +77,10 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in READY opening
+## Files changed in implementation
 
+- `README.md`
+- `docs/validation/local-operator-visibility-baseline-068a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -97,7 +90,7 @@ Objective:
 
 ## Blocked in this task
 
-Editing `README.md`, editing `tools/auditor/README.md`, creating `docs/validation/local-operator-visibility-baseline-068a.md`, running implementation commands, adding dependencies, creating lockfiles, adding root package.json, changing runtime/Ollama/model files, changing prompts or Modelfiles, changing evaluator logic, changing fixtures, adding UI/app/deploy/CI, opening RIC-STUDIO-069A, commit, and push.
+Editing `tools/auditor/README.md` unless clarification is needed, adding dependencies, creating lockfiles, adding root package.json, changing runtime/Ollama/model files, changing prompts or Modelfiles, changing evaluator logic, changing fixtures, adding UI/app/deploy/CI, opening RIC-STUDIO-069A, commit, and push.
 
 ## Previous task result
 
@@ -105,18 +98,19 @@ RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d211000
 
 ## Current task result
 
-RIC-STUDIO-068A is READY.
+RIC-STUDIO-068A is in REVIEW.
 
 Execution results:
 
-- Confirmed RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
-- Confirmed repository is clean and synchronized with `origin/main` at `84b198969c872e561efd4fc1a01ec51a1fb7c1fe` before READY opening.
-- Removed stale active-task language that kept RIC-STUDIO-067R in REVIEW.
-- Promoted RIC-STUDIO-068A to READY as the only READY task.
-- Did not implement RIC-STUDIO-068A.
-- Did not edit `README.md`.
+- Confirmed clean synchronized implementation baseline at `HEAD == origin/main == 91581b9bd9c7b3219d2754f71233aaecbd7f5b27`.
+- Ran `cmd /c npm --prefix tools/auditor run smoke:read-only`; it printed report-only structured JSON with `COMMIT_ALLOWED` inside the deterministic authority output and mandatory human gate boundaries.
+- Ran `cmd /c npm --prefix tools/auditor run smoke:invalid-json`; it printed a blocked malformed JSON path with deterministic `COMMIT_BLOCKED`.
+- Ran `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`; it printed a completed `COMMIT_ALLOWED` session with commit allowed only after human review and push/Remote DONE blocked.
+- Ran `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`; it printed a completed `COMMIT_BLOCKED` session with a blocker `protocol_findings` entry.
+- Updated `README.md` with owner-facing local run instructions.
+- Created `docs/validation/local-operator-visibility-baseline-068a.md`.
+- Recorded that deploy is premature because there is no web app, product UI, server, database, hosting configuration, or deploy target.
 - Did not edit `tools/auditor/README.md`.
-- Did not create `docs/validation/local-operator-visibility-baseline-068a.md`.
 - Did not edit code, auditor implementation files, fixtures, package/dependency files, lockfiles, CI, runtime/model/Ollama files, prompts, Modelfiles, evaluator logic, app/backend/frontend/database/deploy files, commit, or push.
 
 RIC-STUDIO-059A result:

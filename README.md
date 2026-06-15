@@ -79,6 +79,21 @@ The local auditor helps show how evidence can be turned into a structured decisi
 - `COMMIT_BLOCKED` means the workflow must stop until the reported issue is corrected and validation is rerun.
 - `protocol_findings` explain protocol-level blockers such as forbidden file changes.
 
+## Run Locally
+
+RIC Studio is currently a local protocol and tooling repository, not a deployed web app. There is no product UI, hosting setup, or deploy target yet.
+
+The current runnable surface is the local auditor under `tools/auditor/`. These commands use existing dependency-free Node.js tooling and do not require installing root dependencies:
+
+```powershell
+cmd /c npm --prefix tools/auditor run smoke:read-only
+cmd /c npm --prefix tools/auditor run smoke:invalid-json
+node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json
+node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json
+```
+
+The smoke commands print structured JSON reports. The allowed fixture shows a `COMMIT_ALLOWED` path with human review still required, while invalid or blocked evidence shows a `COMMIT_BLOCKED` path. This is the smallest local operator visibility baseline: the owner can run commands locally and see concrete structured output before any larger workflow automation, UI, or deploy work is introduced.
+
 ## What Is Not Automated Yet
 
 RIC Studio intentionally does not automate high-risk delivery actions by default. The following delivery actions are not automated:

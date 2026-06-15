@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-068A is READY: `Define And Validate Local Operator Visibility Baseline`.
+RIC-STUDIO-068A is in REVIEW: `Define And Validate Local Operator Visibility Baseline`.
 
 RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
 
@@ -16,7 +16,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: READY opening only. RIC-STUDIO-068A is ready for future implementation, but implementation has not started. Do not commit or push without explicit authorization.
+Task mode: documentation and validation implementation completed. Stop in REVIEW for human evidence inspection. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -29,32 +29,30 @@ Current repository context:
 - RIC-STUDIO-067A created `docs/product/external-reviewer-evidence-guide.md` and is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
 - RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
 - Repository is clean and synchronized with `origin/main` at `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
-- RIC-STUDIO-068A was promoted to READY after Discussion Gate returned READY.
-- RIC-STUDIO-068A is the only READY task.
+- RIC-STUDIO-068A was implemented after READY approval and is now in REVIEW.
+- `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
+- `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
-- No README edit, `tools/auditor/README.md` edit, validation note creation, implementation command, code, auditor source, validator, fixture, package, lockfile, dependency, runtime/model/Ollama, prompt, Modelfile, evaluator logic, UI/app/deploy/CI, commit, or push change occurred during RIC-STUDIO-068A READY opening.
+- Required local auditor commands passed for report-only, allowed, and blocked paths.
+- No `tools/auditor/README.md` edit, code, auditor source, validator, fixture, package, lockfile, dependency, runtime/model/Ollama, prompt, Modelfile, evaluator logic, UI/app/deploy/CI, commit, or push change occurred during RIC-STUDIO-068A implementation.
 
 ## Next steps
 
-1. Execute RIC-STUDIO-068A only within the accepted READY scope.
-2. Stop in REVIEW after implementation and validation.
-3. Do not commit or push without explicit commit and push gates.
+1. Review `README.md` local run instructions and `docs/validation/local-operator-visibility-baseline-068a.md`.
+2. If approved, prepare commit only after explicit commit gate approval.
+3. Do not push without explicit push gate approval.
 
 ## Blocked
 
-- Editing `README.md` during READY opening.
-- Editing `tools/auditor/README.md` during READY opening.
-- Creating `docs/validation/local-operator-visibility-baseline-068a.md` during READY opening.
-- Running implementation commands during READY opening.
+- Editing `tools/auditor/README.md` unless a future task explicitly requires it.
 - Editing code.
 - Editing auditor implementation files.
 - Fixture changes.
-- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, prompts, Modelfiles, evaluator logic, app/UI/backend/API/database/deploy files, `.github`, CI/CD, opening RIC-STUDIO-069A, commit, and push.
+- Package changes, lockfile changes, dependency installation, root package creation, `node_modules`, runtime/model/Ollama files, prompts, Modelfiles, evaluator logic, app/UI/backend/API/database/deploy files, `.github`, CI/CD, opening RIC-STUDIO-069A, commit, and push.
 
-RIC-STUDIO-068A future implementation allowed files:
+RIC-STUDIO-068A changed files:
 
 - `README.md`
-- `tools/auditor/README.md`
 - `docs/validation/local-operator-visibility-baseline-068a.md`
 - `STATUS.md`
 - `backlog.md`
@@ -63,7 +61,7 @@ RIC-STUDIO-068A future implementation allowed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-RIC-STUDIO-068A future validation commands:
+RIC-STUDIO-068A validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
