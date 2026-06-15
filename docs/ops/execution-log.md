@@ -2988,7 +2988,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-067R - Reconcile RIC-STUDIO-067A Remote DONE State
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -3016,3 +3016,69 @@ Forbidden:
 - Editing `docs/product/external-reviewer-evidence-guide.md`.
 - Editing implementation/code files.
 - Package files, lockfiles, runtime files, Ollama files, prompts, evaluator logic, fixtures, CI, README, product architecture, RIC-STUDIO-068A opening, commit, or push.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+- Remote DONE repository state is clean and synchronized with `origin/main` at `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+
+## RIC-STUDIO-068A - Define And Validate Local Operator Visibility Baseline
+
+State: READY
+
+Summary:
+
+- Promoted RIC-STUDIO-068A to READY after Discussion Gate returned READY.
+- Confirmed RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+- Repository state before READY promotion was clean and synchronized with `origin/main` at `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+- READY scope: documentation and validation task to establish the smallest owner-visible local run path for RIC Studio using existing dependency-free local auditor commands.
+- No README edit was performed during READY promotion.
+- No `tools/auditor/README.md` edit was performed during READY promotion.
+- No validation note was created during READY promotion.
+- No implementation commands were run during READY promotion.
+- RIC-STUDIO-068A is the only READY task.
+
+Allowed files for READY promotion:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Allowed files during future RIC-STUDIO-068A implementation:
+
+- `README.md`.
+- `tools/auditor/README.md`.
+- `docs/validation/local-operator-visibility-baseline-068a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Future implementation objective:
+
+- Document and validate the smallest local owner-visible run path for RIC Studio using existing dependency-free local auditor commands, so the owner can run commands locally and see concrete structured output before deeper workflow automation.
+
+Future validation commands:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `cmd /c npm --prefix tools/auditor run smoke:read-only`.
+- `cmd /c npm --prefix tools/auditor run smoke:invalid-json`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`.
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+
+Forbidden during READY promotion:
+
+- Editing `README.md`.
+- Editing `tools/auditor/README.md`.
+- Creating `docs/validation/local-operator-visibility-baseline-068a.md`.
+- Running implementation commands.
+- Adding dependencies, creating lockfiles, adding root package.json, changing runtime/Ollama/model files, changing prompts or Modelfiles, changing evaluator logic, changing fixtures, adding UI/app/deploy/CI, opening RIC-STUDIO-069A, commit, or push.

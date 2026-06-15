@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-067R is in REVIEW: `Reconcile RIC-STUDIO-067A Remote DONE State`.
+RIC-STUDIO-068A is READY: `Define And Validate Local Operator Visibility Baseline`.
+
+RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
 
 RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
 
@@ -14,7 +16,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: documentation-only operational reconciliation. Stop in REVIEW for RIC-STUDIO-067R evidence review. Do not commit or push without explicit authorization.
+Task mode: READY opening only. RIC-STUDIO-068A is ready for future implementation, but implementation has not started. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -25,24 +27,53 @@ Current repository context:
 - RIC-STUDIO-066A validation evidence was created in `docs/validation/readme-portfolio-positioning-validation-066a.md`.
 - RIC-STUDIO-066A final validation decision is PASS and is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
 - RIC-STUDIO-067A created `docs/product/external-reviewer-evidence-guide.md` and is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
-- Repository is clean and synchronized with `origin/main` at `b9644e0a188fa015137c690a053d635630b48d06`.
+- RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+- Repository is clean and synchronized with `origin/main` at `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+- RIC-STUDIO-068A was promoted to READY after Discussion Gate returned READY.
+- RIC-STUDIO-068A is the only READY task.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
-- No implementation, code, product guide, README, auditor source, validator, fixture, package, CI, runtime/model/Ollama, prompt, evaluator logic, app, commit, or push change occurred during RIC-STUDIO-067R.
+- No README edit, `tools/auditor/README.md` edit, validation note creation, implementation command, code, auditor source, validator, fixture, package, lockfile, dependency, runtime/model/Ollama, prompt, Modelfile, evaluator logic, UI/app/deploy/CI, commit, or push change occurred during RIC-STUDIO-068A READY opening.
 
 ## Next steps
 
-1. Review RIC-STUDIO-067R reconciliation evidence.
-2. If approved, prepare commit only after explicit commit gate approval.
-3. Do not push without explicit push gate approval.
+1. Execute RIC-STUDIO-068A only within the accepted READY scope.
+2. Stop in REVIEW after implementation and validation.
+3. Do not commit or push without explicit commit and push gates.
 
 ## Blocked
 
-- Editing `docs/product/external-reviewer-evidence-guide.md`.
-- Editing `README.md`.
+- Editing `README.md` during READY opening.
+- Editing `tools/auditor/README.md` during READY opening.
+- Creating `docs/validation/local-operator-visibility-baseline-068a.md` during READY opening.
+- Running implementation commands during READY opening.
 - Editing code.
-- Editing `tools/auditor/**`.
+- Editing auditor implementation files.
 - Fixture changes.
-- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, prompts, evaluator logic, app/UI/backend/API/database/deploy files, `.github`, CI/CD, opening RIC-STUDIO-068A, creating a READY task, commit, and push.
+- Package changes, lockfile changes, dependency installation, `node_modules`, runtime/model/Ollama files, prompts, Modelfiles, evaluator logic, app/UI/backend/API/database/deploy files, `.github`, CI/CD, opening RIC-STUDIO-069A, commit, and push.
+
+RIC-STUDIO-068A future implementation allowed files:
+
+- `README.md`
+- `tools/auditor/README.md`
+- `docs/validation/local-operator-visibility-baseline-068a.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+RIC-STUDIO-068A future validation commands:
+
+- `git status --short --untracked-files=all`
+- `git status -sb`
+- `cmd /c npm --prefix tools/auditor run smoke:read-only`
+- `cmd /c npm --prefix tools/auditor run smoke:invalid-json`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
+- `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json`
+- `git diff --name-only`
+- `git diff --stat`
+- `git diff --check`
 
 RIC-STUDIO-067R validation commands:
 

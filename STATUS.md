@@ -2,18 +2,19 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-067R - Reconcile RIC-STUDIO-067A Remote DONE State
+RIC-STUDIO-068A - Define And Validate Local Operator Visibility Baseline
 
 ## Scope
 
-RIC-STUDIO-067R - Reconcile RIC-STUDIO-067A Remote DONE State. Documentation-only operational reconciliation to record that RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
+RIC-STUDIO-068A - Define And Validate Local Operator Visibility Baseline. Documentation and validation task to establish the smallest owner-visible local run path for RIC Studio using existing dependency-free local auditor commands.
 
 Current baseline:
 
+- RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
 - RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
 - RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
 - RIC-STUDIO-067A READY promotion is Remote DONE at commit `1dc4f73b4645eed61f3a7e1a1c0d900dbaed2ff6`.
@@ -21,14 +22,14 @@ Current baseline:
 - RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 - RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 - The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
-- Repository is clean and synchronized with `origin/main` at `b9644e0a188fa015137c690a053d635630b48d06`.
+- Repository is clean and synchronized with `origin/main` at `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
 
 Objective:
 
-- Reconcile operational documentation with Git history for RIC-STUDIO-067A.
-- Keep READY empty.
-- Do not open RIC-STUDIO-068A or any successor READY task.
-- Stop in REVIEW for RIC-STUDIO-067R evidence review before commit or push.
+- Promote RIC-STUDIO-068A to READY after Discussion Gate approval.
+- Record future implementation scope for documenting and validating the smallest local owner-visible run path using existing local auditor commands.
+- Reconcile RIC-STUDIO-067R as Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+- Do not implement RIC-STUDIO-068A during this READY opening.
 
 ## Allowed files
 
@@ -39,7 +40,7 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Allowed files during RIC-STUDIO-067R execution
+## Allowed files during RIC-STUDIO-068A READY opening
 
 - `STATUS.md`
 - `backlog.md`
@@ -48,7 +49,19 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in reconciliation
+## Allowed files during future RIC-STUDIO-068A implementation
+
+- `README.md`
+- `tools/auditor/README.md`
+- `docs/validation/local-operator-visibility-baseline-068a.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+## Files changed in READY opening
 
 - `STATUS.md`
 - `backlog.md`
@@ -59,7 +72,7 @@ Objective:
 
 ## Blocked in this task
 
-Editing `docs/product/external-reviewer-evidence-guide.md`, editing `README.md`, editing code, editing `tools/auditor/**`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, prompts, evaluator logic, app/UI/backend/API/database/deploy files, `.github` or CI/CD, opening RIC-STUDIO-068A, creating a READY task, commit, and push.
+Editing `README.md`, editing `tools/auditor/README.md`, creating `docs/validation/local-operator-visibility-baseline-068a.md`, running implementation commands, adding dependencies, creating lockfiles, adding root package.json, changing runtime/Ollama/model files, changing prompts or Modelfiles, changing evaluator logic, changing fixtures, adding UI/app/deploy/CI, opening RIC-STUDIO-069A, commit, and push.
 
 ## Previous task
 
@@ -67,18 +80,19 @@ RIC-STUDIO-066A - Validate README Portfolio Positioning - Remote DONE at commit 
 
 ## Current task result
 
-RIC-STUDIO-067R is in REVIEW.
+RIC-STUDIO-068A is READY.
 
 Execution results:
 
-- Confirmed RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
-- Confirmed repository is clean and synchronized with `origin/main` at `b9644e0a188fa015137c690a053d635630b48d06` before reconciliation.
-- Removed stale active-task language that kept RIC-STUDIO-067A in REVIEW.
-- Kept READY empty.
-- Did not open RIC-STUDIO-068A.
-- Did not edit `docs/product/external-reviewer-evidence-guide.md`.
+- Confirmed RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
+- Confirmed repository is clean and synchronized with `origin/main` at `84b198969c872e561efd4fc1a01ec51a1fb7c1fe` before READY opening.
+- Removed stale active-task language that kept RIC-STUDIO-067R in REVIEW.
+- Promoted RIC-STUDIO-068A to READY as the only READY task.
+- Did not implement RIC-STUDIO-068A.
 - Did not edit `README.md`.
-- Did not edit code, auditor files, fixtures, package/dependency files, CI, runtime/model/Ollama files, prompts, evaluator logic, app/backend/frontend/database/deploy files, commit, or push.
+- Did not edit `tools/auditor/README.md`.
+- Did not create `docs/validation/local-operator-visibility-baseline-068a.md`.
+- Did not edit code, auditor implementation files, fixtures, package/dependency files, lockfiles, CI, runtime/model/Ollama files, prompts, Modelfiles, evaluator logic, app/backend/frontend/database/deploy files, commit, or push.
 
 
 RIC-STUDIO-059A result:
