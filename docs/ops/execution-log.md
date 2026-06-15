@@ -3082,27 +3082,19 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-069A - Create Local Operator Dashboard MVP
 
-State: READY
+State: REVIEW
 
 Summary:
 
-- Promoted RIC-STUDIO-069A to READY after Discussion Gate approval.
-- Confirmed RIC-STUDIO-068A is Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
-- Repository state before READY promotion was clean and synchronized with `origin/main` at `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
-- READY scope: future implementation will create a minimal local read-only dashboard for RIC Studio using Node.js built-in modules only.
-- No dashboard implementation was performed during READY opening.
-- RIC-STUDIO-069A is the only READY task.
+- Implemented a minimal local read-only dashboard for RIC Studio using Node.js built-in modules only.
+- Implementation baseline was clean and synchronized with `origin/main` at `255b3368c373d58086c75451112f911bd966041e`.
+- Dashboard starts at `http://localhost:4310` with `node tools/operator-ui/server.mjs`.
+- Dashboard smoke validation runs with `node tools/operator-ui/server.mjs smoke`.
+- Dashboard exposes `/api/state` and reads local operational docs and auditor package metadata.
+- RIC-STUDIO-069A is in REVIEW for human inspection.
+- READY is empty and no RIC-STUDIO-070A was opened.
 
-Allowed files for READY opening:
-
-- `STATUS.md`.
-- `backlog.md`.
-- `docs/ops/status.md`.
-- `docs/ops/backlog.md`.
-- `docs/ops/execution-log.md`.
-- `docs/ops/session-handoff.md`.
-
-Allowed files during future RIC-STUDIO-069A implementation:
+Allowed files during RIC-STUDIO-069A implementation:
 
 - `tools/operator-ui/server.mjs`.
 - `tools/operator-ui/README.md`.
@@ -3114,10 +3106,15 @@ Allowed files during future RIC-STUDIO-069A implementation:
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
 
-Future implementation objective:
+Implementation objective:
 
 - Create a dependency-free, local-only, read-only browser dashboard that summarizes current project state, current task state, local auditor commands, validation evidence, allowed and blocked actions, and next gate status for the human operator.
 
-Forbidden during READY opening:
+Validation:
 
-- Creating `tools/operator-ui` files, creating `server.mjs`, creating operator UI README, creating dashboard validation document, adding root package.json, adding dependencies, creating lockfiles, adding UI framework, deploy setup, CI or `.github`, changing runtime/Ollama/model files, changing prompts or Modelfiles, changing evaluator logic, changing fixtures, opening RIC-STUDIO-070A, commit, or push.
+- `node tools/operator-ui/server.mjs smoke` is required and expected to print structured PASS evidence.
+- Final review evidence must include `git status --short --untracked-files=all`, `git diff --name-only`, `git diff --stat`, and `git diff --check`.
+
+Forbidden during implementation:
+
+- Adding root package.json, adding dependencies, creating lockfiles, adding UI framework, deploy setup, CI or `.github`, changing runtime/Ollama/model files, changing prompts or Modelfiles, changing evaluator logic, changing fixtures, opening RIC-STUDIO-070A, commit, or push.

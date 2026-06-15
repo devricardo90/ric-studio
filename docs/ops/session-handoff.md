@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-069A is READY: `Create Local Operator Dashboard MVP`.
+RIC-STUDIO-069A is in REVIEW: `Create Local Operator Dashboard MVP`.
 
 RIC-STUDIO-068A is Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
 
@@ -18,7 +18,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: READY opening only. RIC-STUDIO-069A is ready for future implementation, but dashboard implementation has not started. Do not commit or push without explicit authorization.
+Task mode: implementation complete, awaiting human review. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -31,27 +31,24 @@ Current repository context:
 - RIC-STUDIO-067A created `docs/product/external-reviewer-evidence-guide.md` and is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
 - RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
 - RIC-STUDIO-068A is Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
-- Repository is clean and synchronized with `origin/main` at `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
-- RIC-STUDIO-069A was promoted to READY after Discussion Gate approval.
-- RIC-STUDIO-069A is the only READY task.
+- Implementation baseline was clean and synchronized with `origin/main` at `255b3368c373d58086c75451112f911bd966041e`.
+- RIC-STUDIO-069A created `tools/operator-ui/server.mjs`, `tools/operator-ui/README.md`, and `docs/validation/local-operator-dashboard-069a.md`.
+- RIC-STUDIO-069A is in REVIEW.
+- No task is READY.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
 - Required local auditor commands passed for report-only, allowed, and blocked paths.
-- No `tools/operator-ui` files, server, operator UI README, dashboard validation document, root package.json, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model, prompt, Modelfile, evaluator, fixture, RIC-STUDIO-070A, commit, or push change occurred during RIC-STUDIO-069A READY opening.
+- No root package.json, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model, prompt, Modelfile, evaluator, fixture, RIC-STUDIO-070A, commit, or push change occurred during RIC-STUDIO-069A implementation.
 
 ## Next steps
 
-1. Execute RIC-STUDIO-069A only within the accepted READY scope.
-2. Stop in REVIEW after implementation and validation.
+1. Review RIC-STUDIO-069A implementation and validation evidence.
+2. Keep READY empty unless a later Discussion Gate explicitly opens a task.
 3. Do not commit or push without explicit commit and push gates.
 
 ## Blocked
 
-- Creating `tools/operator-ui` files during READY opening.
-- Creating `server.mjs` during READY opening.
-- Creating operator UI README during READY opening.
-- Creating dashboard validation document during READY opening.
 - Adding root package.json.
 - Adding dependencies or lockfiles.
 - Adding UI framework, deploy setup, CI, or `.github`.
@@ -59,7 +56,7 @@ Current repository context:
 - Opening RIC-STUDIO-070A.
 - Commit and push.
 
-RIC-STUDIO-069A future implementation allowed files:
+RIC-STUDIO-069A implementation changed files:
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
@@ -71,12 +68,11 @@ RIC-STUDIO-069A future implementation allowed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-RIC-STUDIO-069A future validation commands:
+RIC-STUDIO-069A validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
-- `node tools/operator-ui/server.mjs`
-- `Invoke-WebRequest http://localhost:4310`
+- `node tools/operator-ui/server.mjs smoke`
 - `cmd /c npm --prefix tools/auditor run smoke:read-only`
 - `cmd /c npm --prefix tools/auditor run smoke:invalid-json`
 - `node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/commit-allowed-evidence.json`
