@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
@@ -10,7 +10,7 @@ RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard
 
 ## Scope
 
-RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard. READY opening and operational reconciliation only. Future implementation will add read-only local auditor visibility to the Operator Dashboard.
+RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard. Implementation added read-only local auditor visibility to the Operator Dashboard.
 
 Current baseline:
 
@@ -25,14 +25,15 @@ Current baseline:
 - RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 - RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 - The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
-- READY opening baseline was clean and synchronized with `origin/main` at `66f7789051df1fa25705482652ced87c3fb3e810`.
+- Implementation baseline was clean and synchronized with `origin/main` at `f9ed22d8337f89078b39ac91153032c6fad2eb25`.
 
 Objective:
 
-- Record RIC-STUDIO-069B as Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
-- Open RIC-STUDIO-070A as the only READY task.
-- Define a read-only dashboard integration for auditor package, script, documentation, evidence metadata, and manual commands.
-- Do not implement RIC-STUDIO-070A during this READY opening.
+- Display auditor package metadata from `tools/auditor/package.json` when present.
+- Display available auditor scripts and commands as manual terminal text only.
+- Display relevant auditor docs/evidence references and expected auditor file presence.
+- Keep the dashboard local-only and read-only.
+- Stop in REVIEW for human inspection.
 
 ## Allowed files
 
@@ -43,20 +44,11 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Allowed files during future RIC-STUDIO-070A implementation
+## Files changed in implementation
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
 - `docs/validation/operator-dashboard-auditor-integration-070a.md`
-- `STATUS.md`
-- `backlog.md`
-- `docs/ops/status.md`
-- `docs/ops/backlog.md`
-- `docs/ops/execution-log.md`
-- `docs/ops/session-handoff.md`
-
-## Files changed in READY opening
-
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -74,16 +66,16 @@ RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State - Remote DONE a
 
 ## Current task result
 
-RIC-STUDIO-070A is READY.
+RIC-STUDIO-070A is in REVIEW.
 
 Execution results:
 
-- Reconciled RIC-STUDIO-069B as Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
-- Opened RIC-STUDIO-070A as the only READY task.
-- Defined future scope: add read-only Auditor Visibility to the Operator Dashboard showing auditor package/script/doc/evidence metadata and manual commands.
-- Recorded that RIC-STUDIO-070A must not execute auditor commands from the browser.
-- Did not edit `tools/operator-ui/server.mjs`, `tools/operator-ui/README.md`, or create `docs/validation/operator-dashboard-auditor-integration-070a.md`.
-- No implementation, browser command execution, package, dependency, lockfile, UI framework, deploy, CI, `.github`, runtime/Ollama/model/prompt, evaluator, fixture, RIC-STUDIO-071A, commit, or push change occurred.
+- Added read-only Auditor Visibility to `tools/operator-ui/server.mjs`.
+- Dashboard now displays auditor package metadata, package scripts as manual command text, expected auditor file presence, auditor docs/evidence references, and latest known auditor validation evidence.
+- Updated `tools/operator-ui/README.md` with auditor visibility usage notes.
+- Created `docs/validation/operator-dashboard-auditor-integration-070a.md`.
+- RIC-STUDIO-070A is in REVIEW; READY is empty.
+- No browser command execution, package, dependency, lockfile, UI framework, deploy, CI, `.github`, runtime/Ollama/model/prompt, evaluator, fixture, RIC-STUDIO-071A, commit, or push change occurred.
 
 
 RIC-STUDIO-059A result:

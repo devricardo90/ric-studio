@@ -17,14 +17,15 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
+- RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard (REVIEW - read-only auditor package/script/doc/evidence visibility added to local dashboard; no browser command execution, package, dependency, lockfile, deploy, CI, runtime, evaluator, fixture, commit, or push)
 
 ## READY
 
-- RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard
+No task is READY.
 
 ## Next safe step
 
-Execute RIC-STUDIO-070A only within the accepted READY scope. Do not commit or push without an explicit gate.
+Review RIC-STUDIO-070A evidence. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

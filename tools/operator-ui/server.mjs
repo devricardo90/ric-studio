@@ -17,7 +17,8 @@ const allowedFilePrefixes = [
   "backlog.md",
   "docs/ops/",
   "docs/validation/",
-  "tools/auditor/README.md",
+  "docs/architecture/",
+  "tools/auditor/",
   "tools/operator-ui/README.md",
 ];
 
@@ -35,12 +36,12 @@ const auditorCommands = [
   {
     label: "Auditor read-only smoke",
     command: "cmd /c npm --prefix tools/auditor run smoke:read-only",
-    purpose: "Show the report-only smoke workflow with structured JSON output.",
+    purpose: "Show the report-only smoke workflow with a structured JSON result.",
   },
   {
     label: "Auditor invalid JSON smoke",
     command: "cmd /c npm --prefix tools/auditor run smoke:invalid-json",
-    purpose: "Show a blocked invalid JSON path with structured JSON output.",
+    purpose: "Show a blocked invalid JSON path with a structured JSON result.",
   },
   {
     label: "Allowed audit-session path",
@@ -54,6 +55,53 @@ const auditorCommands = [
       "node tools/auditor/audit-session.mjs --evidence tools/auditor/fixtures/protocol-findings-blocked-file-violation.json",
     purpose: "Show a blocked protocol-finding path through the local session runner.",
   },
+];
+
+const expectedAuditorFiles = [
+  {
+    path: "tools/auditor/package.json",
+    purpose: "Auditor package metadata and local smoke scripts.",
+  },
+  {
+    path: "tools/auditor/README.md",
+    purpose: "Local auditor usage and boundary documentation.",
+  },
+  {
+    path: "tools/auditor/audit.mjs",
+    purpose: "Dependency-free deterministic auditor evaluator and CLI.",
+  },
+  {
+    path: "tools/auditor/audit-session.mjs",
+    purpose: "Local audit session report runner.",
+  },
+  {
+    path: "tools/auditor/smoke-workflow.mjs",
+    purpose: "Read-only smoke workflow.",
+  },
+  {
+    path: "tools/auditor/validate-session-contract.mjs",
+    purpose: "Dependency-free session contract validator.",
+  },
+  {
+    path: "tools/auditor/fixtures/commit-allowed-evidence.json",
+    purpose: "Allowed path evidence fixture.",
+  },
+  {
+    path: "tools/auditor/fixtures/protocol-findings-blocked-file-violation.json",
+    purpose: "Blocked path evidence fixture.",
+  },
+];
+
+const auditorReferenceCandidates = [
+  "tools/auditor/README.md",
+  "docs/architecture/local-auditor-session-contract.md",
+  "docs/architecture/local-auditor-protocol-findings.md",
+  "docs/validation/local-operator-visibility-baseline-068a.md",
+  "docs/validation/local-auditor-workflow-usage-validation-064a.md",
+  "docs/validation/local-auditor-session-contract-validation-062a.md",
+  "docs/validation/local-auditor-session-protocol-findings-validation-059a.md",
+  "docs/validation/local-auditor-protocol-findings-validation-058a.md",
+  "docs/validation/operator-dashboard-auditor-integration-070a.md",
 ];
 
 function normalizeSlashes(value) {
@@ -116,14 +164,89 @@ async function listValidationEvidence() {
   return [...new Set(ordered)].filter((file) => files.includes(file) || file === dashboardEvidence);
 }
 
+async function fileInfo(relativePath) {
+  try {
+    const currentStat = await stat(path.join(repoRoot, relativePath));
+    return {
+      path: relativePath,
+      exists: true,
+      size_bytes: currentStat.size,
+      modified_at: currentStat.mtime.toISOString(),
+    };
+  } catch {
+    return {
+      path: relativePath,
+      exists: false,
+      size_bytes: null,
+      modified_at: null,
+    };
+  }
+}
+
+async function collectAuditorVisibility() {
+  const packagePath = "tools/auditor/package.json";
+  const packageFile = await fileInfo(packagePath);
+  let packageMetadata = null;
+  let packageReadError = null;
+
+  if (packageFile.exists) {
+    try {
+      packageMetadata = JSON.parse(await readText(packagePath));
+    } catch (error) {
+      packageReadError = error.message;
+    }
+  }
+
+  const expectedFiles = await Promise.all(
+    expectedAuditorFiles.map(async (entry) => ({
+      ...entry,
+      ...(await fileInfo(entry.path)),
+    })),
+  );
+
+  const references = (
+    await Promise.all(
+      auditorReferenceCandidates.map(async (relativePath) => {
+        const info = await fileInfo(relativePath);
+        return info.exists ? info : null;
+      }),
+    )
+  ).filter(Boolean);
+
+  const validationEvidence = references
+    .filter((entry) => entry.path.startsWith("docs/validation/"))
+    .sort((a, b) => String(b.modified_at).localeCompare(String(a.modified_at)));
+
+  return {
+    package_exists: packageFile.exists,
+    package_path: packagePath,
+    package_read_error: packageReadError,
+    package_metadata: packageMetadata
+      ? {
+          name: packageMetadata.name || null,
+          version: packageMetadata.version || null,
+          private: packageMetadata.private === true,
+          description: packageMetadata.description || null,
+          type: packageMetadata.type || null,
+        }
+      : null,
+    scripts: packageMetadata?.scripts || {},
+    manual_commands: auditorCommands.filter((command) => command.command.includes("tools/auditor")),
+    expected_files: expectedFiles,
+    references,
+    latest_validation_evidence: validationEvidence[0] || null,
+    safety_notice:
+      "Manual terminal use only. The dashboard displays command text and local metadata; it does not run shell commands, npm scripts, auditor decisions, or Git actions.",
+  };
+}
+
 async function collectState() {
-  const [statusText, backlogText, opsBacklogText, sessionHandoffText, packageText] =
+  const [statusText, backlogText, opsBacklogText, sessionHandoffText] =
     await Promise.all([
       readText("STATUS.md"),
       readText("backlog.md"),
       readText("docs/ops/backlog.md"),
       readText("docs/ops/session-handoff.md"),
-      readText("tools/auditor/package.json"),
     ]);
 
   const currentState = section(statusText, "Current state").split(/\r?\n/)[0]?.trim() || "UNKNOWN";
@@ -136,7 +259,7 @@ async function collectState() {
   const remoteDoneTasks = listItems(section(opsBacklogText, "Remote DONE")).slice(-12).reverse();
   const validationEvidence = await listValidationEvidence();
   const dashboardValidationExists = await exists("docs/validation/local-operator-dashboard-069a.md");
-  const packageMetadata = JSON.parse(packageText);
+  const auditorVisibility = await collectAuditorVisibility();
 
   return {
     generated_at: new Date().toISOString(),
@@ -150,10 +273,11 @@ async function collectState() {
     recent_remote_done: remoteDoneTasks,
     validation_evidence: validationEvidence,
     dashboard_validation_exists: dashboardValidationExists,
+    auditor_visibility: auditorVisibility,
     auditor_package: {
-      name: packageMetadata.name,
-      private: packageMetadata.private,
-      scripts: packageMetadata.scripts,
+      name: auditorVisibility.package_metadata?.name || null,
+      private: auditorVisibility.package_metadata?.private === true,
+      scripts: auditorVisibility.scripts,
     },
     commands: auditorCommands,
     allowed_actions: [
@@ -172,7 +296,7 @@ async function collectState() {
     next_gate:
       currentState === "REVIEW"
         ? "Human review of RIC-STUDIO-069A evidence. Do not commit or push without explicit authorization."
-        : "Execute the currently READY task only within accepted scope.",
+        : "Work only on the currently READY task within accepted scope.",
     source_files: [
       "STATUS.md",
       "backlog.md",
@@ -197,6 +321,48 @@ function renderLinkedList(items, emptyText = "None recorded.") {
   if (!items.length) return `<p class="muted">${escapeHtml(emptyText)}</p>`;
   return `<ul>${items
     .map((item) => `<li><a href="${fileLink(item)}">${escapeHtml(item)}</a></li>`)
+    .join("")}</ul>`;
+}
+
+function renderAuditorScripts(scripts) {
+  const entries = Object.entries(scripts || {});
+  if (!entries.length) return `<p class="muted">No auditor scripts found.</p>`;
+  return `<table>
+    <thead><tr><th>Script</th><th>Manual terminal command</th></tr></thead>
+    <tbody>
+      ${entries
+        .map(
+          ([name, script]) =>
+            `<tr><td>${escapeHtml(name)}</td><td class="command">cmd /c npm --prefix tools/auditor run ${escapeHtml(
+              name,
+            )}<br><span class="muted">${escapeHtml(script)}</span></td></tr>`,
+        )
+        .join("")}
+    </tbody>
+  </table>`;
+}
+
+function renderExpectedFiles(files) {
+  if (!files.length) return `<p class="muted">No expected auditor files configured.</p>`;
+  return `<table>
+    <thead><tr><th>Status</th><th>File</th><th>Purpose</th></tr></thead>
+    <tbody>
+      ${files
+        .map(
+          (file) =>
+            `<tr><td>${file.exists ? "Present" : "Missing"}</td><td><a href="${file.exists ? fileLink(file.path) : "#"}">${escapeHtml(
+              file.path,
+            )}</a></td><td>${escapeHtml(file.purpose)}</td></tr>`,
+        )
+        .join("")}
+    </tbody>
+  </table>`;
+}
+
+function renderAuditorReferences(references) {
+  if (!references.length) return `<p class="muted">No auditor references found.</p>`;
+  return `<ul>${references
+    .map((entry) => `<li><a href="${fileLink(entry.path)}">${escapeHtml(entry.path)}</a></li>`)
     .join("")}</ul>`;
 }
 
@@ -343,6 +509,45 @@ function renderHtml(state) {
         </table>
       </article>
 
+      <article class="card wide">
+        <h2>Auditor Visibility</h2>
+        <p class="warn">${escapeHtml(state.auditor_visibility.safety_notice)}</p>
+        <span class="metric">Auditor package: <span class="state">${state.auditor_visibility.package_exists ? "Present" : "Missing"}</span></span>
+        <span class="metric">Package path: ${escapeHtml(state.auditor_visibility.package_path)}</span>
+        ${
+          state.auditor_visibility.package_metadata
+            ? `<p>${escapeHtml(state.auditor_visibility.package_metadata.name || "Unnamed package")} ${escapeHtml(
+                state.auditor_visibility.package_metadata.version || "",
+              )} - ${escapeHtml(state.auditor_visibility.package_metadata.description || "No description.")}</p>`
+            : `<p class="muted">Package metadata is not available.</p>`
+        }
+        <h3>Auditor Scripts</h3>
+        ${renderAuditorScripts(state.auditor_visibility.scripts)}
+        <h3>Manual Auditor Commands</h3>
+        <table>
+          <thead><tr><th>Command</th><th>Purpose</th></tr></thead>
+          <tbody>
+            ${state.auditor_visibility.manual_commands
+              .map(
+                (command) =>
+                  `<tr><td class="command">${escapeHtml(command.command)}</td><td>${escapeHtml(command.purpose)}</td></tr>`,
+              )
+              .join("")}
+          </tbody>
+        </table>
+        <h3>Expected Auditor Files</h3>
+        ${renderExpectedFiles(state.auditor_visibility.expected_files)}
+        <h3>Auditor Docs And Evidence</h3>
+        ${renderAuditorReferences(state.auditor_visibility.references)}
+        ${
+          state.auditor_visibility.latest_validation_evidence
+            ? `<p class="muted">Latest known auditor validation evidence: <a href="${fileLink(
+                state.auditor_visibility.latest_validation_evidence.path,
+              )}">${escapeHtml(state.auditor_visibility.latest_validation_evidence.path)}</a></p>`
+            : `<p class="muted">No auditor validation evidence found.</p>`
+        }
+      </article>
+
       <article class="card">
         <h2>Allowed Actions</h2>
         ${renderList(state.allowed_actions)}
@@ -460,6 +665,9 @@ async function runSmoke(server) {
     ["api_has_active_task", typeof state.active_task === "string" && state.active_task.length > 0],
     ["api_has_commands", Array.isArray(state.commands) && state.commands.length >= 4],
     ["api_blocks_writes", state.blocked_actions.some((action) => action.includes("No file writes"))],
+    ["api_has_auditor_visibility", state.auditor_visibility?.package_exists === true],
+    ["api_has_auditor_scripts", Object.keys(state.auditor_visibility?.scripts || {}).length > 0],
+    ["home_mentions_auditor_visibility", home.body.includes("Auditor Visibility")],
   ];
   const failed = checks.filter(([, passed]) => !passed);
   const result = {
@@ -471,6 +679,10 @@ async function runSmoke(server) {
     ready_tasks: state.ready_tasks,
     validation_evidence_count: state.validation_evidence.length,
     commands_count: state.commands.length,
+    auditor_package_exists: state.auditor_visibility.package_exists,
+    auditor_scripts: Object.keys(state.auditor_visibility.scripts),
+    auditor_expected_files_count: state.auditor_visibility.expected_files.length,
+    auditor_reference_count: state.auditor_visibility.references.length,
     dashboard_mode: state.mode,
   };
   console.log(JSON.stringify(result, null, 2));

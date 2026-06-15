@@ -3167,7 +3167,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard
 
-State: READY
+State: REVIEW
 
 Summary:
 
@@ -3178,7 +3178,9 @@ Summary:
 - The future dashboard integration should display auditor package/script/doc/evidence metadata and manual commands.
 - RIC-STUDIO-070A must not execute auditor commands from the browser.
 - No dashboard implementation was performed during READY opening.
-- RIC-STUDIO-070A is the only READY task.
+- RIC-STUDIO-070A implementation added read-only Auditor Visibility to the local Operator Dashboard.
+- RIC-STUDIO-070A is in REVIEW.
+- READY is empty and no RIC-STUDIO-071A was opened.
 
 Allowed files for READY opening:
 
@@ -3201,15 +3203,23 @@ Allowed files during future RIC-STUDIO-070A implementation:
 - `docs/ops/execution-log.md`.
 - `docs/ops/session-handoff.md`.
 
-Future implementation objective:
+Implementation objective:
 
 - Improve dashboard visibility by displaying whether `tools/auditor/package.json` exists, available auditor scripts from package metadata, existing auditor-related commands already documented, links to key auditor docs and validation files, latest known auditor validation evidence, and clear manual-run/read-only warnings.
 
-Forbidden during READY opening:
+Implementation summary:
 
-- Editing `tools/operator-ui/server.mjs`, editing `tools/operator-ui/README.md`, creating `docs/validation/operator-dashboard-auditor-integration-070a.md`, executing auditor commands from the browser, adding `child_process`, `exec`, `spawn`, shell execution, Git automation, commit/push buttons, package metadata, dependencies, lockfiles, UI frameworks, deploy setup, CI or `.github`, runtime/Ollama/model/prompt changes, evaluator logic changes, fixture changes, RIC-STUDIO-071A, implementation of RIC-STUDIO-070A, commit, or push.
+- Updated `tools/operator-ui/server.mjs` to read auditor package metadata, expected auditor file status, auditor docs/evidence references, and latest known auditor validation evidence.
+- Rendered auditor package scripts and existing auditor commands as manual terminal command text only.
+- Added clear dashboard copy that commands must be run manually and the dashboard does not run shell commands, npm scripts, auditor decisions, or Git actions.
+- Updated `tools/operator-ui/README.md`.
+- Created `docs/validation/operator-dashboard-auditor-integration-070a.md`.
 
-Future validation:
+Forbidden during implementation:
+
+- Executing auditor commands from the browser, adding `child_process`, `exec`, `spawn`, shell execution, Git automation, commit/push buttons, `writeFile`, `appendFile`, package metadata changes, dependencies, lockfiles, UI frameworks, deploy setup, CI or `.github`, runtime/Ollama/model/prompt changes, evaluator logic changes, fixture changes, RIC-STUDIO-071A, commit, or push.
+
+Validation:
 
 - `git status --short --untracked-files=all`.
 - `git status -sb`.

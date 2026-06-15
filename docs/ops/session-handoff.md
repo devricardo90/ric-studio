@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-070A is READY: `Integrate Auditor Visibility Into Local Operator Dashboard`.
+RIC-STUDIO-070A is in REVIEW: `Integrate Auditor Visibility Into Local Operator Dashboard`.
 
 RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 
@@ -22,7 +22,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: READY opening and operational reconciliation only. RIC-STUDIO-070A is ready for future implementation, but implementation has not started. Do not commit or push without explicit authorization.
+Task mode: implementation complete, awaiting human review. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -39,18 +39,19 @@ Current repository context:
 - RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 - RIC-STUDIO-069B reconciled the stale REVIEW state in operational docs and appended manual browser validation evidence.
 - RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
-- RIC-STUDIO-070A was promoted to READY after Discussion Gate approval.
-- RIC-STUDIO-070A is the only READY task.
+- RIC-STUDIO-070A added read-only Auditor Visibility to the local Operator Dashboard.
+- RIC-STUDIO-070A is in REVIEW.
+- No task is READY.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
 - Required local auditor commands passed for report-only, allowed, and blocked paths.
-- No dashboard implementation, browser command execution, root package.json, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model, prompt, Modelfile, evaluator, fixture, RIC-STUDIO-071A, commit, or push change occurred during RIC-STUDIO-070A READY opening.
+- No browser command execution, root package.json, dependency, lockfile, UI framework, deploy setup, CI, `.github`, runtime/Ollama/model, prompt, Modelfile, evaluator, fixture, RIC-STUDIO-071A, commit, or push change occurred during RIC-STUDIO-070A implementation.
 
 ## Next steps
 
-1. Execute RIC-STUDIO-070A only within the accepted READY scope.
-2. Keep the integration read-only; do not execute auditor commands from the browser.
+1. Review RIC-STUDIO-070A implementation and validation evidence.
+2. Keep READY empty unless a later Discussion Gate explicitly opens a task.
 3. Do not commit or push without explicit commit and push gates.
 
 ## Blocked
@@ -65,16 +66,7 @@ Current repository context:
 - Opening RIC-STUDIO-071A.
 - Commit and push.
 
-RIC-STUDIO-070A READY opening changed files:
-
-- `STATUS.md`
-- `backlog.md`
-- `docs/ops/status.md`
-- `docs/ops/backlog.md`
-- `docs/ops/execution-log.md`
-- `docs/ops/session-handoff.md`
-
-RIC-STUDIO-070A future implementation allowed files:
+RIC-STUDIO-070A implementation changed files:
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
@@ -86,7 +78,7 @@ RIC-STUDIO-070A future implementation allowed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-RIC-STUDIO-070A future validation commands:
+RIC-STUDIO-070A validation commands:
 
 - `git status --short --untracked-files=all`
 - `git status -sb`
