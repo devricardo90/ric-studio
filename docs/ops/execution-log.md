@@ -2892,7 +2892,7 @@ Remote DONE reconciliation:
 
 ## RIC-STUDIO-067A - Create External Reviewer Evidence Guide
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
@@ -2980,3 +2980,39 @@ Implementation validation required:
 - `git diff --stat`.
 - `git diff --check`.
 - `rg -n "README.md|local-auditor-session-contract|readme-portfolio-positioning-validation-066a|local-auditor-workflow-usage-validation-064a|local-auditor-session-contract-validation-062a|tools/auditor/README|Discussion Gate|READY|REVIEW|Local DONE|Remote DONE|human approval|audit evidence|automation boundaries|portfolio|Git discipline" docs/product/external-reviewer-evidence-guide.md`.
+
+Remote DONE reconciliation:
+
+- RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
+- Remote DONE repository state is clean and synchronized with `origin/main` at `b9644e0a188fa015137c690a053d635630b48d06`.
+
+## RIC-STUDIO-067R - Reconcile RIC-STUDIO-067A Remote DONE State
+
+State: REVIEW
+
+Summary:
+
+- Opened RIC-STUDIO-067R as a documentation-only operational reconciliation.
+- Confirmed Git history shows RIC-STUDIO-067A implementation was committed and pushed to `origin/main` at `b9644e0a188fa015137c690a053d635630b48d06`.
+- Updated operational documentation to mark RIC-STUDIO-067A as Remote DONE.
+- Removed stale active-task language that kept RIC-STUDIO-067A in REVIEW.
+- Kept READY empty.
+- Did not open RIC-STUDIO-068A.
+- Did not introduce any new READY task.
+- Recorded that the repository is clean and synchronized with `origin/main`.
+- No implementation, code, product guide, README, package, lockfile, dependency, `node_modules`, runtime/model/Ollama, prompt, evaluator logic, fixture, CI, app/backend/frontend/database/deploy, commit, or push change occurred.
+
+Allowed files:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden:
+
+- Editing `docs/product/external-reviewer-evidence-guide.md`.
+- Editing implementation/code files.
+- Package files, lockfiles, runtime files, Ollama files, prompts, evaluator logic, fixtures, CI, README, product architecture, RIC-STUDIO-068A opening, commit, or push.

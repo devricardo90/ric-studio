@@ -6,7 +6,7 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-067A - Create External Reviewer Evidence Guide
+RIC-STUDIO-067R - Reconcile RIC-STUDIO-067A Remote DONE State
 
 ## Product mode
 
@@ -35,27 +35,28 @@ Minimal local implementation planning with operational control.
 
 ## Scope
 
-RIC-STUDIO-067A - Create External Reviewer Evidence Guide. Documentation-only task to create a short guide under docs/product/ that points external reviewers to README positioning, task lifecycle evidence, audit session contract, local auditor validation, workflow validation, README portfolio validation, human approval and Git discipline, and intentional automation boundaries.
+RIC-STUDIO-067R - Reconcile RIC-STUDIO-067A Remote DONE State. Documentation-only operational reconciliation to record that RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
 
 Current baseline:
 
+- RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
 - RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
 - RIC-STUDIO-067A READY promotion is Remote DONE at commit `1dc4f73b4645eed61f3a7e1a1c0d900dbaed2ff6`.
 - RIC-STUDIO-065A is Remote DONE at commit `5b532bd988d7524a869d9f395678d9f6549b5824`.
 - RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
 - RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 - The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
-- Repository was clean and synchronized with `origin/main` at `1dc4f73b4645eed61f3a7e1a1c0d900dbaed2ff6` before implementation.
+- Repository is clean and synchronized with `origin/main` at `b9644e0a188fa015137c690a053d635630b48d06`.
 
 Objective:
 
-- Create a short external reviewer evidence guide.
-- Point reviewers to README positioning, task lifecycle evidence, audit session contract, local auditor validation, workflow validation, README portfolio validation, human approval and Git discipline, and intentional automation boundaries.
-- Stop in REVIEW after guide implementation.
+- Reconcile operational documentation with Git history for RIC-STUDIO-067A.
+- Keep READY empty.
+- Do not open RIC-STUDIO-068A or any successor READY task.
+- Stop in REVIEW for RIC-STUDIO-067R evidence review before commit or push.
 
 ## Allowed files
 
-- `docs/product/external-reviewer-evidence-guide.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -63,9 +64,8 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Allowed files during RIC-STUDIO-067A execution
+## Allowed files during RIC-STUDIO-067R execution
 
-- `docs/product/external-reviewer-evidence-guide.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -73,9 +73,8 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in implementation
+## Files changed in reconciliation
 
-- `docs/product/external-reviewer-evidence-guide.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -85,7 +84,7 @@ Objective:
 
 ## Blocked in this task
 
-Editing `README.md`, editing code, editing `tools/auditor/**`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, app/UI/backend/API/database/deploy files, `.github` or CI/CD, commit, and push.
+Editing `docs/product/external-reviewer-evidence-guide.md`, editing `README.md`, editing code, editing `tools/auditor/**`, fixture changes, package.json, lockfiles, dependencies, node_modules, runtime/model/Ollama files, prompts, evaluator logic, app/UI/backend/API/database/deploy files, `.github` or CI/CD, opening RIC-STUDIO-068A, creating a READY task, commit, and push.
 
 ## Previous task result
 
@@ -93,15 +92,18 @@ RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d211000
 
 ## Current task result
 
-RIC-STUDIO-067A is in REVIEW.
+RIC-STUDIO-067R is in REVIEW.
 
 Execution results:
 
-- Confirmed clean synchronized implementation baseline at `HEAD == origin/main == 1dc4f73b4645eed61f3a7e1a1c0d900dbaed2ff6`.
-- Created `docs/product/external-reviewer-evidence-guide.md`.
-- Documented an external reviewer path through README positioning, audit-session contract, validation evidence, local auditor usage, and operational lifecycle docs.
+- Confirmed RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
+- Confirmed repository is clean and synchronized with `origin/main` at `b9644e0a188fa015137c690a053d635630b48d06` before reconciliation.
+- Removed stale active-task language that kept RIC-STUDIO-067A in REVIEW.
+- Kept READY empty.
+- Did not open RIC-STUDIO-068A.
+- Did not edit `docs/product/external-reviewer-evidence-guide.md`.
 - Did not edit `README.md`.
-- Did not edit code, auditor files, fixtures, package/dependency files, CI, runtime/model/Ollama files, app/backend/frontend/database/deploy files, commit, or push.
+- Did not edit code, auditor files, fixtures, package/dependency files, CI, runtime/model/Ollama files, prompts, evaluator logic, app/backend/frontend/database/deploy files, commit, or push.
 
 RIC-STUDIO-059A result:
 
