@@ -3274,3 +3274,69 @@ Validation:
 - `git diff --check`.
 - `node tools/operator-ui/server.mjs smoke`.
 - Browser validation of `http://localhost:4310`.
+
+## RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard
+
+State: READY
+
+Summary:
+
+- Opened RIC-STUDIO-072A as READY by explicit Trigger approval after Discussion Gate.
+- This was a READY promotion only; no implementation was performed.
+- The latest browser validation of `http://localhost:4310` confirmed the Operator Dashboard works as a local read-only RIC Studio panel.
+- The dashboard does not yet represent the external DayBudget execution cycle.
+- Future implementation must remain local-only and read-only.
+- Future dashboard behavior should display one manual External Execution Context so Ricardo can see the current Jira -> agent -> Git -> validation cycle without relying on memory.
+
+Manual external execution context to represent:
+
+- External project: `day-budget`.
+- Jira cycle: `DAY-3 / WEB-023A`.
+- Jira card: `WEB-023A - Add Minimal Transaction Creation Flow`.
+- Jira status: `IN PROGRESS`.
+- Agent status: running separately.
+- Git/commit/push validation: controlled outside RIC Studio.
+
+Allowed files for READY promotion:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Future probable implementation files:
+
+- `tools/operator-ui/server.mjs`.
+- `tools/operator-ui/README.md`.
+- One local context file under `docs/ops/`.
+- One validation note under `docs/validation/`.
+
+Forbidden during READY promotion and future implementation unless separately approved:
+
+- Jira API.
+- GitHub API.
+- Git automation.
+- DayBudget edits.
+- Dependency/package/lockfile changes.
+- New framework.
+- Browser write actions.
+- Deploy.
+- Commit.
+- Push.
+
+Additional READY-promotion forbidden scope:
+
+- No edit to `tools/operator-ui/server.mjs`.
+- No creation of `docs/ops/external-execution-context.md`.
+- No creation of `docs/validation` files.
+
+Validation required after READY promotion:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff -- STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.

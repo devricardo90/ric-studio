@@ -20,7 +20,7 @@
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard. READY - documentation-only promotion; future implementation must be local-only/read-only and display one manual external execution context for day-budget / DAY-3 / WEB-023A; no implementation, Jira API, GitHub API, Git automation, DayBudget edit, dependency/package/lockfile change, new framework, browser write action, deploy, commit, or push.
 
 ## Local DONE
 
@@ -28,8 +28,7 @@ No task is READY.
 
 ## Next safe step
 
-
-No task is Local DONE.
+Implement RIC-STUDIO-072A only after explicit execution instruction. Do not commit or push without an explicit gate.
 
 ## Remote DONE
 
@@ -98,7 +97,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-071A evidence. Do not commit or push without an explicit gate.
+Implement RIC-STUDIO-072A only after explicit execution instruction. Do not commit or push without an explicit gate.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

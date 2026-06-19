@@ -2,11 +2,11 @@
 
 ## Current state
 
-Local DONE
+READY
 
 ## Task
 
-RIC-STUDIO-071A - Correct Operator Dashboard State Resolution
+RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard
 
 ## Product mode
 
@@ -35,10 +35,14 @@ Minimal local implementation planning with operational control.
 
 ## Scope
 
-RIC-STUDIO-071A - Correct Operator Dashboard State Resolution. Implementation corrects dashboard active-task resolution after Remote DONE.
+RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard. READY promotion only; implementation has not started.
 
 Current baseline:
 
+- RIC-STUDIO-071A is Local DONE.
+- Latest browser validation of `http://localhost:4310` confirmed the Operator Dashboard works as a local read-only RIC Studio panel.
+- The dashboard currently shows project `RIC Studio`, state `NO_READY_TASK`, active task `No active READY task recorded`, operational doc state `Local DONE`, and operational task `RIC-STUDIO-071A - Correct Operator Dashboard State Resolution`.
+- The dashboard does not yet represent the external DayBudget execution cycle.
 - RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 - RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 - RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
@@ -55,12 +59,22 @@ Current baseline:
 
 Objective:
 
-- Record RIC-STUDIO-070A as Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
-- Correct dashboard state resolution so stale REVIEW tasks are not shown as active when READY is empty.
-- Display `No active READY task recorded` when no active task exists.
-- Point the next gate to observation or Discussion Gate when no READY task exists.
-- Keep the dashboard local-only and read-only.
-- Stop in REVIEW for human inspection.
+- Register RIC-STUDIO-072A as the next READY task.
+- Do not implement dashboard changes during READY promotion.
+- Future implementation must remain local-only and read-only.
+- Future dashboard behavior should display a manual External Execution Context so Ricardo can see the current Jira -> agent -> Git -> validation cycle without relying on memory.
+- Initial manual external execution context to represent:
+  - External project: `day-budget`.
+  - Jira cycle: `DAY-3 / WEB-023A`.
+  - Jira card: `WEB-023A - Add Minimal Transaction Creation Flow`.
+  - Jira status: `IN PROGRESS`.
+  - Agent status: running separately.
+  - Git/commit/push validation: controlled outside RIC Studio.
+- Future probable implementation files:
+  - `tools/operator-ui/server.mjs`.
+  - `tools/operator-ui/README.md`.
+  - One local context file under `docs/ops/`.
+  - One validation note under `docs/validation/`.
 
 ## Allowed files
 
@@ -71,11 +85,8 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in implementation
+## Files changed in READY promotion
 
-- `tools/operator-ui/server.mjs`
-- `tools/operator-ui/README.md`
-- `docs/validation/operator-dashboard-state-resolution-071a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -85,25 +96,26 @@ Objective:
 
 ## Blocked in this task
 
-Git automation, dashboard write actions, deploy, external API calls, dependencies, package or lockfile changes, model/runtime changes, UI redesign, new product features, commit, and push.
+Implementation, `tools/operator-ui/server.mjs` edits, new `docs/ops/external-execution-context.md`, new `docs/validation` files, Jira API, GitHub API, Git automation, DayBudget edits, dependency/package/lockfile changes, new framework, browser write actions, deploy, commit, and push.
 
 ## Previous task result
 
-RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+RIC-STUDIO-071A is Local DONE.
 
 ## Current task result
 
-RIC-STUDIO-071A is in REVIEW.
+RIC-STUDIO-072A is READY.
 
 Execution results:
 
-- Reconciled RIC-STUDIO-070A as Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
-- Updated `tools/operator-ui/server.mjs` so displayed dashboard state is derived from READY backlog entries.
-- Dashboard now reports `NO_READY_TASK` and `No active READY task recorded` when READY is empty.
-- Updated `tools/operator-ui/README.md` with state-resolution behavior.
-- Created `docs/validation/operator-dashboard-state-resolution-071a.md`.
-- RIC-STUDIO-071A is in REVIEW; READY is empty.
-- No Git automation, dashboard write action, deploy, external API call, dependency, package or lockfile change, model/runtime change, UI redesign, new product feature, commit, or push occurred.
+- Promoted RIC-STUDIO-072A to READY by explicit Trigger approval after Discussion Gate.
+- Recorded the future local-only/read-only dashboard scope.
+- Recorded the manual external DayBudget execution context that the future dashboard should display.
+- No dashboard implementation was performed.
+- No `tools/operator-ui/server.mjs` edit occurred.
+- No `docs/ops/external-execution-context.md` file was created.
+- No `docs/validation` file was created.
+- No Jira API, GitHub API, Git automation, DayBudget edit, dependency/package/lockfile change, new framework, browser write action, deploy, commit, or push occurred.
 
 RIC-STUDIO-059A result:
 

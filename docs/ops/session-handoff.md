@@ -2,6 +2,8 @@
 
 ## Current handoff state
 
+RIC-STUDIO-072A is READY: `Add External Project Execution Context to Operator Dashboard`.
+
 RIC-STUDIO-071A is Local DONE: `Correct Operator Dashboard State Resolution`.
 
 RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
@@ -24,7 +26,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: implementation complete, awaiting human review. Do not commit or push without explicit authorization.
+Task mode: READY promotion only. Implementation has not started. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -44,8 +46,10 @@ Current repository context:
 - RIC-STUDIO-070A added read-only Auditor Visibility to the local Operator Dashboard.
 - RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 - RIC-STUDIO-071A corrected dashboard state resolution so stale REVIEW tasks are not shown as active when READY is empty.
-- RIC-STUDIO-071A is in REVIEW.
-- No task is READY.
+- RIC-STUDIO-071A is Local DONE.
+- RIC-STUDIO-072A was promoted to READY by explicit Trigger approval after Discussion Gate.
+- RIC-STUDIO-072A future implementation must add local-only/read-only External Execution Context visibility to the Operator Dashboard.
+- The future dashboard context should manually represent `day-budget`, `DAY-3 / WEB-023A`, `WEB-023A - Add Minimal Transaction Creation Flow`, Jira status `IN PROGRESS`, the separate running DayBudget agent, and Git/commit/push validation controlled outside RIC Studio.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
@@ -54,8 +58,8 @@ Current repository context:
 
 ## Next steps
 
-1. Review RIC-STUDIO-071A implementation and validation evidence.
-2. Keep READY empty unless a later Discussion Gate explicitly opens a task.
+1. Implement RIC-STUDIO-072A only after explicit execution instruction.
+2. Keep the implementation local-only/read-only and manually sourced.
 3. Do not commit or push without explicit commit and push gates.
 
 ## Blocked
@@ -64,11 +68,32 @@ Current repository context:
 - Dashboard write actions.
 - Deploy.
 - External API calls.
+- Jira API.
+- GitHub API.
+- DayBudget edits.
 - Dependencies, package, or lockfile changes.
+- New framework.
 - Model/runtime changes.
-- UI redesign.
-- New product features.
+- Browser write actions.
+- New `docs/ops/external-execution-context.md` during READY promotion.
+- New `docs/validation` files during READY promotion.
 - Commit and push.
+
+RIC-STUDIO-072A READY promotion changed files:
+
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+RIC-STUDIO-072A future probable implementation files:
+
+- `tools/operator-ui/server.mjs`.
+- `tools/operator-ui/README.md`.
+- One local context file under `docs/ops/`.
+- One validation note under `docs/validation/`.
 
 RIC-STUDIO-071A implementation changed files:
 
