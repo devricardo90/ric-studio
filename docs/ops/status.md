@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
@@ -35,7 +35,7 @@ Minimal local implementation planning with operational control.
 
 ## Scope
 
-RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard. READY promotion only; implementation has not started.
+RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard. Implementation adds minimal local-only/read-only External Execution Context visibility to the Operator Dashboard.
 
 Current baseline:
 
@@ -59,22 +59,21 @@ Current baseline:
 
 Objective:
 
-- Register RIC-STUDIO-072A as the next READY task.
-- Do not implement dashboard changes during READY promotion.
-- Future implementation must remain local-only and read-only.
-- Future dashboard behavior should display a manual External Execution Context so Ricardo can see the current Jira -> agent -> Git -> validation cycle without relying on memory.
-- Initial manual external execution context to represent:
+- Create a local manual context file for the external execution cycle.
+- Read that file from the local-only/read-only dashboard.
+- Display an `External Execution Context` section.
+- Include the same data in `/api/state`.
+- Keep the local-only/read-only notice visible.
+- Preserve RIC Studio internal state behavior.
+- Manual external execution context represented:
   - External project: `day-budget`.
   - Jira cycle: `DAY-3 / WEB-023A`.
   - Jira card: `WEB-023A - Add Minimal Transaction Creation Flow`.
   - Jira status: `IN PROGRESS`.
   - Agent status: running separately.
   - Git/commit/push validation: controlled outside RIC Studio.
-- Future probable implementation files:
-  - `tools/operator-ui/server.mjs`.
-  - `tools/operator-ui/README.md`.
-  - One local context file under `docs/ops/`.
-  - One validation note under `docs/validation/`.
+  - Validation gate: pending Ricardo validation.
+  - Source note: manual operator context, not API-synced.
 
 ## Allowed files
 
@@ -85,8 +84,12 @@ Objective:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in READY promotion
+## Files changed in implementation
 
+- `tools/operator-ui/server.mjs`
+- `tools/operator-ui/README.md`
+- `docs/ops/external-execution-context.md`
+- `docs/validation/operator-dashboard-external-execution-context-072a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -96,7 +99,7 @@ Objective:
 
 ## Blocked in this task
 
-Implementation, `tools/operator-ui/server.mjs` edits, new `docs/ops/external-execution-context.md`, new `docs/validation` files, Jira API, GitHub API, Git automation, DayBudget edits, dependency/package/lockfile changes, new framework, browser write actions, deploy, commit, and push.
+DayBudget edits, Jira API, GitHub API, Git automation, dependency/package/lockfile changes, new framework, browser write actions, deploy, commit, and push.
 
 ## Previous task result
 
@@ -104,18 +107,17 @@ RIC-STUDIO-071A is Local DONE.
 
 ## Current task result
 
-RIC-STUDIO-072A is READY.
+RIC-STUDIO-072A is in REVIEW.
 
 Execution results:
 
-- Promoted RIC-STUDIO-072A to READY by explicit Trigger approval after Discussion Gate.
-- Recorded the future local-only/read-only dashboard scope.
-- Recorded the manual external DayBudget execution context that the future dashboard should display.
-- No dashboard implementation was performed.
-- No `tools/operator-ui/server.mjs` edit occurred.
-- No `docs/ops/external-execution-context.md` file was created.
-- No `docs/validation` file was created.
-- No Jira API, GitHub API, Git automation, DayBudget edit, dependency/package/lockfile change, new framework, browser write action, deploy, commit, or push occurred.
+- Created `docs/ops/external-execution-context.md` as the manual local context source.
+- Updated `tools/operator-ui/server.mjs` so the dashboard reads the manual context file.
+- Added `external_execution_context` to `/api/state`.
+- Added the `External Execution Context` dashboard section.
+- Updated `tools/operator-ui/README.md`.
+- Created `docs/validation/operator-dashboard-external-execution-context-072a.md`.
+- No DayBudget edit, Jira API, GitHub API, Git automation, dependency/package/lockfile change, new framework, browser write action, deploy, commit, or push occurred.
 
 RIC-STUDIO-059A result:
 

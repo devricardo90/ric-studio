@@ -3340,3 +3340,13 @@ Validation required after READY promotion:
 - `git diff --stat`.
 - `git diff --check`.
 - `git diff -- STATUS.md backlog.md docs/ops/status.md docs/ops/backlog.md docs/ops/execution-log.md docs/ops/session-handoff.md`.
+
+Implementation:
+
+- Created `docs/ops/external-execution-context.md` as a manual local context source.
+- Updated `tools/operator-ui/server.mjs` to read the manual context source and include it in `/api/state`.
+- Added an `External Execution Context` section to the local dashboard.
+- Updated `tools/operator-ui/README.md`.
+- Created `docs/validation/operator-dashboard-external-execution-context-072a.md`.
+- Moved RIC-STUDIO-072A from READY to REVIEW.
+- No DayBudget edit, Jira API, GitHub API, Git automation, dependency/package/lockfile change, new framework, browser write action, deploy, commit, or push occurred.

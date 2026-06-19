@@ -34,6 +34,7 @@ The smoke check starts the local server, requests `/` and `/api/state` from `loc
 
 - Current project state from operational docs.
 - Current READY task.
+- Manual External Execution Context from `docs/ops/external-execution-context.md`.
 - A safe no-active-task state when READY is empty.
 - Recent validation/evidence links.
 - Local auditor and operator commands.
@@ -48,6 +49,8 @@ The smoke check starts the local server, requests `/` and `/api/state` from `loc
 ## Boundaries
 
 The dashboard is local-only and read-only. It does not write files, stage files, commit, push, deploy, install dependencies, call external services, change runtime/Ollama/model files, change prompts or Modelfiles, change evaluator logic, or change fixtures.
+
+External Execution Context is manual operator context loaded from a local repository file. It is not synced from Jira, GitHub, DayBudget, or any running agent.
 
 Auditor commands shown in the dashboard are text for manual terminal use. The browser dashboard does not run shell commands, npm scripts, auditor decisions, or Git actions.
 

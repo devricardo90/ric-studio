@@ -10,6 +10,7 @@ const isSmoke = args.has("smoke") || args.has("--smoke");
 const port = Number.parseInt(process.env.OPERATOR_UI_PORT || `${DEFAULT_PORT}`, 10);
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
+const externalExecutionContextPath = "docs/ops/external-execution-context.md";
 
 const allowedFilePrefixes = [
   "README.md",
@@ -131,6 +132,13 @@ function listItems(markdownSection) {
     .map((line) => line.slice(2).trim());
 }
 
+function keyToSnakeCase(value) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+}
+
 async function readText(relativePath) {
   return readFile(path.join(repoRoot, relativePath), "utf8");
 }
@@ -240,6 +248,44 @@ async function collectAuditorVisibility() {
   };
 }
 
+async function collectExternalExecutionContext() {
+  const info = await fileInfo(externalExecutionContextPath);
+
+  if (!info.exists) {
+    return {
+      exists: false,
+      path: externalExecutionContextPath,
+      values: {},
+      items: [],
+      source_note: "No manual external execution context file found.",
+    };
+  }
+
+  const text = await readText(externalExecutionContextPath);
+  const items = listItems(text);
+  const values = {};
+
+  for (const item of items) {
+    const match = item.match(/^([^:]+):\s*(.*)$/);
+    if (!match) continue;
+    values[keyToSnakeCase(match[1])] = match[2].trim();
+  }
+
+  return {
+    ...info,
+    values,
+    items,
+    external_project: values.external_project || null,
+    jira_cycle: values.jira_cycle || null,
+    jira_card: values.jira_card || null,
+    jira_status: values.jira_status || null,
+    agent_status: values.agent_status || null,
+    git_commit_push_validation: values.git_commit_push_validation || null,
+    validation_gate: values.validation_gate || null,
+    source_note: values.source_note || "Manual operator context, not API-synced.",
+  };
+}
+
 async function collectState() {
   const [statusText, backlogText, opsBacklogText, sessionHandoffText] =
     await Promise.all([
@@ -263,6 +309,7 @@ async function collectState() {
   const validationEvidence = await listValidationEvidence();
   const dashboardValidationExists = await exists("docs/validation/local-operator-dashboard-069a.md");
   const auditorVisibility = await collectAuditorVisibility();
+  const externalExecutionContext = await collectExternalExecutionContext();
 
   return {
     generated_at: new Date().toISOString(),
@@ -278,6 +325,7 @@ async function collectState() {
     recent_remote_done: remoteDoneTasks,
     validation_evidence: validationEvidence,
     dashboard_validation_exists: dashboardValidationExists,
+    external_execution_context: externalExecutionContext,
     auditor_visibility: auditorVisibility,
     auditor_package: {
       name: auditorVisibility.package_metadata?.name || null,
@@ -307,6 +355,7 @@ async function collectState() {
       "backlog.md",
       "docs/ops/backlog.md",
       "docs/ops/session-handoff.md",
+      externalExecutionContextPath,
       "tools/auditor/package.json",
     ],
     handoff_summary: section(sessionHandoffText, "Current handoff state").split(/\r?\n/).slice(0, 6),
@@ -369,6 +418,36 @@ function renderAuditorReferences(references) {
   return `<ul>${references
     .map((entry) => `<li><a href="${fileLink(entry.path)}">${escapeHtml(entry.path)}</a></li>`)
     .join("")}</ul>`;
+}
+
+function renderExternalExecutionContext(context) {
+  if (!context?.exists) {
+    return `<p class="muted">No manual external execution context file found.</p>`;
+  }
+
+  const rows = [
+    ["External project", context.external_project],
+    ["Jira cycle", context.jira_cycle],
+    ["Jira card", context.jira_card],
+    ["Jira status", context.jira_status],
+    ["Agent status", context.agent_status],
+    ["Git/commit/push validation", context.git_commit_push_validation],
+    ["Validation gate", context.validation_gate],
+    ["Source note", context.source_note],
+  ];
+
+  return `<table>
+    <thead><tr><th>Field</th><th>Value</th></tr></thead>
+    <tbody>
+      ${rows
+        .map(
+          ([label, value]) =>
+            `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value || "Not recorded.")}</td></tr>`,
+        )
+        .join("")}
+    </tbody>
+  </table>
+  <p class="muted">Source: <a href="${fileLink(context.path)}">${escapeHtml(context.path)}</a></p>`;
 }
 
 function renderHtml(state) {
@@ -498,6 +577,12 @@ function renderHtml(state) {
       <article class="card third">
         <h2>Validation Evidence</h2>
         ${renderLinkedList(state.validation_evidence, "No matching validation evidence found.")}
+      </article>
+
+      <article class="card wide">
+        <h2>External Execution Context</h2>
+        <p class="warn">Manual operator context only. This dashboard does not sync with Jira, GitHub, DayBudget, or the running agent.</p>
+        ${renderExternalExecutionContext(state.external_execution_context)}
       </article>
 
       <article class="card wide">
@@ -679,6 +764,13 @@ async function runSmoke(server) {
     ["api_has_auditor_visibility", state.auditor_visibility?.package_exists === true],
     ["api_has_auditor_scripts", Object.keys(state.auditor_visibility?.scripts || {}).length > 0],
     ["home_mentions_auditor_visibility", home.body.includes("Auditor Visibility")],
+    ["home_mentions_external_execution_context", home.body.includes("External Execution Context")],
+    ["home_mentions_day_budget", home.body.includes("day-budget")],
+    ["home_mentions_external_jira_cycle", home.body.includes("DAY-3 / WEB-023A")],
+    ["api_has_external_execution_context", state.external_execution_context?.exists === true],
+    ["api_external_context_mentions_day_budget", state.external_execution_context?.external_project === "day-budget"],
+    ["api_external_context_mentions_jira_cycle", state.external_execution_context?.jira_cycle === "DAY-3 / WEB-023A"],
+    ["api_external_context_mentions_in_progress", state.external_execution_context?.jira_status === "IN PROGRESS"],
   ];
   const failed = checks.filter(([, passed]) => !passed);
   const result = {
@@ -697,6 +789,7 @@ async function runSmoke(server) {
     auditor_scripts: Object.keys(state.auditor_visibility.scripts),
     auditor_expected_files_count: state.auditor_visibility.expected_files.length,
     auditor_reference_count: state.auditor_visibility.references.length,
+    external_execution_context: state.external_execution_context,
     dashboard_mode: state.mode,
   };
   console.log(JSON.stringify(result, null, 2));
