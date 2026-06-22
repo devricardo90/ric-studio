@@ -2,7 +2,7 @@
 
 ## Current state
 
-REVIEW
+REVIEW - closure-ready
 
 ## Active task
 
@@ -17,7 +17,7 @@ Current baseline:
 - RIC-STUDIO-071A is Local DONE.
 - Latest browser validation of `http://localhost:4310` confirmed the Operator Dashboard works as a local read-only RIC Studio panel.
 - The dashboard currently shows project `RIC Studio`, state `NO_READY_TASK`, active task `No active READY task recorded`, operational doc state `Local DONE`, and operational task `RIC-STUDIO-071A - Correct Operator Dashboard State Resolution`.
-- The dashboard does not yet represent the external DayBudget execution cycle.
+- The dashboard represents the external DayBudget execution cycle through a manual local context file.
 - RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 - RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 - RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
@@ -41,13 +41,16 @@ Objective:
 - Keep the local-only/read-only notice visible.
 - Preserve RIC Studio internal state behavior.
 - Manual external execution context represented:
-  - External project: `day-budget`.
-  - Jira cycle: `DAY-3 / WEB-023A`.
-  - Jira card: `WEB-023A - Add Minimal Transaction Creation Flow`.
-  - Jira status: `IN PROGRESS`.
-  - Agent status: running separately.
+  - External project: `DayBudget`.
+  - Jira cycle: `DAY-3 / WEB-023A and WEB-023B`.
+  - WEB-023A: Remote DONE.
+  - WEB-023B: Remote DONE by Ricardo final acceptance.
+  - Latest DayBudget commit: `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
+  - DayBudget repository state: clean and synchronized after `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
+  - Agent status: completed externally.
   - Git/commit/push validation: controlled outside RIC Studio.
-  - Validation gate: pending Ricardo validation.
+  - Validation gate: Ricardo accepted WEB-023B manual smoke as DONE.
+  - Caveat: exact before/after balance-impact deltas were not captured for WEB-023B.
   - Source note: manual operator context, not API-synced.
 
 ## Allowed files
@@ -56,6 +59,7 @@ Objective:
 - `backlog.md`
 - `docs/ops/status.md`
 - `docs/ops/backlog.md`
+- `docs/ops/external-execution-context.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
@@ -82,7 +86,7 @@ RIC-STUDIO-071A - Correct Operator Dashboard State Resolution - Local DONE.
 
 ## Current task result
 
-RIC-STUDIO-072A is in REVIEW.
+RIC-STUDIO-072A is in REVIEW and closure-ready after external DayBudget context reconciliation.
 
 Execution results:
 
@@ -92,7 +96,15 @@ Execution results:
 - Added the `External Execution Context` dashboard section.
 - Updated `tools/operator-ui/README.md`.
 - Created `docs/validation/operator-dashboard-external-execution-context-072a.md`.
+- Reconciled `docs/ops/external-execution-context.md` after DayBudget WEB-023A and WEB-023B reached Remote DONE.
+- Recorded latest DayBudget commit `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
+- Recorded WEB-023B caveat: exact before/after balance-impact deltas were not captured, but Ricardo accepted the manual smoke as DONE.
+- Kept RIC-STUDIO-073A as a recommended next candidate only; no READY task was opened.
 - No DayBudget edit, Jira API, GitHub API, Git automation, dependency/package/lockfile change, new framework, browser write action, deploy, commit, or push occurred.
+
+Recommended next candidate:
+
+- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow. This is not READY and was not opened automatically.
 
 
 RIC-STUDIO-059A result:

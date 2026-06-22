@@ -2,7 +2,7 @@
 
 ## REVIEW
 
-- RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard. REVIEW - minimal local-only/read-only External Execution Context implemented; manual context file added; dashboard/API display day-budget / DAY-3 / WEB-023A / IN PROGRESS; no Jira API, GitHub API, Git automation, DayBudget edit, dependency/package/lockfile change, new framework, browser write action, deploy, commit, or push.
+- RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard. REVIEW - closure-ready after manual External Execution Context reconciliation; DayBudget WEB-023A Remote DONE; WEB-023B Remote DONE by Ricardo final acceptance at commit be12a10e6707d234dd44500adfaf690aacb6b1a6; caveat: exact before/after balance-impact deltas were not captured; no Jira API, GitHub API, Git automation, DayBudget edit, dependency/package/lockfile change, new framework, browser write action, deploy, commit, push, RIC-STUDIO-073A READY opening, or automatic next task.
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
 - RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. Remote DONE - candidate rejected; evidence documented at dfef2c7.
@@ -29,7 +29,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-072A evidence. Do not commit or push without an explicit gate.
+Review RIC-STUDIO-072A reconciliation evidence. Do not commit or push without an explicit gate. RIC-STUDIO-073A remains a recommended next candidate only and is not READY.
 
 ## Remote DONE
 
@@ -98,7 +98,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-072A evidence. Do not commit or push without an explicit gate.
+Review RIC-STUDIO-072A reconciliation evidence. Do not commit or push without an explicit gate. RIC-STUDIO-073A remains a recommended next candidate only and is not READY.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -127,5 +127,6 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 ## Future candidates
 
 - RIC-STUDIO-025A - Implement Minimal Runtime Smoke Harness.
+- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow.
 
 Future work must be discussed, scoped, and accepted before it can become READY.

@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-072A is in REVIEW: `Add External Project Execution Context to Operator Dashboard`.
+RIC-STUDIO-072A is in REVIEW and closure-ready: `Add External Project Execution Context to Operator Dashboard`.
 
 RIC-STUDIO-071A is Local DONE: `Correct Operator Dashboard State Resolution`.
 
@@ -26,7 +26,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: implementation complete, awaiting human review. Do not commit or push without explicit authorization.
+Task mode: implementation complete, external DayBudget context reconciled, awaiting commit/push gates. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -49,7 +49,11 @@ Current repository context:
 - RIC-STUDIO-071A is Local DONE.
 - RIC-STUDIO-072A was promoted to READY by explicit Trigger approval after Discussion Gate.
 - RIC-STUDIO-072A added local-only/read-only External Execution Context visibility to the Operator Dashboard.
-- The dashboard context manually represents `day-budget`, `DAY-3 / WEB-023A`, `WEB-023A - Add Minimal Transaction Creation Flow`, Jira status `IN PROGRESS`, the separate running DayBudget agent, Git/commit/push validation controlled outside RIC Studio, validation gate `pending Ricardo validation`, and source note `manual operator context, not API-synced`.
+- The dashboard context manually represents DayBudget WEB-023A as Remote DONE and WEB-023B as Remote DONE by Ricardo final acceptance.
+- Latest DayBudget commit recorded for the external context: `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
+- WEB-023B caveat: exact before/after balance-impact deltas were not captured, but Ricardo accepted the manual smoke as DONE.
+- DayBudget repository state was clean and synchronized after `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
+- RIC-STUDIO-073A remains a recommended next candidate only and is not READY.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
@@ -58,9 +62,10 @@ Current repository context:
 
 ## Next steps
 
-1. Review RIC-STUDIO-072A implementation and validation evidence.
+1. Review RIC-STUDIO-072A reconciliation evidence.
 2. Keep READY empty unless a later Discussion Gate explicitly opens a task.
 3. Do not commit or push without explicit commit and push gates.
+4. Consider RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow only after RIC-STUDIO-072A closure gates.
 
 ## Blocked
 
