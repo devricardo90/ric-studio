@@ -2,7 +2,6 @@
 
 ## REVIEW
 
-- RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard (REVIEW - closure-ready after manual External Execution Context reconciliation; DayBudget WEB-023A Remote DONE; WEB-023B Remote DONE by Ricardo final acceptance at commit be12a10e6707d234dd44500adfaf690aacb6b1a6; caveat: exact before/after balance-impact deltas were not captured; no Jira API, GitHub API, Git automation, DayBudget edit, dependency/package/lockfile change, new framework, browser write action, deploy, commit, push, RIC-STUDIO-073A READY opening, or automatic next task)
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt (BLOCKED / ROLLED BACK)
 - RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate (Remote DONE - candidate rejected; evidence documented at dfef2c7)
@@ -21,7 +20,7 @@
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow (READY - Jira card RIC-1; documentation-only; no implementation started; no code, UI, tools, runtime, package, lockfile, dependency, deploy, Jira API, GitHub API, automatic follow-up task, commit, or push)
 
 ## Local DONE
 
@@ -29,7 +28,9 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-072A reconciliation evidence. Do not commit or push without an explicit gate. RIC-STUDIO-073A remains a recommended next candidate only and is not READY.
+Execute only the approved documentation scope for RIC-STUDIO-073A. Do not implement code, open follow-up READY tasks, commit, or push without explicit gates.
+
+RIC-STUDIO-072A is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -57,6 +58,8 @@ RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e8
 
 RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 
+RIC-STUDIO-072A is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
+
 During RIC-STUDIO-004B, the clean versioned runtime source was created. No candidate model was created, no official runtime was promoted, and no behavioral model tests were executed in that task.
 
 Diagnosis result: 2 PASS, 3 FAIL. Future system prompt or Modelfile correction is recommended but was not executed in this task.
@@ -77,6 +80,5 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 ## Future candidates
 
 - RIC-STUDIO-025A - Implement Minimal Runtime Smoke Harness.
-- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow.
 
 Future tasks must pass the Discussion Gate before entering READY.

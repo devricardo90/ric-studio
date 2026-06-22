@@ -2,7 +2,11 @@
 
 ## Current handoff state
 
-RIC-STUDIO-072A is in REVIEW and closure-ready: `Add External Project Execution Context to Operator Dashboard`.
+RIC-STUDIO-073A is READY: `Document Jira + RIC Studio Sprint Execution Flow`.
+
+Jira card: `RIC-1`.
+
+RIC-STUDIO-072A is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 
 RIC-STUDIO-071A is Local DONE: `Correct Operator Dashboard State Resolution`.
 
@@ -26,7 +30,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: implementation complete, external DayBudget context reconciled, awaiting commit/push gates. Do not commit or push without explicit authorization.
+Task mode: READY registration complete; implementation has not started. Do not commit or push without explicit authorization.
 
 Current repository context:
 
@@ -49,11 +53,15 @@ Current repository context:
 - RIC-STUDIO-071A is Local DONE.
 - RIC-STUDIO-072A was promoted to READY by explicit Trigger approval after Discussion Gate.
 - RIC-STUDIO-072A added local-only/read-only External Execution Context visibility to the Operator Dashboard.
+- RIC-STUDIO-072A reconciliation is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 - The dashboard context manually represents DayBudget WEB-023A as Remote DONE and WEB-023B as Remote DONE by Ricardo final acceptance.
 - Latest DayBudget commit recorded for the external context: `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
 - WEB-023B caveat: exact before/after balance-impact deltas were not captured, but Ricardo accepted the manual smoke as DONE.
 - DayBudget repository state was clean and synchronized after `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
-- RIC-STUDIO-073A remains a recommended next candidate only and is not READY.
+- RIC-STUDIO-073A was manually created in Jira as `RIC-1` and registered as READY in RIC Studio operational docs.
+- RIC-STUDIO-073A objective is to document the official Jira + RIC Studio sprint execution flow.
+- No RIC-STUDIO-073A implementation has started.
+- No automatic follow-up task has been opened.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
@@ -62,10 +70,10 @@ Current repository context:
 
 ## Next steps
 
-1. Review RIC-STUDIO-072A reconciliation evidence.
-2. Keep READY empty unless a later Discussion Gate explicitly opens a task.
-3. Do not commit or push without explicit commit and push gates.
-4. Consider RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow only after RIC-STUDIO-072A closure gates.
+1. Execute only the approved documentation scope for RIC-STUDIO-073A.
+2. Keep RIC-STUDIO-073A documentation-only.
+3. Do not open any follow-up READY task automatically.
+4. Do not commit or push without explicit commit and push gates.
 
 ## Blocked
 
@@ -81,6 +89,14 @@ Current repository context:
 - Model/runtime changes.
 - Browser write actions.
 - Commit and push.
+
+RIC-STUDIO-073A READY registration scope:
+
+- Jira card: `RIC-1`.
+- Status: READY.
+- Objective: document the official Jira + RIC Studio sprint execution flow.
+- Allowed: documentation-only updates to product/operational workflow docs and validation evidence if needed.
+- Forbidden: code, UI, `tools/`, `runtime/`, package or lockfile changes, dependencies, deploy, Jira API, GitHub API, automatic follow-up task, commit, and push.
 
 RIC-STUDIO-072A implementation changed files:
 

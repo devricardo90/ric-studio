@@ -2,7 +2,6 @@
 
 ## REVIEW
 
-- RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard. REVIEW - closure-ready after manual External Execution Context reconciliation; DayBudget WEB-023A Remote DONE; WEB-023B Remote DONE by Ricardo final acceptance at commit be12a10e6707d234dd44500adfaf690aacb6b1a6; caveat: exact before/after balance-impact deltas were not captured; no Jira API, GitHub API, Git automation, DayBudget edit, dependency/package/lockfile change, new framework, browser write action, deploy, commit, push, RIC-STUDIO-073A READY opening, or automatic next task.
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
 - RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. Remote DONE - candidate rejected; evidence documented at dfef2c7.
@@ -21,7 +20,7 @@
 
 ## READY
 
-No task is READY.
+- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow. READY - Jira card RIC-1; documentation-only; no implementation started; no code, UI, tools, runtime, package, lockfile, dependency, deploy, Jira API, GitHub API, automatic follow-up task, commit, or push.
 
 ## Local DONE
 
@@ -29,7 +28,7 @@ No task is READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-072A reconciliation evidence. Do not commit or push without an explicit gate. RIC-STUDIO-073A remains a recommended next candidate only and is not READY.
+Execute only the approved documentation scope for RIC-STUDIO-073A. Do not implement code, open follow-up READY tasks, commit, or push without explicit gates.
 
 ## Remote DONE
 
@@ -63,6 +62,7 @@ Review RIC-STUDIO-072A reconciliation evidence. Do not commit or push without an
 - RIC-STUDIO-069A - Create Local Operator Dashboard MVP. Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
 - RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State. Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 - RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard. Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+- RIC-STUDIO-072A - Reconcile External Execution Context. Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`.
 - RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. Remote DONE at commit `105c220`.
 - RIC-STUDIO-040A - Define Local MVP Technical Scaffold. Remote DONE at commit `c436045`.
@@ -98,7 +98,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-072A reconciliation evidence. Do not commit or push without an explicit gate. RIC-STUDIO-073A remains a recommended next candidate only and is not READY.
+Execute only the approved documentation scope for RIC-STUDIO-073A. Do not implement code, open follow-up READY tasks, commit, or push without explicit gates.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
@@ -127,6 +127,5 @@ Batch result: 3 PASS, 1 FAIL. PASS: LO-SMOKE-001, LO-SMOKE-005, LO-SMOKE-006. FA
 ## Future candidates
 
 - RIC-STUDIO-025A - Implement Minimal Runtime Smoke Harness.
-- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow.
 
 Future work must be discussed, scoped, and accepted before it can become READY.

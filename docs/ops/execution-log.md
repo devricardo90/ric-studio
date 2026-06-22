@@ -3393,3 +3393,73 @@ Forbidden during reconciliation:
 - Automatic next task.
 - Commit.
 - Push.
+
+## RIC-STUDIO-073A - READY Registration
+
+State: READY
+
+Jira card: `RIC-1`
+
+Task: RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow
+
+Summary:
+
+- Registered RIC-STUDIO-073A as READY after Ricardo manually created Jira card `RIC-1`.
+- Confirmed repository baseline before READY registration was clean and synchronized with `origin/main` at `528fde2645108a23e5d9d1fde481b3aedfee1585`.
+- Confirmed RIC-STUDIO-072A reconciliation is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
+- Recorded the task objective, allowed scope, forbidden scope, validation, and DONE criteria in operational docs.
+- No RIC-STUDIO-073A implementation was performed during READY registration.
+- No automatic follow-up task was opened.
+
+Objective:
+
+- Document the official Jira + RIC Studio sprint execution flow.
+- Clarify Jira as the official start of execution, not the start of the idea.
+- Clarify strategic idea discussion with Ricardo plus Architect/Product Strategist.
+- Clarify Architect pre-Jira responsibility and Orchestrator post-Jira execution responsibility.
+- Clarify mandatory gates after Jira.
+- Clarify that DONE requires Ricardo validation or explicit acceptance with caveat.
+
+Allowed scope:
+
+- Documentation-only updates.
+- Product and operational workflow documentation.
+- A focused sprint execution flow document if needed.
+- Validation evidence documentation if needed.
+
+Forbidden scope:
+
+- Code changes.
+- UI changes.
+- `tools/` changes.
+- `runtime/` changes.
+- Package or lockfile changes.
+- Dependency changes.
+- Deploy.
+- Jira API.
+- GitHub API.
+- Automatic follow-up task.
+- Commit.
+- Push.
+
+Validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `rg -n "Jira|Sprint Planning Gate|Architect|Orchestrator|READY|IN_PROGRESS|Evidence Review|Commit Gate|Push Gate|Manual Validation Gate|DONE|Ricardo" <changed-doc-files>`.
+
+DONE criteria:
+
+- Official Jira + RIC Studio sprint execution flow is documented.
+- Jira is documented as the official start of execution, not the start of the idea.
+- Strategic idea origin with Ricardo plus Architect/Product Strategist is documented.
+- Architect pre-Jira responsibility is documented.
+- Orchestrator post-Jira responsibility is documented.
+- Mandatory gates are documented.
+- Commit/push alone are explicitly insufficient for DONE.
+- DONE requires Ricardo validation or explicit acceptance with caveat.
+- RIC-STUDIO-073A remains documentation-only.
+- No automatic follow-up task is opened.
