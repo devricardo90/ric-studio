@@ -3463,3 +3463,60 @@ DONE criteria:
 - DONE requires Ricardo validation or explicit acceptance with caveat.
 - RIC-STUDIO-073A remains documentation-only.
 - No automatic follow-up task is opened.
+
+## RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow
+
+State: REVIEW
+
+Jira card: `RIC-1`
+
+Jira status during execution: IN PROGRESS
+
+Summary:
+
+- Executed the approved documentation-only scope for RIC-STUDIO-073A.
+- Created `docs/product/jira-ric-studio-sprint-execution-flow.md`.
+- Documented that Jira is the official start of execution, not the start of the idea.
+- Documented that ideas start in strategic conversation with Ricardo and the Architect/Product Strategist.
+- Documented that the Architect Agent works before Jira and decides what should be done.
+- Documented that the Orchestrator Agent works after Jira and executes only the approved scope.
+- Documented that after Jira, the process is standardized and semi-automatic with mandatory gates, not fully automatic.
+- Documented the official flow: Idea / Need, Sprint Planning Gate, Task Candidate approved, Jira card created, Jira READY, Jira IN PROGRESS, RIC Studio visibility, Orchestrator execution, Evidence Review, Commit Gate, Push Gate, Manual Validation Gate, Jira REVIEW / DONE, and Discussion Gate before the next task.
+- Documented that DONE requires Ricardo validation or explicit acceptance with caveat.
+- Documented that commit and push alone never mean DONE.
+- Confirmed no automatic follow-up task may be opened.
+
+Allowed files:
+
+- `docs/product/jira-ric-studio-sprint-execution-flow.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden scope preserved:
+
+- No code changes.
+- No UI changes.
+- No `tools/` changes.
+- No `runtime/` changes.
+- No package or lockfile changes.
+- No dependency changes.
+- No deploy.
+- No Jira API.
+- No GitHub API.
+- No automatic follow-up READY task.
+- No commit.
+- No push.
+
+Validation required before commit gate:
+
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- Confirm only documentation files changed.
+- Confirm no READY task besides RIC-STUDIO-073A was opened, and RIC-STUDIO-073A moved to REVIEW after execution.

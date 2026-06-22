@@ -17,10 +17,11 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
+- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow (REVIEW - documentation-only execution complete; Jira card RIC-1; official flow documented; no code, UI, tools, runtime, package, lockfile, dependency, deploy, Jira API, GitHub API, automatic follow-up task, commit, or push)
 
 ## READY
 
-- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow (READY - Jira card RIC-1; documentation-only; no implementation started; no code, UI, tools, runtime, package, lockfile, dependency, deploy, Jira API, GitHub API, automatic follow-up task, commit, or push)
+No READY task is open.
 
 ## Local DONE
 
@@ -28,7 +29,7 @@
 
 ## Next safe step
 
-Execute only the approved documentation scope for RIC-STUDIO-073A. Do not implement code, open follow-up READY tasks, commit, or push without explicit gates.
+Review RIC-STUDIO-073A evidence. Do not open follow-up READY tasks, commit, or push without explicit gates.
 
 RIC-STUDIO-072A is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 

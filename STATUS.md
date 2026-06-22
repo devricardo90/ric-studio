@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
@@ -10,13 +10,13 @@ RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow
 
 ## Scope
 
-RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow. Jira card: `RIC-1`. Jira status at registration: BACKLOG / READY.
+RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow. Jira card: `RIC-1`. Jira status at execution: IN PROGRESS.
 
 Current baseline:
 
-- RIC-STUDIO-072A reconciliation is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
-- Repository baseline before READY registration was clean and synchronized with `origin/main` at `528fde2645108a23e5d9d1fde481b3aedfee1585`.
-- No RIC-STUDIO-073A implementation has started.
+- RIC-STUDIO-073A READY registration is Remote DONE at commit `934150b07d22a03b0e40c76a19096e0e4db9aa7e`.
+- Repository baseline before execution was clean and synchronized with `origin/main` at `934150b07d22a03b0e40c76a19096e0e4db9aa7e`.
+- RIC-STUDIO-073A documentation execution is complete and stopped in REVIEW for evidence review, commit gate, push gate, and manual validation.
 - No automatic follow-up task has been opened.
 - RIC-STUDIO-071A is Local DONE.
 - The Operator Dashboard supports local-only/read-only external execution context visibility.
@@ -62,6 +62,16 @@ Future implementation allowed scope:
 - Existing RIC Studio documentation that defines product workflow, agent roles, operational state, gates, and evidence expectations.
 - Validation evidence documentation if needed.
 
+Execution changed files:
+
+- `docs/product/jira-ric-studio-sprint-execution-flow.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
 ## Files changed in READY registration
 
 - `STATUS.md`
@@ -79,17 +89,20 @@ Code changes, UI changes, `tools/` changes, `runtime/` changes, package or lockf
 
 RIC-STUDIO-072A - Add External Project Execution Context to Operator Dashboard - Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 
-## Current task registration
+## Current task execution
 
-RIC-STUDIO-073A is READY.
+RIC-STUDIO-073A is in REVIEW.
 
-READY registration results:
+Execution results:
 
 - Registered Jira card `RIC-1`.
 - Registered task `RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow`.
-- Registered status `READY`.
-- Recorded objective, allowed scope, forbidden scope, validation, and DONE criteria.
-- No implementation started.
+- Recorded Jira status as IN PROGRESS for execution.
+- Created `docs/product/jira-ric-studio-sprint-execution-flow.md`.
+- Documented the official flow from Idea / Need through Discussion Gate before the next task.
+- Documented that Jira is the official start of execution, not the start of the idea.
+- Documented Architect pre-Jira responsibility and Orchestrator post-Jira execution responsibility.
+- Documented that DONE requires Ricardo validation or explicit acceptance with caveat.
 - No code, UI, `tools/`, `runtime/`, package, lockfile, dependency, deploy, Jira API, GitHub API, commit, or push action occurred.
 - No automatic follow-up task was opened.
 
