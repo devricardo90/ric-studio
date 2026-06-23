@@ -2,9 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-074A is in REVIEW: `Define Safe Jira CLI Automation Contract`.
+RIC-STUDIO-075A is READY: `Implement Safe Jira CLI Dry-Run`.
 
-Jira card: created/confirmed.
+RIC-STUDIO-074A is Remote DONE at commit `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
 
 RIC-STUDIO-073A is Remote DONE at commit `678410cfa7b1d0f6277b11940858e164e1c5e8de`.
 
@@ -32,7 +32,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: documentation execution complete; evidence review pending. Do not implement Jira automation, create scripts, create tokens or credentials, create package changes, transition Jira automatically, commit, or push without explicit authorization.
+Task mode: READY registration only. Do not implement the dry-run interface, call Jira API/CLI, create tokens or credentials, create package changes, transition Jira automatically, commit, or push without explicit authorization.
 
 Current repository context:
 
@@ -62,11 +62,11 @@ Current repository context:
 - DayBudget repository state was clean and synchronized after `be12a10e6707d234dd44500adfaf690aacb6b1a6`.
 - RIC-STUDIO-073A was manually created in Jira as `RIC-1`, registered as READY in RIC Studio operational docs, executed as documentation-only work, and reached Remote DONE at commit `678410cfa7b1d0f6277b11940858e164e1c5e8de`.
 - RIC-STUDIO-073A created `docs/product/jira-ric-studio-sprint-execution-flow.md`.
-- RIC-STUDIO-074A was created/confirmed in Jira and opened as READY by explicit current request.
-- RIC-STUDIO-074A created `docs/architecture/jira-cli-automation-contract.md`.
-- RIC-STUDIO-074A defined the safe future Jira automation contract for an orchestrator agent and CLI/API layer.
-- RIC-STUDIO-074A is in REVIEW only; no Jira API/CLI implementation has been started.
-- No automatic follow-up task has been opened after RIC-STUDIO-074A.
+- RIC-STUDIO-074A created `docs/architecture/jira-cli-automation-contract.md` and is Remote DONE at commit `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
+- RIC-STUDIO-075A was opened as READY by explicit current request.
+- RIC-STUDIO-075A future objective is to implement the first safe dry-run-only local interface for planned Jira actions.
+- RIC-STUDIO-075A is READY only; no implementation has been started.
+- No automatic follow-up task has been opened after RIC-STUDIO-075A.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
@@ -75,9 +75,9 @@ Current repository context:
 
 ## Next steps
 
-1. Review RIC-STUDIO-074A documentation evidence.
-2. Keep RIC-STUDIO-074A documentation-only.
-3. Keep DONE approval under Ricardo final validation.
+1. Execute RIC-STUDIO-075A only after review approval.
+2. Keep the future implementation dry-run-only.
+3. Keep DONE blocked and Ricardo final validation required.
 4. Do not open any follow-up READY task automatically.
 5. Do not commit or push without explicit commit and push gates.
 
@@ -140,6 +140,16 @@ RIC-STUDIO-074A execution result:
 - Created `docs/architecture/jira-cli-automation-contract.md`.
 - Defined purpose, future automatable actions, approval-gated actions, status transition rules, no-automatic-DONE rule, dry-run-first policy, evidence requirements, audit log requirements, credential safety, failure behavior, role boundaries, Git/Jira state relationship, implementation phases, and forbidden automation.
 - No Jira API implementation, Jira CLI script, automation runtime, token, credential, package or lockfile change, dependency installation, runtime/model change, app/UI change, GitHub API integration, GitHub Actions, automatic Jira transition, new READY task, commit, or push occurred.
+
+RIC-STUDIO-075A READY registration scope:
+
+- Status: READY.
+- Objective: implement the first safe local dry-run interface for Jira automation.
+- Allowed future implementation: dry-run-only local interface that prints intended Jira actions, supports would-create issue, would-transition issue, would-add comment, would-attach evidence summary, blocks DONE, requires explicit action type and issue key or summary, and produces auditable terminal output.
+- Must follow `docs/architecture/jira-cli-automation-contract.md`.
+- Forbidden during READY registration and future implementation unless separately approved: real Jira API call, real Jira CLI call, credential handling beyond documenting absence, token storage or creation, automatic DONE, hidden transition, package or lockfile change, dependency installation, GitHub integration, app/runtime/model/UI change, automatic Jira mutation, follow-up READY task, commit, and push.
+- READY registration changed operational documentation only.
+- No implementation was started.
 
 RIC-STUDIO-072A implementation changed files:
 

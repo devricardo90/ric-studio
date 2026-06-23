@@ -3655,3 +3655,67 @@ Validation required before Commit Gate:
 - Confirm no Jira API or CLI implementation was created.
 - Confirm RIC-STUDIO-074A moved to REVIEW only.
 - Confirm no new READY task was opened.
+
+## RIC-STUDIO-075A - READY Registration
+
+State: READY
+
+Task: RIC-STUDIO-075A - Implement Safe Jira CLI Dry-Run
+
+Summary:
+
+- Registered RIC-STUDIO-075A as READY after RIC-STUDIO-074A reached Remote DONE.
+- Confirmed repository baseline before READY registration was clean and synchronized with `origin/main` at `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
+- Confirmed RIC-STUDIO-074A is Remote DONE at commit `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
+- Recorded the future dry-run-only implementation objective, allowed scope, forbidden scope, validation, and DONE criteria in operational docs.
+- No RIC-STUDIO-075A implementation was performed during READY registration.
+- No Jira API call, Jira CLI call, dry-run interface, token, credential, package, lockfile, dependency, runtime/model, app/UI, GitHub API, GitHub Actions, automatic Jira transition, commit, or push action occurred.
+- No automatic follow-up task was opened.
+
+Objective:
+
+- Create the first safe local dry-run interface for Jira automation.
+- Print intended Jira actions without performing real Jira API or Jira CLI calls.
+- Support planned actions such as would create issue, would transition issue, would add comment, and would attach evidence summary.
+- Enforce that DONE is blocked.
+- Require explicit action type and issue key or summary.
+- Produce auditable terminal output.
+- Follow `docs/architecture/jira-cli-automation-contract.md`.
+
+Approved future implementation scope:
+
+- Add a dry-run-only local interface for planned Jira actions.
+- Print planned actions only.
+- Require explicit action type and issue key or summary.
+- Enforce that DONE is blocked.
+- Produce auditable terminal output.
+
+Forbidden scope:
+
+- Real Jira API call.
+- Real Jira CLI call.
+- Credential handling beyond documenting that credentials are absent.
+- Token storage or creation.
+- Automatic DONE.
+- Hidden transition.
+- Package or lockfile change.
+- Dependency installation.
+- GitHub integration.
+- App/runtime/model/UI change.
+- Automatic Jira mutation.
+- New READY after this task.
+- Commit.
+- Push.
+
+Validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-status`.
+- `git diff --stat`.
+- `git diff --check`.
+- Confirm RIC-STUDIO-075A is READY only.
+- Confirm no implementation started.
+- Confirm no Jira API/CLI call was created.
+- Confirm no token or credential was created.
+- Confirm no package/lockfile, runtime/model, app/UI, GitHub, commit, or push change occurred.
