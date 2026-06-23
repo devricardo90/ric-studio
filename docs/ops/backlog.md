@@ -17,10 +17,11 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
+- RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract. REVIEW - documentation-only contract created; no Jira API/CLI implementation, token, credential, package, lockfile, runtime/model, app/UI, automatic Jira transition, commit, or push.
 
 ## READY
 
-- RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract. READY - documentation-only contract task; Jira card created/confirmed; future work must define safe Jira automation boundaries, dry-run-first policy, evidence format, audit log requirements, approval gates, and Ricardo-only DONE validation; no implementation started.
+No READY task is open.
 
 ## Local DONE
 
@@ -28,7 +29,7 @@
 
 ## Next safe step
 
-Execute RIC-STUDIO-074A documentation only. Do not create Jira automation, tokens, credentials, scripts, package changes, runtime changes, app/UI changes, automatic Jira transitions, follow-up READY tasks, commits, or pushes without explicit gates.
+Review RIC-STUDIO-074A documentation evidence. Do not create Jira automation, tokens, credentials, scripts, package changes, runtime changes, app/UI changes, automatic Jira transitions, follow-up READY tasks, commits, or pushes without explicit gates.
 
 ## Remote DONE
 
@@ -99,7 +100,7 @@ Future work must be discussed, scoped, and accepted before it can become READY.
 
 ## Next safe step
 
-Review RIC-STUDIO-073A evidence. Do not open follow-up READY tasks, commit, or push without explicit gates.
+Review RIC-STUDIO-074A documentation evidence. Do not open follow-up READY tasks, commit, or push without explicit gates.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

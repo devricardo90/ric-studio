@@ -17,10 +17,11 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
+- RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract (REVIEW - documentation-only contract created; no Jira API/CLI implementation, token, credential, package, lockfile, runtime/model, app/UI, automatic Jira transition, commit, or push)
 
 ## READY
 
-- RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract (READY - documentation-only contract task; Jira card created/confirmed; future work must define safe Jira automation boundaries, dry-run-first policy, evidence format, audit log requirements, approval gates, and Ricardo-only DONE validation; no implementation started)
+No READY task is open.
 
 ## Local DONE
 
@@ -28,7 +29,7 @@
 
 ## Next safe step
 
-Execute RIC-STUDIO-074A documentation only. Do not create Jira automation, tokens, credentials, scripts, package changes, runtime changes, app/UI changes, automatic Jira transitions, follow-up READY tasks, commits, or pushes without explicit gates.
+Review RIC-STUDIO-074A documentation evidence. Do not create Jira automation, tokens, credentials, scripts, package changes, runtime changes, app/UI changes, automatic Jira transitions, follow-up READY tasks, commits, or pushes without explicit gates.
 
 RIC-STUDIO-072A is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 
