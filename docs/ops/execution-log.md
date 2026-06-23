@@ -3719,3 +3719,58 @@ Validation:
 - Confirm no Jira API/CLI call was created.
 - Confirm no token or credential was created.
 - Confirm no package/lockfile, runtime/model, app/UI, GitHub, commit, or push change occurred.
+
+## RIC-STUDIO-075A - Implement Safe Jira CLI Dry-Run
+
+State: REVIEW
+
+Summary:
+
+- Executed the approved dry-run-only implementation scope for RIC-STUDIO-075A.
+- Created `tools/jira/dry-run.mjs`.
+- Created `tools/jira/README.md`.
+- Created validation evidence in `docs/validation/jira-dry-run-075a.md`.
+- Implemented local planned Jira action output for `would_create_issue`, `would_transition_issue`, `would_add_comment`, and `would_attach_evidence_summary`.
+- Enforced DONE transition blocking with a blocked dry-run response.
+- Required explicit action type and issue key or summary where appropriate.
+- Produced auditable JSON terminal output.
+- Verified dry-run outputs report `jira_write_performed: false`, `jira_api_called: false`, `jira_cli_called: false`, `network_call_performed: false`, `credentials_required: false`, `token_created: false`, and `token_stored: false`.
+- Moved RIC-STUDIO-075A to REVIEW only.
+- No Jira API call, Jira CLI call, real Jira issue creation, real Jira issue transition, token, credential, GitHub API integration, GitHub Actions, package or lockfile change, dependency installation, runtime/model change, app/UI change, automatic Jira transition, new READY task, commit, or push occurred.
+
+Allowed files:
+
+- `tools/jira/dry-run.mjs`.
+- `tools/jira/README.md`.
+- `docs/validation/jira-dry-run-075a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Validation executed:
+
+- `node tools/jira/dry-run.mjs --action create_issue --summary "Draft safe Jira dry-run issue"`.
+- `node tools/jira/dry-run.mjs --action transition_issue --issue RIC-1 --to READY`.
+- `node tools/jira/dry-run.mjs --action transition_issue --issue RIC-1 --to IN_PROGRESS`.
+- `node tools/jira/dry-run.mjs --action transition_issue --issue RIC-1 --to REVIEW`.
+- `node tools/jira/dry-run.mjs --action transition_issue --issue RIC-1 --to DONE`.
+- `node tools/jira/dry-run.mjs --action add_comment --issue RIC-1 --comment "Dry-run comment only"`.
+- `node tools/jira/dry-run.mjs --action attach_evidence_summary --issue RIC-1 --evidence-summary "Dry-run evidence summary only"`.
+- `git diff --check`.
+
+Validation required before Commit Gate:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-status`.
+- `git diff --stat`.
+- `git diff --check`.
+- Full raw diffs or file contents for every changed file.
+- Confirm RIC-STUDIO-075A moved to REVIEW only.
+- Confirm no Jira API/CLI call was made.
+- Confirm no token or credential was created.
+- Confirm no package/lockfile, runtime/model, app/UI, GitHub, commit, or push change occurred.
+- Confirm no new READY task was opened.
