@@ -17,11 +17,10 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
-- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow. REVIEW - documentation-only execution complete; Jira card RIC-1; official flow documented; no code, UI, tools, runtime, package, lockfile, dependency, deploy, Jira API, GitHub API, automatic follow-up task, commit, or push.
 
 ## READY
 
-No READY task is open.
+- RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract. READY - documentation-only contract task; Jira card created/confirmed; future work must define safe Jira automation boundaries, dry-run-first policy, evidence format, audit log requirements, approval gates, and Ricardo-only DONE validation; no implementation started.
 
 ## Local DONE
 
@@ -29,7 +28,7 @@ No READY task is open.
 
 ## Next safe step
 
-Review RIC-STUDIO-073A evidence. Do not open follow-up READY tasks, commit, or push without explicit gates.
+Execute RIC-STUDIO-074A documentation only. Do not create Jira automation, tokens, credentials, scripts, package changes, runtime changes, app/UI changes, automatic Jira transitions, follow-up READY tasks, commits, or pushes without explicit gates.
 
 ## Remote DONE
 
@@ -64,6 +63,7 @@ Review RIC-STUDIO-073A evidence. Do not open follow-up READY tasks, commit, or p
 - RIC-STUDIO-069B - Reconcile Operator Dashboard Remote DONE State. Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
 - RIC-STUDIO-070A - Integrate Auditor Visibility Into Local Operator Dashboard. Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
 - RIC-STUDIO-072A - Reconcile External Execution Context. Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
+- RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow. Remote DONE at commit `678410cfa7b1d0f6277b11940858e164e1c5e8de`.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`.
 - RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. Remote DONE at commit `105c220`.
 - RIC-STUDIO-040A - Define Local MVP Technical Scaffold. Remote DONE at commit `c436045`.

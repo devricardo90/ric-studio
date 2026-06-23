@@ -3520,3 +3520,85 @@ Validation required before commit gate:
 - `git status -sb`.
 - Confirm only documentation files changed.
 - Confirm no READY task besides RIC-STUDIO-073A was opened, and RIC-STUDIO-073A moved to REVIEW after execution.
+
+## RIC-STUDIO-074A - READY Registration
+
+State: READY
+
+Jira card: created/confirmed
+
+Task: RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract
+
+Summary:
+
+- Registered RIC-STUDIO-074A as READY after Jira card creation/confirmation.
+- Confirmed repository baseline before READY registration was clean and synchronized with `origin/main` at `678410cfa7b1d0f6277b11940858e164e1c5e8de`.
+- Confirmed RIC-STUDIO-073A is Remote DONE at commit `678410cfa7b1d0f6277b11940858e164e1c5e8de`.
+- Recorded the future documentation-only objective, allowed scope, forbidden scope, validation, and DONE criteria in operational docs.
+- No RIC-STUDIO-074A implementation was performed during READY registration.
+- No `docs/architecture/jira-cli-automation-contract.md` file was created during READY registration.
+- No automatic follow-up task was opened.
+
+Objective:
+
+- Define the safe contract for future Jira automation through an orchestrator agent and CLI/API layer.
+- Define what Jira actions the orchestrator may propose or execute.
+- Define what actions require Ricardo approval.
+- Define status transition rules for Backlog / Ready, In Progress, Review, and Done.
+- Define that DONE requires Ricardo final validation.
+- Define dry-run-first policy for future Jira CLI automation.
+- Define expected evidence format before Jira transition.
+- Define audit log requirements.
+- Define failure and blocking behavior.
+- Define that credentials and tokens must not be committed.
+- Define that real Jira automation implementation is future scope only.
+
+Allowed scope:
+
+- Documentation-only updates.
+- `docs/architecture/jira-cli-automation-contract.md`.
+- Required operational documentation updates for task state and review evidence.
+
+Forbidden scope:
+
+- Jira API implementation.
+- Jira CLI script.
+- Token creation.
+- Credential storage.
+- GitHub API integration.
+- GitHub Actions.
+- Package or lockfile changes.
+- Dependency installation.
+- Runtime/model changes.
+- App/UI implementation.
+- Automatic Jira transition.
+- Automatic DONE transition.
+- Any agent authority to close work as DONE without Ricardo validation.
+- Automatic follow-up READY task.
+- Commit.
+- Push.
+
+Validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- Confirm only documentation files changed.
+- Confirm no implementation started.
+- Confirm no Jira API/CLI script, token, credential, GitHub API integration, GitHub Actions, package/lockfile/dependency, runtime/model, app/UI, automatic Jira transition, commit, or push action occurred.
+- Confirm RIC-STUDIO-074A is the only READY task.
+
+DONE criteria for future execution:
+
+- Safe Jira automation contract is documented.
+- Orchestrator proposed, dry-run, approval-gated, and executable Jira action boundaries are defined.
+- Backlog / Ready, In Progress, Review, and Done transition rules are defined.
+- DONE requires Ricardo final validation.
+- Dry-run-first policy is defined.
+- Expected evidence format before Jira transition is defined.
+- Audit log requirements are defined.
+- Failure/blocking behavior is defined.
+- Credentials and tokens are explicitly forbidden from being committed.
+- Real Jira automation implementation is documented as future scope only.
