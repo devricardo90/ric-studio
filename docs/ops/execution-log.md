@@ -3894,3 +3894,57 @@ Validation required before Commit Gate:
 - Confirm no Jira API/CLI call, network call, token, or credential behavior was introduced.
 - Confirm no package/lockfile changes.
 - Confirm no `tools/jira/dry-run.mjs` or `tools/jira/README.md` changes.
+
+## RIC-STUDIO-077A - Implement Guarded Jira Real Write MVP
+
+State: REVIEW
+
+Summary:
+
+- Opened and executed RIC-STUDIO-077A as the first guarded Jira real-write MVP.
+- Created `tools/jira/guarded-write.mjs`.
+- Updated `tools/jira/README.md` with guarded real-write MVP usage.
+- Created `docs/validation/jira-real-write-077a.md`.
+- Kept dry-run as the default mode.
+- Implemented explicit `--real-write` mode.
+- Limited real-write mode to `add_comment` on the explicitly provided issue.
+- Implemented missing environment variable blocking for `JIRA_BASE_URL`, `JIRA_EMAIL`, and `JIRA_API_TOKEN`.
+- Blocked `create_issue`, `transition_issue`, DONE, unsupported actions, missing issue, and missing comment.
+- Validated missing-env real-write block for `add_comment`.
+- Validated dry-run `add_comment`.
+- Validated `create_issue` and DONE transition blocks.
+- Preserved `tools/jira/dry-run.mjs` unchanged.
+- Did not add dependencies or package/lockfile changes.
+- Moved RIC-STUDIO-077A to REVIEW only.
+- Real Jira write was not executed because explicit environment variables and explicit test issue evidence were not provided for this execution.
+- No Jira CLI call, token creation, token storage, token printing, credential storage, package or lockfile change, dependency installation, runtime/model/app/UI change, GitHub Action, automatic DONE, new READY task, commit, or push occurred.
+
+Files changed:
+
+- `tools/jira/guarded-write.mjs`.
+- `tools/jira/README.md`.
+- `docs/validation/jira-real-write-077a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Validation required before Commit Gate:
+
+- `node tools/jira/guarded-write.mjs --action add_comment --issue RIC-1 --comment "Smoke test" --real-write` with Jira env variables unset.
+- `node tools/jira/guarded-write.mjs --action add_comment --issue RIC-1 --comment "Smoke test" --dry-run`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-status`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff --name-only -- package.json package-lock.json pnpm-lock.yaml yarn.lock npm-shrinkwrap.json`.
+- Confirm missing-env real-write returns `BLOCKED`.
+- Confirm dry-run returns `DRY_RUN_ONLY`.
+- Confirm no real Jira API call occurred during missing-env or dry-run validation.
+- Confirm no Jira CLI call occurred.
+- Confirm no token was printed or stored.
+- Confirm no package or lockfile changed.
+- Confirm no automatic DONE occurred.

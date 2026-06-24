@@ -17,7 +17,7 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator (REVIEW - evaluator exported and validated; CLI and smoke behavior preserved; no dependencies, lockfiles, node_modules, commit, or push)
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation (REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push)
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
-- RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract (REVIEW - documentation-only guarded Jira write contract created; no Jira API/CLI call, network call, token, credential, package, lockfile, runtime/model, app/UI, GitHub Action, `tools/jira/dry-run.mjs` change, `tools/jira/README.md` change, automatic DONE, commit, or push)
+- RIC-STUDIO-077A - Implement Guarded Jira Real Write MVP (REVIEW - guarded add_comment real-write MVP implemented with dry-run default and missing-env blocking; no real Jira API call executed, no Jira CLI, token creation/storage/printing, credential storage, package/lockfile, `tools/jira/dry-run.mjs`, automatic DONE, commit, or push)
 
 ## READY
 
@@ -29,7 +29,7 @@ No READY task is open.
 
 ## Next safe step
 
-Review RIC-STUDIO-076A documentation evidence. Do not call Jira API/CLI, make network calls, create tokens or credentials, change packages, change runtime/app/UI, edit `tools/jira/dry-run.mjs`, open extra READY tasks, commit, or push without explicit gates.
+Review RIC-STUDIO-077A guarded write MVP evidence. Do not execute a real Jira write until explicit env and issue evidence are provided, do not call Jira CLI, create or store tokens, change packages, edit `tools/jira/dry-run.mjs`, open extra READY tasks, commit, or push without explicit gates.
 
 RIC-STUDIO-072A is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 
@@ -38,6 +38,8 @@ RIC-STUDIO-073A is Remote DONE at commit `678410cfa7b1d0f6277b11940858e164e1c5e8
 RIC-STUDIO-074A is Remote DONE at commit `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
 
 RIC-STUDIO-075A is Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
+
+RIC-STUDIO-076A is Remote DONE per current task context.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

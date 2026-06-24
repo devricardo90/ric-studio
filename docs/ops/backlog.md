@@ -17,7 +17,7 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
-- RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract. REVIEW - documentation-only guarded Jira write contract created; no Jira API/CLI call, network call, token, credential, package, lockfile, runtime/model, app/UI, GitHub Action, `tools/jira/dry-run.mjs` change, `tools/jira/README.md` change, automatic DONE, commit, or push.
+- RIC-STUDIO-077A - Implement Guarded Jira Real Write MVP. REVIEW - guarded add_comment real-write MVP implemented with dry-run default and missing-env blocking; no real Jira API call executed, no Jira CLI, token creation/storage/printing, credential storage, package/lockfile, `tools/jira/dry-run.mjs`, automatic DONE, commit, or push.
 
 ## READY
 
@@ -29,7 +29,7 @@ No READY task is open.
 
 ## Next safe step
 
-Review RIC-STUDIO-076A documentation evidence. Do not call Jira API/CLI, make network calls, create tokens or credentials, change packages, change runtime/app/UI, edit `tools/jira/dry-run.mjs`, open extra READY tasks, commit, or push without explicit gates.
+Review RIC-STUDIO-077A guarded write MVP evidence. Do not execute a real Jira write until explicit env and issue evidence are provided, do not call Jira CLI, create or store tokens, change packages, edit `tools/jira/dry-run.mjs`, open extra READY tasks, commit, or push without explicit gates.
 
 ## Remote DONE
 
@@ -67,6 +67,7 @@ Review RIC-STUDIO-076A documentation evidence. Do not call Jira API/CLI, make ne
 - RIC-STUDIO-073A - Document Jira + RIC Studio Sprint Execution Flow. Remote DONE at commit `678410cfa7b1d0f6277b11940858e164e1c5e8de`.
 - RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract. Remote DONE at commit `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
 - RIC-STUDIO-075A - Implement Safe Jira CLI Dry-Run. Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
+- RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract. Remote DONE per current task context.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`.
 - RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. Remote DONE at commit `105c220`.
 - RIC-STUDIO-040A - Define Local MVP Technical Scaffold. Remote DONE at commit `c436045`.

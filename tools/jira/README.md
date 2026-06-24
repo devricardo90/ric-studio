@@ -59,3 +59,33 @@ This tool does not:
 - Create tokens.
 - Automate DONE.
 - Bypass Commit Gate or Push Gate.
+
+## Guarded Real Write MVP
+
+`guarded-write.mjs` is the RIC-STUDIO-077A guarded write MVP.
+
+Dry-run remains the default. Without `--real-write`, the tool must not call Jira API, must not call Jira CLI, must not perform a network call, and must not mutate Jira.
+
+Dry-run:
+
+```powershell
+node tools/jira/guarded-write.mjs --action add_comment --issue RIC-1 --comment "Smoke test" --dry-run
+```
+
+Guarded real write:
+
+```powershell
+node tools/jira/guarded-write.mjs --action add_comment --issue RIC-1 --comment "RIC-STUDIO-077A guarded write smoke." --real-write
+```
+
+Real write mode is limited to `add_comment` on the explicitly provided issue key.
+
+Required environment variables for real write mode:
+
+- `JIRA_BASE_URL`
+- `JIRA_EMAIL`
+- `JIRA_API_TOKEN`
+
+If any required variable is missing, the result is `BLOCKED` and no Jira write is attempted.
+
+The tool must not create tokens, store tokens, print tokens, print an Authorization header, read `.env` files, call Jira CLI, automate DONE, create issues, transition issues, attach files, delete data, edit workflows, edit project configuration, or run bulk operations.

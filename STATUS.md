@@ -6,38 +6,37 @@ REVIEW
 
 ## Active task
 
-RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract
+RIC-STUDIO-077A - Implement Guarded Jira Real Write MVP
 
 ## Scope
 
-RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract.
+RIC-STUDIO-077A - Implement Guarded Jira Real Write MVP.
 
 Current baseline:
 
+- Repository baseline before execution was clean at `e396b2eb4c8ef215dbc635a678a6c0dc93bede81`.
+- RIC-STUDIO-076A is Remote DONE per current task context.
 - RIC-STUDIO-075A is Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
-- Repository baseline before execution was clean at `53b13d492a1ffcb558d8cb4295eea70d54fceb44`.
-- RIC-STUDIO-076A was Remote READY at commit `53b13d492a1ffcb558d8cb4295eea70d54fceb44`.
-- Repository baseline before READY opening was clean at `441ea2076b436f5eacca9bfdb84203c88b470699`.
-- `git status --short` returned no file entries before READY opening; Git emitted only the global ignore permission warning.
-- `git status -sb` returned `## main...origin/main`; Git emitted only the global ignore permission warning.
 - RIC-STUDIO-075A delivered the dependency-free Jira dry-run interface.
-- Manual dry-run validation confirmed create issue, READY transition, IN_PROGRESS transition, REVIEW transition, add comment, and attach evidence summary return `DRY_RUN_ONLY`; DONE transition returns `BLOCKED`.
-- No Jira API call, Jira CLI call, network call, token creation, credential storage, package or lockfile change, runtime/model change, app/UI change, GitHub Action, automatic DONE, commit, or push occurred during this READY opening.
+- RIC-STUDIO-076A delivered `docs/architecture/guarded-jira-write-integration-contract.md`.
+- No Jira API call, Jira CLI call, token creation, credential storage, package or lockfile change, GitHub Action, automatic DONE, commit, or push occurred during this execution.
 
 Objective:
 
-- Define the guarded contract for any future real Jira write integration.
-- Document security rules for real writes before implementation exists.
-- Define allowed and blocked Jira actions.
-- Define credential and token policy.
-- Define mandatory gates before and after any real Jira call.
-- Define how Jira fits inside the Protocol Rick lifecycle.
-- Keep this task documentation-only.
+- Implement the first guarded Jira real-write MVP.
+- Keep dry-run as the default mode.
+- Allow real-write mode only for `add_comment` on an explicitly provided issue.
+- Read credentials only from explicit environment variables when real-write is requested.
+- Return `BLOCKED` when required environment variables are missing.
+- Preserve no token creation, no token storage, no token printing, no Jira CLI, no package changes, no automatic DONE, no commit, and no push.
 
 ## Allowed files
 
-READY registration allowed files:
+Execution allowed files:
 
+- `tools/jira/guarded-write.mjs`
+- `tools/jira/README.md`
+- `docs/validation/jira-real-write-077a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -45,49 +44,36 @@ READY registration allowed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-Future execution allowed files:
+Execution blocked scope:
 
-- `docs/architecture/guarded-jira-write-integration-contract.md`
-- `STATUS.md`
-- `backlog.md`
-- `docs/ops/status.md`
-- `docs/ops/backlog.md`
-- `docs/ops/execution-log.md`
-- `docs/ops/session-handoff.md`
-
-Future execution allowed scope:
-
-- Create documentation for the future guarded Jira write integration contract.
-- Define safety contract for real Jira writes.
-- Define allowed Jira actions and blocked Jira actions.
-- Define credential and token policy.
-- Define mandatory pre-call and post-call gates.
-- Define how Jira fits in the Protocol Rick cycle.
-- Update required operational documentation.
-
-Future execution blocked scope:
-
-- Real Jira API call.
-- Real Jira CLI call.
-- Code implementation for real Jira integration.
-- Network call.
+- Real `create_issue`.
+- Real `transition_issue`.
+- Real DONE.
+- Delete.
+- Project configuration changes.
+- Workflow changes.
+- Real file attachment.
+- Bulk operations.
+- Operations on an issue not explicitly provided.
+- Jira CLI.
 - Token creation.
+- Token storage.
+- Token printing.
 - Credential storage.
 - Package or lockfile changes.
 - Dependency installation.
-- Runtime/model changes.
-- App/UI implementation.
+- Runtime/model/app/UI changes.
 - GitHub Actions.
-- Automation that writes to Jira.
 - Automatic DONE.
-- Hidden transition.
-- New implementation in `tools/jira`.
-- Changes to `tools/jira/dry-run.mjs`.
+- New READY task.
 - Commit.
 - Push.
 
-## Files changed in READY registration
+## Files changed in execution
 
+- `tools/jira/guarded-write.mjs`
+- `tools/jira/README.md`
+- `docs/validation/jira-real-write-077a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -95,31 +81,33 @@ Future execution blocked scope:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files expected in future execution
-
-- `docs/architecture/guarded-jira-write-integration-contract.md`
-- Required operational documentation only.
-
 ## Blocked in this task
 
-During READY promotion: implementation, Jira API call, Jira CLI call, network call, token creation, credential storage, package or lockfile changes, dependency installation, runtime/model changes, app/UI changes, GitHub Actions, automatic Jira transition, automatic DONE transition, changes to `tools/jira/dry-run.mjs`, new `tools/jira` implementation, extra READY task, commit, and push.
+During execution: Jira CLI call, real create issue, real transition, real DONE, delete, project configuration change, workflow change, real file attachment, bulk operation, token creation, token storage, token printing, credential storage, package or lockfile change, dependency installation, runtime/model/app/UI change, GitHub Action, automatic DONE, new READY task, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-075A - Implement Safe Jira CLI Dry-Run - Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
+RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract - Remote DONE per current task context.
 
 ## Current task execution
 
-RIC-STUDIO-076A is in REVIEW.
+RIC-STUDIO-077A is in REVIEW.
 
 Execution results:
 
-- Created `docs/architecture/guarded-jira-write-integration-contract.md`.
-- Defined the purpose of future guarded Jira writes.
-- Defined the relationship with the RIC-STUDIO-075A dry-run boundary.
-- Defined non-goals, allowed future Jira write actions, blocked and guarded actions, credential policy, execution modes, pre-write gates, post-write gates, failure behavior, Protocolo Rick mapping, and validation checklist.
-- Moved RIC-STUDIO-076A to REVIEW only.
-- No Jira API call, Jira CLI call, network call, token creation, credential creation, credential reading, credential storage, package or lockfile change, dependency installation, runtime/model change, app/UI change, GitHub Action, `tools/jira/dry-run.mjs` change, `tools/jira/README.md` change, automatic DONE, new READY task, commit, or push occurred.
+- Created `tools/jira/guarded-write.mjs`.
+- Updated `tools/jira/README.md` with guarded real-write MVP usage.
+- Created `docs/validation/jira-real-write-077a.md`.
+- Implemented dry-run default for `add_comment`.
+- Implemented real-write mode behind explicit `--real-write`, limited to `add_comment`.
+- Implemented missing environment variable blocking for `JIRA_BASE_URL`, `JIRA_EMAIL`, and `JIRA_API_TOKEN`.
+- Blocked `create_issue`, `transition_issue`, DONE, unsupported actions, missing issue, and missing comment.
+- Validated missing-env real-write block for `add_comment`.
+- Validated dry-run `add_comment`.
+- Validated `create_issue` and DONE transition blocks.
+- Moved RIC-STUDIO-077A to REVIEW only.
+- No real Jira API call was executed because required environment variables and explicit real-write test issue evidence were not provided.
+- No Jira CLI call, token creation, token storage, token printing, credential storage, package or lockfile change, dependency installation, runtime/model/app/UI change, GitHub Action, `tools/jira/dry-run.mjs` change, automatic DONE, new READY task, commit, or push occurred.
 
 Validation required:
 
@@ -128,28 +116,27 @@ Validation required:
 - `git diff --name-only`
 - `git diff --stat`
 - `git diff --check`
-- `git diff --name-only -- package.json package-lock.json pnpm-lock.yaml yarn.lock npm-shrinkwrap.json tools/jira/dry-run.mjs tools/jira/README.md`
-- `git diff -- docs/architecture/guarded-jira-write-integration-contract.md`
-- Confirm only documentation files changed.
+- `git diff --name-only -- package.json package-lock.json pnpm-lock.yaml yarn.lock npm-shrinkwrap.json`
+- Missing-env real-write blocked validation.
+- Dry-run validation.
 - Confirm no package or lockfile changed.
 - Confirm `tools/jira/dry-run.mjs` did not change.
-- Confirm `tools/jira/README.md` did not change.
-- Confirm RIC-STUDIO-076A is in REVIEW only.
+- Confirm RIC-STUDIO-077A is in REVIEW only.
 - Confirm no extra task was opened.
 
-DONE criteria for future execution:
+DONE criteria:
 
-- Guarded Jira write integration contract is documented.
-- Real write safety rules are defined.
-- Allowed and blocked Jira actions are defined.
-- Credential and token policy is defined.
-- Mandatory pre-call and post-call gates are defined.
-- Protocol Rick integration is defined.
-- No Jira API or CLI call is made.
-- No network call is made.
+- Guarded write tool exists.
+- Dry-run remains default.
+- Missing environment variables block real-write.
+- Real-write mode is limited to `add_comment`.
+- Forbidden actions are blocked.
+- Validation evidence is documented.
+- No Jira CLI call is made.
 - No token or credential is created or stored.
 - No package or lockfile changes occur.
 - No `tools/jira/dry-run.mjs` change occurs.
+- No automatic DONE occurs.
 
 
 RIC-STUDIO-059A result:

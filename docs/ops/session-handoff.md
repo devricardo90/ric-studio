@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-076A is in REVIEW: `Define Guarded Jira Write Integration Contract`.
+RIC-STUDIO-077A is in REVIEW: `Implement Guarded Jira Real Write MVP`.
+
+RIC-STUDIO-076A is Remote DONE per current task context.
 
 RIC-STUDIO-075A is Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
 
@@ -34,7 +36,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: documentation-only REVIEW. Do not call Jira API/CLI, make network calls, create tokens or credentials, create package changes, transition Jira automatically, edit `tools/jira/dry-run.mjs`, commit, or push without explicit authorization.
+Task mode: guarded write MVP REVIEW. Do not execute a real Jira write until explicit environment variables and explicit test issue evidence are provided. Do not call Jira CLI, create or store tokens, print secrets, change packages, transition Jira automatically, edit `tools/jira/dry-run.mjs`, commit, or push without explicit authorization.
 
 Current repository context:
 
@@ -72,8 +74,15 @@ Current repository context:
 - RIC-STUDIO-076A was opened as READY by Discussion Gate approval to define a documentation-only guarded Jira write integration contract.
 - RIC-STUDIO-076A does not authorize real Jira API calls, Jira CLI calls, network calls, token creation, credential storage, package/lockfile changes, `tools/jira/dry-run.mjs` changes, automatic DONE, commit, or push.
 - RIC-STUDIO-076A created `docs/architecture/guarded-jira-write-integration-contract.md`.
-- RIC-STUDIO-076A is in REVIEW only.
+- RIC-STUDIO-076A is Remote DONE per current task context.
 - No Jira API call, Jira CLI call, network call, token creation, credential creation, credential reading, credential storage, package or lockfile change, dependency installation, runtime/model change, app/UI change, GitHub Action, `tools/jira/dry-run.mjs` change, `tools/jira/README.md` change, automatic DONE, new READY task, commit, or push occurred.
+- RIC-STUDIO-077A created `tools/jira/guarded-write.mjs`.
+- RIC-STUDIO-077A updated `tools/jira/README.md` with guarded real-write MVP usage.
+- RIC-STUDIO-077A created `docs/validation/jira-real-write-077a.md`.
+- RIC-STUDIO-077A is in REVIEW only.
+- RIC-STUDIO-077A dry-run validation passed without Jira API, Jira CLI, network call, or write.
+- RIC-STUDIO-077A missing-env real-write validation returned `BLOCKED` and did not call Jira.
+- No real Jira write was executed because explicit environment variables and explicit test issue evidence were not provided.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
@@ -82,9 +91,9 @@ Current repository context:
 
 ## Next steps
 
-1. Review RIC-STUDIO-076A documentation evidence.
-2. Confirm `docs/architecture/guarded-jira-write-integration-contract.md` covers the required guarded-write contract topics.
-3. Keep real Jira writes, Jira API/CLI, network calls, tokens, credentials, package/lockfile changes, and `tools/jira/dry-run.mjs` changes blocked.
+1. Review RIC-STUDIO-077A guarded write MVP evidence.
+2. Confirm `tools/jira/guarded-write.mjs` keeps dry-run as default and real-write limited to `add_comment`.
+3. Keep real Jira write execution blocked until explicit environment variables and explicit test issue evidence are provided.
 4. Keep DONE blocked and Ricardo final validation required.
 5. Do not open any extra READY task, commit, or push without explicit gates.
 
