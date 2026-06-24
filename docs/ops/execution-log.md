@@ -3846,3 +3846,51 @@ Validation:
 - Confirm `tools/jira/dry-run.mjs` did not change.
 - Confirm RIC-STUDIO-076A is the only READY task.
 - Confirm no extra task was opened.
+
+## RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract
+
+State: REVIEW
+
+Summary:
+
+- Executed the approved documentation-only scope for RIC-STUDIO-076A.
+- Created `docs/architecture/guarded-jira-write-integration-contract.md`.
+- Defined the purpose of future guarded Jira write integration.
+- Documented the relationship with the RIC-STUDIO-075A dependency-free dry-run interface.
+- Documented non-goals and the explicit RIC-STUDIO-076A no-write boundary.
+- Defined allowed future Jira write actions: create issue, transition to READY, transition to IN_PROGRESS, transition to REVIEW, add comment, and attach evidence summary.
+- Defined permanently blocked or guarded actions: automatic DONE, hidden transitions, credential/token creation or storage, automatic commit, automatic push, project configuration changes, unrelated issue changes, unsafe bulk updates, and repeated write retries.
+- Defined credential policy: no hardcoded credentials, no agent-generated credentials, no repository-stored credentials, future environment-variable-only credential source, and `BLOCKED` for missing, ambiguous, or unsafe credentials.
+- Defined execution modes: dry-run default and future explicit real-write mode only with exact user authorization.
+- Defined required pre-write gate and post-write gate.
+- Defined failure behavior that fails closed.
+- Mapped Jira usage to Protocolo Rick from planning through Jira DONE after Ricardo final validation.
+- Defined a validation checklist for any future implementation.
+- Moved RIC-STUDIO-076A to REVIEW only.
+- No Jira API call, Jira CLI call, network call, token creation, credential creation, credential reading, credential storage, package or lockfile change, dependency installation, runtime/model change, app/UI change, GitHub Action, `tools/jira/dry-run.mjs` change, `tools/jira/README.md` change, automatic DONE, new READY task, commit, or push occurred.
+
+Files changed:
+
+- `docs/architecture/guarded-jira-write-integration-contract.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Validation required before Commit Gate:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-status`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff --name-only -- package.json package-lock.json pnpm-lock.yaml yarn.lock npm-shrinkwrap.json tools/jira/dry-run.mjs tools/jira/README.md`.
+- `git diff -- docs/architecture/guarded-jira-write-integration-contract.md`.
+- Confirm RIC-STUDIO-076A is in REVIEW only.
+- Confirm no DONE transition occurred.
+- Confirm no new READY task was opened.
+- Confirm no Jira API/CLI call, network call, token, or credential behavior was introduced.
+- Confirm no package/lockfile changes.
+- Confirm no `tools/jira/dry-run.mjs` or `tools/jira/README.md` changes.

@@ -17,10 +17,11 @@
 - RIC-STUDIO-053A - Expose Dependency-Free Deterministic Auditor Evaluator. Remote DONE at commit `840375a`.
 - RIC-STUDIO-062A - Add Minimal Audit Session Contract Validation. REVIEW - dependency-free validator and validation evidence added; no runtime, evaluator, fixture, package, dependency, CI, app, commit, or push.
 - RIC-STUDIO-063A - Document Local Auditor Validation Usage (REVIEW - documentation-only implementation in README.md; explained validator purpose, usage, criteria, and boundaries; no validator code, runtime, evaluator, fixture, package, dependency, CI, runtime, or app change)
+- RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract. REVIEW - documentation-only guarded Jira write contract created; no Jira API/CLI call, network call, token, credential, package, lockfile, runtime/model, app/UI, GitHub Action, `tools/jira/dry-run.mjs` change, `tools/jira/README.md` change, automatic DONE, commit, or push.
 
 ## READY
 
-- RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract. READY - documentation-only contract for future guarded real Jira writes; no Jira API/CLI call, network call, token, credential, package, lockfile, runtime/model, app/UI, GitHub Action, `tools/jira/dry-run.mjs` change, automatic DONE, commit, or push.
+No READY task is open.
 
 ## Local DONE
 
@@ -28,7 +29,7 @@
 
 ## Next safe step
 
-Execute RIC-STUDIO-076A as documentation-only architecture work. Do not call Jira API/CLI, make network calls, create tokens or credentials, change packages, change runtime/app/UI, edit `tools/jira/dry-run.mjs`, open extra READY tasks, commit, or push without explicit gates.
+Review RIC-STUDIO-076A documentation evidence. Do not call Jira API/CLI, make network calls, create tokens or credentials, change packages, change runtime/app/UI, edit `tools/jira/dry-run.mjs`, open extra READY tasks, commit, or push without explicit gates.
 
 ## Remote DONE
 

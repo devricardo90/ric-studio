@@ -2,7 +2,7 @@
 
 ## Current handoff state
 
-RIC-STUDIO-076A is READY: `Define Guarded Jira Write Integration Contract`.
+RIC-STUDIO-076A is in REVIEW: `Define Guarded Jira Write Integration Contract`.
 
 RIC-STUDIO-075A is Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
 
@@ -34,7 +34,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: documentation-only READY. Do not call Jira API/CLI, make network calls, create tokens or credentials, create package changes, transition Jira automatically, edit `tools/jira/dry-run.mjs`, commit, or push without explicit authorization.
+Task mode: documentation-only REVIEW. Do not call Jira API/CLI, make network calls, create tokens or credentials, create package changes, transition Jira automatically, edit `tools/jira/dry-run.mjs`, commit, or push without explicit authorization.
 
 Current repository context:
 
@@ -71,6 +71,9 @@ Current repository context:
 - Manual dry-run validation confirmed create issue, READY transition, IN_PROGRESS transition, REVIEW transition, add comment, and attach evidence summary return `DRY_RUN_ONLY`; DONE transition returns `BLOCKED`.
 - RIC-STUDIO-076A was opened as READY by Discussion Gate approval to define a documentation-only guarded Jira write integration contract.
 - RIC-STUDIO-076A does not authorize real Jira API calls, Jira CLI calls, network calls, token creation, credential storage, package/lockfile changes, `tools/jira/dry-run.mjs` changes, automatic DONE, commit, or push.
+- RIC-STUDIO-076A created `docs/architecture/guarded-jira-write-integration-contract.md`.
+- RIC-STUDIO-076A is in REVIEW only.
+- No Jira API call, Jira CLI call, network call, token creation, credential creation, credential reading, credential storage, package or lockfile change, dependency installation, runtime/model change, app/UI change, GitHub Action, `tools/jira/dry-run.mjs` change, `tools/jira/README.md` change, automatic DONE, new READY task, commit, or push occurred.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
@@ -79,8 +82,8 @@ Current repository context:
 
 ## Next steps
 
-1. Execute RIC-STUDIO-076A as documentation-only architecture work.
-2. Create `docs/architecture/guarded-jira-write-integration-contract.md` only if executing the approved READY scope.
+1. Review RIC-STUDIO-076A documentation evidence.
+2. Confirm `docs/architecture/guarded-jira-write-integration-contract.md` covers the required guarded-write contract topics.
 3. Keep real Jira writes, Jira API/CLI, network calls, tokens, credentials, package/lockfile changes, and `tools/jira/dry-run.mjs` changes blocked.
 4. Keep DONE blocked and Ricardo final validation required.
 5. Do not open any extra READY task, commit, or push without explicit gates.
