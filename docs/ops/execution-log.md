@@ -3774,3 +3774,75 @@ Validation required before Commit Gate:
 - Confirm no token or credential was created.
 - Confirm no package/lockfile, runtime/model, app/UI, GitHub, commit, or push change occurred.
 - Confirm no new READY task was opened.
+
+## RIC-STUDIO-076A - READY Registration
+
+State: READY
+
+Task: RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract
+
+Discussion Gate verdict: APPROVED for documentation-only READY opening.
+
+Summary:
+
+- Registered RIC-STUDIO-076A as READY after RIC-STUDIO-075A reached Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
+- Confirmed repository baseline before READY registration was clean at `441ea2076b436f5eacca9bfdb84203c88b470699`.
+- Confirmed `git status --short` returned no file entries before READY registration; Git emitted only the global ignore permission warning.
+- Confirmed `git status -sb` returned `## main...origin/main`; Git emitted only the global ignore permission warning.
+- Recorded the future documentation-only objective, allowed files, forbidden scope, validation, and DONE criteria in operational docs.
+- No implementation was performed during READY registration.
+- No Jira API call, Jira CLI call, network call, token creation, credential storage, package or lockfile change, dependency installation, runtime/model change, app/UI change, GitHub Action, automatic Jira transition, automatic DONE, `tools/jira/dry-run.mjs` change, new `tools/jira` implementation, extra READY task, commit, or push occurred.
+
+Objective:
+
+- Define the guarded contract for any future real Jira write integration.
+- Document security rules for real writes before implementation exists.
+- Define allowed and blocked Jira actions.
+- Define credential and token policy.
+- Define mandatory gates before and after any real Jira call.
+- Define how Jira fits inside the Protocol Rick lifecycle.
+
+Allowed future execution files:
+
+- `docs/architecture/guarded-jira-write-integration-contract.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden scope:
+
+- Real Jira API call.
+- Real Jira CLI call.
+- Code implementation for real Jira integration.
+- Network call.
+- Token creation.
+- Credential storage.
+- Package or lockfile change.
+- Dependency installation.
+- Runtime/model change.
+- App/UI change.
+- GitHub Action.
+- Automation that writes to Jira.
+- Automatic DONE.
+- Hidden transition.
+- Changes to `tools/jira/dry-run.mjs`.
+- New implementation in `tools/jira`.
+- Extra READY task.
+- Commit.
+- Push.
+
+Validation:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- Confirm only documentation files changed.
+- Confirm no package or lockfile changed.
+- Confirm `tools/jira/dry-run.mjs` did not change.
+- Confirm RIC-STUDIO-076A is the only READY task.
+- Confirm no extra task was opened.

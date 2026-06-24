@@ -2,50 +2,35 @@
 
 ## Current state
 
-REVIEW
+READY
 
 ## Active task
 
-RIC-STUDIO-075A - Implement Safe Jira CLI Dry-Run
+RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract
 
 ## Scope
 
-RIC-STUDIO-075A - Implement Safe Jira CLI Dry-Run.
+RIC-STUDIO-076A - Define Guarded Jira Write Integration Contract.
 
 Current baseline:
 
-- RIC-STUDIO-074A is Remote DONE at commit `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
-- Repository baseline before READY opening was clean and synchronized with `origin/main` at `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
-- RIC-STUDIO-075A implementation is complete and stopped in REVIEW for evidence review, Commit Gate, Push Gate, and Ricardo validation.
-- Created `tools/jira/dry-run.mjs`.
-- Created `tools/jira/README.md`.
-- Created `docs/validation/jira-dry-run-075a.md`.
-- No Jira API call, Jira CLI call, real Jira issue creation, real Jira issue transition, token, credential, package, lockfile, dependency, runtime/model, app/UI, GitHub API, GitHub Actions, automatic Jira transition, commit, or push action occurred.
-- RIC-STUDIO-071A is Local DONE.
-- The Operator Dashboard supports local-only/read-only external execution context visibility.
-- RIC-STUDIO-070A is Remote DONE at commit `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
-- RIC-STUDIO-069B is Remote DONE at commit `66f7789051df1fa25705482652ced87c3fb3e810`.
-- RIC-STUDIO-069A is Remote DONE at commit `07e05bcc78a2d722ab9ecd9b2110130fc4dae86a`.
-- RIC-STUDIO-068A is Remote DONE at commit `f498ec52679035ce7f7e0bc5a764b6974df4da6c`.
-- RIC-STUDIO-067R is Remote DONE at commit `84b198969c872e561efd4fc1a01ec51a1fb7c1fe`.
-- RIC-STUDIO-067A is Remote DONE at commit `b9644e0a188fa015137c690a053d635630b48d06`.
-- RIC-STUDIO-066A is Remote DONE at commit `ec8137b30ad3079c9940cbb927e8626d2110001c`.
-- RIC-STUDIO-067A READY promotion is Remote DONE at commit `1dc4f73b4645eed61f3a7e1a1c0d900dbaed2ff6`.
-- RIC-STUDIO-065A is Remote DONE at commit `5b532bd988d7524a869d9f395678d9f6549b5824`.
-- RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d0170`.
-- RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
-- The local auditor improvement cycle from RIC-STUDIO-059A through RIC-STUDIO-064A is complete.
-- Implementation baseline was clean and synchronized with `origin/main` at `9de5c13b51c661a700d62a3c2cf872e1dbba0419`.
+- RIC-STUDIO-075A is Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
+- Repository baseline before READY opening was clean at `441ea2076b436f5eacca9bfdb84203c88b470699`.
+- `git status --short` returned no file entries before READY opening; Git emitted only the global ignore permission warning.
+- `git status -sb` returned `## main...origin/main`; Git emitted only the global ignore permission warning.
+- RIC-STUDIO-075A delivered the dependency-free Jira dry-run interface.
+- Manual dry-run validation confirmed create issue, READY transition, IN_PROGRESS transition, REVIEW transition, add comment, and attach evidence summary return `DRY_RUN_ONLY`; DONE transition returns `BLOCKED`.
+- No Jira API call, Jira CLI call, network call, token creation, credential storage, package or lockfile change, runtime/model change, app/UI change, GitHub Action, automatic DONE, commit, or push occurred during this READY opening.
 
 Objective:
 
-- Create the first safe local dry-run interface for Jira automation.
-- Print intended Jira actions without performing real Jira API or Jira CLI calls.
-- Support planned actions such as would create issue, would transition issue, would add comment, and would attach evidence summary.
-- Enforce that DONE is blocked.
-- Require explicit action type and issue key or summary.
-- Produce auditable terminal output.
-- Follow `docs/architecture/jira-cli-automation-contract.md`.
+- Define the guarded contract for any future real Jira write integration.
+- Document security rules for real writes before implementation exists.
+- Define allowed and blocked Jira actions.
+- Define credential and token policy.
+- Define mandatory gates before and after any real Jira call.
+- Define how Jira fits inside the Protocol Rick lifecycle.
+- Keep this task documentation-only.
 
 ## Allowed files
 
@@ -58,21 +43,9 @@ READY registration allowed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-Future implementation allowed scope:
+Future execution allowed files:
 
-- Add a dry-run-only local interface for planned Jira actions.
-- Print planned actions such as would create issue, would transition issue, would add comment, and would attach evidence summary.
-- Enforce that DONE is blocked.
-- Require explicit action type and issue key or summary.
-- Produce auditable terminal output.
-- Follow `docs/architecture/jira-cli-automation-contract.md`.
-- Update required operational documentation and validation evidence if needed.
-
-Execution allowed files:
-
-- `tools/jira/dry-run.mjs`
-- `tools/jira/README.md`
-- `docs/validation/jira-dry-run-075a.md`
+- `docs/architecture/guarded-jira-write-integration-contract.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -80,23 +53,36 @@ Execution allowed files:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-Future implementation blocked scope:
+Future execution allowed scope:
+
+- Create documentation for the future guarded Jira write integration contract.
+- Define safety contract for real Jira writes.
+- Define allowed Jira actions and blocked Jira actions.
+- Define credential and token policy.
+- Define mandatory pre-call and post-call gates.
+- Define how Jira fits in the Protocol Rick cycle.
+- Update required operational documentation.
+
+Future execution blocked scope:
 
 - Real Jira API call.
 - Real Jira CLI call.
-- Credential handling beyond documenting that credentials are absent.
-- Token storage.
+- Code implementation for real Jira integration.
+- Network call.
 - Token creation.
-- Automatic DONE.
-- Hidden transition.
-- GitHub API integration.
-- GitHub Actions.
+- Credential storage.
 - Package or lockfile changes.
 - Dependency installation.
 - Runtime/model changes.
 - App/UI implementation.
-- Automatic Jira transition or mutation.
-- Creating or moving real Jira issues.
+- GitHub Actions.
+- Automation that writes to Jira.
+- Automatic DONE.
+- Hidden transition.
+- New implementation in `tools/jira`.
+- Changes to `tools/jira/dry-run.mjs`.
+- Commit.
+- Push.
 
 ## Files changed in READY registration
 
@@ -107,40 +93,28 @@ Future implementation blocked scope:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-## Files changed in execution
+## Files expected in future execution
 
-- `docs/architecture/jira-cli-automation-contract.md`
-- `STATUS.md`
-- `backlog.md`
-- `docs/ops/status.md`
-- `docs/ops/backlog.md`
-- `docs/ops/execution-log.md`
-- `docs/ops/session-handoff.md`
+- `docs/architecture/guarded-jira-write-integration-contract.md`
+- Required operational documentation only.
 
 ## Blocked in this task
 
-During READY promotion: implementation, Jira API call, Jira CLI call, dry-run interface creation, token creation, credential storage, GitHub API integration, GitHub Actions, package or lockfile changes, dependency installation, runtime/model changes, app/UI implementation, automatic Jira transition, automatic DONE transition, automatic READY follow-up task, automatic next task, commit, and push.
+During READY promotion: implementation, Jira API call, Jira CLI call, network call, token creation, credential storage, package or lockfile changes, dependency installation, runtime/model changes, app/UI changes, GitHub Actions, automatic Jira transition, automatic DONE transition, changes to `tools/jira/dry-run.mjs`, new `tools/jira` implementation, extra READY task, commit, and push.
 
 ## Previous task
 
-RIC-STUDIO-074A - Define Safe Jira CLI Automation Contract - Remote DONE at commit `85060795c18c80b41fc52ef8dbd7235f1a2d5027`.
+RIC-STUDIO-075A - Implement Safe Jira CLI Dry-Run - Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b470699`.
 
-## Current task execution
+## Current task registration
 
-RIC-STUDIO-075A is in REVIEW.
+RIC-STUDIO-076A is READY.
 
-Execution results:
+Discussion Gate verdict:
 
-- Created dependency-free local dry-run interface `tools/jira/dry-run.mjs`.
-- Created `tools/jira/README.md`.
-- Created validation evidence `docs/validation/jira-dry-run-075a.md`.
-- Implemented planned actions: `would_create_issue`, `would_transition_issue`, `would_add_comment`, and `would_attach_evidence_summary`.
-- Enforced DONE transition blocking.
-- Required explicit action type and issue key or summary where appropriate.
-- Produced auditable JSON terminal output.
-- Confirmed outputs report no Jira write, no Jira API call, no Jira CLI call, no network call, no credentials required, no token created, and no token stored.
-- Moved RIC-STUDIO-075A to REVIEW only.
-- No Jira API call, Jira CLI call, real Jira issue creation, real Jira issue transition, token, credential, package, lockfile, dependency, runtime/model, app/UI, GitHub API, GitHub Actions, automatic Jira transition, new READY task, commit, or push action occurred.
+- Approved for documentation-only READY opening.
+- Rationale: RIC-STUDIO-075A completed a local dry-run boundary with DONE blocked, while real Jira writes remain unimplemented and require a stricter documented contract before any implementation can be considered.
+- This READY opening does not authorize real Jira integration.
 
 Validation required:
 
@@ -150,21 +124,24 @@ Validation required:
 - `git diff --stat`
 - `git diff --check`
 - Confirm only documentation files changed.
-- Confirm RIC-STUDIO-075A is in REVIEW only.
-- Confirm no READY task was opened.
+- Confirm no package or lockfile changed.
+- Confirm `tools/jira/dry-run.mjs` did not change.
+- Confirm RIC-STUDIO-076A is the only READY task.
+- Confirm no extra task was opened.
 
-DONE criteria:
+DONE criteria for future execution:
 
-- Dry-run works locally.
-- Create issue, transition to READY, transition to IN_PROGRESS, transition to REVIEW, add comment, and attach evidence summary dry-runs print intended Jira actions.
-- DONE is blocked.
-- No Jira API call or Jira CLI call is made.
-- No credentials are required.
-- No token or credential is created.
+- Guarded Jira write integration contract is documented.
+- Real write safety rules are defined.
+- Allowed and blocked Jira actions are defined.
+- Credential and token policy is defined.
+- Mandatory pre-call and post-call gates are defined.
+- Protocol Rick integration is defined.
+- No Jira API or CLI call is made.
+- No network call is made.
+- No token or credential is created or stored.
 - No package or lockfile changes occur.
-- No runtime/model/app/UI changes occur.
-- RIC-STUDIO-075A remains in REVIEW only.
-- No new READY task is opened.
+- No `tools/jira/dry-run.mjs` change occurs.
 
 
 RIC-STUDIO-059A result:
