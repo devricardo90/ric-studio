@@ -2,7 +2,9 @@
 
 ## Current handoff state
 
-RIC-STUDIO-077A is in REVIEW: `Implement Guarded Jira Real Write MVP`.
+RIC-STUDIO-078A is READY: `Fix guarded Jira add_comment API payload`.
+
+RIC-STUDIO-077A is Remote DONE at commit `5943b99b8479a286c9399ff85d16312755ccda00`.
 
 RIC-STUDIO-076A is Remote DONE per current task context.
 
@@ -36,7 +38,7 @@ RIC-STUDIO-064A is Remote DONE at commit `8d9f893e5fe360abd02a06c1347309f3cb3d01
 
 RIC-STUDIO-063A is Remote DONE at commit `7d548d6c1bb4a4a0eea46e9da1c64f2e695101b9`.
 
-Task mode: guarded write MVP REVIEW. Do not execute a real Jira write until explicit environment variables and explicit test issue evidence are provided. Do not call Jira CLI, create or store tokens, print secrets, change packages, transition Jira automatically, edit `tools/jira/dry-run.mjs`, commit, or push without explicit authorization.
+Task mode: RIC-STUDIO-078A READY registration only. Do not apply the implementation stash, execute a real Jira write, call Jira API, call Jira CLI, create or store tokens, print secrets, change packages, create `docs/validation/jira-real-write-078a.md`, edit `tools/jira/*`, commit implementation, or push without explicit authorization.
 
 Current repository context:
 
@@ -79,10 +81,16 @@ Current repository context:
 - RIC-STUDIO-077A created `tools/jira/guarded-write.mjs`.
 - RIC-STUDIO-077A updated `tools/jira/README.md` with guarded real-write MVP usage.
 - RIC-STUDIO-077A created `docs/validation/jira-real-write-077a.md`.
-- RIC-STUDIO-077A is in REVIEW only.
+- RIC-STUDIO-077A is Remote DONE at commit `5943b99b8479a286c9399ff85d16312755ccda00`.
 - RIC-STUDIO-077A dry-run validation passed without Jira API, Jira CLI, network call, or write.
 - RIC-STUDIO-077A missing-env real-write validation returned `BLOCKED` and did not call Jira.
-- No real Jira write was executed because explicit environment variables and explicit test issue evidence were not provided.
+- RIC-STUDIO-078A is registered as READY only to fix the guarded Jira real `add_comment` path.
+- RIC-STUDIO-078A implementation has not started in the READY registration commit.
+- No validation file exists yet for RIC-STUDIO-078A.
+- Implementation files remain blocked until after the READY registration commit.
+- READY contains only RIC-STUDIO-078A.
+- Mixed RIC-STUDIO-078A work is preserved in `stash@{0}` as `safety: mixed RIC-STUDIO-078A work before READY split`; do not apply it until after the READY registration is reviewed and committed.
+- No real Jira write, Jira API call, Jira CLI call, token/credential action, package or lockfile change, `tools/jira` change, validation file creation, commit, or push occurred during READY registration.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
 - The README now explains RIC Studio, the problem it solves, the evidence-based task lifecycle, human approval gates, audit evidence, local auditor role, `protocol_findings`, and intentional automation boundaries.
@@ -91,11 +99,11 @@ Current repository context:
 
 ## Next steps
 
-1. Review RIC-STUDIO-077A guarded write MVP evidence.
-2. Confirm `tools/jira/guarded-write.mjs` keeps dry-run as default and real-write limited to `add_comment`.
-3. Keep real Jira write execution blocked until explicit environment variables and explicit test issue evidence are provided.
-4. Keep DONE blocked and Ricardo final validation required.
-5. Do not open any extra READY task, commit, or push without explicit gates.
+1. Review RIC-STUDIO-078A READY registration evidence.
+2. Confirm only operational docs changed.
+3. Confirm no implementation files or validation file were created.
+4. Commit READY registration only after explicit commit gate approval.
+5. Apply implementation work only after the READY registration commit, then move RIC-STUDIO-078A to REVIEW with validation evidence.
 
 ## Blocked
 

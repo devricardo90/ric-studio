@@ -3948,3 +3948,74 @@ Validation required before Commit Gate:
 - Confirm no token was printed or stored.
 - Confirm no package or lockfile changed.
 - Confirm no automatic DONE occurred.
+
+## RIC-STUDIO-078A - READY Registration
+
+State: READY
+
+Task: RIC-STUDIO-078A - Fix guarded Jira add_comment API payload
+
+Summary:
+
+- Registered RIC-STUDIO-078A as READY after RIC-STUDIO-077A reached Remote DONE at commit `5943b99b8479a286c9399ff85d16312755ccda00`.
+- Confirmed RIC-STUDIO-077A delivered `tools/jira/guarded-write.mjs` with dry-run default and explicit guarded `add_comment` real-write mode.
+- Recorded the future implementation objective, allowed files, forbidden scope, validation, and DONE criteria in operational docs.
+- No implementation was performed during READY registration.
+- No validation file exists yet for RIC-STUDIO-078A.
+- Implementation files remain blocked until after the READY registration commit.
+- READY contains only RIC-STUDIO-078A.
+- No Jira call, Jira API call, Jira CLI call, real Jira write, token creation, token reading, token printing, token storage, credential creation, credential reading, credential printing, credential storage, package or lockfile change, dependency installation, runtime/model/app/UI change, GitHub Action, automatic DONE, extra READY task, commit, or push occurred.
+
+READY objective:
+
+- Fix the guarded Jira real `add_comment` path based on prior manual smoke evidence.
+- Preserve dry-run default and explicit `--real-write`.
+- Preserve the `add_comment`-only write boundary.
+- Preserve missing-environment blocking and token/credential safety.
+
+Allowed files for future implementation:
+
+- `tools/jira/guarded-write.mjs`.
+- `tools/jira/README.md`.
+- `docs/validation/jira-real-write-078a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden during READY registration:
+
+- Implementation change.
+- `tools/jira/guarded-write.mjs` change.
+- `tools/jira/README.md` change.
+- `docs/validation/jira-real-write-078a.md` creation.
+- Jira call.
+- Jira API call.
+- Jira CLI call.
+- Real Jira write.
+- Token or credential creation, reading, printing, or storage.
+- Package or lockfile change.
+- Dependency installation.
+- Runtime/model/app/UI change.
+- GitHub Action.
+- Automatic DONE.
+- Extra READY task.
+- Commit.
+- Push.
+
+Validation required after READY registration:
+
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff --name-only -- package.json package-lock.json pnpm-lock.yaml yarn.lock npm-shrinkwrap.json tools/jira/guarded-write.mjs tools/jira/README.md docs/validation/jira-real-write-078a.md`.
+- Confirm only operational docs changed.
+- Confirm RIC-STUDIO-078A is READY only.
+- Confirm READY contains only RIC-STUDIO-078A.
+- Confirm no implementation started.
+- Confirm no validation file exists yet for RIC-STUDIO-078A.
+- Confirm no Jira call, Jira API call, Jira CLI call, token, credential, package/lockfile, commit, or push occurred.
