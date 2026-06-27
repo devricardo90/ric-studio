@@ -4,6 +4,34 @@
 
 Current owner direction: pause Jira implementation and organize handoff/local visibility.
 
+RIC-STUDIO-079A is READY.
+
+Task objective: reconcile Operator Dashboard external-context smoke checks with the current handoff/local visibility state so the dashboard can be run to inspect RIC Studio and DayBudget accurately.
+
+RIC-STUDIO-079A implementation has not started.
+
+Operator Dashboard smoke diagnosis:
+
+- Server worked for smoke diagnosis.
+- `/` returned HTTP 200.
+- `/api/state` returned HTTP 200.
+- Smoke failed because expectations are stale, not because the server is broken.
+- Current stale checks expect `day-budget`, exact Jira cycle `DAY-3 / WEB-023A`, and Jira status `IN PROGRESS`.
+- Current docs/context already moved beyond that old state.
+
+RIC-STUDIO-079A READY registration boundaries:
+
+- Allowed READY registration files only: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Implementation files are forbidden during READY registration, including `tools/operator-ui/server.mjs`, `docs/ops/external-execution-context.md`, `tools/jira/*`, `docs/validation/*`, package files, and lockfiles.
+- No persistent dashboard server was started.
+- No DayBudget server or Docker was started.
+- No Jira call, Jira API call, or Jira CLI call was made.
+- `stash@{0}` remains intact and unrelated to this task.
+- Do not apply, pop, or restore from `stash@{0}`.
+- Do not commit or push during READY registration review.
+
+Current owner goal remains local visibility: run RIC Studio dashboard first, then DayBudget local stack.
+
 RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`.
 
 Latest commit is `de23747 docs: open RIC-STUDIO-078A jira add-comment path task`.

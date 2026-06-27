@@ -1,5 +1,65 @@
 # Execution Log
 
+## RIC-STUDIO-079A - READY Registration
+
+State: READY
+
+Task: RIC-STUDIO-079A - Reconcile Operator Dashboard external-context smoke checks with current handoff/local visibility state
+
+Summary:
+
+- Registered RIC-STUDIO-079A as READY for a minimal Operator Dashboard smoke/context reconciliation.
+- Objective: reconcile Operator Dashboard external-context smoke checks with the current handoff/local visibility state so the dashboard can be run to inspect RIC Studio and DayBudget accurately.
+- RIC Studio Operator Dashboard smoke failed because smoke expectations are stale, not because the server is broken.
+- During smoke diagnosis, `/` returned HTTP 200.
+- During smoke diagnosis, `/api/state` returned HTTP 200.
+- Current stale smoke checks expect `day-budget`, exact Jira cycle `DAY-3 / WEB-023A`, and Jira status `IN PROGRESS`.
+- Current docs/context already moved beyond that old state.
+- No persistent dashboard server was started.
+- No DayBudget server or Docker was started.
+- No Jira call, Jira API call, or Jira CLI call was made.
+- `stash@{0}` remains intact and unrelated to this task.
+- Current owner goal is local visibility: run RIC Studio dashboard first, then DayBudget local stack.
+- RIC-STUDIO-079A implementation has not started.
+
+Allowed files for this READY registration:
+
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden during this READY registration:
+
+- `tools/operator-ui/server.mjs` edits.
+- `docs/ops/external-execution-context.md` edits.
+- `tools/jira/*` edits.
+- `docs/validation/*` edits or creation.
+- Package or lockfile changes.
+- Persistent dashboard server start.
+- DayBudget server start.
+- Docker.
+- Jira call, Jira API call, or Jira CLI call.
+- Stash apply, pop, or restore from `stash@{0}`.
+- Commit.
+- Push.
+
+Validation required after READY registration:
+
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git diff --name-only -- tools/operator-ui/server.mjs docs/ops/external-execution-context.md tools/jira/guarded-write.mjs tools/jira/README.md package.json package-lock.json pnpm-lock.yaml yarn.lock npm-shrinkwrap.json`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- Confirm only the six operational docs changed.
+- Confirm no implementation files changed.
+- Confirm no validation files changed or were created.
+- Confirm no package or lockfile changed.
+- Confirm RIC-STUDIO-079A implementation has not started.
+
 ## RIC-STUDIO-001
 
 State: Remote DONE

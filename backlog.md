@@ -20,7 +20,24 @@
 
 ## READY
 
-- None. RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`; implementation has not started and Jira implementation is paused by owner direction.
+- RIC-STUDIO-079A - Reconcile Operator Dashboard external-context smoke checks with current handoff/local visibility state. READY registration only; implementation has not started.
+
+READY registration facts for RIC-STUDIO-079A:
+
+- RIC Studio Operator Dashboard smoke failed because smoke expectations are stale, not because the server is broken.
+- `/` returned HTTP 200.
+- `/api/state` returned HTTP 200.
+- Stale smoke checks expect `day-budget`, exact Jira cycle `DAY-3 / WEB-023A`, and Jira status `IN PROGRESS`.
+- Current docs/context already moved beyond that old state.
+- No persistent dashboard server was started.
+- No DayBudget server or Docker was started.
+- No Jira call, Jira API call, or Jira CLI call was made.
+- `stash@{0}` remains intact and unrelated to this task.
+- Current owner goal is local visibility: run RIC Studio dashboard first, then DayBudget local stack.
+- Allowed READY registration files only: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+- Forbidden during READY registration: `tools/operator-ui/server.mjs`, `docs/ops/external-execution-context.md`, `tools/jira/*`, `docs/validation/*`, package files, lockfiles, persistent dashboard server, DayBudget, Docker, Jira, stash apply/pop/restore, commit, and push.
+
+RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`; implementation has not started and Jira implementation is paused by owner direction.
 
 ## Local DONE
 
@@ -28,7 +45,7 @@
 
 ## Next safe step
 
-Handoff/local visibility is the current priority. Next practical goal: run/open RIC Studio locally and inspect the Operator Dashboard. Known historical command: `node tools/operator-ui/server.mjs`; dashboard: `http://localhost:4310`; smoke: `node tools/operator-ui/server.mjs smoke`.
+Handoff/local visibility is the current priority. Next practical goal after RIC-STUDIO-079A implementation and review: run/open RIC Studio locally and inspect the Operator Dashboard, then run the DayBudget local stack. Known historical command: `node tools/operator-ui/server.mjs`; dashboard: `http://localhost:4310`; smoke: `node tools/operator-ui/server.mjs smoke`.
 
 Do not apply or pop `stash@{0}`. It contains implementation candidates (`tools/jira/guarded-write.mjs`, `tools/jira/README.md`, `docs/validation/jira-real-write-078a.md`) plus stale operational docs (`STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, `docs/ops/status.md`) that must not be restored.
 
