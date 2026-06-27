@@ -4019,3 +4019,29 @@ Validation required after READY registration:
 - Confirm no implementation started.
 - Confirm no validation file exists yet for RIC-STUDIO-078A.
 - Confirm no Jira call, Jira API call, Jira CLI call, token, credential, package/lockfile, commit, or push occurred.
+
+## RIC-STUDIO-078A - READY Registration Remote DONE and Handoff Pause
+
+State: Remote DONE for READY registration; implementation not started.
+
+Summary:
+
+- RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`.
+- Latest commit is `de23747 docs: open RIC-STUDIO-078A jira add-comment path task`.
+- RIC-STUDIO-078A implementation has not started.
+- Owner direction pauses Jira implementation. Current priority is handoff/local visibility, not Jira implementation.
+- `stash@{0}` remains intact and must not be blindly applied or popped.
+- `stash@{0}` implementation candidates are `tools/jira/guarded-write.mjs`, `tools/jira/README.md`, and `docs/validation/jira-real-write-078a.md`.
+- `stash@{0}` stale operational docs must not be restored: `STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, and `docs/ops/status.md`.
+- Next practical goal: run/open RIC Studio locally and inspect the Operator Dashboard.
+- Known historical local dashboard command: `node tools/operator-ui/server.mjs`.
+- Known historical dashboard URL: `http://localhost:4310`.
+- Known historical dashboard smoke command: `node tools/operator-ui/server.mjs smoke`.
+
+Boundaries:
+
+- No stash apply or pop.
+- No files restored from stash.
+- No implementation file edits.
+- No Jira call, Jira API call, or Jira CLI call.
+- No commit or push during this reconciliation.

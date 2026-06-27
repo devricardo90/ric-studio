@@ -20,7 +20,7 @@
 
 ## READY
 
-- RIC-STUDIO-078A - Fix guarded Jira add_comment API payload (READY - registration only; no implementation started, no Jira call/API/CLI, no token/credential, no package/lockfile, no `tools/jira` change, no validation file yet, no commit, no push)
+- None. RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`; implementation has not started and Jira implementation is paused by owner direction.
 
 ## Local DONE
 
@@ -28,7 +28,9 @@
 
 ## Next safe step
 
-Review and commit the RIC-STUDIO-078A READY registration before applying implementation work. Do not apply the implementation stash, execute a real Jira write, call Jira API/CLI, create or store tokens, change packages, edit `tools/jira/*`, create `docs/validation/jira-real-write-078a.md`, open extra READY tasks, commit implementation, or push without explicit gates.
+Handoff/local visibility is the current priority. Next practical goal: run/open RIC Studio locally and inspect the Operator Dashboard. Known historical command: `node tools/operator-ui/server.mjs`; dashboard: `http://localhost:4310`; smoke: `node tools/operator-ui/server.mjs smoke`.
+
+Do not apply or pop `stash@{0}`. It contains implementation candidates (`tools/jira/guarded-write.mjs`, `tools/jira/README.md`, `docs/validation/jira-real-write-078a.md`) plus stale operational docs (`STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, `docs/ops/status.md`) that must not be restored.
 
 RIC-STUDIO-072A is Remote DONE at commit `528fde2645108a23e5d9d1fde481b3aedfee1585`.
 
@@ -41,6 +43,8 @@ RIC-STUDIO-075A is Remote DONE at commit `441ea2076b436f5eacca9bfdb84203c88b4706
 RIC-STUDIO-076A is Remote DONE per current task context.
 
 RIC-STUDIO-077A is Remote DONE at commit `5943b99b8479a286c9399ff85d16312755ccda00`.
+
+RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`. Latest commit: `de23747 docs: open RIC-STUDIO-078A jira add-comment path task`. Implementation has not started.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 

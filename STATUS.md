@@ -2,11 +2,25 @@
 
 ## Current state
 
-READY
+HANDOFF / LOCAL VISIBILITY
 
 ## Active task
 
-RIC-STUDIO-078A - Fix guarded Jira add_comment API payload
+None. RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused by owner direction.
+
+## Current handoff correction
+
+- RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`.
+- Latest commit is `de23747 docs: open RIC-STUDIO-078A jira add-comment path task`.
+- RIC-STUDIO-078A implementation has not started.
+- Owner direction pauses Jira implementation. Current priority is handoff/local visibility, not Jira implementation.
+- `stash@{0}` remains intact and must not be blindly applied or popped.
+- `stash@{0}` implementation candidates: `tools/jira/guarded-write.mjs`, `tools/jira/README.md`, and `docs/validation/jira-real-write-078a.md`.
+- `stash@{0}` stale operational docs must not be restored: `STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, and `docs/ops/status.md`.
+- Next practical goal: run/open RIC Studio locally and inspect the Operator Dashboard.
+- Known historical local dashboard command: `node tools/operator-ui/server.mjs`.
+- Known historical dashboard URL: `http://localhost:4310`.
+- Known historical dashboard smoke command: `node tools/operator-ui/server.mjs smoke`.
 
 ## Scope
 
@@ -86,7 +100,7 @@ RIC-STUDIO-077A - Implement Guarded Jira Real Write MVP - Remote DONE at commit 
 
 ## Current task registration
 
-RIC-STUDIO-078A is READY.
+RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`.
 
 READY registration results:
 
@@ -111,7 +125,7 @@ Validation required:
 - Confirm `tools/jira/guarded-write.mjs` did not change.
 - Confirm `tools/jira/README.md` did not change.
 - Confirm `docs/validation/jira-real-write-078a.md` does not exist.
-- Confirm RIC-STUDIO-078A is READY only.
+- Confirm RIC-STUDIO-078A READY registration is Remote DONE and implementation has not started.
 - Confirm no extra READY task was opened.
 
 DONE criteria:

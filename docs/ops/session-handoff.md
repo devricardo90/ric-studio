@@ -2,7 +2,38 @@
 
 ## Current handoff state
 
-RIC-STUDIO-078A is READY: `Fix guarded Jira add_comment API payload`.
+Current owner direction: pause Jira implementation and organize handoff/local visibility.
+
+RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`.
+
+Latest commit is `de23747 docs: open RIC-STUDIO-078A jira add-comment path task`.
+
+RIC-STUDIO-078A implementation has not started.
+
+`stash@{0}` remains intact as mixed RIC-STUDIO-078A material and must not be blindly applied or popped.
+
+Implementation candidates in `stash@{0}`:
+
+- `tools/jira/guarded-write.mjs`
+- `tools/jira/README.md`
+- `docs/validation/jira-real-write-078a.md`
+
+Stale operational docs in `stash@{0}` must not be restored:
+
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+- `docs/ops/status.md`
+
+Next practical goal: run/open RIC Studio locally and inspect the Operator Dashboard.
+
+Known historical local dashboard command: `node tools/operator-ui/server.mjs`.
+
+Known historical dashboard URL: `http://localhost:4310`.
+
+Known historical dashboard smoke command: `node tools/operator-ui/server.mjs smoke`.
 
 RIC-STUDIO-077A is Remote DONE at commit `5943b99b8479a286c9399ff85d16312755ccda00`.
 
@@ -89,7 +120,7 @@ Current repository context:
 - No validation file exists yet for RIC-STUDIO-078A.
 - Implementation files remain blocked until after the READY registration commit.
 - READY contains only RIC-STUDIO-078A.
-- Mixed RIC-STUDIO-078A work is preserved in `stash@{0}` as `safety: mixed RIC-STUDIO-078A work before READY split`; do not apply it until after the READY registration is reviewed and committed.
+- Mixed RIC-STUDIO-078A work is preserved in `stash@{0}` as `safety: mixed RIC-STUDIO-078A work before READY split`; do not blindly apply or pop it.
 - No real Jira write, Jira API call, Jira CLI call, token/credential action, package or lockfile change, `tools/jira` change, validation file creation, commit, or push occurred during READY registration.
 - `README.md` now includes owner-facing local run instructions for the existing local auditor commands.
 - `docs/validation/local-operator-visibility-baseline-068a.md` records clean baseline, command results, allowed and blocked paths, deploy-premature conclusion, and preserved boundaries.
