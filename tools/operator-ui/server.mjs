@@ -11,6 +11,7 @@ const port = Number.parseInt(process.env.OPERATOR_UI_PORT || `${DEFAULT_PORT}`, 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 const externalExecutionContextPath = "docs/ops/external-execution-context.md";
+const projectRegistryPath = "docs/ops/project-registry.md";
 
 const allowedFilePrefixes = [
   "README.md",
@@ -139,6 +140,32 @@ function keyToSnakeCase(value) {
     .replace(/^_+|_+$/g, "");
 }
 
+function parseKeyValueItems(items) {
+  const values = {};
+  for (const item of items) {
+    const match = item.match(/^([^:]+):\s*(.*)$/);
+    if (!match) continue;
+    values[keyToSnakeCase(match[1])] = match[2].trim();
+  }
+  return values;
+}
+
+function markdownSectionsByH2(text) {
+  const sections = [];
+  let current = null;
+  for (const line of text.split(/\r?\n/)) {
+    const heading = line.match(/^##\s+(.+?)\s*$/);
+    if (heading) {
+      if (current) sections.push(current);
+      current = { heading: heading[1].trim(), body: [] };
+      continue;
+    }
+    if (current) current.body.push(line);
+  }
+  if (current) sections.push(current);
+  return sections;
+}
+
 async function readText(relativePath) {
   return readFile(path.join(repoRoot, relativePath), "utf8");
 }
@@ -159,7 +186,7 @@ async function listValidationEvidence() {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
     .map((entry) => `docs/validation/${entry.name}`)
     .filter((file) =>
-      /local-operator|local-auditor|readme-portfolio-positioning|external-reviewer/i.test(file),
+      /operator-dashboard|local-operator|local-auditor|readme-portfolio-positioning|external-reviewer/i.test(file),
     );
 
   const dashboardEvidence = "docs/validation/local-operator-dashboard-069a.md";
@@ -263,13 +290,7 @@ async function collectExternalExecutionContext() {
 
   const text = await readText(externalExecutionContextPath);
   const items = listItems(text);
-  const values = {};
-
-  for (const item of items) {
-    const match = item.match(/^([^:]+):\s*(.*)$/);
-    if (!match) continue;
-    values[keyToSnakeCase(match[1])] = match[2].trim();
-  }
+  const values = parseKeyValueItems(items);
 
   return {
     ...info,
@@ -283,6 +304,44 @@ async function collectExternalExecutionContext() {
     git_commit_push_validation: values.git_commit_push_validation || null,
     validation_gate: values.validation_gate || null,
     source_note: values.source_note || "Manual operator context, not API-synced.",
+  };
+}
+
+async function collectProjectRegistry() {
+  const info = await fileInfo(projectRegistryPath);
+
+  if (!info.exists) {
+    return {
+      exists: false,
+      path: projectRegistryPath,
+      projects: [],
+      source_note: "No local project registry file found.",
+    };
+  }
+
+  const text = await readText(projectRegistryPath);
+  const projects = markdownSectionsByH2(text).map((section) => {
+    const name = section.heading;
+    const items = listItems(section.body.join("\n"));
+    const values = parseKeyValueItems(items);
+    return {
+      name,
+      description: values.description || "Not recorded.",
+      local_path: values.local_path || "Not recorded.",
+      github_repository: values.github_repository || "Not recorded.",
+      current_operational_state: values.current_operational_state || "Not recorded.",
+      local_run_view_status: values.local_run_view_status || "Not recorded.",
+      next_gate_action: values.next_gate_action || "Not recorded.",
+      source_note: values.source_note || "Local registry entry.",
+    };
+  });
+
+  return {
+    ...info,
+    exists: true,
+    projects,
+    project_count: projects.length,
+    source_note: "Local read-only project registry, not API-synced.",
   };
 }
 
@@ -310,6 +369,7 @@ async function collectState() {
   const dashboardValidationExists = await exists("docs/validation/local-operator-dashboard-069a.md");
   const auditorVisibility = await collectAuditorVisibility();
   const externalExecutionContext = await collectExternalExecutionContext();
+  const projectRegistry = await collectProjectRegistry();
 
   return {
     generated_at: new Date().toISOString(),
@@ -326,6 +386,7 @@ async function collectState() {
     validation_evidence: validationEvidence,
     dashboard_validation_exists: dashboardValidationExists,
     external_execution_context: externalExecutionContext,
+    project_registry: projectRegistry,
     auditor_visibility: auditorVisibility,
     auditor_package: {
       name: auditorVisibility.package_metadata?.name || null,
@@ -356,6 +417,7 @@ async function collectState() {
       "docs/ops/backlog.md",
       "docs/ops/session-handoff.md",
       externalExecutionContextPath,
+      projectRegistryPath,
       "tools/auditor/package.json",
     ],
     handoff_summary: section(sessionHandoffText, "Current handoff state").split(/\r?\n/).slice(0, 6),
@@ -448,6 +510,46 @@ function renderExternalExecutionContext(context) {
     </tbody>
   </table>
   <p class="muted">Source: <a href="${fileLink(context.path)}">${escapeHtml(context.path)}</a></p>`;
+}
+
+function renderProjectRegistry(registry) {
+  if (!registry?.exists) {
+    return `<p class="muted">No local project registry file found.</p>`;
+  }
+  if (!registry.projects.length) {
+    return `<p class="muted">Project registry exists but no project entries were found.</p>
+    <p class="muted">Source: <a href="${fileLink(registry.path)}">${escapeHtml(registry.path)}</a></p>`;
+  }
+
+  return `<table>
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Description</th>
+        <th>Repository</th>
+        <th>State</th>
+        <th>Run/View</th>
+        <th>Next Gate</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${registry.projects
+        .map(
+          (project) => `<tr>
+            <td><strong>${escapeHtml(project.name)}</strong><br><span class="muted">${escapeHtml(project.local_path)}</span></td>
+            <td>${escapeHtml(project.description)}</td>
+            <td>${escapeHtml(project.github_repository)}</td>
+            <td>${escapeHtml(project.current_operational_state)}</td>
+            <td>${escapeHtml(project.local_run_view_status)}</td>
+            <td>${escapeHtml(project.next_gate_action)}</td>
+          </tr>`,
+        )
+        .join("")}
+    </tbody>
+  </table>
+  <p class="muted">Source: <a href="${fileLink(registry.path)}">${escapeHtml(registry.path)}</a>. ${escapeHtml(
+    registry.source_note,
+  )}</p>`;
 }
 
 function renderHtml(state) {
@@ -583,6 +685,12 @@ function renderHtml(state) {
         <h2>External Execution Context</h2>
         <p class="warn">Manual operator context only. This dashboard does not sync with Jira, GitHub, DayBudget, or the running agent.</p>
         ${renderExternalExecutionContext(state.external_execution_context)}
+      </article>
+
+      <article class="card wide">
+        <h2>Project Registry</h2>
+        <p class="warn">Local read-only registry only. This dashboard does not call GitHub or inspect external repositories.</p>
+        ${renderProjectRegistry(state.project_registry)}
       </article>
 
       <article class="card wide">
@@ -764,6 +872,8 @@ async function runSmoke(server) {
   const mentionsDayBudget = (value) => /day[\s-]*budget/i.test(String(value || ""));
   const mentionsCurrentCycle = /WEB-026A|DAY-7|manual transfer|local visibility/i.test(externalContextText);
   const mentionsCompletedState = /Remote DONE|completed|accepted|clean and synchronized/i.test(externalContextText);
+  const registryProjects = state.project_registry?.projects || [];
+  const registryProjectNames = registryProjects.map((project) => project.name).join(" ");
   const checks = [
     ["home_status_200", home.statusCode === 200],
     ["api_status_200", api.statusCode === 200],
@@ -787,6 +897,11 @@ async function runSmoke(server) {
     ["api_external_context_mentions_daybudget", mentionsDayBudget(externalContextText)],
     ["api_external_context_mentions_current_cycle", mentionsCurrentCycle],
     ["api_external_context_mentions_completed_state", mentionsCompletedState],
+    ["home_mentions_project_registry", home.body.includes("Project Registry")],
+    ["home_mentions_rick_travel", home.body.includes("Rick Travel")],
+    ["api_has_project_registry", state.project_registry?.exists === true],
+    ["api_project_registry_has_required_projects", /RIC Studio/.test(registryProjectNames) && /DayBudget/.test(registryProjectNames) && /Rick Travel/.test(registryProjectNames)],
+    ["api_project_registry_is_local_read_only", /local read-only/i.test(state.project_registry?.source_note || "")],
   ];
   const failed = checks.filter(([, passed]) => !passed);
   const result = {
@@ -806,6 +921,7 @@ async function runSmoke(server) {
     auditor_expected_files_count: state.auditor_visibility.expected_files.length,
     auditor_reference_count: state.auditor_visibility.references.length,
     external_execution_context: state.external_execution_context,
+    project_registry: state.project_registry,
     dashboard_mode: state.mode,
   };
   console.log(JSON.stringify(result, null, 2));

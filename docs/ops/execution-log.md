@@ -63,6 +63,42 @@ Rollback plan:
 - Preserve RIC-STUDIO-079A dashboard smoke/context reconciliation.
 - Leave the running dashboard server alone unless explicitly requested.
 
+## RIC-STUDIO-080A - Local Project Registry Dashboard Visibility
+
+State: REVIEW
+
+Summary:
+
+- Implemented the approved local Project Registry visibility scope.
+- Created `docs/ops/project-registry.md` as the manual local read-only source of truth.
+- Added RIC Studio, DayBudget, and Rick Travel entries.
+- Updated `tools/operator-ui/server.mjs` to parse the local registry, expose it through `/api/state`, render a Project Registry dashboard section, and validate it in smoke checks.
+- Updated `tools/operator-ui/README.md` to document Project Registry visibility and boundaries.
+- Created validation evidence in `docs/validation/operator-dashboard-project-registry-080a.md`.
+- Preserved local-only/read-only dashboard behavior.
+- No GitHub API call, authentication, token, network-backed repository discovery, dependency install, package or lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, stash apply/pop/restore, commit, or push occurred.
+
+Files changed:
+
+- `tools/operator-ui/server.mjs`.
+- `tools/operator-ui/README.md`.
+- `docs/ops/project-registry.md`.
+- `docs/validation/operator-dashboard-project-registry-080a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Validation required before review:
+
+- `node tools/operator-ui/server.mjs smoke`.
+- Confirm dashboard renders Project Registry section.
+- Confirm `/api/state` exposes Project Registry data.
+- `git diff --check`.
+- Confirm no package/lockfile, GitHub API, Docker, Jira, DayBudget/Rick Travel repo, or stash changes occurred.
+
 ## RIC-STUDIO-079A - Remote DONE Final Reconciliation
 
 State: Remote DONE

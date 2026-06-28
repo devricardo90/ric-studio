@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
@@ -11,19 +11,22 @@ RIC-STUDIO-080A - Add local project registry visibility to operator dashboard.
 RIC-STUDIO-079A implementation is Remote DONE.
 RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused by owner direction.
 
-## Current task registration
+## Current task execution
 
-RIC-STUDIO-080A is READY.
+RIC-STUDIO-080A is in REVIEW after implementation and smoke validation.
 
 Objective:
 
 - Create a local, read-only Project Registry that lists known projects and renders them in the Operator Dashboard with description, repository location/reference, current operational state, local run/view status, and next gate.
 
-READY opening facts:
+Implementation facts:
 
 - Owner approved opening RIC-STUDIO-080A as READY only.
-- This READY opening is operational documentation only.
-- Implementation has not started.
+- Added `docs/ops/project-registry.md` as the local read-only Project Registry source.
+- Updated the Operator Dashboard to render Project Registry visibility.
+- `/api/state` exposes Project Registry data as read-only local data.
+- Project Registry includes RIC Studio, DayBudget, and Rick Travel.
+- Added validation evidence at `docs/validation/operator-dashboard-project-registry-080a.md`.
 - The local dashboard remains running at `http://localhost:4310`.
 - RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
 - No GitHub API call was made.
@@ -31,6 +34,7 @@ READY opening facts:
 - No DayBudget or Rick Travel repository was edited.
 - No Docker action was used.
 - `stash@{0}` was not touched.
+- RIC-STUDIO-080A is not DONE.
 
 Allowed files for future RIC-STUDIO-080A implementation:
 
@@ -45,12 +49,8 @@ Allowed files for future RIC-STUDIO-080A implementation:
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
 
-Forbidden during this READY opening:
+Forbidden during this implementation:
 
-- Editing `tools/operator-ui/server.mjs`.
-- Creating `docs/ops/project-registry.md`.
-- Creating `docs/validation/operator-dashboard-project-registry-080a.md`.
-- Staging implementation files.
 - GitHub API calls or any network-backed repository discovery.
 - Dependency installation.
 - Package or lockfile changes.
