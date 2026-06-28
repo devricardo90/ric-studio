@@ -4,32 +4,33 @@
 
 Current owner direction: pause Jira implementation and organize handoff/local visibility.
 
-RIC-STUDIO-080A is in REVIEW.
+RIC-STUDIO-081A is READY.
 
-Task: add local project registry visibility to operator dashboard.
+Task: improve project registry readability and completed state accuracy.
 
-Objective: create a local, read-only Project Registry that lists known projects and renders them in the Operator Dashboard with description, repository location/reference, current operational state, local run/view status, and next gate.
+Objective: improve the Operator Dashboard Project Registry presentation so each project is readable at a glance, and reconcile RIC Studio registry/operational state to show RIC-STUDIO-080A as Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
 
-RIC-STUDIO-080A is in REVIEW after implementation and smoke validation.
+RIC-STUDIO-081A is READY only. Implementation has not started.
 
-Implementation result:
+READY opening result:
 
-- Created `docs/ops/project-registry.md`.
-- Added registry entries for RIC Studio, DayBudget, and Rick Travel.
-- Updated the Operator Dashboard to render Project Registry visibility.
-- Exposed Project Registry data through `/api/state` as read-only local data.
-- Updated `tools/operator-ui/README.md`.
-- Created validation evidence at `docs/validation/operator-dashboard-project-registry-080a.md`.
-- Preserved existing dashboard behavior and local-only/read-only boundaries.
-- No GitHub API call, authentication, token, network-backed repository discovery, dependency install, package/lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, stash apply/pop/restore, commit, or push occurred.
+- Registered RIC-STUDIO-081A as READY by owner approval.
+- RIC-STUDIO-080A is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+- Owner visual review found the Project Registry functional but visually unclear: compressed table, poor long-text wrapping, raw Markdown backticks in paths/URLs, and stale RIC Studio completed-state text.
+- RIC-STUDIO-081A is limited to readability improvements and completed-state accuracy.
+- No implementation files were edited during READY opening.
+- The dashboard remains running at `http://localhost:4310`.
+- No GitHub API call, authentication, token, network call, dependency install, package/lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, stash apply/pop/restore, staging, commit, or push occurred.
 
 READY opening boundaries:
 
 - READY opening only; implementation has not started.
 - Do not edit `tools/operator-ui/server.mjs` yet.
-- Do not create `docs/ops/project-registry.md` yet.
-- Do not create `docs/validation/operator-dashboard-project-registry-080a.md` yet.
+- Do not edit `tools/operator-ui/README.md` yet.
+- Do not edit `docs/ops/project-registry.md` yet.
+- Do not create `docs/validation/operator-dashboard-project-registry-081a.md` yet.
 - Do not call GitHub API.
+- Do not make network calls.
 - Do not install dependencies or change package/lock files.
 - Do not edit DayBudget or Rick Travel repositories.
 - Do not run Docker.
@@ -41,7 +42,7 @@ Allowed future implementation files:
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
 - `docs/ops/project-registry.md`
-- `docs/validation/operator-dashboard-project-registry-080a.md`
+- `docs/validation/operator-dashboard-project-registry-081a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -52,13 +53,26 @@ Allowed future implementation files:
 Validation criteria for future implementation:
 
 - Dashboard smoke passes.
-- Project Registry renders in the Operator Dashboard.
-- `/api/state` exposes the registry as read-only local data.
-- RIC Studio, DayBudget, and Rick Travel are represented.
-- Each project has description, repo reference/path if known, current state/location, local run/view status, and next gate.
-- No GitHub API, package/lockfile, Docker, Jira, DayBudget/Rick Travel repo, or stash changes occur.
+- Project Registry renders in a readable, non-compressed layout.
+- Paths and URLs render cleanly without raw Markdown backticks.
+- RIC Studio registry/state text shows RIC-STUDIO-080A Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+- `/api/state` continues to expose the registry as read-only local data.
+- No GitHub API, network, package/lockfile, Docker, Jira, DayBudget/Rick Travel repo, or stash changes occur.
 
-Rollback plan: revert only RIC-STUDIO-080A Project Registry docs, dashboard parser/rendering, validation evidence, and operational doc updates while preserving RIC-STUDIO-079A.
+Rollback plan: revert only RIC-STUDIO-081A dashboard presentation, Project Registry text, validation evidence, and operational doc updates while preserving RIC-STUDIO-080A and RIC-STUDIO-079A.
+
+RIC-STUDIO-080A implementation is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+
+RIC-STUDIO-080A result:
+
+- Created `docs/ops/project-registry.md`.
+- Added registry entries for RIC Studio, DayBudget, and Rick Travel.
+- Updated the Operator Dashboard to render Project Registry visibility.
+- Exposed Project Registry data through `/api/state` as read-only local data.
+- Updated `tools/operator-ui/README.md`.
+- Created validation evidence at `docs/validation/operator-dashboard-project-registry-080a.md`.
+- Preserved existing dashboard behavior and local-only/read-only boundaries.
+- No GitHub API call, authentication, token, network-backed repository discovery, dependency install, package/lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, or stash apply/pop/restore occurred.
 
 RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
 

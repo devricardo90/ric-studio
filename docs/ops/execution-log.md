@@ -1,5 +1,70 @@
 # Execution Log
 
+## RIC-STUDIO-081A - READY Registration
+
+State: READY
+
+Task: RIC-STUDIO-081A - Improve project registry readability and completed state accuracy
+
+Summary:
+
+- Registered RIC-STUDIO-081A as READY by owner approval.
+- This is a READY-only operational documentation update.
+- Objective: improve the Operator Dashboard Project Registry presentation so each project is readable at a glance, and reconcile RIC Studio registry/operational state to show RIC-STUDIO-080A as Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+- RIC-STUDIO-080A is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+- Owner visual review found the Project Registry functional but visually unclear: compressed table, poor long-text wrapping, raw Markdown backticks in paths/URLs, and stale RIC Studio completed-state text.
+- Implementation has not started.
+- The dashboard remains running at `http://localhost:4310`.
+- No implementation file, Project Registry source, README, validation evidence, GitHub API, network call, dependency install, package or lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, stash action, staging, commit, or push occurred.
+
+Allowed future implementation files:
+
+- `tools/operator-ui/server.mjs`.
+- `tools/operator-ui/README.md`.
+- `docs/ops/project-registry.md`.
+- `docs/validation/operator-dashboard-project-registry-081a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Forbidden during READY opening:
+
+- Implementation edits.
+- `tools/operator-ui/server.mjs` edits.
+- `tools/operator-ui/README.md` edits.
+- Project Registry source edits.
+- Validation evidence creation.
+- GitHub API calls.
+- Network calls.
+- Dependency installation.
+- Package or lockfile changes.
+- DayBudget or Rick Travel repository edits.
+- Docker.
+- Jira call, Jira API call, or Jira CLI call.
+- Stash apply, pop, or restore.
+- Staging.
+- Commit.
+- Push.
+
+Validation criteria for future implementation:
+
+- `node tools/operator-ui/server.mjs smoke` passes.
+- Dashboard shows the Project Registry in a readable, non-compressed layout.
+- Paths and URLs render cleanly without raw Markdown backticks.
+- RIC Studio registry/state text shows RIC-STUDIO-080A Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+- `/api/state` continues to expose the registry as read-only local data.
+- No package, lockfile, Jira, GitHub API, network, Docker, DayBudget repository, Rick Travel repository, or stash changes occur.
+- `git diff --check` passes.
+
+Rollback plan:
+
+- Revert only RIC-STUDIO-081A dashboard presentation, Project Registry text, validation evidence, and operational doc updates.
+- Preserve the RIC-STUDIO-080A Project Registry implementation and RIC-STUDIO-079A dashboard smoke/context reconciliation.
+- Leave the running dashboard server alone unless explicitly requested.
+
 ## RIC-STUDIO-080A - READY Registration
 
 State: READY
@@ -65,18 +130,19 @@ Rollback plan:
 
 ## RIC-STUDIO-080A - Local Project Registry Dashboard Visibility
 
-State: REVIEW
+State: Remote DONE
 
 Summary:
 
 - Implemented the approved local Project Registry visibility scope.
+- Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
 - Created `docs/ops/project-registry.md` as the manual local read-only source of truth.
 - Added RIC Studio, DayBudget, and Rick Travel entries.
 - Updated `tools/operator-ui/server.mjs` to parse the local registry, expose it through `/api/state`, render a Project Registry dashboard section, and validate it in smoke checks.
 - Updated `tools/operator-ui/README.md` to document Project Registry visibility and boundaries.
 - Created validation evidence in `docs/validation/operator-dashboard-project-registry-080a.md`.
 - Preserved local-only/read-only dashboard behavior.
-- No GitHub API call, authentication, token, network-backed repository discovery, dependency install, package or lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, stash apply/pop/restore, commit, or push occurred.
+- No GitHub API call, authentication, token, network-backed repository discovery, dependency install, package or lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, or stash apply/pop/restore occurred.
 
 Files changed:
 

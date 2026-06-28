@@ -2,7 +2,6 @@
 
 ## REVIEW
 
-- RIC-STUDIO-080A - Add local project registry visibility to operator dashboard (REVIEW - local registry source, dashboard rendering, `/api/state` exposure, and validation evidence added; no GitHub API, dependencies, package/lockfile changes, DayBudget/Rick Travel edits, Docker, Jira, stash action, commit, or push)
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt (BLOCKED / ROLLED BACK)
 - RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate (Remote DONE - candidate rejected; evidence documented at dfef2c7)
@@ -21,7 +20,7 @@
 
 ## READY
 
-No READY task. RIC-STUDIO-080A is in REVIEW after implementation and smoke validation.
+- RIC-STUDIO-081A - Improve project registry readability and completed state accuracy (READY - improve Project Registry readability, clean path/URL rendering, and reconcile RIC Studio registry/state text to show RIC-STUDIO-080A Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`; implementation has not started)
 
 RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`; implementation has not started and Jira implementation is paused by owner direction.
 
@@ -31,7 +30,7 @@ RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a
 
 ## Next safe step
 
-Handoff/local visibility is the current priority. RIC-STUDIO-080A is in REVIEW; review local Project Registry visibility before commit and push. The running dashboard remains at `http://localhost:4310`.
+Handoff/local visibility is the current priority. RIC-STUDIO-081A is READY; implementation should improve Project Registry readability and completed-state accuracy only after owner review/approval. The running dashboard remains at `http://localhost:4310`.
 
 Do not apply or pop `stash@{0}`. It contains implementation candidates (`tools/jira/guarded-write.mjs`, `tools/jira/README.md`, `docs/validation/jira-real-write-078a.md`) plus stale operational docs (`STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, `docs/ops/status.md`) that must not be restored.
 
@@ -50,6 +49,8 @@ RIC-STUDIO-077A is Remote DONE at commit `5943b99b8479a286c9399ff85d16312755ccda
 RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`. Latest commit: `de23747 docs: open RIC-STUDIO-078A jira add-comment path task`. Implementation has not started.
 
 RIC-STUDIO-079A is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`. Smoke passed, the persistent Operator Dashboard server started successfully, and the dashboard is available at `http://localhost:4310`.
+
+RIC-STUDIO-080A is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`. It added local Project Registry visibility for RIC Studio, DayBudget, and Rick Travel; owner visual review found the registry functional but too compressed and stale in the RIC Studio completed-state text.
 
 RIC-STUDIO-008A is Remote DONE and synchronized with `origin/main` at commit `54c7f78`.
 
