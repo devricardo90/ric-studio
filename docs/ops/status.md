@@ -2,40 +2,35 @@
 
 ## Current state
 
-REVIEW
+HANDOFF / LOCAL VISIBILITY
 
 ## Task
 
-RIC-STUDIO-079A - Reconcile Operator Dashboard external-context smoke checks with current handoff/local visibility state.
+No active implementation task. RIC-STUDIO-079A implementation is Remote DONE.
 
 RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused by owner direction.
 
-## Current task registration
+## Current state reconciliation
 
-RIC-STUDIO-079A is in REVIEW after implementation and smoke validation.
+RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
 
-Objective:
+Result:
 
 - Reconcile Operator Dashboard external-context smoke checks with the current handoff/local visibility state so the dashboard can be run to inspect RIC Studio and DayBudget accurately.
-
-Implementation facts:
-
-- RIC Studio Operator Dashboard smoke failed because smoke expectations are stale, not because the server is broken.
-- During smoke diagnosis, `/` returned HTTP 200.
-- During smoke diagnosis, `/api/state` returned HTTP 200.
-- Current stale smoke checks expect `day-budget`, exact Jira cycle `DAY-3 / WEB-023A`, and Jira status `IN PROGRESS`.
-- Current docs/context already moved beyond that old state.
 - Updated Operator Dashboard smoke checks so they accept current DayBudget context, current WEB-026A / DAY-7 context, and completed-state wording.
 - Reconciled `docs/ops/external-execution-context.md` with current local visibility state.
 - Validation evidence file: `docs/validation/operator-dashboard-smoke-079a.md`.
-- No persistent dashboard server was started.
+- Smoke passed.
+- Persistent dashboard server started successfully.
+- Dashboard URL: `http://localhost:4310`.
+- No READY task is currently active.
 - No DayBudget server or Docker was started.
 - No Jira call, Jira API call, or Jira CLI call was made.
 - `stash@{0}` remains intact and unrelated to this task.
-- Current owner goal is local visibility: run RIC Studio dashboard first, then DayBudget local stack.
-- RIC-STUDIO-079A is not DONE.
+- No package or lockfile change was made.
+- Current next step is visual inspection of the RIC Studio dashboard, then DayBudget local stack.
 
-Allowed files for this implementation:
+Final reconciliation scope:
 
 - `STATUS.md`
 - `backlog.md`
@@ -43,15 +38,14 @@ Allowed files for this implementation:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-- `tools/operator-ui/server.mjs`
-- `docs/ops/external-execution-context.md`
-- `docs/validation/operator-dashboard-smoke-079a.md`
 
-Forbidden during this implementation:
+Forbidden during this reconciliation:
 
+- Implementation file edits.
 - Editing `tools/jira/*`.
+- Editing `tools/operator-ui/server.mjs`.
+- Editing `docs/ops/external-execution-context.md`.
 - Package or lockfile changes.
-- Starting a persistent dashboard server.
 - Starting DayBudget.
 - Running Docker.
 - Jira call, Jira API call, or Jira CLI call.
