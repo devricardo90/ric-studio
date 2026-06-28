@@ -65,13 +65,27 @@ Rollback plan:
 - Preserve the RIC-STUDIO-080A Project Registry implementation and RIC-STUDIO-079A dashboard smoke/context reconciliation.
 - Leave the running dashboard server alone unless explicitly requested.
 
-## RIC-STUDIO-081A - Project Registry Readability And State Accuracy
+## RIC-STUDIO-081A - Post-Push Reconciliation
 
 State: REVIEW
 
 Summary:
 
+- Owner approved post-push reconciliation for RIC-STUDIO-081A.
+- RIC-STUDIO-081A implementation is Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
+- Owner visual review confirmed the Project Registry is readable, projects render as readable sections, paths and repository values render without raw Markdown backticks, and RIC Studio, DayBudget, and Rick Travel are visible.
+- Updated local operational docs and `docs/ops/project-registry.md` to remove stale in-progress/review-before-commit wording.
+- No new feature task was opened.
+- No dashboard implementation logic, GitHub API, network call, dependency install, package or lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, or stash action occurred.
+
+## RIC-STUDIO-081A - Project Registry Readability And State Accuracy
+
+State: Remote DONE
+
+Summary:
+
 - Implemented the approved RIC-STUDIO-081A scope.
+- Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
 - Replaced the compressed Project Registry table with readable per-project sections.
 - Rendered Project Registry paths and URLs without raw Markdown backticks.
 - Updated `docs/ops/project-registry.md` so RIC Studio records RIC-STUDIO-080A as Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
@@ -79,7 +93,6 @@ Summary:
 - Updated `tools/operator-ui/README.md` to document readable registry rendering and boundaries.
 - Created validation evidence in `docs/validation/operator-dashboard-project-registry-081a.md`.
 - Smoke passed with `node tools/operator-ui/server.mjs smoke` on alternate local port 4311.
-- RIC-STUDIO-081A is not DONE.
 - No GitHub API call, authentication, token, network call, dependency install, package or lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, or stash apply/pop/restore occurred.
 
 ## RIC-STUDIO-080A - READY Registration

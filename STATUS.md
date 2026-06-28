@@ -2,19 +2,20 @@
 
 ## Current state
 
-REVIEW
+HANDOFF / LOCAL VISIBILITY
 
 ## Active task
 
-RIC-STUDIO-081A - Improve project registry readability and completed state accuracy.
+No active READY task recorded.
 
+RIC-STUDIO-081A implementation is Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
 RIC-STUDIO-080A implementation is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
 RIC-STUDIO-079A implementation is Remote DONE.
 RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused by owner direction.
 
 ## Current task execution
 
-RIC-STUDIO-081A is in REVIEW after implementation and smoke validation.
+No implementation task is active. RIC-STUDIO-081A is Remote DONE after implementation, validation, commit, and push.
 
 Objective:
 
@@ -23,6 +24,7 @@ Objective:
 Implementation facts:
 
 - Owner approved opening RIC-STUDIO-081A as READY only, then approved implementation.
+- RIC-STUDIO-081A is Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
 - RIC-STUDIO-080A is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
 - Replaced the compressed Project Registry table with readable project sections.
 - Rendered registry paths and URLs without raw Markdown backticks.
@@ -31,8 +33,8 @@ Implementation facts:
 - Updated `tools/operator-ui/README.md` to document readable registry rendering and boundaries.
 - Added validation evidence at `docs/validation/operator-dashboard-project-registry-081a.md`.
 - Smoke passed with `node tools/operator-ui/server.mjs smoke` on alternate local port 4311.
-- RIC-STUDIO-081A is not DONE.
 - The local dashboard remains running at `http://localhost:4310`.
+- Owner visual review confirmed the Project Registry is readable, renders project sections, shows RIC Studio, DayBudget, and Rick Travel, and renders paths/repository values without raw Markdown backticks.
 - RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
 - No GitHub API call was made.
 - No network call was made.
@@ -65,8 +67,7 @@ Forbidden during this implementation:
 - Docker.
 - Jira call, Jira API call, or Jira CLI call.
 - Applying, popping, or restoring from `stash@{0}`.
-- Commit.
-- Push.
+- Commit or push without explicit owner approval for a new task.
 
 Validation criteria:
 
@@ -83,6 +84,11 @@ Rollback plan:
 - Revert only the RIC-STUDIO-081A dashboard presentation, Project Registry text, validation evidence, and operational doc updates.
 - Preserve the RIC-STUDIO-080A Project Registry implementation and RIC-STUDIO-079A dashboard smoke/context reconciliation.
 - Do not stop or restart the running dashboard server unless explicitly requested.
+
+Next operational gate:
+
+- No new feature task is open.
+- Continue owner visual inspection of the RIC Studio dashboard, then move to the DayBudget local stack only by explicit owner direction.
 
 ## Current state reconciliation
 
