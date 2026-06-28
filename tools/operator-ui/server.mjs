@@ -512,6 +512,17 @@ function renderExternalExecutionContext(context) {
   <p class="muted">Source: <a href="${fileLink(context.path)}">${escapeHtml(context.path)}</a></p>`;
 }
 
+function cleanRegistryText(value) {
+  return String(value || "Not recorded.").replace(/`([^`]+)`/g, "$1");
+}
+
+function registryField(label, value, className = "") {
+  return `<div class="registry-field ${className}">
+    <dt>${escapeHtml(label)}</dt>
+    <dd>${escapeHtml(cleanRegistryText(value))}</dd>
+  </div>`;
+}
+
 function renderProjectRegistry(registry) {
   if (!registry?.exists) {
     return `<p class="muted">No local project registry file found.</p>`;
@@ -521,32 +532,25 @@ function renderProjectRegistry(registry) {
     <p class="muted">Source: <a href="${fileLink(registry.path)}">${escapeHtml(registry.path)}</a></p>`;
   }
 
-  return `<table>
-    <thead>
-      <tr>
-        <th>Project</th>
-        <th>Description</th>
-        <th>Repository</th>
-        <th>State</th>
-        <th>Run/View</th>
-        <th>Next Gate</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${registry.projects
-        .map(
-          (project) => `<tr>
-            <td><strong>${escapeHtml(project.name)}</strong><br><span class="muted">${escapeHtml(project.local_path)}</span></td>
-            <td>${escapeHtml(project.description)}</td>
-            <td>${escapeHtml(project.github_repository)}</td>
-            <td>${escapeHtml(project.current_operational_state)}</td>
-            <td>${escapeHtml(project.local_run_view_status)}</td>
-            <td>${escapeHtml(project.next_gate_action)}</td>
-          </tr>`,
-        )
-        .join("")}
-    </tbody>
-  </table>
+  return `<div class="project-registry-list">
+    ${registry.projects
+      .map(
+        (project) => `<section class="project-entry">
+          <div class="project-entry-header">
+            <h3>${escapeHtml(project.name)}</h3>
+            <p>${escapeHtml(cleanRegistryText(project.description))}</p>
+          </div>
+          <dl class="registry-fields">
+            ${registryField("Current state", project.current_operational_state, "registry-field-wide")}
+            ${registryField("Run/View", project.local_run_view_status)}
+            ${registryField("Next gate", project.next_gate_action)}
+            ${registryField("Local path", project.local_path)}
+            ${registryField("Repository", project.github_repository)}
+          </dl>
+        </section>`,
+      )
+      .join("")}
+  </div>
   <p class="muted">Source: <a href="${fileLink(registry.path)}">${escapeHtml(registry.path)}</a>. ${escapeHtml(
     registry.source_note,
   )}</p>`;
@@ -634,11 +638,58 @@ function renderHtml(state) {
     table { width: 100%; border-collapse: collapse; }
     th, td { text-align: left; vertical-align: top; border-top: 1px solid var(--border); padding: 9px 8px; }
     th { color: var(--muted); font-weight: 700; font-size: 13px; }
+    .project-registry-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .project-entry {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    .project-entry:first-child { border-top: 0; padding-top: 0; }
+    .project-entry-header {
+      display: grid;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .project-entry h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+    .project-entry p {
+      margin: 0;
+      color: var(--muted);
+    }
+    .registry-fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+      margin: 0;
+    }
+    .registry-field {
+      min-width: 0;
+    }
+    .registry-field-wide {
+      grid-column: 1 / -1;
+    }
+    .registry-field dt {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0 0 3px;
+      text-transform: uppercase;
+    }
+    .registry-field dd {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
     .command { overflow-wrap: anywhere; font-family: Consolas, "Courier New", monospace; font-size: 13px; }
     footer { color: var(--muted); font-size: 13px; padding: 0 0 28px; }
     @media (max-width: 760px) {
       header, main { width: min(100% - 20px, 1180px); }
       .card, .third { grid-column: span 12; }
+      .registry-fields { grid-template-columns: 1fr; }
       table, thead, tbody, tr, th, td { display: block; }
       th { padding-bottom: 2px; }
       td { border-top: 0; padding-top: 2px; }
@@ -874,6 +925,7 @@ async function runSmoke(server) {
   const mentionsCompletedState = /Remote DONE|completed|accepted|clean and synchronized/i.test(externalContextText);
   const registryProjects = state.project_registry?.projects || [];
   const registryProjectNames = registryProjects.map((project) => project.name).join(" ");
+  const ricStudioRegistryProject = registryProjects.find((project) => project.name === "RIC Studio");
   const checks = [
     ["home_status_200", home.statusCode === 200],
     ["api_status_200", api.statusCode === 200],
@@ -899,9 +951,13 @@ async function runSmoke(server) {
     ["api_external_context_mentions_completed_state", mentionsCompletedState],
     ["home_mentions_project_registry", home.body.includes("Project Registry")],
     ["home_mentions_rick_travel", home.body.includes("Rick Travel")],
+    ["home_project_registry_uses_readable_layout", home.body.includes('class="project-registry-list"') && home.body.includes('class="project-entry"')],
+    ["home_project_registry_mentions_080a_remote_done", /RIC-STUDIO-080A[\s\S]*Remote DONE/.test(home.body)],
+    ["home_project_registry_strips_raw_markdown_backticks", !home.body.includes("`C:\\Users\\ricardodev\\Desktop\\ric-studio`") && !home.body.includes("`https://github.com/devricardo90/ric-studio.git`")],
     ["api_has_project_registry", state.project_registry?.exists === true],
     ["api_project_registry_has_required_projects", /RIC Studio/.test(registryProjectNames) && /DayBudget/.test(registryProjectNames) && /Rick Travel/.test(registryProjectNames)],
     ["api_project_registry_is_local_read_only", /local read-only/i.test(state.project_registry?.source_note || "")],
+    ["api_project_registry_records_080a_remote_done", /RIC-STUDIO-080A.*Remote DONE.*7d92f2a23eebc2e9b858731c55ca01b80fb00a49/i.test(ricStudioRegistryProject?.current_operational_state || "")],
   ];
   const failed = checks.filter(([, passed]) => !passed);
   const result = {

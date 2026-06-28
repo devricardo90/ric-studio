@@ -35,7 +35,7 @@ The smoke check starts the local server, requests `/` and `/api/state` from `loc
 - Current project state from operational docs.
 - Current READY task.
 - Manual External Execution Context from `docs/ops/external-execution-context.md`.
-- Local Project Registry from `docs/ops/project-registry.md`.
+- Local Project Registry from `docs/ops/project-registry.md`, rendered as readable project sections.
 - A safe no-active-task state when READY is empty.
 - Recent validation/evidence links.
 - Local auditor and operator commands.
@@ -53,7 +53,7 @@ The dashboard is local-only and read-only. It does not write files, stage files,
 
 External Execution Context is manual operator context loaded from a local repository file. It is not synced from Jira, GitHub, DayBudget, or any running agent.
 
-Project Registry is manual local project context loaded from `docs/ops/project-registry.md`. It is not synced from GitHub, Jira, Docker, external repositories, or any running agent.
+Project Registry is manual local project context loaded from `docs/ops/project-registry.md`. It is rendered for scanning, with Markdown code markers stripped from displayed paths and URLs. It is not synced from GitHub, Jira, Docker, external repositories, or any running agent.
 
 Auditor commands shown in the dashboard are text for manual terminal use. The browser dashboard does not run shell commands, npm scripts, auditor decisions, or Git actions.
 

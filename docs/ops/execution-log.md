@@ -65,6 +65,23 @@ Rollback plan:
 - Preserve the RIC-STUDIO-080A Project Registry implementation and RIC-STUDIO-079A dashboard smoke/context reconciliation.
 - Leave the running dashboard server alone unless explicitly requested.
 
+## RIC-STUDIO-081A - Project Registry Readability And State Accuracy
+
+State: REVIEW
+
+Summary:
+
+- Implemented the approved RIC-STUDIO-081A scope.
+- Replaced the compressed Project Registry table with readable per-project sections.
+- Rendered Project Registry paths and URLs without raw Markdown backticks.
+- Updated `docs/ops/project-registry.md` so RIC Studio records RIC-STUDIO-080A as Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+- Preserved `/api/state` `project_registry` exposure as local read-only data.
+- Updated `tools/operator-ui/README.md` to document readable registry rendering and boundaries.
+- Created validation evidence in `docs/validation/operator-dashboard-project-registry-081a.md`.
+- Smoke passed with `node tools/operator-ui/server.mjs smoke` on alternate local port 4311.
+- RIC-STUDIO-081A is not DONE.
+- No GitHub API call, authentication, token, network call, dependency install, package or lockfile change, DayBudget edit, Rick Travel edit, Docker, Jira, or stash apply/pop/restore occurred.
+
 ## RIC-STUDIO-080A - READY Registration
 
 State: READY

@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Task
 
@@ -14,20 +14,24 @@ RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused
 
 ## Current task execution
 
-RIC-STUDIO-081A is READY only. Implementation has not started.
+RIC-STUDIO-081A is in REVIEW after implementation and smoke validation.
 
 Objective:
 
 - Improve the Operator Dashboard Project Registry presentation so each project is readable at a glance, and reconcile RIC Studio registry/operational state to show RIC-STUDIO-080A as Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
 
-READY opening facts:
+Implementation facts:
 
-- Owner approved opening RIC-STUDIO-081A as READY only.
+- Owner approved opening RIC-STUDIO-081A as READY only, then approved implementation.
 - RIC-STUDIO-080A is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
-- The current Project Registry is functional but visually unclear: table content is compressed, long text wraps poorly, paths and URLs show raw Markdown backticks, and RIC Studio state text is stale.
-- RIC-STUDIO-081A is limited to readability improvements and completed-state accuracy.
-- Implementation has not started.
-- No implementation files were edited during READY opening.
+- Replaced the compressed Project Registry table with readable project sections.
+- Rendered registry paths and URLs without raw Markdown backticks.
+- Updated `docs/ops/project-registry.md` so RIC Studio shows RIC-STUDIO-080A Remote DONE.
+- Preserved `/api/state` `project_registry` exposure as local read-only data.
+- Updated `tools/operator-ui/README.md` to document readable registry rendering and boundaries.
+- Added validation evidence at `docs/validation/operator-dashboard-project-registry-081a.md`.
+- Smoke passed with `node tools/operator-ui/server.mjs smoke` on alternate local port 4311.
+- RIC-STUDIO-081A is not DONE.
 - The local dashboard remains running at `http://localhost:4310`.
 - RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
 - No GitHub API call was made.
@@ -38,7 +42,7 @@ READY opening facts:
 - No Jira action was used.
 - `stash@{0}` was not touched.
 
-Allowed files for future RIC-STUDIO-081A implementation:
+Allowed implementation files:
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
@@ -64,7 +68,7 @@ Forbidden during this implementation:
 - Commit.
 - Push.
 
-Validation criteria for future implementation:
+Validation criteria:
 
 - `node tools/operator-ui/server.mjs smoke` passes.
 - Dashboard shows the Project Registry in a readable, non-compressed layout.
