@@ -2,6 +2,7 @@
 
 ## REVIEW
 
+- RIC-STUDIO-079A - Reconcile Operator Dashboard external-context smoke checks with current handoff/local visibility state (REVIEW - smoke/context mismatch fixed; validation evidence in `docs/validation/operator-dashboard-smoke-079a.md`; no persistent dashboard server, DayBudget, Docker, Jira, stash apply/pop/restore, package, lockfile, commit, or push)
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt (BLOCKED / ROLLED BACK)
 - RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate (Remote DONE - candidate rejected; evidence documented at dfef2c7)
@@ -20,22 +21,7 @@
 
 ## READY
 
-- RIC-STUDIO-079A - Reconcile Operator Dashboard external-context smoke checks with current handoff/local visibility state. READY registration only; implementation has not started.
-
-READY registration facts for RIC-STUDIO-079A:
-
-- RIC Studio Operator Dashboard smoke failed because smoke expectations are stale, not because the server is broken.
-- `/` returned HTTP 200.
-- `/api/state` returned HTTP 200.
-- Stale smoke checks expect `day-budget`, exact Jira cycle `DAY-3 / WEB-023A`, and Jira status `IN PROGRESS`.
-- Current docs/context already moved beyond that old state.
-- No persistent dashboard server was started.
-- No DayBudget server or Docker was started.
-- No Jira call, Jira API call, or Jira CLI call was made.
-- `stash@{0}` remains intact and unrelated to this task.
-- Current owner goal is local visibility: run RIC Studio dashboard first, then DayBudget local stack.
-- Allowed READY registration files only: `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
-- Forbidden during READY registration: `tools/operator-ui/server.mjs`, `docs/ops/external-execution-context.md`, `tools/jira/*`, `docs/validation/*`, package files, lockfiles, persistent dashboard server, DayBudget, Docker, Jira, stash apply/pop/restore, commit, and push.
+No READY task. RIC-STUDIO-079A is in REVIEW after implementation and smoke validation; RIC-STUDIO-078A READY registration is Remote DONE and Jira implementation remains paused.
 
 RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`; implementation has not started and Jira implementation is paused by owner direction.
 

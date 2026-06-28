@@ -2,7 +2,7 @@
 
 ## Current state
 
-READY
+REVIEW
 
 ## Active task
 
@@ -12,27 +12,30 @@ RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused
 
 ## Current task registration
 
-RIC-STUDIO-079A is READY.
+RIC-STUDIO-079A is in REVIEW after implementation and smoke validation.
 
 Objective:
 
 - Reconcile Operator Dashboard external-context smoke checks with the current handoff/local visibility state so the dashboard can be run to inspect RIC Studio and DayBudget accurately.
 
-READY registration facts:
+Implementation facts:
 
 - RIC Studio Operator Dashboard smoke failed because smoke expectations are stale, not because the server is broken.
 - During smoke diagnosis, `/` returned HTTP 200.
 - During smoke diagnosis, `/api/state` returned HTTP 200.
 - Current stale smoke checks expect `day-budget`, exact Jira cycle `DAY-3 / WEB-023A`, and Jira status `IN PROGRESS`.
 - Current docs/context already moved beyond that old state.
+- Updated Operator Dashboard smoke checks so they accept current DayBudget context, current WEB-026A / DAY-7 context, and completed-state wording.
+- Reconciled `docs/ops/external-execution-context.md` with current local visibility state.
+- Validation evidence file: `docs/validation/operator-dashboard-smoke-079a.md`.
 - No persistent dashboard server was started.
 - No DayBudget server or Docker was started.
 - No Jira call, Jira API call, or Jira CLI call was made.
 - `stash@{0}` remains intact and unrelated to this task.
 - Current owner goal is local visibility: run RIC Studio dashboard first, then DayBudget local stack.
-- RIC-STUDIO-079A implementation has not started.
+- RIC-STUDIO-079A is not DONE.
 
-Allowed files for this READY registration:
+Allowed files for this implementation:
 
 - `STATUS.md`
 - `backlog.md`
@@ -40,13 +43,13 @@ Allowed files for this READY registration:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
+- `tools/operator-ui/server.mjs`
+- `docs/ops/external-execution-context.md`
+- `docs/validation/operator-dashboard-smoke-079a.md`
 
-Forbidden during this READY registration:
+Forbidden during this implementation:
 
-- Editing `tools/operator-ui/server.mjs`.
-- Editing `docs/ops/external-execution-context.md`.
 - Editing `tools/jira/*`.
-- Creating or editing `docs/validation/*`.
 - Package or lockfile changes.
 - Starting a persistent dashboard server.
 - Starting DayBudget.

@@ -60,6 +60,47 @@ Validation required after READY registration:
 - Confirm no package or lockfile changed.
 - Confirm RIC-STUDIO-079A implementation has not started.
 
+## RIC-STUDIO-079A - Operator Dashboard Smoke Context Reconciliation
+
+State: REVIEW
+
+Summary:
+
+- Implemented the minimal RIC-STUDIO-079A scope after READY registration reached Remote DONE at `b80648612f356a6d87e8a32c9fc48184338b601d`.
+- Updated `tools/operator-ui/server.mjs` smoke assertions so they no longer require old exact external-context values: lowercase-only `day-budget`, exact `DAY-3 / WEB-023A`, or `IN PROGRESS`.
+- Smoke assertions now accept current DayBudget context, current WEB-026A / DAY-7 manual transfer context, and completed-state wording such as Remote DONE.
+- Reconciled `docs/ops/external-execution-context.md` with the current local visibility state: RIC Studio dashboard first, then DayBudget local stack.
+- Created validation evidence in `docs/validation/operator-dashboard-smoke-079a.md`.
+- Preserved read-only/local-only dashboard behavior.
+- No persistent dashboard server was started.
+- No DayBudget server or Docker was started.
+- No Jira call, Jira API call, or Jira CLI call was made.
+- `stash@{0}` remains intact and was not applied, popped, or restored.
+- No package or lockfile change was made.
+- RIC-STUDIO-079A is in REVIEW, not DONE.
+
+Files changed:
+
+- `tools/operator-ui/server.mjs`.
+- `docs/ops/external-execution-context.md`.
+- `docs/validation/operator-dashboard-smoke-079a.md`.
+- `STATUS.md`.
+- `backlog.md`.
+- `docs/ops/status.md`.
+- `docs/ops/backlog.md`.
+- `docs/ops/execution-log.md`.
+- `docs/ops/session-handoff.md`.
+
+Validation required before review:
+
+- `node tools/operator-ui/server.mjs smoke`.
+- `git diff --name-only`.
+- `git diff --stat`.
+- `git diff --check`.
+- `git status --short --untracked-files=all`.
+- `git status -sb`.
+- `git diff --name-only -- tools/jira/guarded-write.mjs tools/jira/README.md package.json package-lock.json pnpm-lock.yaml yarn.lock npm-shrinkwrap.json`.
+
 ## RIC-STUDIO-001
 
 State: Remote DONE

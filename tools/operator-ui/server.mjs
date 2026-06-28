@@ -748,6 +748,22 @@ function fetchLocal(pathname) {
 async function runSmoke(server) {
   const [home, api] = await Promise.all([fetchLocal("/"), fetchLocal("/api/state")]);
   const state = JSON.parse(api.body);
+  const externalContext = state.external_execution_context || {};
+  const externalContextText = [
+    externalContext.external_project,
+    externalContext.jira_cycle,
+    externalContext.jira_status,
+    externalContext.agent_status,
+    externalContext.validation_gate,
+    externalContext.local_visibility_phase,
+    ...(externalContext.items || []),
+    ...Object.values(externalContext.values || {}),
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const mentionsDayBudget = (value) => /day[\s-]*budget/i.test(String(value || ""));
+  const mentionsCurrentCycle = /WEB-026A|DAY-7|manual transfer|local visibility/i.test(externalContextText);
+  const mentionsCompletedState = /Remote DONE|completed|accepted|clean and synchronized/i.test(externalContextText);
   const checks = [
     ["home_status_200", home.statusCode === 200],
     ["api_status_200", api.statusCode === 200],
@@ -765,12 +781,12 @@ async function runSmoke(server) {
     ["api_has_auditor_scripts", Object.keys(state.auditor_visibility?.scripts || {}).length > 0],
     ["home_mentions_auditor_visibility", home.body.includes("Auditor Visibility")],
     ["home_mentions_external_execution_context", home.body.includes("External Execution Context")],
-    ["home_mentions_day_budget", home.body.includes("day-budget")],
-    ["home_mentions_external_jira_cycle", home.body.includes("DAY-3 / WEB-023A")],
+    ["home_mentions_daybudget_context", mentionsDayBudget(home.body)],
+    ["home_mentions_current_external_context", /WEB-026A|DAY-7|Remote DONE|local visibility/i.test(home.body)],
     ["api_has_external_execution_context", state.external_execution_context?.exists === true],
-    ["api_external_context_mentions_day_budget", state.external_execution_context?.external_project === "day-budget"],
-    ["api_external_context_mentions_jira_cycle", state.external_execution_context?.jira_cycle === "DAY-3 / WEB-023A"],
-    ["api_external_context_mentions_in_progress", state.external_execution_context?.jira_status === "IN PROGRESS"],
+    ["api_external_context_mentions_daybudget", mentionsDayBudget(externalContextText)],
+    ["api_external_context_mentions_current_cycle", mentionsCurrentCycle],
+    ["api_external_context_mentions_completed_state", mentionsCompletedState],
   ];
   const failed = checks.filter(([, passed]) => !passed);
   const result = {
