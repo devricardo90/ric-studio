@@ -20,7 +20,19 @@
 
 ## READY
 
-No READY task. RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`; RIC-STUDIO-078A READY registration is Remote DONE and Jira implementation remains paused.
+- RIC-STUDIO-080A - Add local project registry visibility to operator dashboard. READY only; implementation has not started.
+
+READY objective:
+
+- Create a local, read-only Project Registry that lists known projects and renders them in the Operator Dashboard with description, repository location/reference, current operational state, local run/view status, and next gate.
+
+Allowed future implementation files: `tools/operator-ui/server.mjs`, `tools/operator-ui/README.md`, `docs/ops/project-registry.md`, `docs/validation/operator-dashboard-project-registry-080a.md`, `STATUS.md`, `backlog.md`, `docs/ops/status.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, and `docs/ops/session-handoff.md`.
+
+Forbidden during READY opening: implementation edits, `tools/operator-ui/server.mjs` edits, Project Registry creation, validation evidence creation, GitHub API calls, dependency installation, package or lockfile changes, DayBudget or Rick Travel repository edits, Docker, Jira, stash apply/pop/restore, staging, commit, and push.
+
+Validation criteria for future implementation: dashboard smoke passes, Project Registry renders in the dashboard, `/api/state` exposes read-only registry data, RIC Studio/DayBudget/Rick Travel are represented, each project has description/repo reference/state/run-view status/next gate, protected scopes remain unchanged, and `git diff --check` passes.
+
+Rollback plan: revert only RIC-STUDIO-080A Project Registry docs, dashboard parser/rendering, validation evidence, and operational docs while preserving RIC-STUDIO-079A.
 
 RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`; implementation has not started and Jira implementation is paused by owner direction.
 
@@ -30,7 +42,7 @@ RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a
 
 ## Next safe step
 
-Handoff/local visibility is the current priority. Current next step: visually inspect the running RIC Studio Operator Dashboard at `http://localhost:4310`, then run the DayBudget local stack. Known dashboard command: `node tools/operator-ui/server.mjs`; smoke: `node tools/operator-ui/server.mjs smoke`.
+Handoff/local visibility is the current priority. Current READY task is RIC-STUDIO-080A; do not implement until review/commit gates for this READY opening are complete. The running dashboard remains at `http://localhost:4310`.
 
 Do not apply or pop `stash@{0}`. It contains implementation candidates (`tools/jira/guarded-write.mjs`, `tools/jira/README.md`, `docs/validation/jira-real-write-078a.md`) plus stale operational docs (`STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, `docs/ops/status.md`) that must not be restored.
 

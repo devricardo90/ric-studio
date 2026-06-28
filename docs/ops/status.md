@@ -2,13 +2,80 @@
 
 ## Current state
 
-HANDOFF / LOCAL VISIBILITY
+READY
 
 ## Task
 
-No active implementation task. RIC-STUDIO-079A implementation is Remote DONE.
+RIC-STUDIO-080A - Add local project registry visibility to operator dashboard.
 
+RIC-STUDIO-079A implementation is Remote DONE.
 RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused by owner direction.
+
+## Current task registration
+
+RIC-STUDIO-080A is READY.
+
+Objective:
+
+- Create a local, read-only Project Registry that lists known projects and renders them in the Operator Dashboard with description, repository location/reference, current operational state, local run/view status, and next gate.
+
+READY opening facts:
+
+- Owner approved opening RIC-STUDIO-080A as READY only.
+- This READY opening is operational documentation only.
+- Implementation has not started.
+- The local dashboard remains running at `http://localhost:4310`.
+- RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
+- No GitHub API call was made.
+- No dependency install, package change, or lockfile change was made.
+- No DayBudget or Rick Travel repository was edited.
+- No Docker action was used.
+- `stash@{0}` was not touched.
+
+Allowed files for future RIC-STUDIO-080A implementation:
+
+- `tools/operator-ui/server.mjs`
+- `tools/operator-ui/README.md`
+- `docs/ops/project-registry.md`
+- `docs/validation/operator-dashboard-project-registry-080a.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+Forbidden during this READY opening:
+
+- Editing `tools/operator-ui/server.mjs`.
+- Creating `docs/ops/project-registry.md`.
+- Creating `docs/validation/operator-dashboard-project-registry-080a.md`.
+- Staging implementation files.
+- GitHub API calls or any network-backed repository discovery.
+- Dependency installation.
+- Package or lockfile changes.
+- DayBudget or Rick Travel repository edits.
+- Docker.
+- Jira call, Jira API call, or Jira CLI call.
+- Applying, popping, or restoring from `stash@{0}`.
+- Commit.
+- Push.
+
+Validation criteria for future implementation:
+
+- `node tools/operator-ui/server.mjs smoke` passes.
+- Dashboard renders a Project Registry section.
+- Registry includes at minimum RIC Studio, DayBudget, and Rick Travel placeholders when exact repo state is not yet confirmed.
+- Each project shows description, repo reference/path if known, current state/location, local run/view status, and next gate.
+- `/api/state` exposes the registry as read-only local data.
+- No package, lockfile, Jira, GitHub API, Docker, DayBudget repository, Rick Travel repository, or stash changes occur.
+- `git diff --check` passes.
+
+Rollback plan:
+
+- Revert only the Project Registry document, dashboard parser/rendering changes, validation evidence, and operational doc updates introduced by RIC-STUDIO-080A.
+- Preserve RIC-STUDIO-079A dashboard smoke/context reconciliation.
+- Do not stop or restart the running dashboard server unless explicitly requested.
 
 ## Current state reconciliation
 

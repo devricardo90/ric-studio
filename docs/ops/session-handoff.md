@@ -4,6 +4,49 @@
 
 Current owner direction: pause Jira implementation and organize handoff/local visibility.
 
+RIC-STUDIO-080A is READY.
+
+Task: add local project registry visibility to operator dashboard.
+
+Objective: create a local, read-only Project Registry that lists known projects and renders them in the Operator Dashboard with description, repository location/reference, current operational state, local run/view status, and next gate.
+
+READY opening boundaries:
+
+- READY opening only; implementation has not started.
+- Do not edit `tools/operator-ui/server.mjs` yet.
+- Do not create `docs/ops/project-registry.md` yet.
+- Do not create `docs/validation/operator-dashboard-project-registry-080a.md` yet.
+- Do not call GitHub API.
+- Do not install dependencies or change package/lock files.
+- Do not edit DayBudget or Rick Travel repositories.
+- Do not run Docker.
+- Do not touch `stash@{0}`.
+- Do not stage, commit, or push until review/approval.
+
+Allowed future implementation files:
+
+- `tools/operator-ui/server.mjs`
+- `tools/operator-ui/README.md`
+- `docs/ops/project-registry.md`
+- `docs/validation/operator-dashboard-project-registry-080a.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+Validation criteria for future implementation:
+
+- Dashboard smoke passes.
+- Project Registry renders in the Operator Dashboard.
+- `/api/state` exposes the registry as read-only local data.
+- RIC Studio, DayBudget, and Rick Travel are represented.
+- Each project has description, repo reference/path if known, current state/location, local run/view status, and next gate.
+- No GitHub API, package/lockfile, Docker, Jira, DayBudget/Rick Travel repo, or stash changes occur.
+
+Rollback plan: revert only RIC-STUDIO-080A Project Registry docs, dashboard parser/rendering, validation evidence, and operational doc updates while preserving RIC-STUDIO-079A.
+
 RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
 
 Task objective: reconcile Operator Dashboard external-context smoke checks with the current handoff/local visibility state so the dashboard can be run to inspect RIC Studio and DayBudget accurately.
