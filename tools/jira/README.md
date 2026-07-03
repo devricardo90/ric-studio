@@ -32,6 +32,36 @@ Attach evidence summary dry-run:
 node tools/jira/dry-run.mjs --action attach_evidence_summary --issue RIC-1 --evidence-summary "Validation passed locally."
 ```
 
+Sprint Automation Registry task payload dry-run:
+
+```powershell
+node tools/jira/dry-run.mjs --action registry_task_plan --registry docs/ops/sprint-task-registry.json --project DayBudget --task-key WEB-027A
+```
+
+The registry task plan generates reviewable `MANUAL_DRY_RUN` payloads for:
+
+- `create_issue`
+- `link_existing_issue`
+- `add_evidence_comment`
+- `transition_plan`
+
+It reads the local Sprint Automation Registry task, prints deterministic JSON, reports missing Jira config with placeholders, includes an idempotency marker, and confirms `NO_WRITE`.
+
+Optional Jira config flags are intentionally explicit:
+
+- `--jira-project-key`
+- `--issue-type`
+- `--jira-status-ready`
+- `--jira-status-in-progress`
+- `--jira-status-review`
+- `--jira-status-done`
+- `--jira-transition-ready`
+- `--jira-transition-in-progress`
+- `--jira-transition-review`
+- `--jira-transition-done`
+
+If these values are missing, the output remains a blocked/manual payload. The tool must not guess Jira project keys, issue types, status names, or transition ids.
+
 ## Safety
 
 The tool always reports:
@@ -45,6 +75,8 @@ The tool always reports:
 - `token_stored: false`
 
 DONE transitions are blocked because DONE requires Ricardo final validation.
+
+For registry task plans, DONE remains blocked unless owner validation is explicitly present in the input.
 
 ## Not Supported
 
