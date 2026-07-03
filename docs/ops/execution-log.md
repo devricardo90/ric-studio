@@ -1,5 +1,33 @@
 # Execution Log
 
+## RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP
+
+State: REVIEW
+
+Task: RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP
+
+Summary:
+
+- Implemented a local sprint/task registry for RIC Studio as source of truth.
+- Registered the DayBudget DAY-9 / WEB-027A pilot task with lifecycle status `READY`, protocol level `LEAN_LEVEL_2`, allowed scope, blocked scope, Jira reference fields, manual dry-run Jira payload/comment, and a short evidence model.
+- Added an idempotent intake helper at `tools/sprint/intake.mjs`; re-running the DayBudget intake config reuses the existing project + task key record and does not create a duplicate.
+- Updated the Operator Dashboard and `/api/state` to show the Sprint Automation Registry.
+- Jira remains an external mirror/reference. No real Jira API call, Jira CLI call, issue creation, transition, or destructive operation occurred.
+- DayBudget was not modified.
+- No database migration, authentication, Docker, package, lockfile, deployment, GitHub API, stash, commit, or push action occurred.
+
+Validation:
+
+- `node tools/sprint/intake.mjs --config docs/ops/sprint-task-intake.daybudget-web-027a.json`
+- `node tools/sprint/intake.mjs --config docs/ops/sprint-task-intake.daybudget-web-027a.json`
+- `$env:OPERATOR_UI_PORT='4311'; node tools/operator-ui/server.mjs smoke`
+- `git diff --check`
+
+Next gate:
+
+- Stop at REVIEW for owner evidence review.
+- Commit and push remain blocked until explicit owner approval.
+
 ## RIC-STUDIO-081A - READY Registration
 
 State: READY

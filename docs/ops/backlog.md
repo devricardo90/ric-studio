@@ -2,6 +2,7 @@
 
 ## REVIEW
 
+- RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP. REVIEW - local sprint/task registry, idempotent intake helper, dashboard visibility, DayBudget DAY-9 / WEB-027A pilot record, and manual dry-run Jira reference implemented; no commit or push.
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
 - RIC-STUDIO-031A - Build And Validate Architect Pragmatic MVP Candidate. Remote DONE - candidate rejected; evidence documented at dfef2c7.
@@ -20,7 +21,7 @@
 
 ## READY
 
-No READY task. RIC-STUDIO-081A is Remote DONE after implementation, validation, commit, and push.
+No RIC Studio implementation task is READY. RIC-STUDIO-082A is in REVIEW after implementation and validation.
 
 RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a3c77d7bcf98a56a4c42ec`; implementation has not started and Jira implementation is paused by owner direction.
 
@@ -30,7 +31,7 @@ RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a
 
 ## Next safe step
 
-Handoff/local visibility is the current priority. RIC-STUDIO-081A is Remote DONE, and no new feature task is open. Continue owner visual inspection of the RIC Studio dashboard, then move to the DayBudget local stack only by explicit owner direction. The running dashboard remains at `http://localhost:4310`.
+Review RIC-STUDIO-082A evidence, then owner decides whether to authorize commit. Push remains blocked until separate owner approval after commit evidence. The running dashboard remains at `http://localhost:4310`.
 
 Do not apply or pop `stash@{0}`. It contains implementation candidates (`tools/jira/guarded-write.mjs`, `tools/jira/README.md`, `docs/validation/jira-real-write-078a.md`) plus stale operational docs (`STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, `docs/ops/status.md`) that must not be restored.
 
@@ -76,6 +77,7 @@ Do not apply or pop `stash@{0}`. It contains implementation candidates (`tools/j
 - RIC-STUDIO-079A - Reconcile Operator Dashboard external-context smoke checks with current handoff/local visibility state. Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`; smoke passed; persistent dashboard server started successfully at `http://localhost:4310`; no READY task is active.
 - RIC-STUDIO-080A - Add local project registry visibility to operator dashboard. Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`; registry is functional and exposes RIC Studio, DayBudget, and Rick Travel; owner visual review found readability and stale completed-state text issues for follow-up.
 - RIC-STUDIO-081A - Improve project registry readability and completed state accuracy. Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`; owner visual review confirmed readable project sections, clean rendered paths/repository values, and visible RIC Studio, DayBudget, and Rick Travel entries.
+- RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP. REVIEW with local changes only; registers DayBudget DAY-9 / WEB-027A in the local Sprint Automation Registry and keeps Jira in manual dry-run/reference mode.
 - RIC-STUDIO-029A - Validate Official Architect And Orchestrator With Real Workflow Scenarios. Remote DONE at commit `6dcdf17`.
 - RIC-STUDIO-030A - Document Architect Pragmatic MVP Candidate Validation. Remote DONE at commit `105c220`.
 - RIC-STUDIO-040A - Define Local MVP Technical Scaffold. Remote DONE at commit `c436045`.

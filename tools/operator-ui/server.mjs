@@ -12,6 +12,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 const externalExecutionContextPath = "docs/ops/external-execution-context.md";
 const projectRegistryPath = "docs/ops/project-registry.md";
+const sprintTaskRegistryPath = "docs/ops/sprint-task-registry.json";
 
 const allowedFilePrefixes = [
   "README.md",
@@ -22,6 +23,7 @@ const allowedFilePrefixes = [
   "docs/architecture/",
   "tools/auditor/",
   "tools/operator-ui/README.md",
+  "tools/sprint/",
 ];
 
 const auditorCommands = [
@@ -170,6 +172,10 @@ async function readText(relativePath) {
   return readFile(path.join(repoRoot, relativePath), "utf8");
 }
 
+async function readJson(relativePath) {
+  return JSON.parse(await readText(relativePath));
+}
+
 async function exists(relativePath) {
   try {
     await stat(path.join(repoRoot, relativePath));
@@ -186,7 +192,7 @@ async function listValidationEvidence() {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
     .map((entry) => `docs/validation/${entry.name}`)
     .filter((file) =>
-      /operator-dashboard|local-operator|local-auditor|readme-portfolio-positioning|external-reviewer/i.test(file),
+      /operator-dashboard|local-operator|local-auditor|sprint-automation|readme-portfolio-positioning|external-reviewer/i.test(file),
     );
 
   const dashboardEvidence = "docs/validation/local-operator-dashboard-069a.md";
@@ -345,6 +351,91 @@ async function collectProjectRegistry() {
   };
 }
 
+function normalizeLifecycleStatus(value) {
+  return String(value || "").trim().toUpperCase().replace(/[\s-]+/g, "_");
+}
+
+function normalizeProtocolLevel(value) {
+  return String(value || "").trim().toUpperCase().replace(/[\s-]+/g, "_");
+}
+
+function taskIdentity(task) {
+  return `${String(task.project || "").toLowerCase()}::${String(task.taskKey || "").toLowerCase()}`;
+}
+
+function hasOwn(value, field) {
+  return Object.prototype.hasOwnProperty.call(value || {}, field);
+}
+
+async function collectSprintTaskRegistry() {
+  const info = await fileInfo(sprintTaskRegistryPath);
+
+  if (!info.exists) {
+    return {
+      exists: false,
+      path: sprintTaskRegistryPath,
+      tasks: [],
+      active_task: null,
+      duplicate_keys: [],
+      source_note: "No sprint task registry file found.",
+    };
+  }
+
+  const registry = await readJson(sprintTaskRegistryPath);
+  const tasks = Array.isArray(registry.tasks) ? registry.tasks : [];
+  const lifecycleStatuses = new Set(registry.lifecycleStatuses || []);
+  const protocolLevels = new Set(registry.protocolLevels || []);
+  const counts = new Map();
+  for (const task of tasks) {
+    const key = taskIdentity(task);
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+
+  const duplicateKeys = [...counts.entries()]
+    .filter(([, count]) => count > 1)
+    .map(([key]) => key);
+
+  const normalizedTasks = tasks.map((task) => {
+    const status = normalizeLifecycleStatus(task.status);
+    const protocolLevel = normalizeProtocolLevel(task.protocolLevel || task.risk);
+    return {
+      ...task,
+      status,
+      protocolLevel,
+      lifecycle_status_valid: lifecycleStatuses.has(status),
+      protocol_level_valid: protocolLevels.has(protocolLevel),
+      idempotency_key: taskIdentity(task),
+      jira_reference: {
+        jiraIssueKey: task.jiraIssueKey || null,
+        jiraIssueUrl: task.jiraIssueUrl || null,
+        jiraSyncStatus: task.jiraSyncStatus || "Not recorded.",
+        jiraLastSyncAt: task.jiraLastSyncAt || null,
+      },
+    };
+  });
+
+  const activeTask =
+    normalizedTasks.find((task) => ["READY", "IN_PROGRESS", "REVIEW", "BLOCKED"].includes(task.status)) ||
+    normalizedTasks[0] ||
+    null;
+
+  return {
+    ...info,
+    exists: true,
+    schema_version: registry.schemaVersion || null,
+    source_of_truth: registry.sourceOfTruth || "RIC Studio",
+    jira_mode: registry.jiraMode || "manual_dry_run_unless_explicitly_approved",
+    lifecycle_statuses: registry.lifecycleStatuses || [],
+    protocol_levels: registry.protocolLevels || [],
+    idempotency_rule: registry.idempotencyRule || "same project + taskKey must not create duplicate task records",
+    tasks: normalizedTasks,
+    task_count: normalizedTasks.length,
+    active_task: activeTask,
+    duplicate_keys: duplicateKeys,
+    source_note: "Local RIC Studio sprint/task registry, not synced from Jira.",
+  };
+}
+
 async function collectState() {
   const [statusText, backlogText, opsBacklogText, sessionHandoffText] =
     await Promise.all([
@@ -370,6 +461,7 @@ async function collectState() {
   const auditorVisibility = await collectAuditorVisibility();
   const externalExecutionContext = await collectExternalExecutionContext();
   const projectRegistry = await collectProjectRegistry();
+  const sprintTaskRegistry = await collectSprintTaskRegistry();
 
   return {
     generated_at: new Date().toISOString(),
@@ -387,6 +479,7 @@ async function collectState() {
     dashboard_validation_exists: dashboardValidationExists,
     external_execution_context: externalExecutionContext,
     project_registry: projectRegistry,
+    sprint_task_registry: sprintTaskRegistry,
     auditor_visibility: auditorVisibility,
     auditor_package: {
       name: auditorVisibility.package_metadata?.name || null,
@@ -418,7 +511,10 @@ async function collectState() {
       "docs/ops/session-handoff.md",
       externalExecutionContextPath,
       projectRegistryPath,
+      sprintTaskRegistryPath,
+      "docs/ops/sprint-task-intake.daybudget-web-027a.json",
       "tools/auditor/package.json",
+      "tools/sprint/intake.mjs",
     ],
     handoff_summary: section(sessionHandoffText, "Current handoff state").split(/\r?\n/).slice(0, 6),
   };
@@ -556,6 +652,93 @@ function renderProjectRegistry(registry) {
   )}</p>`;
 }
 
+function renderScopeList(items) {
+  const values = Array.isArray(items) ? items : [];
+  if (!values.length) return `<p class="muted">None recorded.</p>`;
+  return `<ul class="compact-list">${values.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+}
+
+function renderEvidenceBlock(evidence) {
+  if (!evidence) return `<p class="muted">No evidence block recorded.</p>`;
+  return `<dl class="registry-fields">
+    ${registryField("Validation commands", (evidence.validationCommands || []).join(" | ") || "Not recorded.", "registry-field-wide")}
+    ${registryField("Smoke result", evidence.smokeResult || "Not recorded.")}
+    ${registryField("Commit hash", evidence.commitHash || "not committed")}
+    ${registryField("Push confirmation", evidence.pushConfirmation || "not pushed")}
+    ${registryField("Notes", evidence.notes || "Not recorded.", "registry-field-wide")}
+  </dl>`;
+}
+
+function renderJiraDryRun(task) {
+  if (!task?.jiraDryRun) return `<p class="muted">No Jira dry-run payload recorded.</p>`;
+  return `<div class="jira-dry-run">
+    <p><strong>${escapeHtml(task.jiraDryRun.mode || "manual_dry_run")}</strong>: ${escapeHtml(
+      task.jiraDryRun.reason || "Manual Jira mirror required.",
+    )}</p>
+    <pre>${escapeHtml(JSON.stringify(task.jiraDryRun.payload || {}, null, 2))}</pre>
+    <p class="muted">${escapeHtml(task.jiraDryRun.comment || "No Jira comment block recorded.")}</p>
+  </div>`;
+}
+
+function renderSprintTaskRegistry(registry) {
+  if (!registry?.exists) {
+    return `<p class="muted">No local sprint task registry file found.</p>`;
+  }
+  if (!registry.tasks.length) {
+    return `<p class="muted">Sprint task registry exists but no task records were found.</p>
+    <p class="muted">Source: <a href="${fileLink(registry.path)}">${escapeHtml(registry.path)}</a></p>`;
+  }
+
+  const duplicateText = registry.duplicate_keys.length
+    ? `Duplicate idempotency keys: ${registry.duplicate_keys.join(", ")}`
+    : "No duplicate project + task key records detected.";
+
+  return `<div class="sprint-task-summary">
+    <span class="metric">Source of truth: <span class="state">${escapeHtml(registry.source_of_truth)}</span></span>
+    <span class="metric">Jira mode: ${escapeHtml(registry.jira_mode)}</span>
+    <span class="metric">Idempotency: ${escapeHtml(duplicateText)}</span>
+  </div>
+  <div class="sprint-task-list">
+    ${registry.tasks
+      .map(
+        (task) => `<section class="sprint-task-entry">
+          <div class="project-entry-header">
+            <h3>${escapeHtml(task.project)} ${escapeHtml(task.sprint)} / ${escapeHtml(task.taskKey)}</h3>
+            <p>${escapeHtml(task.title)}</p>
+          </div>
+          <dl class="registry-fields">
+            ${registryField("Lifecycle status", task.status)}
+            ${registryField("Protocol level", task.protocolLevel)}
+            ${registryField("Risk", task.risk || "Not recorded.")}
+            ${registryField("Jira sync", task.jiraSyncStatus || "Not recorded.")}
+            ${registryField("Jira issue key", task.jiraIssueKey || "manual/dry-run only")}
+            ${registryField("Jira issue URL", task.jiraIssueUrl || "manual/dry-run only")}
+            ${registryField("Lifecycle valid", task.lifecycle_status_valid ? "yes" : "no")}
+            ${registryField("Protocol valid", task.protocol_level_valid ? "yes" : "no")}
+          </dl>
+          <div class="scope-grid">
+            <div>
+              <h4>Allowed Scope</h4>
+              ${renderScopeList(task.allowedScope)}
+            </div>
+            <div>
+              <h4>Blocked Scope</h4>
+              ${renderScopeList(task.blockedScope)}
+            </div>
+          </div>
+          <h4>Jira Dry-Run / Manual Mirror</h4>
+          ${renderJiraDryRun(task)}
+          <h4>Short Evidence</h4>
+          ${renderEvidenceBlock(task.evidence)}
+        </section>`,
+      )
+      .join("")}
+  </div>
+  <p class="muted">Source: <a href="${fileLink(registry.path)}">${escapeHtml(registry.path)}</a>. ${escapeHtml(
+    registry.source_note,
+  )}</p>`;
+}
+
 function renderHtml(state) {
   return `<!doctype html>
 <html lang="en">
@@ -643,6 +826,17 @@ function renderHtml(state) {
       gap: 16px;
       margin-top: 14px;
     }
+    .sprint-task-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .sprint-task-entry {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    .sprint-task-entry:first-child { border-top: 0; padding-top: 0; }
+    .sprint-task-summary { margin-bottom: 8px; }
     .project-entry {
       border-top: 1px solid var(--border);
       padding-top: 14px;
@@ -684,12 +878,36 @@ function renderHtml(state) {
       margin: 0;
       overflow-wrap: anywhere;
     }
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 14px 0;
+    }
+    h4 {
+      margin: 14px 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .compact-list { padding-left: 18px; }
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      background: #f3f3ef;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
     .command { overflow-wrap: anywhere; font-family: Consolas, "Courier New", monospace; font-size: 13px; }
     footer { color: var(--muted); font-size: 13px; padding: 0 0 28px; }
     @media (max-width: 760px) {
       header, main { width: min(100% - 20px, 1180px); }
       .card, .third { grid-column: span 12; }
       .registry-fields { grid-template-columns: 1fr; }
+      .scope-grid { grid-template-columns: 1fr; }
       table, thead, tbody, tr, th, td { display: block; }
       th { padding-bottom: 2px; }
       td { border-top: 0; padding-top: 2px; }
@@ -742,6 +960,12 @@ function renderHtml(state) {
         <h2>Project Registry</h2>
         <p class="warn">Local read-only registry only. This dashboard does not call GitHub or inspect external repositories.</p>
         ${renderProjectRegistry(state.project_registry)}
+      </article>
+
+      <article class="card wide">
+        <h2>Sprint Automation Registry</h2>
+        <p class="warn">RIC Studio source of truth. Jira is only a manual mirror/dry-run reference unless a separately approved safe sync is available.</p>
+        ${renderSprintTaskRegistry(state.sprint_task_registry)}
       </article>
 
       <article class="card wide">
@@ -926,6 +1150,11 @@ async function runSmoke(server) {
   const registryProjects = state.project_registry?.projects || [];
   const registryProjectNames = registryProjects.map((project) => project.name).join(" ");
   const ricStudioRegistryProject = registryProjects.find((project) => project.name === "RIC Studio");
+  const sprintTaskRegistry = state.sprint_task_registry || {};
+  const sprintTasks = sprintTaskRegistry.tasks || [];
+  const pilotTask = sprintTasks.find(
+    (task) => task.project === "DayBudget" && task.sprint === "DAY-9" && task.taskKey === "WEB-027A",
+  );
   const checks = [
     ["home_status_200", home.statusCode === 200],
     ["api_status_200", api.statusCode === 200],
@@ -952,12 +1181,22 @@ async function runSmoke(server) {
     ["home_mentions_project_registry", home.body.includes("Project Registry")],
     ["home_mentions_rick_travel", home.body.includes("Rick Travel")],
     ["home_project_registry_uses_readable_layout", home.body.includes('class="project-registry-list"') && home.body.includes('class="project-entry"')],
-    ["home_project_registry_mentions_080a_remote_done", /RIC-STUDIO-080A[\s\S]*Remote DONE/.test(home.body)],
+    ["home_project_registry_mentions_current_ric_studio_state", /RIC-STUDIO-082A[\s\S]*REVIEW/.test(home.body)],
     ["home_project_registry_strips_raw_markdown_backticks", !home.body.includes("`C:\\Users\\ricardodev\\Desktop\\ric-studio`") && !home.body.includes("`https://github.com/devricardo90/ric-studio.git`")],
     ["api_has_project_registry", state.project_registry?.exists === true],
     ["api_project_registry_has_required_projects", /RIC Studio/.test(registryProjectNames) && /DayBudget/.test(registryProjectNames) && /Rick Travel/.test(registryProjectNames)],
     ["api_project_registry_is_local_read_only", /local read-only/i.test(state.project_registry?.source_note || "")],
-    ["api_project_registry_records_080a_remote_done", /RIC-STUDIO-080A.*Remote DONE.*7d92f2a23eebc2e9b858731c55ca01b80fb00a49/i.test(ricStudioRegistryProject?.current_operational_state || "")],
+    ["api_project_registry_records_current_ric_studio_state", /RIC-STUDIO-082A.*REVIEW/i.test(ricStudioRegistryProject?.current_operational_state || "")],
+    ["home_mentions_sprint_automation_registry", home.body.includes("Sprint Automation Registry")],
+    ["home_mentions_daybudget_pilot_task", /DayBudget[\s\S]*DAY-9[\s\S]*WEB-027A/.test(home.body)],
+    ["api_has_sprint_task_registry", sprintTaskRegistry.exists === true],
+    ["api_sprint_task_registry_has_no_duplicates", Array.isArray(sprintTaskRegistry.duplicate_keys) && sprintTaskRegistry.duplicate_keys.length === 0],
+    ["api_sprint_task_registry_source_of_truth_is_ric_studio", sprintTaskRegistry.source_of_truth === "RIC Studio"],
+    ["api_pilot_task_has_valid_lifecycle_status", pilotTask?.status === "READY" && pilotTask.lifecycle_status_valid === true],
+    ["api_pilot_task_has_valid_protocol_level", pilotTask?.protocolLevel === "LEAN_LEVEL_2" && pilotTask.protocol_level_valid === true],
+    ["api_pilot_task_has_jira_reference_fields", pilotTask && ["jiraIssueKey", "jiraIssueUrl", "jiraSyncStatus", "jiraLastSyncAt"].every((field) => hasOwn(pilotTask, field))],
+    ["api_pilot_task_uses_manual_dry_run_jira_mode", /DRY_RUN|MANUAL/i.test(pilotTask?.jiraSyncStatus || "") && pilotTask?.jiraDryRun?.mode === "manual_dry_run"],
+    ["api_pilot_task_has_short_evidence_model", pilotTask?.evidence && ["validationCommands", "smokeResult", "commitHash", "pushConfirmation", "notes"].every((field) => hasOwn(pilotTask.evidence, field))],
   ];
   const failed = checks.filter(([, passed]) => !passed);
   const result = {
@@ -978,6 +1217,7 @@ async function runSmoke(server) {
     auditor_reference_count: state.auditor_visibility.references.length,
     external_execution_context: state.external_execution_context,
     project_registry: state.project_registry,
+    sprint_task_registry: state.sprint_task_registry,
     dashboard_mode: state.mode,
   };
   console.log(JSON.stringify(result, null, 2));

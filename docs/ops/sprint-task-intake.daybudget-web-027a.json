@@ -1,0 +1,61 @@
+{
+  "project": "DayBudget",
+  "sprint": "DAY-9",
+  "taskKey": "WEB-027A",
+  "title": "Add filters to manual transfers list",
+  "risk": "LEAN_LEVEL_2",
+  "protocolLevel": "LEAN_LEVEL_2",
+  "status": "READY",
+  "allowedScope": [
+    "transfers UI",
+    "transfer list fetch/query",
+    "validation evidence"
+  ],
+  "blockedScope": [
+    "database schema",
+    "auth",
+    "docker",
+    "package changes",
+    "expense transaction logic"
+  ],
+  "jiraIssueKey": null,
+  "jiraIssueUrl": null,
+  "jiraSyncStatus": "MANUAL_DRY_RUN",
+  "jiraLastSyncAt": null,
+  "jiraDryRun": {
+    "mode": "manual_dry_run",
+    "reason": "No safe Jira issue key or approved create/transition contract is present for this pilot task.",
+    "payload": {
+      "summary": "WEB-027A - Add filters to manual transfers list",
+      "project": "DayBudget",
+      "sprint": "DAY-9",
+      "status": "READY",
+      "protocolLevel": "LEAN_LEVEL_2",
+      "allowedScope": [
+        "transfers UI",
+        "transfer list fetch/query",
+        "validation evidence"
+      ],
+      "blockedScope": [
+        "database schema",
+        "auth",
+        "docker",
+        "package changes",
+        "expense transaction logic"
+      ]
+    },
+    "comment": "RIC Studio source-of-truth task registered for DayBudget DAY-9 / WEB-027A. Jira remains a manual mirror until an approved issue key and safe synchronization contract are available."
+  },
+  "evidence": {
+    "validationCommands": [
+      "node tools/sprint/intake.mjs --config docs/ops/sprint-task-intake.daybudget-web-027a.json",
+      "node tools/sprint/intake.mjs --config docs/ops/sprint-task-intake.daybudget-web-027a.json",
+      "$env:OPERATOR_UI_PORT='4311'; node tools/operator-ui/server.mjs smoke",
+      "git diff --check"
+    ],
+    "smokeResult": "PASS",
+    "commitHash": null,
+    "pushConfirmation": "not pushed",
+    "notes": "RIC-STUDIO-082A implementation stops at REVIEW pending owner evidence review."
+  }
+}

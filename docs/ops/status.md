@@ -2,11 +2,15 @@
 
 ## Current state
 
-HANDOFF / LOCAL VISIBILITY
+REVIEW
 
 ## Task
 
-No active READY task recorded.
+RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP.
+
+Status: REVIEW after implementation and validation; no commit or push has been performed.
+
+RIC Studio remains the source of truth. Jira is represented as manual dry-run/reference data for the pilot DayBudget task because no safe Jira issue key or approved create/transition synchronization contract is available for this task.
 
 RIC-STUDIO-081A implementation is Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
 RIC-STUDIO-080A implementation is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
@@ -15,26 +19,23 @@ RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused
 
 ## Current task execution
 
-No implementation task is active. RIC-STUDIO-081A is Remote DONE after implementation, validation, commit, and push.
+RIC-STUDIO-082A implemented a controlled local sprint/task registry and dashboard visibility for the DayBudget DAY-9 / WEB-027A pilot task.
 
 Objective:
 
-- Improve the Operator Dashboard Project Registry presentation so each project is readable at a glance, and reconcile RIC Studio registry/operational state to show RIC-STUDIO-080A as Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+- Register a sprint/task intention in RIC Studio, expose it in the Operator Dashboard, preserve strict lifecycle/protocol fields, prevent duplicate task records by project + task key, and include Jira reference/dry-run fields plus short validation evidence.
 
 Implementation facts:
 
-- Owner approved opening RIC-STUDIO-081A as READY only, then approved implementation.
-- RIC-STUDIO-081A is Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
-- RIC-STUDIO-080A is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
-- Replaced the compressed Project Registry table with readable project sections.
-- Rendered registry paths and URLs without raw Markdown backticks.
-- Updated `docs/ops/project-registry.md` so RIC Studio shows RIC-STUDIO-080A Remote DONE.
-- Preserved `/api/state` `project_registry` exposure as local read-only data.
-- Updated `tools/operator-ui/README.md` to document readable registry rendering and boundaries.
-- Added validation evidence at `docs/validation/operator-dashboard-project-registry-081a.md`.
-- Smoke passed with `node tools/operator-ui/server.mjs smoke` on alternate local port 4311.
-- The local dashboard remains running at `http://localhost:4310`.
-- Owner visual review confirmed the Project Registry is readable, renders project sections, shows RIC Studio, DayBudget, and Rick Travel, and renders paths/repository values without raw Markdown backticks.
+- Added `docs/ops/sprint-task-registry.json` as the local RIC Studio source-of-truth registry.
+- Added the DayBudget DAY-9 / WEB-027A pilot task with status `READY`, protocol level `LEAN_LEVEL_2`, allowed scope, blocked scope, Jira reference fields, manual dry-run Jira payload/comment, and short evidence model.
+- Added `docs/ops/sprint-task-intake.daybudget-web-027a.json` as the local intake configuration.
+- Added `tools/sprint/intake.mjs`, a dependency-free idempotent upsert helper that reuses the existing record when project + task key already exists.
+- Updated `tools/operator-ui/server.mjs` so `/api/state` and the dashboard show the Sprint Automation Registry.
+- Updated `tools/operator-ui/README.md` to document the registry and intake boundary.
+- No DayBudget repository files were edited.
+- No Jira API call, Jira CLI call, or real Jira write was made.
+- No database migration, authentication, Docker, package, or lockfile change was made.
 - RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
 - No GitHub API call was made.
 - No network call was made.
@@ -48,8 +49,11 @@ Allowed implementation files:
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
+- `tools/sprint/intake.mjs`
+- `docs/ops/sprint-task-registry.json`
+- `docs/ops/sprint-task-intake.daybudget-web-027a.json`
 - `docs/ops/project-registry.md`
-- `docs/validation/operator-dashboard-project-registry-081a.md`
+- `docs/validation/sprint-automation-082a.md`
 - `STATUS.md`
 - `backlog.md`
 - `docs/ops/status.md`
@@ -71,24 +75,21 @@ Forbidden during this implementation:
 
 Validation criteria:
 
-- `node tools/operator-ui/server.mjs smoke` passes.
-- Dashboard shows the Project Registry in a readable, non-compressed layout.
-- Paths and URLs render cleanly without raw Markdown backticks.
-- RIC Studio registry/state text shows RIC-STUDIO-080A Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
-- `/api/state` continues to expose the registry as read-only local data.
+- `node tools/sprint/intake.mjs --config docs/ops/sprint-task-intake.daybudget-web-027a.json` reuses the existing WEB-027A record without duplication.
+- `node tools/operator-ui/server.mjs smoke` passes and confirms the DayBudget pilot task appears in the Sprint Automation Registry.
+- `/api/state` exposes valid lifecycle/protocol data, Jira reference fields, and the short evidence model.
 - No package, lockfile, Jira, GitHub API, Docker, DayBudget repository, Rick Travel repository, or stash changes occur.
 - `git diff --check` passes.
 
 Rollback plan:
 
-- Revert only the RIC-STUDIO-081A dashboard presentation, Project Registry text, validation evidence, and operational doc updates.
+- Revert only the RIC-STUDIO-082A sprint registry, intake helper, dashboard sprint registry rendering, validation evidence, and operational doc updates.
 - Preserve the RIC-STUDIO-080A Project Registry implementation and RIC-STUDIO-079A dashboard smoke/context reconciliation.
 - Do not stop or restart the running dashboard server unless explicitly requested.
 
 Next operational gate:
 
-- No new feature task is open.
-- Continue owner visual inspection of the RIC Studio dashboard, then move to the DayBudget local stack only by explicit owner direction.
+- Review RIC-STUDIO-082A evidence, then owner decides whether to authorize commit. Push remains blocked until separate owner approval after commit evidence.
 
 ## Current state reconciliation
 

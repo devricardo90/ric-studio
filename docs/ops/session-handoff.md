@@ -2,13 +2,23 @@
 
 ## Current handoff state
 
-Current owner direction: pause Jira implementation and organize handoff/local visibility.
+Current owner direction: implement RIC-STUDIO-082A controlled Jira + RIC Studio sprint automation MVP and stop at REVIEW.
 
-No READY task is active.
+RIC-STUDIO-082A is in REVIEW after local implementation and validation; no commit or push has been performed.
 
 Latest completed task: RIC-STUDIO-081A - improve project registry readability and completed state accuracy.
 
-Objective: improve the Operator Dashboard Project Registry presentation so each project is readable at a glance, and reconcile RIC Studio registry/operational state to show RIC-STUDIO-080A as Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
+Current objective: register a DayBudget sprint/task intention in RIC Studio, expose it in the Operator Dashboard, keep RIC Studio as source of truth, and keep Jira in manual dry-run/reference mode unless a safe sync path is explicitly approved.
+
+RIC-STUDIO-082A result:
+
+- Added local source-of-truth registry `docs/ops/sprint-task-registry.json`.
+- Added DayBudget intake config `docs/ops/sprint-task-intake.daybudget-web-027a.json`.
+- Added idempotent intake helper `tools/sprint/intake.mjs`.
+- Registered DayBudget DAY-9 / WEB-027A with lifecycle status `READY`, protocol level `LEAN_LEVEL_2`, allowed scope, blocked scope, Jira reference fields, manual dry-run Jira payload/comment, and short evidence fields.
+- Updated the Operator Dashboard to show the Sprint Automation Registry and expose it through `/api/state`.
+- Re-running the intake for project `DayBudget` and task key `WEB-027A` reuses the existing record and does not create a duplicate.
+- No DayBudget files, database migration, auth, Docker, package, lockfile, production deploy, GitHub API, real Jira write, Jira destructive operation, stash action, commit, or push occurred.
 
 RIC-STUDIO-081A is Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
 
