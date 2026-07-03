@@ -84,6 +84,7 @@ function findSecretKeys(value, pathParts = []) {
 function validateProject(project, index, realSyncBlockers, contractErrors) {
   const prefix = `approvedProjects[${index}]`;
   addIfMissing(contractErrors, hasValue(project.localProject), `${prefix}.localProject is required.`);
+  const allowedOperations = Array.isArray(project.allowedRealOperations) ? project.allowedRealOperations : [];
 
   if (!hasValue(project.jiraProjectKey)) {
     realSyncBlockers.push(`${prefix}.jiraProjectKey is missing.`);
@@ -103,6 +104,12 @@ function validateProject(project, index, realSyncBlockers, contractErrors) {
       realSyncBlockers.push(`${prefix}.allowedIssueTypes[${issueTypeIndex}] is a placeholder.`);
     }
   });
+
+  if (project.realSyncAllowed === true) {
+    addIfMissing(contractErrors, allowedOperations.length > 0, `${prefix}.allowedRealOperations is required when realSyncAllowed is true.`);
+    addIfMissing(contractErrors, allowedOperations.every((operation) => operation === "add_comment"), `${prefix}.allowedRealOperations may only include add_comment.`);
+    addIfMissing(contractErrors, project.realSyncScope === "guarded_comment_smoke_only", `${prefix}.realSyncScope must be guarded_comment_smoke_only.`);
+  }
 }
 
 function validateMapping(config, field, label, realSyncBlockers) {
@@ -197,7 +204,15 @@ function main() {
     const configPath = args.config;
     const config = JSON.parse(readFileSync(resolveRepoPath(configPath), "utf8"));
     const { contractErrors, realSyncBlockers, secretKeyFindings } = validateConfig(config);
-    const contractValid = contractErrors.length === 0;
+  const contractValid = contractErrors.length === 0;
+    const guardedCommentProjects = (config.approvedProjects || [])
+      .filter((project) => project.realSyncAllowed === true && project.allowedRealOperations?.includes("add_comment"))
+      .map((project) => ({
+        localProject: project.localProject,
+        jiraProjectKey: project.jiraProjectKey,
+        allowedRealOperations: project.allowedRealOperations,
+        realSyncScope: project.realSyncScope
+      }));
 
     console.log(JSON.stringify({
       tool: "ric-studio-jira-config-validator",
@@ -207,6 +222,7 @@ function main() {
       contract_valid: contractValid,
       real_sync_allowed: false,
       real_sync_blocked: true,
+      guarded_comment_projects: guardedCommentProjects,
       real_sync_blockers: [...new Set(realSyncBlockers)].sort(),
       contract_errors: contractErrors,
       secret_like_keys_found: secretKeyFindings,

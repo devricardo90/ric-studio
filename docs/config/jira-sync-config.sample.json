@@ -15,6 +15,19 @@
         "<JIRA_ISSUE_TYPE_REQUIRED>"
       ],
       "realSyncAllowed": false
+    },
+    {
+      "localProject": "DayBudget",
+      "jiraProjectKey": "DAY",
+      "allowedIssueTypes": [
+        "Task"
+      ],
+      "allowedRealOperations": [
+        "add_comment"
+      ],
+      "realSyncAllowed": true,
+      "realSyncScope": "guarded_comment_smoke_only",
+      "notes": "Non-secret allowlist entry for RIC-STUDIO-083E guarded add_comment smoke. Issue creation, transitions, description edits, metadata edits, and bulk updates remain blocked."
     }
   ],
   "localStatuses": [
