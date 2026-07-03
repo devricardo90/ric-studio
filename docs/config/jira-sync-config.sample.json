@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "sourceOfTruth": "RIC Studio",
+  "currentMode": "MANUAL_DRY_RUN",
+  "allowedOperationModes": [
+    "MANUAL_DRY_RUN",
+    "GUARDED_COMMENT_ONLY",
+    "GUARDED_REAL_SYNC_FUTURE"
+  ],
+  "approvedProjects": [
+    {
+      "localProject": "<LOCAL_PROJECT_REQUIRED>",
+      "jiraProjectKey": "<JIRA_PROJECT_KEY_REQUIRED>",
+      "allowedIssueTypes": [
+        "<JIRA_ISSUE_TYPE_REQUIRED>"
+      ],
+      "realSyncAllowed": false
+    }
+  ],
+  "localStatuses": [
+    "DRAFT",
+    "READY",
+    "IN_PROGRESS",
+    "REVIEW",
+    "DONE",
+    "BLOCKED",
+    "FAILED"
+  ],
+  "jiraStatusMapping": {
+    "DRAFT": "<JIRA_STATUS_DRAFT_REQUIRED>",
+    "READY": "<JIRA_STATUS_READY_REQUIRED>",
+    "IN_PROGRESS": "<JIRA_STATUS_IN_PROGRESS_REQUIRED>",
+    "REVIEW": "<JIRA_STATUS_REVIEW_REQUIRED>",
+    "DONE": "<JIRA_STATUS_DONE_REQUIRED>",
+    "BLOCKED": "<JIRA_STATUS_BLOCKED_REQUIRED>",
+    "FAILED": "<JIRA_STATUS_FAILED_REQUIRED>"
+  },
+  "jiraTransitionMapping": {
+    "DRAFT": "<JIRA_TRANSITION_DRAFT_REQUIRED>",
+    "READY": "<JIRA_TRANSITION_READY_REQUIRED>",
+    "IN_PROGRESS": "<JIRA_TRANSITION_IN_PROGRESS_REQUIRED>",
+    "REVIEW": "<JIRA_TRANSITION_REVIEW_REQUIRED>",
+    "DONE": "<JIRA_TRANSITION_DONE_REQUIRED>",
+    "BLOCKED": "<JIRA_TRANSITION_BLOCKED_REQUIRED>",
+    "FAILED": "<JIRA_TRANSITION_FAILED_REQUIRED>"
+  },
+  "currentStatusVerification": {
+    "requiredBeforeRealTransition": true,
+    "blockWhenCurrentStatusUnknown": true,
+    "blockWhenCurrentStatusMismatched": true
+  },
+  "createIssueDuplicateDetection": {
+    "requiredBeforeRealCreate": true,
+    "matchFields": [
+      "jiraProjectKey",
+      "localProject",
+      "sprint",
+      "taskKey",
+      "title",
+      "idempotencyMarker"
+    ],
+    "blockWhenDuplicateRiskUnknown": true
+  },
+  "linkExistingIssueValidation": {
+    "requiredBeforeRealLink": true,
+    "requiresExplicitIssueKey": true,
+    "requiresApprovedProject": true,
+    "requiresApprovedIssueType": true,
+    "requiresCompatibleSummaryAndScope": true,
+    "requiresNoExistingDifferentLocalTaskLink": true
+  },
+  "evidenceComment": {
+    "idempotencyMarkerFormat": "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}",
+    "requiresDuplicateCommentCheck": true,
+    "blockWhenExistingMarkerUnknown": true
+  },
+  "ownerApproval": {
+    "requiredBeforeAnyRealWrite": true,
+    "mustBeExplicitCurrentAndOperationScoped": true,
+    "doneRequiresFinalOwnerValidation": true,
+    "ownerValidationPresent": false
+  },
+  "strictBlockedActions": [
+    "delete_issue",
+    "overwrite_description_without_owner_approval",
+    "transition_unknown_status",
+    "create_duplicate_issue",
+    "modify_unrelated_jira_projects",
+    "bulk_updates",
+    "jira_workflow_or_project_config_edits",
+    "credential_or_token_creation_or_storage",
+    "hidden_retries_that_may_duplicate_writes",
+    "automatic_done_without_final_owner_validation"
+  ],
+  "realSyncReadiness": {
+    "allowed": false,
+    "reason": "Sample contract contains placeholders and is MANUAL_DRY_RUN only."
+  }
+}

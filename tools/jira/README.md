@@ -62,6 +62,14 @@ Optional Jira config flags are intentionally explicit:
 
 If these values are missing, the output remains a blocked/manual payload. The tool must not guess Jira project keys, issue types, status names, or transition ids.
 
+Jira sync config contract validation:
+
+```powershell
+node tools/jira/validate-config.mjs --config docs/config/jira-sync-config.sample.json
+```
+
+`validate-config.mjs` is dependency-free and network-free. It validates the non-secret config contract from `docs/architecture/jira-sync-config-contract.md`, reports missing or placeholder Jira project keys, issue types, status mappings, and transition mappings, and keeps real sync blocked while returning a valid `MANUAL_DRY_RUN` contract result.
+
 ## Safety
 
 The tool always reports:
