@@ -112,13 +112,21 @@ Dry-run:
 node tools/jira/guarded-write.mjs --action add_comment --issue RIC-1 --comment "Smoke test" --dry-run
 ```
 
+Guarded evidence comment dry-run for an existing Jira issue:
+
+```powershell
+node tools/jira/guarded-write.mjs --action add_evidence_comment --issue RIC-1 --project "RIC Studio" --sprint "RIC-STUDIO" --task-key RIC-STUDIO-083D --local-status REVIEW --protocol-level LEAN_LEVEL_2 --validation-summary "Validation pending" --dry-run
+```
+
+The evidence comment flow defaults to `MANUAL_DRY_RUN` / `NO_WRITE`. It validates Jira issue key shape, checks the issue project against the non-secret config allowlist, builds an evidence comment with an idempotency marker, and reports duplicate-comment risk because this MVP does not read existing Jira comments.
+
 Guarded real write:
 
 ```powershell
 node tools/jira/guarded-write.mjs --action add_comment --issue RIC-1 --comment "RIC-STUDIO-077A guarded write smoke." --real-write
 ```
 
-Real write mode is limited to `add_comment` on the explicitly provided issue key.
+Real write mode is limited to `add_comment` on the explicitly provided issue key. For `add_evidence_comment`, real write remains blocked unless config mode is `GUARDED_COMMENT_ONLY`, the issue project is allowlisted, owner approval is explicit, duplicate-comment risk is explicitly accepted, required environment variables are present, and the generated comment passes safety checks.
 
 Required environment variables for real write mode:
 

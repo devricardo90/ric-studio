@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BLOCKED_ACTIONS = [
   "create_issue",
@@ -11,6 +15,10 @@ const BLOCKED_ACTIONS = [
   "attach_file",
   "bulk_operation"
 ];
+const ISSUE_KEY_PATTERN = /^[A-Z][A-Z0-9]+-\d+$/;
+const EVIDENCE_MARKER_FORMAT = "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}";
+const here = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(here, "..", "..");
 
 function parseArgs(argv) {
   const args = {};
@@ -25,7 +33,7 @@ function parseArgs(argv) {
     const key = token.slice(2);
     const next = argv[index + 1];
 
-    if (key === "dry-run" || key === "real-write") {
+    if (["dry-run", "real-write", "owner-approved", "duplicate-risk-accepted"].includes(key)) {
       args[key] = true;
       continue;
     }
@@ -49,11 +57,30 @@ function normalizeStatus(value) {
   return String(value || "").trim().toUpperCase().replace(/[\s-]+/g, "_");
 }
 
+function normalizeString(value) {
+  return String(value || "").trim();
+}
+
+function resolveRepoPath(value) {
+  const requestedPath = normalizeString(value);
+  return path.isAbsolute(requestedPath) ? requestedPath : path.join(repoRoot, requestedPath);
+}
+
+function readJson(relativePath) {
+  return JSON.parse(readFileSync(resolveRepoPath(relativePath), "utf8"));
+}
+
+function projectKeyFromIssue(issue) {
+  return normalizeString(issue).split("-")[0] || "";
+}
+
 function baseOutput({ action, issue, operation, realWriteRequested = false }) {
   return {
     tool: "ric-studio-jira-guarded-write",
-    task_id: "RIC-STUDIO-077A",
-    contract: "docs/architecture/guarded-jira-write-integration-contract.md",
+    task_id: action === "add_evidence_comment" ? "RIC-STUDIO-083D" : "RIC-STUDIO-077A",
+    contract: action === "add_evidence_comment"
+      ? "docs/architecture/jira-sync-config-contract.md"
+      : "docs/architecture/guarded-jira-write-integration-contract.md",
     action,
     operation,
     issue_key: issue || null,
@@ -65,6 +92,9 @@ function baseOutput({ action, issue, operation, realWriteRequested = false }) {
     credentials_required: realWriteRequested,
     token_created: false,
     token_stored: false,
+    environment_values_read: false,
+    secrets_printed: false,
+    no_write_confirmation: "NO_WRITE",
     blocked_actions: BLOCKED_ACTIONS
   };
 }
@@ -104,6 +134,255 @@ function realWritePlan({ action, issue, comment }) {
       issue_key: issue,
       comment
     }
+  };
+}
+
+function findRegistryTask(registry, args) {
+  const taskKey = normalizeString(args["task-key"]);
+  const localProject = normalizeString(args.project);
+  if (!taskKey || !Array.isArray(registry.tasks)) return null;
+
+  const matches = registry.tasks.filter((task) => {
+    const taskKeyMatches = normalizeString(task.taskKey).toLowerCase() === taskKey.toLowerCase();
+    const projectMatches = !localProject || normalizeString(task.project).toLowerCase() === localProject.toLowerCase();
+    return taskKeyMatches && projectMatches;
+  });
+
+  return matches.length === 1 ? matches[0] : null;
+}
+
+function evidenceContext(args) {
+  const task = args.registry ? findRegistryTask(readJson(args.registry), args) : null;
+  const evidence = task?.evidence || {};
+
+  return {
+    project: normalizeString(args.project || task?.project),
+    sprint: normalizeString(args.sprint || task?.sprint),
+    taskKey: normalizeString(args["task-key"] || task?.taskKey),
+    title: normalizeString(args.title || task?.title),
+    localStatus: normalizeString(args["local-status"] || task?.status),
+    protocolLevel: normalizeString(args["protocol-level"] || task?.protocolLevel || task?.risk),
+    validationSummary: normalizeString(args["validation-summary"] || evidence.smokeResult || "not recorded"),
+    commitHash: normalizeString(args["commit-hash"] || evidence.commitHash || "not committed"),
+    pushConfirmation: normalizeString(args["push-confirmation"] || evidence.pushConfirmation || "not pushed")
+  };
+}
+
+function markerValue(format, context, operation) {
+  return format
+    .replace("{localProject}", context.project || "<LOCAL_PROJECT_REQUIRED>")
+    .replace("{taskKey}", context.taskKey || "<TASK_KEY_REQUIRED>")
+    .replace("{operation}", operation);
+}
+
+function buildEvidenceComment({ args, context, mode, idempotencyMarker }) {
+  const generatedAt = normalizeString(args["generated-at"]) || new Date().toISOString();
+  return [
+    "RIC Studio Jira evidence comment.",
+    `Mode: ${mode}`,
+    `Task: ${context.taskKey || "<TASK_KEY_REQUIRED>"}${context.title ? ` - ${context.title}` : ""}`,
+    `Project: ${context.project || "<LOCAL_PROJECT_REQUIRED>"}`,
+    `Sprint: ${context.sprint || "<SPRINT_REQUIRED>"}`,
+    `Local status: ${context.localStatus || "<LOCAL_STATUS_REQUIRED>"}`,
+    `Protocol level: ${context.protocolLevel || "<PROTOCOL_LEVEL_REQUIRED>"}`,
+    `Validation summary: ${context.validationSummary || "not recorded"}`,
+    `Commit: ${context.commitHash || "not committed"}`,
+    `Push: ${context.pushConfirmation || "not pushed"}`,
+    `Idempotency marker: ${idempotencyMarker}`,
+    `Generated at: ${generatedAt}`,
+    "NO_WRITE unless guarded real-write gates are explicitly satisfied."
+  ].join("\n");
+}
+
+function commentHasUnsafeSecretShape(comment) {
+  return /(JIRA_API_TOKEN|Authorization:|Basic\s+[A-Za-z0-9+/=]+|password\s*=|token\s*=|secret\s*=)/i.test(comment);
+}
+
+function validateIssueKey(issue) {
+  if (!issue) {
+    return "Evidence comment requires explicit --issue.";
+  }
+
+  if (!ISSUE_KEY_PATTERN.test(issue)) {
+    return "Issue key must match Jira key format PROJECT-123.";
+  }
+
+  return null;
+}
+
+function configFindings({ config, issue, context }) {
+  const findings = [];
+  const issueProjectKey = projectKeyFromIssue(issue);
+  const approvedProjects = Array.isArray(config.approvedProjects) ? config.approvedProjects : [];
+  const matchingProject = approvedProjects.find((project) => {
+    const jiraProjectMatches = normalizeString(project.jiraProjectKey) === issueProjectKey;
+    const localProjectMatches = !context.project || normalizeString(project.localProject).toLowerCase() === context.project.toLowerCase();
+    return jiraProjectMatches && localProjectMatches;
+  });
+
+  if (!matchingProject) {
+    findings.push(`Issue project ${issueProjectKey || "<missing>"} is not in the approved Jira project allowlist for this local task.`);
+  }
+
+  if (matchingProject && matchingProject.realSyncAllowed !== true) {
+    findings.push(`Approved project ${issueProjectKey} does not allow real sync.`);
+  }
+
+  if (config.currentMode !== "MANUAL_DRY_RUN" && config.currentMode !== "GUARDED_COMMENT_ONLY") {
+    findings.push("Config currentMode must be MANUAL_DRY_RUN or GUARDED_COMMENT_ONLY for guarded comments.");
+  }
+
+  if (config.ownerApproval?.requiredBeforeAnyRealWrite !== true) {
+    findings.push("Config must require owner approval before any real write.");
+  }
+
+  if (config.evidenceComment?.idempotencyMarkerFormat !== EVIDENCE_MARKER_FORMAT) {
+    findings.push("Config evidence comment idempotency marker format is missing or unsupported.");
+  }
+
+  return {
+    matchingProject,
+    findings
+  };
+}
+
+function missingEvidenceFields(context) {
+  return [
+    ["project", context.project],
+    ["sprint", context.sprint],
+    ["task_key", context.taskKey],
+    ["local_status", context.localStatus],
+    ["protocol_level", context.protocolLevel],
+    ["validation_summary", context.validationSummary]
+  ].filter(([, value]) => !value).map(([field]) => field);
+}
+
+function evidenceCommentPlan(args) {
+  const action = normalizeAction(args.action);
+  const issue = normalizeString(args.issue);
+  const realWriteRequested = args["real-write"] === true;
+  const mode = realWriteRequested ? "GUARDED_COMMENT_ONLY" : "MANUAL_DRY_RUN";
+  const context = evidenceContext(args);
+  const configPath = normalizeString(args.config || "docs/config/jira-sync-config.sample.json");
+  const config = readJson(configPath);
+  const issueError = validateIssueKey(issue);
+  const { findings: configBlockers } = issueError ? { findings: [] } : configFindings({ config, issue, context });
+  if (realWriteRequested && config.currentMode !== "GUARDED_COMMENT_ONLY") {
+    configBlockers.push("Real evidence comment write requires config currentMode GUARDED_COMMENT_ONLY.");
+  }
+  const markerFormat = config.evidenceComment?.idempotencyMarkerFormat || EVIDENCE_MARKER_FORMAT;
+  const idempotencyMarker = markerValue(markerFormat, context, "add_evidence_comment");
+  const comment = buildEvidenceComment({ args, context, mode, idempotencyMarker });
+  const missingFields = missingEvidenceFields(context);
+  const duplicateDetectionExecuted = false;
+  const duplicateRiskAccepted = args["duplicate-risk-accepted"] === true;
+  const ownerApproved = args["owner-approved"] === true || normalizeString(args["owner-approval"]) !== "";
+  const missingEnv = realWriteRequested ? missingEnvironment(process.env) : [];
+  const unsafeComment = commentHasUnsafeSecretShape(comment);
+
+  const base = {
+    ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested }),
+    mode,
+    config: configPath,
+    result: "DRY_RUN_COMMENT_READY",
+    local_task: {
+      project: context.project || null,
+      sprint: context.sprint || null,
+      task_key: context.taskKey || null,
+      title: context.title || null,
+      local_status: context.localStatus || null,
+      protocol_level: context.protocolLevel || null
+    },
+    validation_evidence: {
+      summary: context.validationSummary || null,
+      commit_hash: context.commitHash || null,
+      push_confirmation: context.pushConfirmation || null
+    },
+    idempotency_marker: idempotencyMarker,
+    duplicate_detection: {
+      executed: duplicateDetectionExecuted,
+      reason: "No read-comments Jira API access is performed by this guarded MVP.",
+      real_write_requires_duplicate_risk_acceptance: true,
+      duplicate_risk_accepted: duplicateRiskAccepted
+    },
+    owner_approval: {
+      required: true,
+      present: ownerApproved
+    },
+    comment_safety: {
+      passed: !unsafeComment,
+      secrets_or_env_values_printed: false
+    },
+    planned_jira_operation: {
+      type: "add_comment",
+      issue_key: issue || null,
+      comment
+    },
+    allowed_real_operation: "add_comment",
+    no_write_confirmation: realWriteRequested ? "NO_WRITE until all guarded gates pass" : "NO_WRITE"
+  };
+
+  if (issueError) {
+    return {
+      ...base,
+      result: "BLOCKED_INVALID_ISSUE",
+      blocked_reason: issueError
+    };
+  }
+
+  if (configBlockers.length > 0 || missingFields.length > 0) {
+    return {
+      ...base,
+      result: "BLOCKED_MISSING_CONFIG",
+      blocked_reason: "Required Jira config or local evidence fields are missing.",
+      config_blockers: configBlockers,
+      missing_evidence_fields: missingFields
+    };
+  }
+
+  if (unsafeComment) {
+    return {
+      ...base,
+      result: "BLOCKED_INVALID_ISSUE",
+      blocked_reason: "Comment body failed safety checks."
+    };
+  }
+
+  if (!realWriteRequested) {
+    return base;
+  }
+
+  if (!ownerApproved) {
+    return {
+      ...base,
+      result: "BLOCKED_MISSING_OWNER_APPROVAL",
+      blocked_reason: "Real evidence comment write requires explicit owner approval."
+    };
+  }
+
+  if (!duplicateRiskAccepted) {
+    return {
+      ...base,
+      result: "BLOCKED_DUPLICATE_RISK",
+      blocked_reason: "Duplicate comment detection was not executed; real write requires explicit duplicate risk acceptance."
+    };
+  }
+
+  if (missingEnv.length > 0) {
+    return {
+      ...base,
+      result: "BLOCKED_MISSING_CONFIG",
+      blocked_reason: "Missing required environment variables.",
+      credentials_required: true,
+      missing_environment_variables: missingEnv
+    };
+  }
+
+  return {
+    ...base,
+    result: "GUARDED_COMMENT_WRITE_READY",
+    credentials_required: true,
+    no_write_confirmation: "REAL_WRITE_READY_NOT_EXECUTED_BY_PLAN"
   };
 }
 
@@ -249,6 +528,72 @@ async function main() {
   const issue = args.issue ? String(args.issue).trim() : "";
   const comment = args.comment ? String(args.comment).trim() : "";
   const realWriteRequested = args["real-write"] === true;
+
+  if (action === "add_evidence_comment" || action === "evidence_comment") {
+    try {
+      const plan = evidenceCommentPlan(args);
+      if (plan.result !== "GUARDED_COMMENT_WRITE_READY") {
+        console.log(JSON.stringify(plan, null, 2));
+        process.exitCode = plan.result === "DRY_RUN_COMMENT_READY" ? 0 : 2;
+        return;
+      }
+
+      console.log(JSON.stringify(plan, null, 2));
+      try {
+        const result = await writeComment({ issue, comment: plan.planned_jira_operation.comment, env: process.env });
+        console.log(JSON.stringify({
+          ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested: true }),
+          mode: "GUARDED_COMMENT_ONLY",
+          result: result.ok ? "GUARDED_COMMENT_WRITE_DONE" : "BLOCKED_INVALID_ISSUE",
+          jira_write_performed: result.ok,
+          jira_api_called: true,
+          network_call_performed: true,
+          credentials_required: true,
+          http_status: result.http_status,
+          comment_created: result.ok,
+          comment_id: result.comment_id,
+          comment_self: result.self,
+          token_created: false,
+          token_stored: false,
+          secrets_printed: false
+        }, null, 2));
+        process.exitCode = result.ok ? 0 : 2;
+      } catch (error) {
+        console.log(JSON.stringify({
+          ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested: true }),
+          mode: "GUARDED_COMMENT_ONLY",
+          result: "BLOCKED_INVALID_ISSUE",
+          blocked_reason: error.message,
+          jira_write_performed: false,
+          jira_api_called: true,
+          network_call_performed: true,
+          credentials_required: true,
+          http_status: null,
+          comment_created: false
+        }, null, 2));
+        process.exitCode = 2;
+      }
+    } catch (error) {
+      console.log(JSON.stringify({
+        ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested }),
+        mode: realWriteRequested ? "GUARDED_COMMENT_ONLY" : "MANUAL_DRY_RUN",
+        result: "BLOCKED_MISSING_CONFIG",
+        blocked_reason: error.message,
+        jira_write_performed: false,
+        jira_api_called: false,
+        jira_cli_called: false,
+        network_call_performed: false,
+        credentials_required: realWriteRequested,
+        token_created: false,
+        token_stored: false,
+        secrets_printed: false,
+        no_write_confirmation: "NO_WRITE"
+      }, null, 2));
+      process.exitCode = 2;
+    }
+    return;
+  }
+
   const validationFailure = validateRequest(args);
 
   if (validationFailure) {
