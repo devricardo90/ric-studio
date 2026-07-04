@@ -74,11 +74,19 @@ function projectKeyFromIssue(issue) {
   return normalizeString(issue).split("-")[0] || "";
 }
 
-function baseOutput({ action, issue, operation, realWriteRequested = false }) {
+function isEvidenceCommentAction(action) {
+  return action === "add_evidence_comment" || action === "evidence_comment";
+}
+
+function defaultTaskId(action) {
+  return isEvidenceCommentAction(action) ? "RIC-STUDIO-083D" : "RIC-STUDIO-077A";
+}
+
+function baseOutput({ action, issue, operation, realWriteRequested = false, taskId = null }) {
   return {
     tool: "ric-studio-jira-guarded-write",
-    task_id: action === "add_evidence_comment" ? "RIC-STUDIO-083D" : "RIC-STUDIO-077A",
-    contract: action === "add_evidence_comment"
+    task_id: taskId || defaultTaskId(action),
+    contract: isEvidenceCommentAction(action)
       ? "docs/architecture/jira-sync-config-contract.md"
       : "docs/architecture/guarded-jira-write-integration-contract.md",
     action,
@@ -297,7 +305,7 @@ function evidenceCommentPlan(args) {
   const unsafeComment = commentHasUnsafeSecretShape(comment);
 
   const base = {
-    ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested }),
+    ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested, taskId: context.taskKey || null }),
     mode,
     config: configPath,
     result: "DRY_RUN_COMMENT_READY",
@@ -558,7 +566,13 @@ async function main() {
       try {
         const result = await writeComment({ issue, comment: plan.planned_jira_operation.comment, env: process.env });
         console.log(JSON.stringify({
-          ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested: true }),
+          ...baseOutput({
+            action,
+            issue,
+            operation: "add_comment",
+            realWriteRequested: true,
+            taskId: plan.local_task?.task_key || null
+          }),
           mode: "GUARDED_COMMENT_ONLY",
           result: result.ok ? "GUARDED_COMMENT_WRITE_DONE" : "BLOCKED_INVALID_ISSUE",
           jira_write_performed: result.ok,
@@ -569,6 +583,8 @@ async function main() {
           comment_created: result.ok,
           comment_id: result.comment_id,
           comment_self: result.self,
+          write_confirmation: result.ok ? "GUARDED_WRITE_COMPLETED" : "NO_WRITE",
+          no_write_confirmation: result.ok ? undefined : "NO_WRITE",
           token_created: false,
           token_stored: false,
           secrets_printed: false
@@ -576,7 +592,13 @@ async function main() {
         process.exitCode = result.ok ? 0 : 2;
       } catch (error) {
         console.log(JSON.stringify({
-          ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested: true }),
+          ...baseOutput({
+            action,
+            issue,
+            operation: "add_comment",
+            realWriteRequested: true,
+            taskId: normalizeString(args["task-key"]) || null
+          }),
           mode: "GUARDED_COMMENT_ONLY",
           result: "BLOCKED_INVALID_ISSUE",
           blocked_reason: error.message,
@@ -591,7 +613,13 @@ async function main() {
       }
     } catch (error) {
       console.log(JSON.stringify({
-        ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested }),
+        ...baseOutput({
+          action,
+          issue,
+          operation: "add_comment",
+          realWriteRequested,
+          taskId: normalizeString(args["task-key"]) || null
+        }),
         mode: realWriteRequested ? "GUARDED_COMMENT_ONLY" : "MANUAL_DRY_RUN",
         result: "BLOCKED_MISSING_CONFIG",
         blocked_reason: error.message,
@@ -644,7 +672,13 @@ async function main() {
   try {
     const result = await writeComment({ issue, comment, env: process.env });
     console.log(JSON.stringify({
-      ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested: true }),
+      ...baseOutput({
+        action,
+        issue,
+        operation: "add_comment",
+        realWriteRequested: true,
+        taskId: normalizeString(args["task-key"]) || null
+      }),
       mode: "real_write_result",
       result: result.ok ? "REAL_WRITE_COMPLETED" : "BLOCKED",
       jira_write_performed: result.ok,
@@ -653,12 +687,20 @@ async function main() {
       http_status: result.http_status,
       comment_created: result.ok,
       comment_id: result.comment_id,
-      comment_self: result.self
+      comment_self: result.self,
+      write_confirmation: result.ok ? "GUARDED_WRITE_COMPLETED" : "NO_WRITE",
+      no_write_confirmation: result.ok ? undefined : "NO_WRITE"
     }, null, 2));
     process.exitCode = result.ok ? 0 : 2;
   } catch (error) {
     console.log(JSON.stringify({
-      ...baseOutput({ action, issue, operation: "add_comment", realWriteRequested: true }),
+      ...baseOutput({
+        action,
+        issue,
+        operation: "add_comment",
+        realWriteRequested: true,
+        taskId: normalizeString(args["task-key"]) || null
+      }),
       mode: "real_write_result",
       result: "BLOCKED",
       blocked_reason: error.message,

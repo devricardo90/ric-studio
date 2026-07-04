@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import test from "node:test";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -22,10 +22,62 @@ function sanitizedEnv() {
   return env;
 }
 
-function runNode(args) {
+function parseJsonObjects(stdout) {
+  const objects = [];
+  let start = -1;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let index = 0; index < stdout.length; index += 1) {
+    const char = stdout[index];
+
+    if (start === -1) {
+      if (char === "{") {
+        start = index;
+        depth = 1;
+      }
+      continue;
+    }
+
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+
+    if (char === "\\") {
+      escaped = inString;
+      continue;
+    }
+
+    if (char === "\"") {
+      inString = !inString;
+      continue;
+    }
+
+    if (inString) continue;
+
+    if (char === "{") {
+      depth += 1;
+    } else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        objects.push(JSON.parse(stdout.slice(start, index + 1)));
+        start = -1;
+      }
+    }
+  }
+
+  return objects;
+}
+
+function runNode(args, options = {}) {
   const result = spawnSync(process.execPath, args, {
     cwd: repoRoot,
-    env: sanitizedEnv(),
+    env: {
+      ...sanitizedEnv(),
+      ...(options.env || {})
+    },
     encoding: "utf8",
     windowsHide: true
   });
@@ -33,10 +85,14 @@ function runNode(args) {
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.stderr, "", result.stderr);
   assert.notEqual(result.stdout.trim(), "", "expected JSON output");
+  const outputs = parseJsonObjects(result.stdout);
+  assert.ok(outputs.length > 0, "expected at least one JSON object");
 
   return {
     status: result.status,
-    output: JSON.parse(result.stdout)
+    output: outputs[0],
+    outputs,
+    stdout: result.stdout
   };
 }
 
@@ -44,18 +100,53 @@ function guarded(args) {
   return runNode([guardedWrite, ...args]);
 }
 
+function guardedWithMockFetch(args) {
+  const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-jira-fetch-"));
+  const mockFetch = path.join(tempDir, "mock-fetch.mjs");
+
+  try {
+    writeFileSync(mockFetch, [
+      "globalThis.fetch = async () => new Response(",
+      "  JSON.stringify({ id: \"mock-comment-087A\", self: \"https://example.invalid/rest/api/3/issue/DAY-8/comment/mock-comment-087A\" }),",
+      "  { status: 201, headers: { \"Content-Type\": \"application/json\" } }",
+      ");",
+      ""
+    ].join("\n"));
+
+    const result = runNode([
+      "--import",
+      pathToFileURL(mockFetch).href,
+      guardedWrite,
+      ...args
+    ], {
+      env: {
+        JIRA_BASE_URL: "https://example.invalid",
+        JIRA_EMAIL: "synthetic@example.invalid",
+        JIRA_API_TOKEN: "synthetic-token"
+      }
+    });
+
+    return {
+      status: result.status,
+      outputs: result.outputs
+    };
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 function validate(args) {
   return runNode([validateConfig, ...args]);
 }
 
-function baseEvidenceArgs(issue, sprint = "DAY-8") {
+function baseEvidenceArgs(issue, sprint = "DAY-8", taskKey = "RIC-STUDIO-085A") {
   return [
     "--action", "add_evidence_comment",
     "--issue", issue,
     "--config", sampleConfig,
     "--project", "DayBudget",
     "--sprint", sprint,
-    "--task-key", "RIC-STUDIO-085A",
+    "--task-key", taskKey,
     "--local-status", "REVIEW",
     "--protocol-level", "LEAN_LEVEL_2",
     "--validation-summary", "guarded gate regression test",
@@ -157,6 +248,34 @@ test("real evidence comment with approvals but missing env blocks before API or 
     "JIRA_EMAIL"
   ].sort());
   assertNoJiraCall(output);
+});
+
+test("mocked real evidence comment result uses task key and does not claim NO_WRITE", () => {
+  const { status, outputs } = guardedWithMockFetch([
+    ...baseEvidenceArgs("DAY-8", "DAY-8", "RIC-STUDIO-087A"),
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--real-write"
+  ]);
+  const [plan, result] = outputs;
+
+  assert.equal(status, 0);
+  assert.equal(outputs.length, 2);
+  assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
+  assert.equal(plan.task_id, "RIC-STUDIO-087A");
+  assert.equal(plan.no_write_confirmation, "REAL_WRITE_READY_NOT_EXECUTED_BY_PLAN");
+  assert.equal(result.result, "GUARDED_COMMENT_WRITE_DONE");
+  assert.equal(result.task_id, "RIC-STUDIO-087A");
+  assert.equal(result.issue_key, "DAY-8");
+  assert.equal(result.operation, "add_comment");
+  assert.equal(result.jira_write_performed, true);
+  assert.equal(result.jira_api_called, true);
+  assert.equal(result.network_call_performed, true);
+  assert.equal(result.comment_created, true);
+  assert.equal(result.comment_id, "mock-comment-087A");
+  assert.equal(result.write_confirmation, "GUARDED_WRITE_COMPLETED");
+  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+  assert.equal(result.secrets_printed, false);
 });
 
 test("validate-config keeps full Jira sync blocked", () => {
