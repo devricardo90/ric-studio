@@ -188,6 +188,18 @@ test("DAY-8 sample config prepares an evidence add_comment dry-run without API o
   assertNoJiraCall(output);
 });
 
+test("DAY-10 sample config prepares an evidence add_comment dry-run without API or network calls", () => {
+  const { status, output } = guarded([...baseEvidenceArgs("DAY-10", "DAY-10", "RIC-STUDIO-094A"), "--dry-run"]);
+
+  assert.equal(status, 0);
+  assert.equal(output.result, "DRY_RUN_COMMENT_READY");
+  assert.equal(output.issue_key, "DAY-10");
+  assert.equal(output.operation, "add_comment");
+  assert.equal(output.planned_jira_operation.type, "add_comment");
+  assert.equal(output.planned_jira_operation.issue_key, "DAY-10");
+  assertNoJiraCall(output);
+});
+
 test("DAY-9 sample config is blocked because it is not explicitly allowlisted", () => {
   const { status, output } = guarded([...baseEvidenceArgs("DAY-9", "DAY-9"), "--dry-run"]);
 
@@ -242,6 +254,21 @@ test("DAY-8 exact transition smoke dry-run is ready without API or network calls
   assert.equal(output.issue_key, "DAY-8");
   assert.equal(output.planned_jira_operation.type, "transition_issue");
   assert.equal(output.planned_jira_operation.transition_id, "31");
+  assert.equal(output.guarded_transition_smoke.target_status_name, "Revisar");
+  assertNoJiraCall(output);
+});
+
+test("DAY-10 exact transition smoke dry-run is ready without API or network calls", () => {
+  const { status, output } = guarded([...baseTransitionArgs("DAY-10", "RIC-STUDIO-094A"), "--dry-run"]);
+
+  assert.equal(status, 0);
+  assert.equal(output.result, "DRY_RUN_TRANSITION_READY");
+  assert.equal(output.operation, "transition_issue");
+  assert.equal(output.issue_key, "DAY-10");
+  assert.equal(output.planned_jira_operation.type, "transition_issue");
+  assert.equal(output.planned_jira_operation.transition_id, "31");
+  assert.equal(output.guarded_transition_smoke.allowed_issue_key, "DAY-10");
+  assert.equal(output.guarded_transition_smoke.target_status_id, "10038");
   assert.equal(output.guarded_transition_smoke.target_status_name, "Revisar");
   assertNoJiraCall(output);
 });

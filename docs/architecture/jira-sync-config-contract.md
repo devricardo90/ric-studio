@@ -61,18 +61,22 @@ Project allowlisting alone is not enough for a guarded real comment. The exact J
 
 `guardedTransitionSmoke` is a narrow smoke-test exception, not full transition sync.
 
-It may only authorize one exact issue and one exact transition:
+It may only authorize exact issue and transition pairs:
 
 - `enabled`
 - `scope: exact_issue_transition_smoke_only`
-- `allowedIssueKey`
 - `allowedOperation: transition_issue`
+- `requiresOwnerApproval`
+- `requiresRiskAcceptance`
+- `allowedTransitions`
+
+Each `allowedTransitions` entry must define:
+
+- `allowedIssueKey`
 - `transitionId`
 - `transitionName`
 - `targetStatusId`
 - `targetStatusName`
-- `requiresOwnerApproval`
-- `requiresRiskAcceptance`
 
 The guarded transition smoke path must block before any Jira write when the issue key is not the exact configured key, the transition id is missing or different from the configured id, owner approval is absent, risk acceptance is absent, required Jira environment variables are absent, or the requested operation is not `transition_issue`.
 

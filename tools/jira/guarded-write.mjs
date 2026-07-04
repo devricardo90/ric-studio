@@ -417,6 +417,10 @@ function evidenceCommentPlan(args) {
 function transitionSmokeFindings({ config, issue, transitionId, requestedTo }) {
   const findings = [];
   const smoke = config.guardedTransitionSmoke || {};
+  const transitions = Array.isArray(smoke.allowedTransitions)
+    ? smoke.allowedTransitions
+    : [smoke].filter((entry) => entry.allowedIssueKey || entry.transitionId);
+  const transition = transitions.find((entry) => normalizeString(entry.allowedIssueKey) === issue);
 
   if (smoke.enabled !== true) {
     findings.push("Guarded transition smoke is not enabled.");
@@ -430,17 +434,22 @@ function transitionSmokeFindings({ config, issue, transitionId, requestedTo }) {
     findings.push("Guarded transition smoke allowed operation must be transition_issue.");
   }
 
-  if (!smoke.allowedIssueKey || smoke.allowedIssueKey !== issue) {
+  if (!transition) {
     findings.push(`Issue ${issue || "<missing>"} is not explicitly allowlisted for guarded transition smoke.`);
   }
 
   if (!transitionId) {
     findings.push("Guarded transition smoke requires explicit --transition-id.");
-  } else if (transitionId !== normalizeString(smoke.transitionId)) {
+  } else if (!transition || transitionId !== normalizeString(transition.transitionId)) {
     findings.push(`Transition id ${transitionId} is not explicitly allowlisted for guarded transition smoke.`);
   }
 
-  if (requestedTo && requestedTo !== normalizeStatus(smoke.targetStatusName) && requestedTo !== normalizeStatus(smoke.targetStatusId)) {
+  if (
+    requestedTo &&
+    (!transition ||
+      (requestedTo !== normalizeStatus(transition.targetStatusName) &&
+        requestedTo !== normalizeStatus(transition.targetStatusId)))
+  ) {
     findings.push(`Requested target status ${requestedTo} does not match the configured guarded transition target.`);
   }
 
@@ -454,6 +463,7 @@ function transitionSmokeFindings({ config, issue, transitionId, requestedTo }) {
 
   return {
     smoke,
+    transition,
     findings
   };
 }
@@ -469,8 +479,8 @@ function transitionSmokePlan(args) {
   const configPath = normalizeString(args.config || "docs/config/jira-sync-config.sample.json");
   const config = readJson(configPath);
   const issueError = validateIssueKey(issue);
-  const { smoke, findings: configBlockers } = issueError
-    ? { smoke: config.guardedTransitionSmoke || {}, findings: [] }
+  const { smoke, transition, findings: configBlockers } = issueError
+    ? { smoke: config.guardedTransitionSmoke || {}, transition: null, findings: [] }
     : transitionSmokeFindings({ config, issue, transitionId, requestedTo });
   const missingEnv = realWriteRequested ? missingEnvironment(process.env) : [];
   const taskId = normalizeString(args["task-key"]) || defaultTaskId(action);
@@ -482,13 +492,13 @@ function transitionSmokePlan(args) {
     result: "DRY_RUN_TRANSITION_READY",
     guarded_transition_smoke: {
       scope: smoke.scope || null,
-      allowed_issue_key: smoke.allowedIssueKey || null,
+      allowed_issue_key: transition?.allowedIssueKey || smoke.allowedIssueKey || null,
       allowed_operation: smoke.allowedOperation || null,
       transition_id: transitionId || null,
-      configured_transition_id: smoke.transitionId || null,
-      transition_name: smoke.transitionName || null,
-      target_status_id: smoke.targetStatusId || null,
-      target_status_name: smoke.targetStatusName || null
+      configured_transition_id: transition?.transitionId || smoke.transitionId || null,
+      transition_name: transition?.transitionName || smoke.transitionName || null,
+      target_status_id: transition?.targetStatusId || smoke.targetStatusId || null,
+      target_status_name: transition?.targetStatusName || smoke.targetStatusName || null
     },
     owner_approval: {
       required: true,
@@ -502,7 +512,7 @@ function transitionSmokePlan(args) {
       type: "transition_issue",
       issue_key: issue || null,
       transition_id: transitionId || null,
-      target_status_name: smoke.targetStatusName || null
+      target_status_name: transition?.targetStatusName || smoke.targetStatusName || null
     },
     no_write_confirmation: realWriteRequested ? "NO_WRITE until all guarded transition gates pass" : "NO_WRITE"
   };

@@ -11,6 +11,9 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 const guardedWrite = path.join(repoRoot, "tools", "jira", "guarded-write.mjs");
 const sampleConfig = "docs/config/jira-sync-config.sample.json";
+const operatorFlowIssue = "DAY-10";
+const operatorFlowTransitionId = "31";
+const operatorFlowTargetStatus = "Revisar";
 
 function parseArgs(argv) {
   const args = {};
@@ -192,12 +195,13 @@ function runGuardedWrite(args, env) {
 }
 
 function commentArgs(args, realWrite) {
+  const issue = normalizeString(args.issue);
   const command = [
     "--action", "add_evidence_comment",
-    "--issue", normalizeString(args.issue),
+    "--issue", issue,
     "--config", sampleConfig,
     "--project", "DayBudget",
-    "--sprint", "DAY-8",
+    "--sprint", issue,
     "--task-key", normalizeString(args["task-key"]),
     "--local-status", "REVIEW",
     "--protocol-level", "LEAN_LEVEL_2",
@@ -238,9 +242,9 @@ function validateRealWritePreflight(args, env) {
   if (args["owner-approved"] !== true) findings.push("Missing required --owner-approved.");
   if (args["duplicate-risk-accepted"] !== true) findings.push("Missing required --duplicate-risk-accepted.");
   if (args["transition-risk-accepted"] !== true) findings.push("Missing required --transition-risk-accepted.");
-  if (normalizeString(args.issue) !== "DAY-8") findings.push("Real flow requires exact --issue DAY-8.");
-  if (normalizeString(args["transition-id"]) !== "31") findings.push("Real flow requires exact --transition-id 31.");
-  if (normalizeString(args.to) !== "Revisar") findings.push("Real flow requires exact --to Revisar.");
+  if (normalizeString(args.issue) !== operatorFlowIssue) findings.push(`Real flow requires exact --issue ${operatorFlowIssue}.`);
+  if (normalizeString(args["transition-id"]) !== operatorFlowTransitionId) findings.push(`Real flow requires exact --transition-id ${operatorFlowTransitionId}.`);
+  if (normalizeString(args.to) !== operatorFlowTargetStatus) findings.push(`Real flow requires exact --to ${operatorFlowTargetStatus}.`);
   if (!normalizeString(args["task-key"])) findings.push("Real flow requires exact --task-key.");
 
   const missingEnv = missingEnvironment(env);
@@ -268,9 +272,9 @@ function main() {
   const realWrite = args["real-write"] === true;
   const env = flowEnv(realWrite, process.env);
 
-  if (!normalizeString(args.issue)) args.issue = "DAY-8";
-  if (!normalizeString(args["transition-id"])) args["transition-id"] = "31";
-  if (!normalizeString(args.to)) args.to = "Revisar";
+  if (!normalizeString(args.issue)) args.issue = operatorFlowIssue;
+  if (!normalizeString(args["transition-id"])) args["transition-id"] = operatorFlowTransitionId;
+  if (!normalizeString(args.to)) args.to = operatorFlowTargetStatus;
 
   if (realWrite) {
     const { findings } = validateRealWritePreflight(args, env);

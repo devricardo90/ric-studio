@@ -26,11 +26,12 @@
         "add_comment"
       ],
       "allowedIssueKeys": [
-        "DAY-8"
+        "DAY-8",
+        "DAY-10"
       ],
       "realSyncAllowed": true,
       "realSyncScope": "guarded_comment_smoke_only",
-      "notes": "Non-secret allowlist entry for RIC-STUDIO-084A guarded add_comment smoke against DAY-8 only. Issue creation, transitions, description edits, metadata edits, and bulk updates remain blocked."
+      "notes": "Non-secret allowlist entry for guarded add_comment smoke against exact issues DAY-8 and DAY-10 only. Issue creation, project-wide transitions, description edits, metadata edits, and bulk updates remain blocked."
     }
   ],
   "localStatuses": [
@@ -93,15 +94,30 @@
   "guardedTransitionSmoke": {
     "enabled": true,
     "scope": "exact_issue_transition_smoke_only",
-    "allowedIssueKey": "DAY-8",
     "allowedOperation": "transition_issue",
-    "transitionId": "31",
-    "transitionName": "Review",
-    "targetStatusId": "10038",
-    "targetStatusName": "Revisar",
     "requiresOwnerApproval": true,
     "requiresRiskAcceptance": true,
-    "notes": "Non-secret allowlist entry for RIC-STUDIO-088A guarded transition smoke preparation against DAY-8 only. Full sync, issue creation, generic transitions, DAY-9 transitions, and bulk updates remain blocked."
+    "allowedTransitions": [
+      {
+        "allowedIssueKey": "DAY-8",
+        "transitionId": "31",
+        "transitionName": "Review",
+        "targetStatusId": "10038",
+        "targetStatusName": "Revisar",
+        "notes": "Existing exact transition smoke entry from RIC-STUDIO-088A. DAY-8 must not be transitioned again without separate explicit owner approval."
+      },
+      {
+        "allowedIssueKey": "DAY-10",
+        "currentStatusId": "10036",
+        "currentStatusName": "Backlog / Ready",
+        "transitionId": "31",
+        "transitionName": "Review",
+        "targetStatusId": "10038",
+        "targetStatusName": "Revisar",
+        "notes": "Future operator-safe real flow smoke target prepared by RIC-STUDIO-094A. Exact issue DAY-10 and exact transition 31 to Revisar only."
+      }
+    ],
+    "notes": "Non-secret exact-issue transition smoke allowlist. Full sync, issue creation, generic transitions, DAY-9 transitions, project-wide transitions, and bulk updates remain blocked."
   },
   "ownerApproval": {
     "requiredBeforeAnyRealWrite": true,
@@ -123,6 +139,6 @@
   ],
   "realSyncReadiness": {
     "allowed": false,
-    "reason": "Full real sync remains blocked. Only the exact DAY-8 guarded add_comment smoke path is allowlisted, and it still requires owner approval, duplicate-risk acceptance, required environment variables, and a safe comment body."
+    "reason": "Full real sync remains blocked. Only exact guarded comment and transition smoke paths are allowlisted for DAY-8 and DAY-10, and real writes still require owner approval, risk acceptance, required environment variables, and safe evidence."
   }
 }
