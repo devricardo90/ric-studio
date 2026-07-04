@@ -45,9 +45,17 @@ Each allowlist entry must define:
 - `allowedIssueTypes`
 - `realSyncAllowed`
 
+For any guarded real comment smoke, the allowlist entry must also define:
+
+- `allowedRealOperations`
+- `allowedIssueKeys`
+- `realSyncScope`
+
 `jiraProjectKey` must be provided by the owner. It must never be inferred from a local project name, task key, branch name, sprint name, or issue prefix.
 
 If `jiraProjectKey` is missing or still a placeholder, real sync is blocked.
+
+Project allowlisting alone is not enough for a guarded real comment. The exact Jira issue key must be present in `allowedIssueKeys`, and `allowedRealOperations` must contain only `add_comment`.
 
 ## Issue Type Requirement
 

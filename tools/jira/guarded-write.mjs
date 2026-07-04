@@ -228,6 +228,22 @@ function configFindings({ config, issue, context }) {
     findings.push(`Approved project ${issueProjectKey} does not allow real sync.`);
   }
 
+  if (matchingProject && !Array.isArray(matchingProject.allowedRealOperations)) {
+    findings.push(`Approved project ${issueProjectKey} does not define allowed real operations.`);
+  }
+
+  if (matchingProject && Array.isArray(matchingProject.allowedRealOperations) && !matchingProject.allowedRealOperations.includes("add_comment")) {
+    findings.push(`Approved project ${issueProjectKey} does not allow add_comment.`);
+  }
+
+  if (matchingProject && !Array.isArray(matchingProject.allowedIssueKeys)) {
+    findings.push(`Approved project ${issueProjectKey} does not define exact allowed issue keys.`);
+  }
+
+  if (matchingProject && Array.isArray(matchingProject.allowedIssueKeys) && !matchingProject.allowedIssueKeys.includes(issue)) {
+    findings.push(`Issue ${issue} is not explicitly allowlisted for guarded add_comment smoke.`);
+  }
+
   if (config.currentMode !== "MANUAL_DRY_RUN" && config.currentMode !== "GUARDED_COMMENT_ONLY") {
     findings.push("Config currentMode must be MANUAL_DRY_RUN or GUARDED_COMMENT_ONLY for guarded comments.");
   }

@@ -85,6 +85,7 @@ function validateProject(project, index, realSyncBlockers, contractErrors) {
   const prefix = `approvedProjects[${index}]`;
   addIfMissing(contractErrors, hasValue(project.localProject), `${prefix}.localProject is required.`);
   const allowedOperations = Array.isArray(project.allowedRealOperations) ? project.allowedRealOperations : [];
+  const allowedIssueKeys = Array.isArray(project.allowedIssueKeys) ? project.allowedIssueKeys : [];
 
   if (!hasValue(project.jiraProjectKey)) {
     realSyncBlockers.push(`${prefix}.jiraProjectKey is missing.`);
@@ -108,6 +109,8 @@ function validateProject(project, index, realSyncBlockers, contractErrors) {
   if (project.realSyncAllowed === true) {
     addIfMissing(contractErrors, allowedOperations.length > 0, `${prefix}.allowedRealOperations is required when realSyncAllowed is true.`);
     addIfMissing(contractErrors, allowedOperations.every((operation) => operation === "add_comment"), `${prefix}.allowedRealOperations may only include add_comment.`);
+    addIfMissing(contractErrors, allowedIssueKeys.length > 0, `${prefix}.allowedIssueKeys is required when realSyncAllowed is true.`);
+    addIfMissing(contractErrors, allowedIssueKeys.every((issueKey) => /^[A-Z][A-Z0-9]+-\d+$/.test(normalizeString(issueKey))), `${prefix}.allowedIssueKeys must contain explicit Jira issue keys.`);
     addIfMissing(contractErrors, project.realSyncScope === "guarded_comment_smoke_only", `${prefix}.realSyncScope must be guarded_comment_smoke_only.`);
   }
 }
@@ -131,7 +134,11 @@ function validateConfig(config) {
 
   addIfMissing(contractErrors, config.schemaVersion === 1, "schemaVersion must be 1.");
   addIfMissing(contractErrors, config.sourceOfTruth === "RIC Studio", "sourceOfTruth must be RIC Studio.");
-  addIfMissing(contractErrors, config.currentMode === "MANUAL_DRY_RUN", "currentMode must remain MANUAL_DRY_RUN.");
+  addIfMissing(
+    contractErrors,
+    ["MANUAL_DRY_RUN", "GUARDED_COMMENT_ONLY"].includes(config.currentMode),
+    "currentMode must be MANUAL_DRY_RUN or GUARDED_COMMENT_ONLY."
+  );
   addIfMissing(contractErrors, Array.isArray(config.allowedOperationModes), "allowedOperationModes must be an array.");
   addIfMissing(contractErrors, Array.isArray(config.approvedProjects), "approvedProjects must be an array.");
   addIfMissing(contractErrors, Array.isArray(config.localStatuses), "localStatuses must be an array.");
@@ -211,6 +218,7 @@ function main() {
         localProject: project.localProject,
         jiraProjectKey: project.jiraProjectKey,
         allowedRealOperations: project.allowedRealOperations,
+        allowedIssueKeys: project.allowedIssueKeys || [],
         realSyncScope: project.realSyncScope
       }));
 

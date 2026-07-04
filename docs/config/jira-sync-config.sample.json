@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceOfTruth": "RIC Studio",
-  "currentMode": "MANUAL_DRY_RUN",
+  "currentMode": "GUARDED_COMMENT_ONLY",
   "allowedOperationModes": [
     "MANUAL_DRY_RUN",
     "GUARDED_COMMENT_ONLY",
@@ -25,9 +25,12 @@
       "allowedRealOperations": [
         "add_comment"
       ],
+      "allowedIssueKeys": [
+        "DAY-8"
+      ],
       "realSyncAllowed": true,
       "realSyncScope": "guarded_comment_smoke_only",
-      "notes": "Non-secret allowlist entry for RIC-STUDIO-083E guarded add_comment smoke. Issue creation, transitions, description edits, metadata edits, and bulk updates remain blocked."
+      "notes": "Non-secret allowlist entry for RIC-STUDIO-084A guarded add_comment smoke against DAY-8 only. Issue creation, transitions, description edits, metadata edits, and bulk updates remain blocked."
     }
   ],
   "localStatuses": [
@@ -107,6 +110,6 @@
   ],
   "realSyncReadiness": {
     "allowed": false,
-    "reason": "Sample contract contains placeholders and is MANUAL_DRY_RUN only."
+    "reason": "Full real sync remains blocked. Only the exact DAY-8 guarded add_comment smoke path is allowlisted, and it still requires owner approval, duplicate-risk acceptance, required environment variables, and a safe comment body."
   }
 }
