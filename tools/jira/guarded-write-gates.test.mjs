@@ -296,7 +296,7 @@ test("real transition with approvals but missing env blocks before API or networ
   const { status, output } = guarded([
     ...baseTransitionArgs("DAY-8"),
     "--owner-approved",
-    "--duplicate-risk-accepted",
+    "--transition-risk-accepted",
     "--real-write"
   ]);
 
@@ -308,6 +308,19 @@ test("real transition with approvals but missing env blocks before API or networ
     "JIRA_BASE_URL",
     "JIRA_EMAIL"
   ].sort());
+  assertNoJiraCall(output);
+});
+
+test("real transition without risk acceptance blocks before API or network calls", () => {
+  const { status, output } = guarded([
+    ...baseTransitionArgs("DAY-8"),
+    "--owner-approved",
+    "--real-write"
+  ]);
+
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED_TRANSITION_RISK");
+  assert.equal(output.risk_acceptance.present, false);
   assertNoJiraCall(output);
 });
 
@@ -343,7 +356,7 @@ test("mocked real transition result uses exact task key and does not claim NO_WR
   const { status, outputs } = guardedWithMockFetch([
     ...baseTransitionArgs("DAY-8", "RIC-STUDIO-088A"),
     "--owner-approved",
-    "--duplicate-risk-accepted",
+    "--transition-risk-accepted",
     "--real-write"
   ]);
   const [plan, result] = outputs;

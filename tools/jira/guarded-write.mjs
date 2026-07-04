@@ -33,7 +33,7 @@ function parseArgs(argv) {
     const key = token.slice(2);
     const next = argv[index + 1];
 
-    if (["dry-run", "real-write", "owner-approved", "duplicate-risk-accepted"].includes(key)) {
+    if (["dry-run", "real-write", "owner-approved", "duplicate-risk-accepted", "transition-risk-accepted"].includes(key)) {
       args[key] = true;
       continue;
     }
