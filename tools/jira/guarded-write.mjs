@@ -78,6 +78,10 @@ function isEvidenceCommentAction(action) {
   return action === "add_evidence_comment" || action === "evidence_comment";
 }
 
+function isGuardedConfigAction(action) {
+  return isEvidenceCommentAction(action) || action === "transition_issue";
+}
+
 function defaultTaskId(action) {
   return isEvidenceCommentAction(action) ? "RIC-STUDIO-083D" : "RIC-STUDIO-077A";
 }
@@ -86,7 +90,7 @@ function baseOutput({ action, issue, operation, realWriteRequested = false, task
   return {
     tool: "ric-studio-jira-guarded-write",
     task_id: taskId || defaultTaskId(action),
-    contract: isEvidenceCommentAction(action)
+    contract: isGuardedConfigAction(action)
       ? "docs/architecture/jira-sync-config-contract.md"
       : "docs/architecture/guarded-jira-write-integration-contract.md",
     action,
@@ -410,6 +414,154 @@ function evidenceCommentPlan(args) {
   };
 }
 
+function transitionSmokeFindings({ config, issue, transitionId, requestedTo }) {
+  const findings = [];
+  const smoke = config.guardedTransitionSmoke || {};
+
+  if (smoke.enabled !== true) {
+    findings.push("Guarded transition smoke is not enabled.");
+  }
+
+  if (smoke.scope !== "exact_issue_transition_smoke_only") {
+    findings.push("Guarded transition smoke scope must be exact_issue_transition_smoke_only.");
+  }
+
+  if (smoke.allowedOperation !== "transition_issue") {
+    findings.push("Guarded transition smoke allowed operation must be transition_issue.");
+  }
+
+  if (!smoke.allowedIssueKey || smoke.allowedIssueKey !== issue) {
+    findings.push(`Issue ${issue || "<missing>"} is not explicitly allowlisted for guarded transition smoke.`);
+  }
+
+  if (!transitionId) {
+    findings.push("Guarded transition smoke requires explicit --transition-id.");
+  } else if (transitionId !== normalizeString(smoke.transitionId)) {
+    findings.push(`Transition id ${transitionId} is not explicitly allowlisted for guarded transition smoke.`);
+  }
+
+  if (requestedTo && requestedTo !== normalizeStatus(smoke.targetStatusName) && requestedTo !== normalizeStatus(smoke.targetStatusId)) {
+    findings.push(`Requested target status ${requestedTo} does not match the configured guarded transition target.`);
+  }
+
+  if (smoke.requiresOwnerApproval !== true) {
+    findings.push("Guarded transition smoke must require owner approval.");
+  }
+
+  if (smoke.requiresRiskAcceptance !== true) {
+    findings.push("Guarded transition smoke must require explicit risk acceptance.");
+  }
+
+  return {
+    smoke,
+    findings
+  };
+}
+
+function transitionSmokePlan(args) {
+  const action = normalizeAction(args.action);
+  const issue = normalizeString(args.issue);
+  const transitionId = normalizeString(args["transition-id"] || args.transition);
+  const requestedTo = normalizeStatus(args.to);
+  const realWriteRequested = args["real-write"] === true;
+  const ownerApproved = args["owner-approved"] === true || normalizeString(args["owner-approval"]) !== "";
+  const riskAccepted = args["duplicate-risk-accepted"] === true || args["transition-risk-accepted"] === true;
+  const configPath = normalizeString(args.config || "docs/config/jira-sync-config.sample.json");
+  const config = readJson(configPath);
+  const issueError = validateIssueKey(issue);
+  const { smoke, findings: configBlockers } = issueError
+    ? { smoke: config.guardedTransitionSmoke || {}, findings: [] }
+    : transitionSmokeFindings({ config, issue, transitionId, requestedTo });
+  const missingEnv = realWriteRequested ? missingEnvironment(process.env) : [];
+  const taskId = normalizeString(args["task-key"]) || defaultTaskId(action);
+
+  const base = {
+    ...baseOutput({ action, issue, operation: "transition_issue", realWriteRequested, taskId }),
+    mode: realWriteRequested ? "GUARDED_TRANSITION_SMOKE" : "MANUAL_DRY_RUN",
+    config: configPath,
+    result: "DRY_RUN_TRANSITION_READY",
+    guarded_transition_smoke: {
+      scope: smoke.scope || null,
+      allowed_issue_key: smoke.allowedIssueKey || null,
+      allowed_operation: smoke.allowedOperation || null,
+      transition_id: transitionId || null,
+      configured_transition_id: smoke.transitionId || null,
+      transition_name: smoke.transitionName || null,
+      target_status_id: smoke.targetStatusId || null,
+      target_status_name: smoke.targetStatusName || null
+    },
+    owner_approval: {
+      required: true,
+      present: ownerApproved
+    },
+    risk_acceptance: {
+      required: true,
+      present: riskAccepted
+    },
+    planned_jira_operation: {
+      type: "transition_issue",
+      issue_key: issue || null,
+      transition_id: transitionId || null,
+      target_status_name: smoke.targetStatusName || null
+    },
+    no_write_confirmation: realWriteRequested ? "NO_WRITE until all guarded transition gates pass" : "NO_WRITE"
+  };
+
+  if (issueError) {
+    return {
+      ...base,
+      result: "BLOCKED_INVALID_ISSUE",
+      blocked_reason: issueError
+    };
+  }
+
+  if (configBlockers.length > 0) {
+    return {
+      ...base,
+      result: "BLOCKED_MISSING_CONFIG",
+      blocked_reason: "Required guarded transition smoke config is missing or mismatched.",
+      config_blockers: configBlockers
+    };
+  }
+
+  if (!realWriteRequested) {
+    return base;
+  }
+
+  if (!ownerApproved) {
+    return {
+      ...base,
+      result: "BLOCKED_MISSING_OWNER_APPROVAL",
+      blocked_reason: "Real transition smoke requires explicit owner approval."
+    };
+  }
+
+  if (!riskAccepted) {
+    return {
+      ...base,
+      result: "BLOCKED_TRANSITION_RISK",
+      blocked_reason: "Real transition smoke requires explicit transition risk acceptance."
+    };
+  }
+
+  if (missingEnv.length > 0) {
+    return {
+      ...base,
+      result: "BLOCKED_MISSING_CONFIG",
+      blocked_reason: "Missing required environment variables.",
+      credentials_required: true,
+      missing_environment_variables: missingEnv
+    };
+  }
+
+  return {
+    ...base,
+    result: "GUARDED_TRANSITION_WRITE_READY",
+    credentials_required: true,
+    no_write_confirmation: "REAL_TRANSITION_READY_NOT_EXECUTED_BY_PLAN"
+  };
+}
+
 function missingEnvironment(env) {
   return REQUIRED_ENV.filter((name) => !env[name] || String(env[name]).trim() === "");
 }
@@ -479,6 +631,30 @@ async function writeComment({ issue, comment, env }) {
     ok: response.ok,
     comment_id: responseBody && typeof responseBody.id === "string" ? responseBody.id : null,
     self: responseBody && typeof responseBody.self === "string" ? responseBody.self : null
+  };
+}
+
+async function writeTransition({ issue, transitionId, env }) {
+  const baseUrl = normalizeBaseUrl(env.JIRA_BASE_URL);
+  const endpoint = `${baseUrl}/rest/api/3/issue/${encodeURIComponent(issue)}/transitions`;
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Accept": "application/json",
+      "Authorization": buildAuthHeader(env.JIRA_EMAIL, env.JIRA_API_TOKEN),
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      transition: {
+        id: transitionId
+      }
+    })
+  });
+
+  return {
+    http_status: response.status,
+    ok: response.ok,
+    transition_id: transitionId
   };
 }
 
@@ -621,6 +797,95 @@ async function main() {
           taskId: normalizeString(args["task-key"]) || null
         }),
         mode: realWriteRequested ? "GUARDED_COMMENT_ONLY" : "MANUAL_DRY_RUN",
+        result: "BLOCKED_MISSING_CONFIG",
+        blocked_reason: error.message,
+        jira_write_performed: false,
+        jira_api_called: false,
+        jira_cli_called: false,
+        network_call_performed: false,
+        credentials_required: realWriteRequested,
+        token_created: false,
+        token_stored: false,
+        secrets_printed: false,
+        no_write_confirmation: "NO_WRITE"
+      }, null, 2));
+      process.exitCode = 2;
+    }
+    return;
+  }
+
+  if (action === "transition_issue") {
+    try {
+      const plan = transitionSmokePlan(args);
+      if (plan.result !== "GUARDED_TRANSITION_WRITE_READY") {
+        console.log(JSON.stringify(plan, null, 2));
+        process.exitCode = plan.result === "DRY_RUN_TRANSITION_READY" ? 0 : 2;
+        return;
+      }
+
+      console.log(JSON.stringify(plan, null, 2));
+      try {
+        const result = await writeTransition({
+          issue,
+          transitionId: plan.planned_jira_operation.transition_id,
+          env: process.env
+        });
+        console.log(JSON.stringify({
+          ...baseOutput({
+            action,
+            issue,
+            operation: "transition_issue",
+            realWriteRequested: true,
+            taskId: plan.task_id
+          }),
+          mode: "GUARDED_TRANSITION_SMOKE",
+          result: result.ok ? "GUARDED_TRANSITION_WRITE_DONE" : "BLOCKED_INVALID_ISSUE",
+          jira_write_performed: result.ok,
+          jira_api_called: true,
+          network_call_performed: true,
+          credentials_required: true,
+          http_status: result.http_status,
+          transition_performed: result.ok,
+          transition_id: result.transition_id,
+          target_status_name: plan.guarded_transition_smoke.target_status_name,
+          write_confirmation: result.ok ? "GUARDED_TRANSITION_COMPLETED" : "NO_WRITE",
+          no_write_confirmation: result.ok ? undefined : "NO_WRITE",
+          token_created: false,
+          token_stored: false,
+          secrets_printed: false
+        }, null, 2));
+        process.exitCode = result.ok ? 0 : 2;
+      } catch (error) {
+        console.log(JSON.stringify({
+          ...baseOutput({
+            action,
+            issue,
+            operation: "transition_issue",
+            realWriteRequested: true,
+            taskId: normalizeString(args["task-key"]) || null
+          }),
+          mode: "GUARDED_TRANSITION_SMOKE",
+          result: "BLOCKED_INVALID_ISSUE",
+          blocked_reason: error.message,
+          jira_write_performed: false,
+          jira_api_called: true,
+          network_call_performed: true,
+          credentials_required: true,
+          http_status: null,
+          transition_performed: false
+        }, null, 2));
+        process.exitCode = 2;
+      }
+    } catch (error) {
+      console.log(JSON.stringify({
+        ...baseOutput({
+          action,
+          issue,
+          operation: "transition_issue",
+          realWriteRequested,
+          taskId: normalizeString(args["task-key"]) || null
+        }),
+        mode: realWriteRequested ? "GUARDED_TRANSITION_SMOKE" : "MANUAL_DRY_RUN",
         result: "BLOCKED_MISSING_CONFIG",
         blocked_reason: error.message,
         jira_write_performed: false,

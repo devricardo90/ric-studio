@@ -90,6 +90,19 @@
     "requiresDuplicateCommentCheck": true,
     "blockWhenExistingMarkerUnknown": true
   },
+  "guardedTransitionSmoke": {
+    "enabled": true,
+    "scope": "exact_issue_transition_smoke_only",
+    "allowedIssueKey": "DAY-8",
+    "allowedOperation": "transition_issue",
+    "transitionId": "31",
+    "transitionName": "Review",
+    "targetStatusId": "10038",
+    "targetStatusName": "Revisar",
+    "requiresOwnerApproval": true,
+    "requiresRiskAcceptance": true,
+    "notes": "Non-secret allowlist entry for RIC-STUDIO-088A guarded transition smoke preparation against DAY-8 only. Full sync, issue creation, generic transitions, DAY-9 transitions, and bulk updates remain blocked."
+  },
   "ownerApproval": {
     "requiredBeforeAnyRealWrite": true,
     "mustBeExplicitCurrentAndOperationScoped": true,

@@ -106,10 +106,15 @@ function guardedWithMockFetch(args) {
 
   try {
     writeFileSync(mockFetch, [
-      "globalThis.fetch = async () => new Response(",
-      "  JSON.stringify({ id: \"mock-comment-087A\", self: \"https://example.invalid/rest/api/3/issue/DAY-8/comment/mock-comment-087A\" }),",
-      "  { status: 201, headers: { \"Content-Type\": \"application/json\" } }",
-      ");",
+      "globalThis.fetch = async (url, options) => {",
+      "  if (String(url).includes('/transitions')) {",
+      "    return new Response(null, { status: 204 });",
+      "  }",
+      "  return new Response(",
+      "    JSON.stringify({ id: \"mock-comment-087A\", self: \"https://example.invalid/rest/api/3/issue/DAY-8/comment/mock-comment-087A\" }),",
+      "    { status: 201, headers: { \"Content-Type\": \"application/json\" } }",
+      "  );",
+      "};",
       ""
     ].join("\n"));
 
@@ -151,6 +156,17 @@ function baseEvidenceArgs(issue, sprint = "DAY-8", taskKey = "RIC-STUDIO-085A") 
     "--protocol-level", "LEAN_LEVEL_2",
     "--validation-summary", "guarded gate regression test",
     "--generated-at", "2026-07-04T00:00:00.000Z"
+  ];
+}
+
+function baseTransitionArgs(issue, taskKey = "RIC-STUDIO-088A") {
+  return [
+    "--action", "transition_issue",
+    "--issue", issue,
+    "--config", sampleConfig,
+    "--task-key", taskKey,
+    "--transition-id", "31",
+    "--to", "Revisar"
   ];
 }
 
@@ -209,17 +225,34 @@ test("project allowlist alone is insufficient when exact allowedIssueKeys are mi
   }
 });
 
-test("non-comment Jira operations are blocked before API or network calls", () => {
-  for (const args of [
-    ["--action", "create_issue", "--issue", "DAY-8", "--comment", "blocked"],
-    ["--action", "transition_issue", "--issue", "DAY-8", "--to", "DONE", "--comment", "blocked"]
-  ]) {
-    const { status, output } = guarded(args);
+test("create_issue remains blocked before API or network calls", () => {
+  const { status, output } = guarded(["--action", "create_issue", "--issue", "DAY-8", "--comment", "blocked"]);
 
-    assert.equal(status, 2);
-    assert.equal(output.result, "BLOCKED");
-    assertNoJiraCall(output);
-  }
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED");
+  assertNoJiraCall(output);
+});
+
+test("DAY-8 exact transition smoke dry-run is ready without API or network calls", () => {
+  const { status, output } = guarded([...baseTransitionArgs("DAY-8"), "--dry-run"]);
+
+  assert.equal(status, 0);
+  assert.equal(output.result, "DRY_RUN_TRANSITION_READY");
+  assert.equal(output.operation, "transition_issue");
+  assert.equal(output.issue_key, "DAY-8");
+  assert.equal(output.planned_jira_operation.type, "transition_issue");
+  assert.equal(output.planned_jira_operation.transition_id, "31");
+  assert.equal(output.guarded_transition_smoke.target_status_name, "Revisar");
+  assertNoJiraCall(output);
+});
+
+test("DAY-9 transition attempt is blocked before API or network calls", () => {
+  const { status, output } = guarded([...baseTransitionArgs("DAY-9"), "--dry-run"]);
+
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
+  assert.match(output.config_blockers.join("\n"), /Issue DAY-9 is not explicitly allowlisted/);
+  assertNoJiraCall(output);
 });
 
 test("real evidence comment without owner approval blocks before API or network calls", () => {
@@ -234,6 +267,34 @@ test("real evidence comment without owner approval blocks before API or network 
 test("real evidence comment with approvals but missing env blocks before API or network calls", () => {
   const { status, output } = guarded([
     ...baseEvidenceArgs("DAY-8"),
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--real-write"
+  ]);
+
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
+  assert.equal(output.blocked_reason, "Missing required environment variables.");
+  assert.deepEqual(output.missing_environment_variables.sort(), [
+    "JIRA_API_TOKEN",
+    "JIRA_BASE_URL",
+    "JIRA_EMAIL"
+  ].sort());
+  assertNoJiraCall(output);
+});
+
+test("real transition without owner approval blocks before API or network calls", () => {
+  const { status, output } = guarded([...baseTransitionArgs("DAY-8"), "--real-write"]);
+
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED_MISSING_OWNER_APPROVAL");
+  assert.equal(output.owner_approval.present, false);
+  assertNoJiraCall(output);
+});
+
+test("real transition with approvals but missing env blocks before API or network calls", () => {
+  const { status, output } = guarded([
+    ...baseTransitionArgs("DAY-8"),
     "--owner-approved",
     "--duplicate-risk-accepted",
     "--real-write"
@@ -274,6 +335,35 @@ test("mocked real evidence comment result uses task key and does not claim NO_WR
   assert.equal(result.comment_created, true);
   assert.equal(result.comment_id, "mock-comment-087A");
   assert.equal(result.write_confirmation, "GUARDED_WRITE_COMPLETED");
+  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+  assert.equal(result.secrets_printed, false);
+});
+
+test("mocked real transition result uses exact task key and does not claim NO_WRITE", () => {
+  const { status, outputs } = guardedWithMockFetch([
+    ...baseTransitionArgs("DAY-8", "RIC-STUDIO-088A"),
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--real-write"
+  ]);
+  const [plan, result] = outputs;
+
+  assert.equal(status, 0);
+  assert.equal(outputs.length, 2);
+  assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
+  assert.equal(plan.task_id, "RIC-STUDIO-088A");
+  assert.equal(plan.no_write_confirmation, "REAL_TRANSITION_READY_NOT_EXECUTED_BY_PLAN");
+  assert.equal(result.result, "GUARDED_TRANSITION_WRITE_DONE");
+  assert.equal(result.task_id, "RIC-STUDIO-088A");
+  assert.equal(result.operation, "transition_issue");
+  assert.equal(result.issue_key, "DAY-8");
+  assert.equal(result.jira_write_performed, true);
+  assert.equal(result.jira_api_called, true);
+  assert.equal(result.network_call_performed, true);
+  assert.equal(result.transition_performed, true);
+  assert.equal(result.transition_id, "31");
+  assert.equal(result.target_status_name, "Revisar");
+  assert.equal(result.write_confirmation, "GUARDED_TRANSITION_COMPLETED");
   assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
   assert.equal(result.secrets_printed, false);
 });

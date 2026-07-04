@@ -57,6 +57,27 @@ If `jiraProjectKey` is missing or still a placeholder, real sync is blocked.
 
 Project allowlisting alone is not enough for a guarded real comment. The exact Jira issue key must be present in `allowedIssueKeys`, and `allowedRealOperations` must contain only `add_comment`.
 
+## Guarded Transition Smoke
+
+`guardedTransitionSmoke` is a narrow smoke-test exception, not full transition sync.
+
+It may only authorize one exact issue and one exact transition:
+
+- `enabled`
+- `scope: exact_issue_transition_smoke_only`
+- `allowedIssueKey`
+- `allowedOperation: transition_issue`
+- `transitionId`
+- `transitionName`
+- `targetStatusId`
+- `targetStatusName`
+- `requiresOwnerApproval`
+- `requiresRiskAcceptance`
+
+The guarded transition smoke path must block before any Jira write when the issue key is not the exact configured key, the transition id is missing or different from the configured id, owner approval is absent, risk acceptance is absent, required Jira environment variables are absent, or the requested operation is not `transition_issue`.
+
+This section does not authorize project-wide transitions, generic workflow sync, issue creation, bulk updates, DAY-9 transitions, DONE automation, or full real sync.
+
 ## Issue Type Requirement
 
 Every create-issue plan must use an owner-approved Jira issue type from `allowedIssueTypes`.
