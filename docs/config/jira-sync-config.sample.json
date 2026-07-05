@@ -27,11 +27,12 @@
       ],
       "allowedIssueKeys": [
         "DAY-8",
-        "DAY-10"
+        "DAY-10",
+        "DAY-11"
       ],
       "realSyncAllowed": true,
       "realSyncScope": "guarded_comment_smoke_only",
-      "notes": "Non-secret allowlist entry for guarded add_comment smoke against exact issues DAY-8 and DAY-10 only. Issue creation, project-wide transitions, description edits, metadata edits, and bulk updates remain blocked."
+      "notes": "Non-secret allowlist entry for guarded add_comment smoke against exact issues DAY-8, DAY-10, and DAY-11 only. Issue creation, project-wide transitions, description edits, metadata edits, and bulk updates remain blocked."
     }
   ],
   "localStatuses": [
@@ -115,6 +116,26 @@
         "targetStatusId": "10039",
         "targetStatusName": "Remote DONE",
         "notes": "Operator-safe E2E completion target prepared by RIC-STUDIO-095A. Exact issue DAY-10 and exact transition 41 to Remote DONE only."
+      },
+      {
+        "allowedIssueKey": "DAY-11",
+        "currentStatusId": "10036",
+        "currentStatusName": "Backlog / Ready",
+        "transitionId": "31",
+        "transitionName": "Review",
+        "targetStatusId": "10038",
+        "targetStatusName": "Revisar",
+        "notes": "Operator-safe repeatability step prepared by RIC-STUDIO-096B. Exact issue DAY-11 and exact transition 31 to Revisar only."
+      },
+      {
+        "allowedIssueKey": "DAY-11",
+        "currentStatusId": "10038",
+        "currentStatusName": "Revisar",
+        "transitionId": "41",
+        "transitionName": "Remote DONE",
+        "targetStatusId": "10039",
+        "targetStatusName": "Remote DONE",
+        "notes": "Operator-safe repeatability completion step prepared by RIC-STUDIO-096B. Exact issue DAY-11 and exact transition 41 to Remote DONE only."
       }
     ],
     "notes": "Non-secret exact-issue transition smoke allowlist. Full sync, issue creation, generic transitions, DAY-9 transitions, project-wide transitions, and bulk updates remain blocked."
@@ -139,6 +160,6 @@
   ],
   "realSyncReadiness": {
     "allowed": false,
-    "reason": "Full real sync remains blocked. Only exact guarded comment and transition smoke paths are allowlisted for DAY-8 and DAY-10, and real writes still require owner approval, risk acceptance, required environment variables, and safe evidence."
+    "reason": "Full real sync remains blocked. Only exact guarded comment and transition smoke paths are allowlisted for DAY-8, DAY-10, and DAY-11, and real writes still require owner approval, risk acceptance, required environment variables, and safe evidence."
   }
 }

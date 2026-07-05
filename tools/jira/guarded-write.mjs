@@ -420,7 +420,10 @@ function transitionSmokeFindings({ config, issue, transitionId, requestedTo }) {
   const transitions = Array.isArray(smoke.allowedTransitions)
     ? smoke.allowedTransitions
     : [smoke].filter((entry) => entry.allowedIssueKey || entry.transitionId);
-  const transition = transitions.find((entry) => normalizeString(entry.allowedIssueKey) === issue);
+  const issueTransitions = transitions.filter((entry) => normalizeString(entry.allowedIssueKey) === issue);
+  const transition = transitionId
+    ? issueTransitions.find((entry) => normalizeString(entry.transitionId) === transitionId)
+    : issueTransitions[0];
 
   if (smoke.enabled !== true) {
     findings.push("Guarded transition smoke is not enabled.");
@@ -434,13 +437,13 @@ function transitionSmokeFindings({ config, issue, transitionId, requestedTo }) {
     findings.push("Guarded transition smoke allowed operation must be transition_issue.");
   }
 
-  if (!transition) {
+  if (issueTransitions.length === 0) {
     findings.push(`Issue ${issue || "<missing>"} is not explicitly allowlisted for guarded transition smoke.`);
   }
 
   if (!transitionId) {
     findings.push("Guarded transition smoke requires explicit --transition-id.");
-  } else if (!transition || transitionId !== normalizeString(transition.transitionId)) {
+  } else if (!transition) {
     findings.push(`Transition id ${transitionId} is not explicitly allowlisted for guarded transition smoke.`);
   }
 

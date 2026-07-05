@@ -45,10 +45,10 @@ function flow(args, options = {}) {
   return runNode([operatorFlow, ...args], options);
 }
 
-function baseArgs(issue = "DAY-10", transitionId = "41", targetStatus = "Remote DONE") {
+function baseArgs(issue = "DAY-11", transitionId = "31", targetStatus = "Revisar") {
   return [
     "--issue", issue,
-    "--task-key", "RIC-STUDIO-095A",
+    "--task-key", "RIC-STUDIO-096B",
     "--transition-id", transitionId,
     "--to", targetStatus
   ];
@@ -76,11 +76,39 @@ test("DAY-8 dry-run flow prepares comment and transition without Jira calls", ()
 });
 
 test("DAY-10 dry-run flow prepares comment and transition without Jira calls", () => {
-  const { status, output } = flow(baseArgs("DAY-10"));
+  const { status, output } = flow(baseArgs("DAY-10", "41", "Remote DONE"));
 
   assert.equal(status, 0);
   assert.equal(output.flow_result, "DRY_RUN_FLOW_READY");
   assert.equal(output.issue_key, "DAY-10");
+  assert.equal(output.transition_id, "41");
+  assert.equal(output.target_status_name, "Remote DONE");
+  assert.equal(output.comment_step.result, "DRY_RUN_COMMENT_READY");
+  assert.equal(output.transition_step.result, "DRY_RUN_TRANSITION_READY");
+  assert.equal(output.no_write_confirmation, "NO_WRITE");
+  assertNoJiraCall(output);
+});
+
+test("DAY-11 Review dry-run flow prepares comment and transition without Jira calls", () => {
+  const { status, output } = flow(baseArgs("DAY-11", "31", "Revisar"));
+
+  assert.equal(status, 0);
+  assert.equal(output.flow_result, "DRY_RUN_FLOW_READY");
+  assert.equal(output.issue_key, "DAY-11");
+  assert.equal(output.transition_id, "31");
+  assert.equal(output.target_status_name, "Revisar");
+  assert.equal(output.comment_step.result, "DRY_RUN_COMMENT_READY");
+  assert.equal(output.transition_step.result, "DRY_RUN_TRANSITION_READY");
+  assert.equal(output.no_write_confirmation, "NO_WRITE");
+  assertNoJiraCall(output);
+});
+
+test("DAY-11 Remote DONE dry-run flow prepares comment and transition without Jira calls", () => {
+  const { status, output } = flow(baseArgs("DAY-11", "41", "Remote DONE"));
+
+  assert.equal(status, 0);
+  assert.equal(output.flow_result, "DRY_RUN_FLOW_READY");
+  assert.equal(output.issue_key, "DAY-11");
   assert.equal(output.transition_id, "41");
   assert.equal(output.target_status_name, "Remote DONE");
   assert.equal(output.comment_step.result, "DRY_RUN_COMMENT_READY");
@@ -111,7 +139,7 @@ test("DAY-9 flow is blocked at comment step and transition does not run", () => 
 
 test("missing owner approval blocks real flow before any Jira call", () => {
   const { status, output } = flow([
-    ...baseArgs("DAY-10"),
+    ...baseArgs("DAY-11"),
     "--duplicate-risk-accepted",
     "--transition-risk-accepted",
     "--real-write"
@@ -127,7 +155,7 @@ test("missing owner approval blocks real flow before any Jira call", () => {
 
 test("missing duplicate-risk acceptance blocks before transition", () => {
   const { status, output } = flow([
-    ...baseArgs("DAY-10"),
+    ...baseArgs("DAY-11"),
     "--owner-approved",
     "--transition-risk-accepted",
     "--real-write"
@@ -143,7 +171,7 @@ test("missing duplicate-risk acceptance blocks before transition", () => {
 
 test("missing transition-risk acceptance blocks before transition", () => {
   const { status, output } = flow([
-    ...baseArgs("DAY-10"),
+    ...baseArgs("DAY-11"),
     "--owner-approved",
     "--duplicate-risk-accepted",
     "--real-write"
@@ -159,7 +187,7 @@ test("missing transition-risk acceptance blocks before transition", () => {
 
 test("missing env blocks fully approved real flow before Jira calls", () => {
   const { status, output } = flow([
-    ...baseArgs("DAY-10"),
+    ...baseArgs("DAY-11"),
     "--owner-approved",
     "--duplicate-risk-accepted",
     "--transition-risk-accepted",
@@ -179,10 +207,10 @@ test("missing env blocks fully approved real flow before Jira calls", () => {
 test("partial write failure reports partial state without full-flow completion", () => {
   const output = aggregateOutput({
     args: {
-      issue: "DAY-10",
-      "task-key": "RIC-STUDIO-095A",
-      "transition-id": "41",
-      to: "Remote DONE",
+      issue: "DAY-11",
+      "task-key": "RIC-STUDIO-096B",
+      "transition-id": "31",
+      to: "Revisar",
       "real-write": true
     },
     flowResult: "BLOCKED_TRANSITION_STEP",

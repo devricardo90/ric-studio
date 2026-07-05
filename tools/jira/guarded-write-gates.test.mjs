@@ -200,6 +200,18 @@ test("DAY-10 sample config prepares an evidence add_comment dry-run without API 
   assertNoJiraCall(output);
 });
 
+test("DAY-11 sample config prepares an evidence add_comment dry-run without API or network calls", () => {
+  const { status, output } = guarded([...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-096B"), "--dry-run"]);
+
+  assert.equal(status, 0);
+  assert.equal(output.result, "DRY_RUN_COMMENT_READY");
+  assert.equal(output.issue_key, "DAY-11");
+  assert.equal(output.operation, "add_comment");
+  assert.equal(output.planned_jira_operation.type, "add_comment");
+  assert.equal(output.planned_jira_operation.issue_key, "DAY-11");
+  assertNoJiraCall(output);
+});
+
 test("DAY-9 sample config is blocked because it is not explicitly allowlisted", () => {
   const { status, output } = guarded([...baseEvidenceArgs("DAY-9", "DAY-9"), "--dry-run"]);
 
@@ -285,6 +297,42 @@ test("DAY-10 previous Review transition is blocked before API or network calls",
   assert.equal(status, 2);
   assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
   assert.match(output.config_blockers.join("\n"), /Transition id 31 is not explicitly allowlisted/);
+  assertNoJiraCall(output);
+});
+
+test("DAY-11 exact Review transition smoke dry-run is ready without API or network calls", () => {
+  const { status, output } = guarded([
+    ...baseTransitionArgs("DAY-11", "RIC-STUDIO-096B", "31", "Revisar"),
+    "--dry-run"
+  ]);
+
+  assert.equal(status, 0);
+  assert.equal(output.result, "DRY_RUN_TRANSITION_READY");
+  assert.equal(output.operation, "transition_issue");
+  assert.equal(output.issue_key, "DAY-11");
+  assert.equal(output.planned_jira_operation.type, "transition_issue");
+  assert.equal(output.planned_jira_operation.transition_id, "31");
+  assert.equal(output.guarded_transition_smoke.allowed_issue_key, "DAY-11");
+  assert.equal(output.guarded_transition_smoke.target_status_id, "10038");
+  assert.equal(output.guarded_transition_smoke.target_status_name, "Revisar");
+  assertNoJiraCall(output);
+});
+
+test("DAY-11 exact Remote DONE transition smoke dry-run is ready without API or network calls", () => {
+  const { status, output } = guarded([
+    ...baseTransitionArgs("DAY-11", "RIC-STUDIO-096B", "41", "Remote DONE"),
+    "--dry-run"
+  ]);
+
+  assert.equal(status, 0);
+  assert.equal(output.result, "DRY_RUN_TRANSITION_READY");
+  assert.equal(output.operation, "transition_issue");
+  assert.equal(output.issue_key, "DAY-11");
+  assert.equal(output.planned_jira_operation.type, "transition_issue");
+  assert.equal(output.planned_jira_operation.transition_id, "41");
+  assert.equal(output.guarded_transition_smoke.allowed_issue_key, "DAY-11");
+  assert.equal(output.guarded_transition_smoke.target_status_id, "10039");
+  assert.equal(output.guarded_transition_smoke.target_status_name, "Remote DONE");
   assertNoJiraCall(output);
 });
 
