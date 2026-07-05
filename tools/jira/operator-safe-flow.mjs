@@ -12,8 +12,8 @@ const repoRoot = path.resolve(here, "..", "..");
 const guardedWrite = path.join(repoRoot, "tools", "jira", "guarded-write.mjs");
 const sampleConfig = "docs/config/jira-sync-config.sample.json";
 const operatorFlowIssue = "DAY-10";
-const operatorFlowTransitionId = "31";
-const operatorFlowTargetStatus = "Revisar";
+const operatorFlowTransitionId = "41";
+const operatorFlowTargetStatus = "Remote DONE";
 
 function parseArgs(argv) {
   const args = {};

@@ -108,13 +108,13 @@
       },
       {
         "allowedIssueKey": "DAY-10",
-        "currentStatusId": "10036",
-        "currentStatusName": "Backlog / Ready",
-        "transitionId": "31",
-        "transitionName": "Review",
-        "targetStatusId": "10038",
-        "targetStatusName": "Revisar",
-        "notes": "Future operator-safe real flow smoke target prepared by RIC-STUDIO-094A. Exact issue DAY-10 and exact transition 31 to Revisar only."
+        "currentStatusId": "10038",
+        "currentStatusName": "Revisar",
+        "transitionId": "41",
+        "transitionName": "Remote DONE",
+        "targetStatusId": "10039",
+        "targetStatusName": "Remote DONE",
+        "notes": "Operator-safe E2E completion target prepared by RIC-STUDIO-095A. Exact issue DAY-10 and exact transition 41 to Remote DONE only."
       }
     ],
     "notes": "Non-secret exact-issue transition smoke allowlist. Full sync, issue creation, generic transitions, DAY-9 transitions, project-wide transitions, and bulk updates remain blocked."

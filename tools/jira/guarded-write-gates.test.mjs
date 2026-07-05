@@ -159,14 +159,14 @@ function baseEvidenceArgs(issue, sprint = "DAY-8", taskKey = "RIC-STUDIO-085A") 
   ];
 }
 
-function baseTransitionArgs(issue, taskKey = "RIC-STUDIO-088A") {
+function baseTransitionArgs(issue, taskKey = "RIC-STUDIO-088A", transitionId = "31", targetStatus = "Revisar") {
   return [
     "--action", "transition_issue",
     "--issue", issue,
     "--config", sampleConfig,
     "--task-key", taskKey,
-    "--transition-id", "31",
-    "--to", "Revisar"
+    "--transition-id", transitionId,
+    "--to", targetStatus
   ];
 }
 
@@ -258,18 +258,33 @@ test("DAY-8 exact transition smoke dry-run is ready without API or network calls
   assertNoJiraCall(output);
 });
 
-test("DAY-10 exact transition smoke dry-run is ready without API or network calls", () => {
-  const { status, output } = guarded([...baseTransitionArgs("DAY-10", "RIC-STUDIO-094A"), "--dry-run"]);
+test("DAY-10 exact Remote DONE transition smoke dry-run is ready without API or network calls", () => {
+  const { status, output } = guarded([
+    ...baseTransitionArgs("DAY-10", "RIC-STUDIO-095A", "41", "Remote DONE"),
+    "--dry-run"
+  ]);
 
   assert.equal(status, 0);
   assert.equal(output.result, "DRY_RUN_TRANSITION_READY");
   assert.equal(output.operation, "transition_issue");
   assert.equal(output.issue_key, "DAY-10");
   assert.equal(output.planned_jira_operation.type, "transition_issue");
-  assert.equal(output.planned_jira_operation.transition_id, "31");
+  assert.equal(output.planned_jira_operation.transition_id, "41");
   assert.equal(output.guarded_transition_smoke.allowed_issue_key, "DAY-10");
-  assert.equal(output.guarded_transition_smoke.target_status_id, "10038");
-  assert.equal(output.guarded_transition_smoke.target_status_name, "Revisar");
+  assert.equal(output.guarded_transition_smoke.target_status_id, "10039");
+  assert.equal(output.guarded_transition_smoke.target_status_name, "Remote DONE");
+  assertNoJiraCall(output);
+});
+
+test("DAY-10 previous Review transition is blocked before API or network calls", () => {
+  const { status, output } = guarded([
+    ...baseTransitionArgs("DAY-10", "RIC-STUDIO-095A", "31", "Revisar"),
+    "--dry-run"
+  ]);
+
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
+  assert.match(output.config_blockers.join("\n"), /Transition id 31 is not explicitly allowlisted/);
   assertNoJiraCall(output);
 });
 

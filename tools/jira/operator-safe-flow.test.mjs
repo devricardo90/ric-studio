@@ -45,12 +45,12 @@ function flow(args, options = {}) {
   return runNode([operatorFlow, ...args], options);
 }
 
-function baseArgs(issue = "DAY-10") {
+function baseArgs(issue = "DAY-10", transitionId = "41", targetStatus = "Remote DONE") {
   return [
     "--issue", issue,
-    "--task-key", "RIC-STUDIO-094A",
-    "--transition-id", "31",
-    "--to", "Revisar"
+    "--task-key", "RIC-STUDIO-095A",
+    "--transition-id", transitionId,
+    "--to", targetStatus
   ];
 }
 
@@ -62,7 +62,7 @@ function assertNoJiraCall(output) {
 }
 
 test("DAY-8 dry-run flow prepares comment and transition without Jira calls", () => {
-  const { status, output } = flow(baseArgs("DAY-8"));
+  const { status, output } = flow(baseArgs("DAY-8", "31", "Revisar"));
 
   assert.equal(status, 0);
   assert.equal(output.flow_result, "DRY_RUN_FLOW_READY");
@@ -81,8 +81,8 @@ test("DAY-10 dry-run flow prepares comment and transition without Jira calls", (
   assert.equal(status, 0);
   assert.equal(output.flow_result, "DRY_RUN_FLOW_READY");
   assert.equal(output.issue_key, "DAY-10");
-  assert.equal(output.transition_id, "31");
-  assert.equal(output.target_status_name, "Revisar");
+  assert.equal(output.transition_id, "41");
+  assert.equal(output.target_status_name, "Remote DONE");
   assert.equal(output.comment_step.result, "DRY_RUN_COMMENT_READY");
   assert.equal(output.transition_step.result, "DRY_RUN_TRANSITION_READY");
   assert.equal(output.no_write_confirmation, "NO_WRITE");
@@ -180,9 +180,9 @@ test("partial write failure reports partial state without full-flow completion",
   const output = aggregateOutput({
     args: {
       issue: "DAY-10",
-      "task-key": "RIC-STUDIO-094A",
-      "transition-id": "31",
-      to: "Revisar",
+      "task-key": "RIC-STUDIO-095A",
+      "transition-id": "41",
+      to: "Remote DONE",
       "real-write": true
     },
     flowResult: "BLOCKED_TRANSITION_STEP",
