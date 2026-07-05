@@ -3,10 +3,11 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { appendAuditRecord, resolveAuditPath } from "./audit-log.mjs";
 
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BOOLEAN_FLAGS = ["dry-run"];
-const VALUE_FLAGS = ["project", "limit", "task-key"];
+const VALUE_FLAGS = ["project", "limit", "task-key", "audit-log"];
 const SUPPORTED_PROJECT = "DAY";
 const DEFAULT_CONFIG = "docs/config/jira-sync-config.sample.json";
 const ELIGIBLE_STATUSES = new Set(["Backlog / Ready", "Revisar"]);
@@ -133,7 +134,42 @@ export function validateCliArgs(args) {
     return { result: "BLOCKED_INVALID_ARGS", reason: "Queue planning requires --task-key." };
   }
 
+  if (normalizeString(args["audit-log"])) {
+    try {
+      resolveAuditPath(args["audit-log"]);
+    } catch (error) {
+      return { result: error.code || "BLOCKED_AUDIT_LOG_PATH", reason: error.message };
+    }
+  }
+
   return null;
+}
+
+function outputWithOptionalAudit(args, output) {
+  if (!normalizeString(args["audit-log"])) return output;
+
+  try {
+    const audit = appendAuditRecord({
+      auditPath: args["audit-log"],
+      record: {
+        ...output,
+        task_key: output.task_key,
+        phase: output.queue_result === "DRY_RUN_QUEUE_PLAN_READY" ? "dry_run_plan" : "blocked"
+      }
+    });
+
+    return {
+      ...output,
+      audit_log_written: audit.audit_log_written,
+      audit_log_path: audit.audit_log_path
+    };
+  } catch (error) {
+    return blockedOutput({
+      args,
+      queueResult: error.code || "BLOCKED_AUDIT_LOG_WRITE",
+      blockedReason: error.message
+    });
+  }
 }
 
 function blockedIssueKeys(config) {
@@ -400,7 +436,7 @@ async function main() {
   try {
     const config = readJson(DEFAULT_CONFIG);
     const issues = await discoverIssues({ project: normalizeString(args.project), env: process.env });
-    const output = planQueue({ args, issues, config });
+    const output = outputWithOptionalAudit(args, planQueue({ args, issues, config }));
     console.log(JSON.stringify(output, null, 2));
     if (output.queue_result !== "DRY_RUN_QUEUE_PLAN_READY") {
       process.exitCode = 2;

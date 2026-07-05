@@ -3,10 +3,11 @@
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { appendAuditRecord, resolveAuditPath } from "./audit-log.mjs";
 
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BOOLEAN_FLAGS = ["dry-run", "real-write", "owner-approved", "duplicate-risk-accepted", "transition-risk-accepted"];
-const VALUE_FLAGS = ["issue", "task-key", "transition-id", "to", "validation-summary"];
+const VALUE_FLAGS = ["issue", "task-key", "transition-id", "to", "validation-summary", "audit-log"];
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 const guardedWrite = path.join(repoRoot, "tools", "jira", "guarded-write.mjs");
@@ -197,10 +198,15 @@ function runGuardedWrite(args, env) {
     secrets_printed: lastOutput.secrets_printed === true,
     no_write_confirmation: lastOutput.no_write_confirmation,
     write_confirmation: lastOutput.write_confirmation,
+    comment_id: lastOutput.comment_id || null,
     issue_key: lastOutput.issue_key || null,
     operation: lastOutput.operation || null,
     transition_id: lastOutput.transition_id || lastOutput.planned_jira_operation?.transition_id || null,
-    target_status_name: lastOutput.target_status_name || lastOutput.planned_jira_operation?.target_status_name || null
+    target_status_name: lastOutput.target_status_name || lastOutput.planned_jira_operation?.target_status_name || null,
+    verify_result: lastOutput.verify_result || null,
+    status_verified: lastOutput.status_verified ?? null,
+    actual_status: lastOutput.actual_status || null,
+    requires_manual_review: lastOutput.requires_manual_review === true
   };
 }
 
@@ -270,6 +276,58 @@ function validateRealWritePreflight(args, env) {
   };
 }
 
+function validateAuditLog(args) {
+  if (!normalizeString(args["audit-log"])) return null;
+
+  try {
+    resolveAuditPath(args["audit-log"]);
+    return null;
+  } catch (error) {
+    return error.message;
+  }
+}
+
+function outputWithOptionalAudit(args, output) {
+  if (!normalizeString(args["audit-log"])) return output;
+
+  try {
+    const audit = appendAuditRecord({
+      auditPath: args["audit-log"],
+      record: {
+        ...output,
+        task_key: output.task_id,
+        phase: output.flow_result === "DRY_RUN_FLOW_READY"
+          ? "dry_run_flow"
+          : output.flow_result === "GUARDED_FLOW_WRITE_DONE"
+            ? "approved_execution"
+            : "blocked",
+        before_status: null,
+        after_status: output.transition_step?.actual_status || output.transition_step?.target_status_name || null,
+        target_status: output.target_status_name,
+        comment_id: output.comment_step?.comment_id || null,
+        verify_result: output.transition_step?.verify_result || null,
+        status_verified: output.transition_step?.status_verified ?? null,
+        requires_manual_review: output.transition_step?.requires_manual_review === true || output.partial_write_performed === true
+      }
+    });
+
+    return {
+      ...output,
+      audit_log_written: audit.audit_log_written,
+      audit_log_path: audit.audit_log_path
+    };
+  } catch (error) {
+    return {
+      ...aggregateOutput({
+        args,
+        flowResult: error.code || "BLOCKED_AUDIT_LOG_WRITE",
+        blockedReason: error.message
+      }),
+      audit_log_written: false
+    };
+  }
+}
+
 function main() {
   const parsed = parseArgs(process.argv.slice(2));
   if (parsed.error) {
@@ -291,14 +349,25 @@ function main() {
   if (!normalizeString(args["transition-id"])) args["transition-id"] = defaultTransition.transitionId;
   if (!normalizeString(args.to)) args.to = defaultTransition.targetStatus;
 
+  const auditLogBlocker = validateAuditLog(args);
+  if (auditLogBlocker) {
+    console.log(JSON.stringify(aggregateOutput({
+      args,
+      flowResult: "BLOCKED_AUDIT_LOG_PATH",
+      blockedReason: auditLogBlocker
+    }), null, 2));
+    process.exitCode = 2;
+    return;
+  }
+
   if (realWrite) {
     const { findings } = validateRealWritePreflight(args, env);
     if (findings.length > 0) {
-      console.log(JSON.stringify(aggregateOutput({
+      console.log(JSON.stringify(outputWithOptionalAudit(args, aggregateOutput({
         args,
         flowResult: "BLOCKED_PREFLIGHT",
         blockedReason: findings.join(" ")
-      }), null, 2));
+      })), null, 2));
       process.exitCode = 2;
       return;
     }
@@ -309,13 +378,13 @@ function main() {
 
   const expectedCommentResult = realWrite ? "GUARDED_COMMENT_WRITE_DONE" : "DRY_RUN_COMMENT_READY";
   if (commentStep.result !== expectedCommentResult) {
-    console.log(JSON.stringify(aggregateOutput({
+    console.log(JSON.stringify(outputWithOptionalAudit(args, aggregateOutput({
       args,
       flowResult: "BLOCKED_COMMENT_STEP",
       blockedReason: `Comment step returned ${commentStep.result}.`,
       commentStep,
       transitionStep: emptyStep("transition_step", "NOT_RUN_AFTER_COMMENT_BLOCK")
-    }), null, 2));
+    })), null, 2));
     process.exitCode = 2;
     return;
   }
@@ -325,23 +394,23 @@ function main() {
 
   const expectedTransitionResult = realWrite ? "GUARDED_TRANSITION_WRITE_DONE" : "DRY_RUN_TRANSITION_READY";
   if (transitionStep.result !== expectedTransitionResult) {
-    console.log(JSON.stringify(aggregateOutput({
+    console.log(JSON.stringify(outputWithOptionalAudit(args, aggregateOutput({
       args,
       flowResult: "BLOCKED_TRANSITION_STEP",
       blockedReason: `Transition step returned ${transitionStep.result}.`,
       commentStep,
       transitionStep
-    }), null, 2));
+    })), null, 2));
     process.exitCode = 2;
     return;
   }
 
-  console.log(JSON.stringify(aggregateOutput({
+  console.log(JSON.stringify(outputWithOptionalAudit(args, aggregateOutput({
     args,
     flowResult: realWrite ? "GUARDED_FLOW_WRITE_DONE" : "DRY_RUN_FLOW_READY",
     commentStep,
     transitionStep
-  }), null, 2));
+  })), null, 2));
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
