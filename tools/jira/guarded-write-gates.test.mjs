@@ -140,6 +140,52 @@ function guardedWithMockFetch(args) {
   }
 }
 
+function guardedWithDuplicateMarker(args) {
+  const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-jira-duplicate-"));
+  const mockFetch = path.join(tempDir, "mock-fetch.mjs");
+  const marker = "RIC-STUDIO-JIRA-EVIDENCE::DayBudget::RIC-STUDIO-098A::add_evidence_comment";
+
+  try {
+    writeFileSync(mockFetch, [
+      "globalThis.fetch = async (url, options = {}) => {",
+      "  const method = String(options.method || 'GET').toUpperCase();",
+      "  if (method === 'GET' && String(url).includes('/comment')) {",
+      "    return new Response(",
+      `      JSON.stringify({ comments: [{ id: "existing-comment-098A", body: { content: [{ content: [{ text: ${JSON.stringify(marker)} }] }] } }] }),`,
+      "      { status: 200, headers: { \"Content-Type\": \"application/json\" } }",
+      "    );",
+      "  }",
+      "  if (method === 'POST' && String(url).includes('/comment')) {",
+      "    return new Response(JSON.stringify({ error: 'duplicate guard failed to block post' }), { status: 500 });",
+      "  }",
+      "  return new Response(null, { status: 204 });",
+      "};",
+      ""
+    ].join("\n"));
+
+    const result = runNode([
+      "--import",
+      pathToFileURL(mockFetch).href,
+      guardedWrite,
+      ...args
+    ], {
+      env: {
+        JIRA_BASE_URL: "https://example.invalid",
+        JIRA_EMAIL: "synthetic@example.invalid",
+        JIRA_API_TOKEN: "synthetic-token"
+      }
+    });
+
+    return {
+      status: result.status,
+      outputs: result.outputs,
+      stdout: result.stdout
+    };
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
 function validate(args) {
   return runNode([validateConfig, ...args]);
 }
@@ -209,6 +255,7 @@ test("DAY-11 sample config prepares an evidence add_comment dry-run without API 
   assert.equal(output.operation, "add_comment");
   assert.equal(output.planned_jira_operation.type, "add_comment");
   assert.equal(output.planned_jira_operation.issue_key, "DAY-11");
+  assert.equal(output.duplicate_detection.executed, false);
   assertNoJiraCall(output);
 });
 
@@ -373,6 +420,33 @@ test("real evidence comment with approvals but missing env blocks before API or 
   assertNoJiraCall(output);
 });
 
+test("duplicate evidence marker blocks real comment before creating another comment", () => {
+  const { status, outputs } = guardedWithDuplicateMarker([
+    ...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-098A"),
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--real-write"
+  ]);
+  const [plan, result] = outputs;
+
+  assert.equal(status, 2);
+  assert.equal(outputs.length, 2);
+  assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
+  assert.equal(result.result, "BLOCKED_DUPLICATE_EVIDENCE_COMMENT");
+  assert.equal(result.issue_key, "DAY-11");
+  assert.equal(result.operation, "add_comment");
+  assert.equal(result.jira_write_performed, false);
+  assert.equal(result.jira_api_called, true);
+  assert.equal(result.network_call_performed, true);
+  assert.equal(result.duplicate_check_performed, true);
+  assert.equal(result.duplicate_marker_found, true);
+  assert.equal(result.existing_comment_id, "existing-comment-098A");
+  assert.equal(result.comment_created, false);
+  assert.equal(Object.hasOwn(result, "planned_jira_operation"), false);
+  assert.equal(result.secrets_printed, false);
+  assert.equal(result.no_write_confirmation, "NO_WRITE");
+});
+
 test("real transition without owner approval blocks before API or network calls", () => {
   const { status, output } = guarded([...baseTransitionArgs("DAY-8"), "--real-write"]);
 
@@ -435,6 +509,9 @@ test("mocked real evidence comment result uses task key and does not claim NO_WR
   assert.equal(result.jira_write_performed, true);
   assert.equal(result.jira_api_called, true);
   assert.equal(result.network_call_performed, true);
+  assert.equal(result.duplicate_check_performed, true);
+  assert.equal(result.duplicate_marker_found, false);
+  assert.equal(result.existing_comment_id, null);
   assert.equal(result.comment_created, true);
   assert.equal(result.comment_id, "mock-comment-087A");
   assert.equal(result.write_confirmation, "GUARDED_WRITE_COMPLETED");

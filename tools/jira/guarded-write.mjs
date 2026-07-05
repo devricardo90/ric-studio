@@ -329,7 +329,12 @@ function evidenceCommentPlan(args) {
     idempotency_marker: idempotencyMarker,
     duplicate_detection: {
       executed: duplicateDetectionExecuted,
-      reason: "No read-comments Jira API access is performed by this guarded MVP.",
+      reason: realWriteRequested
+        ? "Read-only Jira comment marker detection runs after owner/env gates pass and immediately before any guarded comment write."
+        : "Dry-run does not read Jira comments or write Jira comments.",
+      duplicate_check_performed: false,
+      duplicate_marker_found: false,
+      existing_comment_id: null,
       real_write_requires_duplicate_risk_acceptance: true,
       duplicate_risk_accepted: duplicateRiskAccepted
     },
@@ -603,6 +608,16 @@ function buildCommentDocument(comment) {
   };
 }
 
+function collectText(value) {
+  if (value === null || value === undefined) return "";
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value.map(collectText).join("\n");
+  if (typeof value === "object") {
+    return Object.values(value).map(collectText).join("\n");
+  }
+  return "";
+}
+
 function normalizeBaseUrl(value) {
   const url = new URL(value);
 
@@ -614,6 +629,49 @@ function normalizeBaseUrl(value) {
   url.search = "";
   url.hash = "";
   return url.toString().replace(/\/+$/, "");
+}
+
+async function findEvidenceCommentMarker({ issue, marker, env }) {
+  const baseUrl = normalizeBaseUrl(env.JIRA_BASE_URL);
+  const endpoint = `${baseUrl}/rest/api/3/issue/${encodeURIComponent(issue)}/comment?maxResults=100`;
+  const response = await fetch(endpoint, {
+    method: "GET",
+    headers: {
+      "Accept": "application/json",
+      "Authorization": buildAuthHeader(env.JIRA_EMAIL, env.JIRA_API_TOKEN)
+    }
+  });
+
+  let responseBody = null;
+  const text = await response.text();
+  if (text) {
+    try {
+      responseBody = JSON.parse(text);
+    } catch {
+      responseBody = { non_json_response: true };
+    }
+  }
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      http_status: response.status,
+      duplicate_check_performed: true,
+      duplicate_marker_found: false,
+      existing_comment_id: null
+    };
+  }
+
+  const comments = Array.isArray(responseBody?.comments) ? responseBody.comments : [];
+  const existing = comments.find((comment) => collectText(comment.body).includes(marker));
+
+  return {
+    ok: true,
+    http_status: response.status,
+    duplicate_check_performed: true,
+    duplicate_marker_found: Boolean(existing),
+    existing_comment_id: existing && typeof existing.id === "string" ? existing.id : null
+  };
 }
 
 async function writeComment({ issue, comment, env }) {
@@ -753,6 +811,72 @@ async function main() {
 
       console.log(JSON.stringify(plan, null, 2));
       try {
+        const duplicateCheck = await findEvidenceCommentMarker({
+          issue,
+          marker: plan.idempotency_marker,
+          env: process.env
+        });
+
+        if (!duplicateCheck.ok) {
+          console.log(JSON.stringify({
+            ...baseOutput({
+              action,
+              issue,
+              operation: "add_comment",
+              realWriteRequested: true,
+              taskId: plan.local_task?.task_key || null
+            }),
+            mode: "GUARDED_COMMENT_ONLY",
+            result: "BLOCKED_DUPLICATE_CHECK_FAILED",
+            blocked_reason: "Read-only duplicate evidence comment check failed.",
+            jira_write_performed: false,
+            jira_api_called: true,
+            network_call_performed: true,
+            credentials_required: true,
+            duplicate_check_performed: true,
+            duplicate_marker_found: false,
+            existing_comment_id: null,
+            http_status: duplicateCheck.http_status,
+            comment_created: false,
+            no_write_confirmation: "NO_WRITE",
+            token_created: false,
+            token_stored: false,
+            secrets_printed: false
+          }, null, 2));
+          process.exitCode = 2;
+          return;
+        }
+
+        if (duplicateCheck.duplicate_marker_found) {
+          console.log(JSON.stringify({
+            ...baseOutput({
+              action,
+              issue,
+              operation: "add_comment",
+              realWriteRequested: true,
+              taskId: plan.local_task?.task_key || null
+            }),
+            mode: "GUARDED_COMMENT_ONLY",
+            result: "BLOCKED_DUPLICATE_EVIDENCE_COMMENT",
+            blocked_reason: "Existing evidence comment marker found; duplicate comment write blocked.",
+            jira_write_performed: false,
+            jira_api_called: true,
+            network_call_performed: true,
+            credentials_required: true,
+            duplicate_check_performed: true,
+            duplicate_marker_found: true,
+            existing_comment_id: duplicateCheck.existing_comment_id,
+            http_status: duplicateCheck.http_status,
+            comment_created: false,
+            no_write_confirmation: "NO_WRITE",
+            token_created: false,
+            token_stored: false,
+            secrets_printed: false
+          }, null, 2));
+          process.exitCode = 2;
+          return;
+        }
+
         const result = await writeComment({ issue, comment: plan.planned_jira_operation.comment, env: process.env });
         console.log(JSON.stringify({
           ...baseOutput({
@@ -772,6 +896,9 @@ async function main() {
           comment_created: result.ok,
           comment_id: result.comment_id,
           comment_self: result.self,
+          duplicate_check_performed: true,
+          duplicate_marker_found: false,
+          existing_comment_id: null,
           write_confirmation: result.ok ? "GUARDED_WRITE_COMPLETED" : "NO_WRITE",
           no_write_confirmation: result.ok ? undefined : "NO_WRITE",
           token_created: false,
