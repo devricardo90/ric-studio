@@ -729,6 +729,36 @@ async function writeTransition({ issue, transitionId, env }) {
   };
 }
 
+async function readIssueStatus({ issue, env }) {
+  const baseUrl = normalizeBaseUrl(env.JIRA_BASE_URL);
+  const endpoint = `${baseUrl}/rest/api/3/issue/${encodeURIComponent(issue)}?fields=status`;
+  const response = await fetch(endpoint, {
+    method: "GET",
+    headers: {
+      "Accept": "application/json",
+      "Authorization": buildAuthHeader(env.JIRA_EMAIL, env.JIRA_API_TOKEN)
+    }
+  });
+
+  let responseBody = null;
+  const text = await response.text();
+  if (text) {
+    try {
+      responseBody = JSON.parse(text);
+    } catch {
+      responseBody = { non_json_response: true };
+    }
+  }
+
+  return {
+    ok: response.ok,
+    http_status: response.status,
+    issue_key: responseBody && typeof responseBody.key === "string" ? responseBody.key : null,
+    status_name: responseBody && typeof responseBody.fields?.status?.name === "string" ? responseBody.fields.status.name : null,
+    status_id: responseBody && typeof responseBody.fields?.status?.id === "string" ? responseBody.fields.status.id : null
+  };
+}
+
 function validateRequest(args) {
   const action = normalizeAction(args.action);
   const requestedStatus = normalizeStatus(args.to);
@@ -970,6 +1000,36 @@ async function main() {
           transitionId: plan.planned_jira_operation.transition_id,
           env: process.env
         });
+
+        let verification = null;
+        if (result.ok) {
+          verification = await readIssueStatus({ issue, env: process.env });
+        }
+
+        const expectedTargetStatus = plan.guarded_transition_smoke.target_status_name;
+        const verifiedIssueKey = verification?.issue_key || null;
+        const actualStatus = verification?.status_name || null;
+        const verificationMatches = Boolean(
+          verification?.ok &&
+          verifiedIssueKey === issue &&
+          actualStatus === expectedTargetStatus
+        );
+        const verifyResult = !result.ok
+          ? "NOT_RUN"
+          : verificationMatches
+            ? "VERIFIED_DONE"
+            : verification?.ok
+              ? "VERIFY_FAILED"
+              : "VERIFY_BLOCKED";
+        const transitionResult = !result.ok
+          ? "BLOCKED_INVALID_ISSUE"
+          : verificationMatches
+            ? "GUARDED_TRANSITION_WRITE_DONE"
+            : verifyResult === "VERIFY_FAILED"
+              ? "GUARDED_TRANSITION_VERIFY_FAILED"
+              : "GUARDED_TRANSITION_VERIFY_BLOCKED";
+        const requiresManualReview = result.ok && !verificationMatches;
+
         console.log(JSON.stringify({
           ...baseOutput({
             action,
@@ -979,7 +1039,7 @@ async function main() {
             taskId: plan.task_id
           }),
           mode: "GUARDED_TRANSITION_SMOKE",
-          result: result.ok ? "GUARDED_TRANSITION_WRITE_DONE" : "BLOCKED_INVALID_ISSUE",
+          result: transitionResult,
           jira_write_performed: result.ok,
           jira_api_called: true,
           network_call_performed: true,
@@ -987,14 +1047,26 @@ async function main() {
           http_status: result.http_status,
           transition_performed: result.ok,
           transition_id: result.transition_id,
-          target_status_name: plan.guarded_transition_smoke.target_status_name,
-          write_confirmation: result.ok ? "GUARDED_TRANSITION_COMPLETED" : "NO_WRITE",
+          target_status_name: expectedTargetStatus,
+          post_write_verify_performed: Boolean(verification),
+          verify_result: verifyResult,
+          status_verified: verificationMatches,
+          verified_issue_key: verifiedIssueKey,
+          expected_target_status: expectedTargetStatus,
+          actual_status: actualStatus,
+          partial_write_performed: requiresManualReview,
+          requires_manual_review: requiresManualReview,
+          write_confirmation: verificationMatches
+            ? "GUARDED_TRANSITION_COMPLETED"
+            : result.ok
+              ? "TRANSITION_WRITE_REQUIRES_MANUAL_REVIEW"
+              : "NO_WRITE",
           no_write_confirmation: result.ok ? undefined : "NO_WRITE",
           token_created: false,
           token_stored: false,
           secrets_printed: false
         }, null, 2));
-        process.exitCode = result.ok ? 0 : 2;
+        process.exitCode = verificationMatches ? 0 : 2;
       } catch (error) {
         console.log(JSON.stringify({
           ...baseOutput({

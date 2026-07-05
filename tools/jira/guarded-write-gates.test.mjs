@@ -107,6 +107,13 @@ function guardedWithMockFetch(args) {
   try {
     writeFileSync(mockFetch, [
       "globalThis.fetch = async (url, options) => {",
+      "  const method = String(options?.method || 'GET').toUpperCase();",
+      "  if (method === 'GET' && String(url).includes('/issue/') && !String(url).includes('/comment') && !String(url).includes('/transitions')) {",
+      "    return new Response(",
+      "      JSON.stringify({ key: \"DAY-8\", fields: { status: { id: \"10038\", name: \"Revisar\" } } }),",
+      "      { status: 200, headers: { \"Content-Type\": \"application/json\" } }",
+      "    );",
+      "  }",
       "  if (String(url).includes('/transitions')) {",
       "    return new Response(null, { status: 204 });",
       "  }",
@@ -114,6 +121,60 @@ function guardedWithMockFetch(args) {
       "    JSON.stringify({ id: \"mock-comment-087A\", self: \"https://example.invalid/rest/api/3/issue/DAY-8/comment/mock-comment-087A\" }),",
       "    { status: 201, headers: { \"Content-Type\": \"application/json\" } }",
       "  );",
+      "};",
+      ""
+    ].join("\n"));
+
+    const result = runNode([
+      "--import",
+      pathToFileURL(mockFetch).href,
+      guardedWrite,
+      ...args
+    ], {
+      env: {
+        JIRA_BASE_URL: "https://example.invalid",
+        JIRA_EMAIL: "synthetic@example.invalid",
+        JIRA_API_TOKEN: "synthetic-token"
+      }
+    });
+
+    return {
+      status: result.status,
+      outputs: result.outputs
+    };
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+}
+
+function guardedWithTransitionVerification(args, verification) {
+  const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-jira-transition-verify-"));
+  const mockFetch = path.join(tempDir, "mock-fetch.mjs");
+
+  try {
+    const status = verification.status || 200;
+    const body = verification.body || {
+      key: verification.issueKey || "DAY-8",
+      fields: {
+        status: {
+          id: verification.statusId || "10038",
+          name: verification.statusName || "Revisar"
+        }
+      }
+    };
+
+    writeFileSync(mockFetch, [
+      "globalThis.fetch = async (url, options = {}) => {",
+      "  const method = String(options.method || 'GET').toUpperCase();",
+      "  if (method === 'POST' && String(url).includes('/transitions')) {",
+      "    return new Response(null, { status: 204 });",
+      "  }",
+      "  if (method === 'GET' && String(url).includes('/issue/') && !String(url).includes('/comment') && !String(url).includes('/transitions')) {",
+      status >= 200 && status < 300
+        ? `    return new Response(${JSON.stringify(JSON.stringify(body))}, { status: ${status}, headers: { "Content-Type": "application/json" } });`
+        : `    return new Response(${JSON.stringify(JSON.stringify({ error: "verify failed" }))}, { status: ${status}, headers: { "Content-Type": "application/json" } });`,
+      "  }",
+      "  return new Response(JSON.stringify({ comments: [] }), { status: 200, headers: { \"Content-Type\": \"application/json\" } });",
       "};",
       ""
     ].join("\n"));
@@ -543,7 +604,80 @@ test("mocked real transition result uses exact task key and does not claim NO_WR
   assert.equal(result.transition_performed, true);
   assert.equal(result.transition_id, "31");
   assert.equal(result.target_status_name, "Revisar");
+  assert.equal(result.post_write_verify_performed, true);
+  assert.equal(result.verify_result, "VERIFIED_DONE");
+  assert.equal(result.status_verified, true);
+  assert.equal(result.verified_issue_key, "DAY-8");
+  assert.equal(result.expected_target_status, "Revisar");
+  assert.equal(result.actual_status, "Revisar");
+  assert.equal(result.partial_write_performed, false);
+  assert.equal(result.requires_manual_review, false);
   assert.equal(result.write_confirmation, "GUARDED_TRANSITION_COMPLETED");
+  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+  assert.equal(result.secrets_printed, false);
+});
+
+test("successful transition followed by wrong status returns VERIFY_FAILED without claiming completion", () => {
+  const { status, outputs } = guardedWithTransitionVerification([
+    ...baseTransitionArgs("DAY-8", "RIC-STUDIO-099A"),
+    "--owner-approved",
+    "--transition-risk-accepted",
+    "--real-write"
+  ], {
+    statusName: "Em andamento",
+    statusId: "10037"
+  });
+  const [plan, result] = outputs;
+
+  assert.equal(status, 2);
+  assert.equal(outputs.length, 2);
+  assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
+  assert.equal(result.result, "GUARDED_TRANSITION_VERIFY_FAILED");
+  assert.equal(result.jira_write_performed, true);
+  assert.equal(result.jira_api_called, true);
+  assert.equal(result.network_call_performed, true);
+  assert.equal(result.transition_performed, true);
+  assert.equal(result.post_write_verify_performed, true);
+  assert.equal(result.verify_result, "VERIFY_FAILED");
+  assert.equal(result.status_verified, false);
+  assert.equal(result.verified_issue_key, "DAY-8");
+  assert.equal(result.expected_target_status, "Revisar");
+  assert.equal(result.actual_status, "Em andamento");
+  assert.equal(result.partial_write_performed, true);
+  assert.equal(result.requires_manual_review, true);
+  assert.equal(result.write_confirmation, "TRANSITION_WRITE_REQUIRES_MANUAL_REVIEW");
+  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+  assert.equal(result.secrets_printed, false);
+});
+
+test("successful transition with failed verification read returns VERIFY_BLOCKED", () => {
+  const { status, outputs } = guardedWithTransitionVerification([
+    ...baseTransitionArgs("DAY-8", "RIC-STUDIO-099A"),
+    "--owner-approved",
+    "--transition-risk-accepted",
+    "--real-write"
+  ], {
+    status: 503
+  });
+  const [plan, result] = outputs;
+
+  assert.equal(status, 2);
+  assert.equal(outputs.length, 2);
+  assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
+  assert.equal(result.result, "GUARDED_TRANSITION_VERIFY_BLOCKED");
+  assert.equal(result.jira_write_performed, true);
+  assert.equal(result.jira_api_called, true);
+  assert.equal(result.network_call_performed, true);
+  assert.equal(result.transition_performed, true);
+  assert.equal(result.post_write_verify_performed, true);
+  assert.equal(result.verify_result, "VERIFY_BLOCKED");
+  assert.equal(result.status_verified, false);
+  assert.equal(result.verified_issue_key, null);
+  assert.equal(result.expected_target_status, "Revisar");
+  assert.equal(result.actual_status, null);
+  assert.equal(result.partial_write_performed, true);
+  assert.equal(result.requires_manual_review, true);
+  assert.equal(result.write_confirmation, "TRANSITION_WRITE_REQUIRES_MANUAL_REVIEW");
   assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
   assert.equal(result.secrets_printed, false);
 });
