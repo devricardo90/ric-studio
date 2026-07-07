@@ -1,14 +1,17 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { approvedCommandHash } from "./approval-manifest.mjs";
 import { aggregateOutput } from "./operator-safe-flow.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 const operatorFlow = path.join(repoRoot, "tools", "jira", "operator-safe-flow.mjs");
 const validateConfig = path.join(repoRoot, "tools", "jira", "validate-config.mjs");
+const approvalDir = path.join(repoRoot, "docs", "validation", "jira-operator-approvals");
 
 function sanitizedEnv() {
   const env = { ...process.env };
@@ -59,6 +62,35 @@ function assertNoJiraCall(output) {
   assert.equal(output.jira_api_called, false);
   assert.equal(output.network_call_performed, false);
   assert.equal(output.secrets_printed, false);
+}
+
+function approvalManifestPath(name) {
+  return `docs/validation/jira-operator-approvals/${name}-${process.pid}.json`;
+}
+
+function writeApprovalManifest(name, overrides = {}) {
+  mkdirSync(approvalDir, { recursive: true });
+  const relativePath = approvalManifestPath(name);
+  const approvedCommand = "node tools/jira/operator-safe-flow.mjs --issue DAY-11 --task-key RIC-STUDIO-096B --transition-id 31 --to Revisar --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write";
+  const manifest = {
+    task_key: "RIC-STUDIO-096B",
+    issue_key: "DAY-11",
+    expected_before_status: "Backlog / Ready",
+    transition_id: "31",
+    target_status: "Revisar",
+    owner_approved: true,
+    duplicate_risk_accepted: true,
+    transition_risk_accepted: true,
+    approved_command_hash: approvedCommandHash(approvedCommand),
+    created_at: "2026-07-07T00:00:00.000Z",
+    ...overrides
+  };
+  writeFileSync(path.resolve(repoRoot, relativePath), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+  return relativePath;
+}
+
+function cleanup(relativePath) {
+  rmSync(path.resolve(repoRoot, relativePath), { force: true });
 }
 
 test("DAY-8 dry-run flow prepares comment and transition without Jira calls", () => {
@@ -202,6 +234,53 @@ test("missing env blocks fully approved real flow before Jira calls", () => {
   assert.equal(output.comment_step.ran, false);
   assert.equal(output.transition_step.ran, false);
   assertNoJiraCall(output);
+});
+
+test("missing approval manifest blocks real flow before Jira calls", () => {
+  const { status, output } = flow([
+    ...baseArgs("DAY-11"),
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--transition-risk-accepted",
+    "--real-write"
+  ], {
+    env: {
+      JIRA_BASE_URL: "https://example.invalid",
+      JIRA_EMAIL: "synthetic@example.invalid",
+      JIRA_API_TOKEN: "synthetic-token"
+    }
+  });
+
+  assert.equal(status, 2);
+  assert.equal(output.flow_result, "BLOCKED_PREFLIGHT");
+  assert.match(output.blocked_reason, /--approval-manifest/);
+  assert.equal(output.comment_step.ran, false);
+  assert.equal(output.transition_step.ran, false);
+  assertNoJiraCall(output);
+});
+
+test("approval manifest mismatch blocks real flow before Jira calls", () => {
+  const manifestPath = writeApprovalManifest("cli-issue-mismatch", { issue_key: "DAY-10" });
+
+  try {
+    const { status, output } = flow([
+      ...baseArgs("DAY-11"),
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--approval-manifest", manifestPath,
+      "--real-write"
+    ]);
+
+    assert.equal(status, 2);
+    assert.equal(output.flow_result, "BLOCKED_PREFLIGHT");
+    assert.match(output.blocked_reason, /issue mismatch/);
+    assert.equal(output.comment_step.ran, false);
+    assert.equal(output.transition_step.ran, false);
+    assertNoJiraCall(output);
+  } finally {
+    cleanup(manifestPath);
+  }
 });
 
 test("partial write failure reports partial state without full-flow completion", () => {

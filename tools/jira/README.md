@@ -137,3 +137,28 @@ Required environment variables for real write mode:
 If any required variable is missing, the result is `BLOCKED` and no Jira write is attempted.
 
 The tool must not create tokens, store tokens, print tokens, print an Authorization header, read `.env` files, call Jira CLI, automate DONE, create issues, transition issues, attach files, delete data, edit workflows, edit project configuration, or run bulk operations.
+
+## Operator Approval Manifest
+
+`operator-safe-flow.mjs` requires `--approval-manifest` for real operator flow execution. The manifest is validated alongside the existing `--owner-approved`, `--duplicate-risk-accepted`, and `--transition-risk-accepted` flags.
+
+Approval manifests must be JSON files under:
+
+```text
+docs/validation/jira-operator-approvals/
+```
+
+Required fields:
+
+- `task_key`
+- `issue_key`
+- `expected_before_status`
+- `transition_id`
+- `target_status`
+- `owner_approved: true`
+- `duplicate_risk_accepted`
+- `transition_risk_accepted`
+- `approved_command` or `approved_command_hash`
+- `created_at`
+
+The validator rejects manifests outside the allowed directory, secret-like values, missing risk fields, owner approval other than `true`, and any mismatch against the exact operator task, issue, before status, transition id, target status, risk flags, or approved command hash.

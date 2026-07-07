@@ -4,18 +4,19 @@ import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { appendAuditRecord, resolveAuditPath } from "./audit-log.mjs";
+import { approvedCommandHash, validateApprovalManifest } from "./approval-manifest.mjs";
 
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BOOLEAN_FLAGS = ["dry-run", "real-write", "owner-approved", "duplicate-risk-accepted", "transition-risk-accepted"];
-const VALUE_FLAGS = ["issue", "task-key", "transition-id", "to", "validation-summary", "audit-log"];
+const VALUE_FLAGS = ["issue", "task-key", "transition-id", "to", "validation-summary", "audit-log", "approval-manifest"];
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 const guardedWrite = path.join(repoRoot, "tools", "jira", "guarded-write.mjs");
 const sampleConfig = "docs/config/jira-sync-config.sample.json";
 const operatorFlowIssue = "DAY-11";
 const operatorFlowTransitions = [
-  { transitionId: "31", targetStatus: "Revisar" },
-  { transitionId: "41", targetStatus: "Remote DONE" }
+  { transitionId: "31", expectedBeforeStatus: "Backlog / Ready", targetStatus: "Revisar" },
+  { transitionId: "41", expectedBeforeStatus: "Revisar", targetStatus: "Remote DONE" }
 ];
 
 function parseArgs(argv) {
@@ -165,6 +166,27 @@ function matchingOperatorTransition(args) {
   );
 }
 
+function canonicalApprovedCommand(args) {
+  const command = [
+    "node",
+    "tools/jira/operator-safe-flow.mjs",
+    "--issue", normalizeString(args.issue),
+    "--task-key", normalizeString(args["task-key"]),
+    "--transition-id", normalizeString(args["transition-id"]),
+    "--to", normalizeString(args.to),
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--transition-risk-accepted",
+    "--real-write"
+  ];
+
+  if (normalizeString(args["audit-log"])) {
+    command.push("--audit-log", normalizeString(args["audit-log"]));
+  }
+
+  return command.join(" ");
+}
+
 function flowEnv(realWrite, env) {
   if (realWrite) return env;
 
@@ -254,12 +276,14 @@ function transitionArgs(args, realWrite) {
 
 function validateRealWritePreflight(args, env) {
   const findings = [];
+  let approvalManifest = null;
 
   if (args["owner-approved"] !== true) findings.push("Missing required --owner-approved.");
   if (args["duplicate-risk-accepted"] !== true) findings.push("Missing required --duplicate-risk-accepted.");
   if (args["transition-risk-accepted"] !== true) findings.push("Missing required --transition-risk-accepted.");
   if (normalizeString(args.issue) !== operatorFlowIssue) findings.push(`Real flow requires exact --issue ${operatorFlowIssue}.`);
-  if (!matchingOperatorTransition(args)) {
+  const operatorTransition = matchingOperatorTransition(args);
+  if (!operatorTransition) {
     findings.push(
       `Real flow requires an exact configured transition for ${operatorFlowIssue}: ` +
       operatorFlowTransitions.map((transition) => `--transition-id ${transition.transitionId} --to ${transition.targetStatus}`).join(" or ")
@@ -267,12 +291,38 @@ function validateRealWritePreflight(args, env) {
   }
   if (!normalizeString(args["task-key"])) findings.push("Real flow requires exact --task-key.");
 
+  if (!normalizeString(args["approval-manifest"])) {
+    findings.push("Real flow requires --approval-manifest.");
+  } else {
+    try {
+      const approvedCommand = canonicalApprovedCommand(args);
+      approvalManifest = validateApprovalManifest({
+        manifestPath: args["approval-manifest"],
+        expected: {
+          taskKey: normalizeString(args["task-key"]),
+          issueKey: normalizeString(args.issue),
+          expectedBeforeStatus: operatorTransition?.expectedBeforeStatus || "",
+          transitionId: normalizeString(args["transition-id"]),
+          targetStatus: normalizeString(args.to),
+          ownerApproved: args["owner-approved"] === true,
+          duplicateRiskAccepted: args["duplicate-risk-accepted"] === true,
+          transitionRiskAccepted: args["transition-risk-accepted"] === true,
+          approvedCommand,
+          approvedCommandHash: approvedCommandHash(approvedCommand)
+        }
+      });
+    } catch (error) {
+      findings.push(error.message);
+    }
+  }
+
   const missingEnv = missingEnvironment(env);
   if (missingEnv.length > 0) findings.push(`Missing required environment variables: ${missingEnv.join(", ")}.`);
 
   return {
     findings,
-    missingEnv
+    missingEnv,
+    approvalManifest
   };
 }
 
