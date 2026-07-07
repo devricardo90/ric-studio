@@ -1,0 +1,13 @@
+{
+  "task_key": "RIC-STUDIO-103A",
+  "issue_key": "DAY-12",
+  "expected_before_status": "Backlog / Ready",
+  "transition_id": "31",
+  "target_status": "Revisar",
+  "owner_approved": true,
+  "duplicate_risk_accepted": true,
+  "transition_risk_accepted": true,
+  "approved_command_hash": "2d27d73f432ef7f34b7af32cbae8a121441879439265c60ae716dba00dc188c4",
+  "approved_queue_execute_command_hash": "503fa8ad004ea141dc59a9edf9c4de2ded11df18e1868caf6091d747643ba95b",
+  "created_at": "2026-07-07T00:00:00.000Z"
+}
