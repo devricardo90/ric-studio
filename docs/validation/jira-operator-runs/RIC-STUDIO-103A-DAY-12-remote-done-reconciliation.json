@@ -1,0 +1,17 @@
+{
+  "evidence_type": "manual_reconciliation_after_missing_operator_audit_record",
+  "issue_key": "DAY-12",
+  "current_jira_status_read_only": "Remote DONE",
+  "intended_transition": "Revisar -> Remote DONE",
+  "transition_id": "41",
+  "expected_marker": "RIC-STUDIO-JIRA-EVIDENCE::DayBudget::RIC-STUDIO-103A::add_evidence_comment::revisar->remote-done::transition-41",
+  "jira_write_not_repeated": true,
+  "full_sync_performed_in_reconciliation": false,
+  "create_issue_performed_in_reconciliation": false,
+  "bulk_operation_performed_in_reconciliation": false,
+  "secrets_printed": false,
+  "audit_gap_detected": true,
+  "original_success_audit_record_found": false,
+  "source_evidence_summary": "Local validation search found no Remote DONE success audit record for DAY-12. The visible Remote DONE JSONL contains only the earlier BLOCKED_DUPLICATE_EVIDENCE_MARKER attempt. Read-only Jira status confirmed DAY-12 is Remote DONE with status id 10039. Read-only Jira comments found marker comment id 10368 created 2026-07-08T20:28:00.806+0200 containing the expected transition-specific marker. Read-only Jira changelog found a status transition to Remote DONE at 2026-07-08T20:28:02.084+0200.",
+  "recommended_follow_up": "Harden queue/operator audit-log persistence verification so audit_log_written=true is only reported after verifying the expected record is present at the visible workspace path, and investigate sandbox/escalation path divergence before relying on local audit evidence."
+}

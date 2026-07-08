@@ -1,0 +1,18 @@
+{
+  "task_key": "RIC-STUDIO-103A",
+  "issue_key": "DAY-12",
+  "expected_before_status": "Revisar",
+  "from_status": "Revisar",
+  "transition_id": "41",
+  "target_status": "Remote DONE",
+  "to_status": "Remote DONE",
+  "single_execution_only": true,
+  "owner_approved": true,
+  "duplicate_risk_accepted": true,
+  "transition_risk_accepted": true,
+  "approved_command_hash": "58973e4cc0f7f40fecc60688962e4ee058af566c8c0048b82748b4a57f703e89",
+  "approved_queue_execute_command_hash": "3ad69604191196cf5618954ce556f931dd981913680406f30c0a4c9dd7895198",
+  "approved_queue_execute_with_audit_command_hash": "532a74d8f688d9d5128e79d90424586c3eb6c9be459f2b32649c3fb42df592aa",
+  "approved_audit_log_path": "docs/validation/jira-operator-runs/RIC-STUDIO-103A-DAY-12-revisar-to-remote-done.jsonl",
+  "created_at": "2026-07-08T00:00:00.000Z"
+}
