@@ -201,10 +201,10 @@ function guardedWithTransitionVerification(args, verification) {
   }
 }
 
-function guardedWithDuplicateMarker(args) {
+function guardedWithDuplicateMarker(args, options = {}) {
   const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-jira-duplicate-"));
   const mockFetch = path.join(tempDir, "mock-fetch.mjs");
-  const marker = "RIC-STUDIO-JIRA-EVIDENCE::DayBudget::RIC-STUDIO-098A::add_evidence_comment";
+  const marker = options.marker || evidenceMarker("RIC-STUDIO-098A", "31", "Backlog / Ready", "Revisar");
 
   try {
     writeFileSync(mockFetch, [
@@ -217,7 +217,9 @@ function guardedWithDuplicateMarker(args) {
       "    );",
       "  }",
       "  if (method === 'POST' && String(url).includes('/comment')) {",
-      "    return new Response(JSON.stringify({ error: 'duplicate guard failed to block post' }), { status: 500 });",
+      options.allowPost
+        ? "    return new Response(JSON.stringify({ id: \"new-comment-098A\", self: \"https://example.invalid/rest/api/3/issue/DAY-11/comment/new-comment-098A\" }), { status: 201, headers: { \"Content-Type\": \"application/json\" } });"
+        : "    return new Response(JSON.stringify({ error: 'duplicate guard failed to block post' }), { status: 500 });",
       "  }",
       "  return new Response(null, { status: 204 });",
       "};",
@@ -277,6 +279,11 @@ function baseTransitionArgs(issue, taskKey = "RIC-STUDIO-088A", transitionId = "
   ];
 }
 
+function evidenceMarker(taskKey, transitionId, fromStatus, toStatus) {
+  const slug = (value) => String(value).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return `RIC-STUDIO-JIRA-EVIDENCE::DayBudget::${taskKey}::add_evidence_comment::${slug(fromStatus)}->${slug(toStatus)}::transition-${transitionId}`;
+}
+
 function assertNoJiraCall(output) {
   assert.equal(output.jira_write_performed, false);
   assert.equal(output.jira_api_called, false);
@@ -284,36 +291,39 @@ function assertNoJiraCall(output) {
 }
 
 test("DAY-8 sample config prepares an evidence add_comment dry-run without API or network calls", () => {
-  const { status, output } = guarded([...baseEvidenceArgs("DAY-8"), "--dry-run"]);
+  const { status, output } = guarded([...baseEvidenceArgs("DAY-8"), "--transition-id", "31", "--to", "Revisar", "--dry-run"]);
 
   assert.equal(status, 0);
   assert.equal(output.result, "DRY_RUN_COMMENT_READY");
   assert.equal(output.issue_key, "DAY-8");
   assert.equal(output.operation, "add_comment");
+  assert.equal(output.idempotency_marker, evidenceMarker("RIC-STUDIO-085A", "31", "Backlog / Ready", "Revisar"));
   assert.equal(output.planned_jira_operation.type, "add_comment");
   assert.equal(output.planned_jira_operation.issue_key, "DAY-8");
   assertNoJiraCall(output);
 });
 
 test("DAY-10 sample config prepares an evidence add_comment dry-run without API or network calls", () => {
-  const { status, output } = guarded([...baseEvidenceArgs("DAY-10", "DAY-10", "RIC-STUDIO-094A"), "--dry-run"]);
+  const { status, output } = guarded([...baseEvidenceArgs("DAY-10", "DAY-10", "RIC-STUDIO-094A"), "--transition-id", "41", "--to", "Remote DONE", "--dry-run"]);
 
   assert.equal(status, 0);
   assert.equal(output.result, "DRY_RUN_COMMENT_READY");
   assert.equal(output.issue_key, "DAY-10");
   assert.equal(output.operation, "add_comment");
+  assert.equal(output.idempotency_marker, evidenceMarker("RIC-STUDIO-094A", "41", "Revisar", "Remote DONE"));
   assert.equal(output.planned_jira_operation.type, "add_comment");
   assert.equal(output.planned_jira_operation.issue_key, "DAY-10");
   assertNoJiraCall(output);
 });
 
 test("DAY-11 sample config prepares an evidence add_comment dry-run without API or network calls", () => {
-  const { status, output } = guarded([...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-096B"), "--dry-run"]);
+  const { status, output } = guarded([...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-096B"), "--transition-id", "31", "--to", "Revisar", "--dry-run"]);
 
   assert.equal(status, 0);
   assert.equal(output.result, "DRY_RUN_COMMENT_READY");
   assert.equal(output.issue_key, "DAY-11");
   assert.equal(output.operation, "add_comment");
+  assert.equal(output.idempotency_marker, evidenceMarker("RIC-STUDIO-096B", "31", "Backlog / Ready", "Revisar"));
   assert.equal(output.planned_jira_operation.type, "add_comment");
   assert.equal(output.planned_jira_operation.issue_key, "DAY-11");
   assert.equal(output.duplicate_detection.executed, false);
@@ -508,6 +518,8 @@ test("real evidence comment with approvals but missing env blocks before API or 
 test("duplicate evidence marker blocks real comment before creating another comment", () => {
   const { status, outputs } = guardedWithDuplicateMarker([
     ...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-098A"),
+    "--transition-id", "31",
+    "--to", "Revisar",
     "--owner-approved",
     "--duplicate-risk-accepted",
     "--real-write"
@@ -530,6 +542,33 @@ test("duplicate evidence marker blocks real comment before creating another comm
   assert.equal(Object.hasOwn(result, "planned_jira_operation"), false);
   assert.equal(result.secrets_printed, false);
   assert.equal(result.no_write_confirmation, "NO_WRITE");
+});
+
+test("different transition evidence marker does not collide with existing task comment", () => {
+  const { status, outputs } = guardedWithDuplicateMarker([
+    ...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-098A"),
+    "--transition-id", "41",
+    "--to", "Remote DONE",
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--real-write"
+  ], {
+    marker: evidenceMarker("RIC-STUDIO-098A", "31", "Backlog / Ready", "Revisar"),
+    allowPost: true
+  });
+  const [plan, result] = outputs;
+
+  assert.equal(status, 0);
+  assert.equal(outputs.length, 2);
+  assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
+  assert.equal(plan.idempotency_marker, evidenceMarker("RIC-STUDIO-098A", "41", "Revisar", "Remote DONE"));
+  assert.equal(result.result, "GUARDED_COMMENT_WRITE_DONE");
+  assert.equal(result.duplicate_check_performed, true);
+  assert.equal(result.duplicate_marker_found, false);
+  assert.equal(result.comment_created, true);
+  assert.equal(result.comment_id, "new-comment-098A");
+  assert.equal(result.jira_write_performed, true);
+  assert.equal(result.secrets_printed, false);
 });
 
 test("real transition without owner approval blocks before API or network calls", () => {

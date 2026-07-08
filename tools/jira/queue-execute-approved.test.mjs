@@ -16,6 +16,7 @@ const issueKey = "DAY-12";
 const transitionId = "31";
 const targetStatus = "Revisar";
 const operatorCommand = `node tools/jira/operator-safe-flow.mjs --issue ${issueKey} --task-key ${taskKey} --transition-id ${transitionId} --to ${targetStatus} --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write`;
+const duplicateMarker = `RIC-STUDIO-JIRA-EVIDENCE::DayBudget::${taskKey}::add_evidence_comment::backlog-ready->revisar::transition-${transitionId}`;
 const syntheticEnv = {
   JIRA_BASE_URL: "https://example.invalid",
   JIRA_EMAIL: "synthetic@example.invalid",
@@ -84,14 +85,13 @@ function baseArgs(manifestPath) {
 function writeMockFetch({ beforeStatus = "Backlog / Ready", verifyStatus = "Revisar", duplicate = false } = {}) {
   const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-queue-execute-"));
   const mockFetch = path.join(tempDir, "mock-fetch.mjs");
-  const marker = `RIC-STUDIO-JIRA-EVIDENCE::DayBudget::${taskKey}::add_evidence_comment`;
   writeFileSync(mockFetch, [
     "globalThis.fetch = async (url, options = {}) => {",
     "  const method = String(options.method || 'GET').toUpperCase();",
     "  const href = String(url);",
     "  if (method === 'GET' && href.includes('/comment')) {",
     duplicate
-      ? `    return new Response(JSON.stringify({ comments: [{ id: "existing-comment-102A", body: { content: [{ content: [{ text: ${JSON.stringify(marker)} }] }] } }] }), { status: 200, headers: { "Content-Type": "application/json" } });`
+      ? `    return new Response(JSON.stringify({ comments: [{ id: "existing-comment-102A", body: { content: [{ content: [{ text: ${JSON.stringify(duplicateMarker)} }] }] } }] }), { status: 200, headers: { "Content-Type": "application/json" } });`
       : "    return new Response(JSON.stringify({ comments: [] }), { status: 200, headers: { \"Content-Type\": \"application/json\" } });",
     "  }",
     "  if (method === 'POST' && href.includes('/comment')) {",

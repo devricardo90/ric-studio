@@ -17,7 +17,7 @@ const BLOCKED_ACTIONS = [
   "bulk_operation"
 ];
 const ISSUE_KEY_PATTERN = /^[A-Z][A-Z0-9]+-\d+$/;
-const EVIDENCE_MARKER_FORMAT = "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}";
+const EVIDENCE_MARKER_FORMAT = "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}::{fromStatusSlug}->{toStatusSlug}::transition-{transitionId}";
 const QUEUE_TRANSITION_PLAN = [
   { transitionId: "31", expectedBeforeStatus: "Backlog / Ready", targetStatus: "Revisar", targetStatusId: "10038" },
   { transitionId: "41", expectedBeforeStatus: "Revisar", targetStatus: "Remote DONE", targetStatusId: "10039" }
@@ -64,6 +64,13 @@ function normalizeStatus(value) {
 
 function normalizeString(value) {
   return String(value || "").trim();
+}
+
+function statusSlug(value) {
+  return normalizeString(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "status-required";
 }
 
 function resolveRepoPath(value) {
@@ -171,6 +178,11 @@ function findRegistryTask(registry, args) {
 function evidenceContext(args) {
   const task = args.registry ? findRegistryTask(readJson(args.registry), args) : null;
   const evidence = task?.evidence || {};
+  const transitionId = normalizeString(args["transition-id"] || args.transition);
+  const targetStatus = normalizeString(args.to);
+  const transition = matchingQueueTransition({ transitionId, targetStatus });
+  const fromStatus = normalizeString(args["from-status"] || transition?.expectedBeforeStatus);
+  const toStatus = normalizeString(args["to-status"] || targetStatus || transition?.targetStatus);
 
   return {
     project: normalizeString(args.project || task?.project),
@@ -181,7 +193,12 @@ function evidenceContext(args) {
     protocolLevel: normalizeString(args["protocol-level"] || task?.protocolLevel || task?.risk),
     validationSummary: normalizeString(args["validation-summary"] || evidence.smokeResult || "not recorded"),
     commitHash: normalizeString(args["commit-hash"] || evidence.commitHash || "not committed"),
-    pushConfirmation: normalizeString(args["push-confirmation"] || evidence.pushConfirmation || "not pushed")
+    pushConfirmation: normalizeString(args["push-confirmation"] || evidence.pushConfirmation || "not pushed"),
+    transitionId,
+    fromStatus,
+    toStatus,
+    fromStatusSlug: statusSlug(fromStatus),
+    toStatusSlug: statusSlug(toStatus)
   };
 }
 
@@ -189,7 +206,10 @@ function markerValue(format, context, operation) {
   return format
     .replace("{localProject}", context.project || "<LOCAL_PROJECT_REQUIRED>")
     .replace("{taskKey}", context.taskKey || "<TASK_KEY_REQUIRED>")
-    .replace("{operation}", operation);
+    .replace("{operation}", operation)
+    .replace("{fromStatusSlug}", context.fromStatusSlug || "status-required")
+    .replace("{toStatusSlug}", context.toStatusSlug || "status-required")
+    .replace("{transitionId}", context.transitionId || "transition-required");
 }
 
 function buildEvidenceComment({ args, context, mode, idempotencyMarker }) {

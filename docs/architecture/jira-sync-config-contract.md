@@ -176,7 +176,7 @@ If any check cannot be proven, link is blocked.
 Evidence comments must include a stable marker:
 
 ```text
-RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}
+RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}::{fromStatusSlug}->{toStatusSlug}::transition-{transitionId}
 ```
 
 Future real comment sync must search for the marker before writing a new evidence comment. If the adapter cannot prove whether the marker already exists, comment creation is blocked.

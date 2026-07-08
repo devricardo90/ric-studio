@@ -180,7 +180,7 @@ function validateConfig(config) {
   );
   addIfMissing(
     contractErrors,
-    config.evidenceComment?.idempotencyMarkerFormat === "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}",
+    config.evidenceComment?.idempotencyMarkerFormat === "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}::{fromStatusSlug}->{toStatusSlug}::transition-{transitionId}",
     "evidenceComment.idempotencyMarkerFormat must match the RIC Studio marker contract."
   );
   addIfMissing(

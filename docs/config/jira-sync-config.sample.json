@@ -88,7 +88,7 @@
     "requiresNoExistingDifferentLocalTaskLink": true
   },
   "evidenceComment": {
-    "idempotencyMarkerFormat": "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}",
+    "idempotencyMarkerFormat": "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}::{fromStatusSlug}->{toStatusSlug}::transition-{transitionId}",
     "requiresDuplicateCommentCheck": true,
     "blockWhenExistingMarkerUnknown": true
   },
