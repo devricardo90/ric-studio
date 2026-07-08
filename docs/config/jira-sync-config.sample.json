@@ -32,7 +32,7 @@
       ],
       "realSyncAllowed": true,
       "realSyncScope": "guarded_comment_smoke_only",
-      "notes": "Non-secret allowlist entry for guarded add_comment smoke against exact issues DAY-8, DAY-10, and DAY-11 only. Issue creation, project-wide transitions, description edits, metadata edits, and bulk updates remain blocked."
+      "notes": "Non-secret allowlist entry for guarded add_comment smoke against exact issues DAY-8, DAY-10, and DAY-11 only. Manifest-gated queue-approved execution may approve one additional exact issue without broadening this static list. Issue creation, project-wide transitions, description edits, metadata edits, and bulk updates remain blocked."
     }
   ],
   "localStatuses": [
@@ -160,6 +160,6 @@
   ],
   "realSyncReadiness": {
     "allowed": false,
-    "reason": "Full real sync remains blocked. Only exact guarded comment and transition smoke paths are allowlisted for DAY-8, DAY-10, and DAY-11, and real writes still require owner approval, risk acceptance, required environment variables, and safe evidence."
+    "reason": "Full real sync remains blocked. Only exact guarded comment and transition smoke paths are statically allowlisted for DAY-8, DAY-10, and DAY-11; queue-approved execution still requires an exact approval manifest, owner approval, risk acceptance, required environment variables, and safe evidence."
   }
 }

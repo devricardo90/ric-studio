@@ -320,6 +320,16 @@ test("DAY-11 sample config prepares an evidence add_comment dry-run without API 
   assertNoJiraCall(output);
 });
 
+test("DAY-12 evidence add_comment without approval manifest remains blocked by static config", () => {
+  const { status, output } = guarded([...baseEvidenceArgs("DAY-12", "DAY-12", "RIC-STUDIO-103A"), "--dry-run"]);
+
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
+  assert.equal(output.issue_key, "DAY-12");
+  assert.match(output.config_blockers.join("\n"), /Issue DAY-12 is not explicitly allowlisted/);
+  assertNoJiraCall(output);
+});
+
 test("DAY-9 sample config is blocked because it is not explicitly allowlisted", () => {
   const { status, output } = guarded([...baseEvidenceArgs("DAY-9", "DAY-9"), "--dry-run"]);
 
@@ -441,6 +451,20 @@ test("DAY-11 exact Remote DONE transition smoke dry-run is ready without API or 
   assert.equal(output.guarded_transition_smoke.allowed_issue_key, "DAY-11");
   assert.equal(output.guarded_transition_smoke.target_status_id, "10039");
   assert.equal(output.guarded_transition_smoke.target_status_name, "Remote DONE");
+  assertNoJiraCall(output);
+});
+
+test("DAY-12 transition without approval manifest remains blocked by static config", () => {
+  const { status, output } = guarded([
+    ...baseTransitionArgs("DAY-12", "RIC-STUDIO-103A", "31", "Revisar"),
+    "--dry-run"
+  ]);
+
+  assert.equal(status, 2);
+  assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
+  assert.equal(output.operation, "transition_issue");
+  assert.equal(output.issue_key, "DAY-12");
+  assert.match(output.config_blockers.join("\n"), /Issue DAY-12 is not explicitly allowlisted/);
   assertNoJiraCall(output);
 });
 

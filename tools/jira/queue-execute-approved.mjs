@@ -341,6 +341,7 @@ function summarizeOperatorResult({ args, approvalManifest, beforeStatus, operato
       secrets_printed: operatorOutput.secrets_printed === true,
       requires_manual_review: operatorOutput.requires_manual_review === true || transitionStep.requires_manual_review === true,
       comment_id: commentStep.comment_id || null,
+      operator_blocked_reason: operatorOutput.blocked_reason || null,
       no_write_confirmation: operatorOutput.jira_write_performed === true ? undefined : "NO_WRITE",
       write_confirmation: verifiedDone ? "QUEUE_APPROVED_WRITE_COMPLETED" : undefined,
       blocked_reason: verifiedDone ? undefined : `Operator-safe flow returned ${operatorOutput.flow_result || "NO_JSON_OUTPUT"}.`

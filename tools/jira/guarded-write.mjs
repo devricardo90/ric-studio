@@ -3,6 +3,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateApprovalManifest } from "./approval-manifest.mjs";
 
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BLOCKED_ACTIONS = [
@@ -17,6 +18,10 @@ const BLOCKED_ACTIONS = [
 ];
 const ISSUE_KEY_PATTERN = /^[A-Z][A-Z0-9]+-\d+$/;
 const EVIDENCE_MARKER_FORMAT = "RIC-STUDIO-JIRA-EVIDENCE::{localProject}::{taskKey}::{operation}";
+const QUEUE_TRANSITION_PLAN = [
+  { transitionId: "31", expectedBeforeStatus: "Backlog / Ready", targetStatus: "Revisar", targetStatusId: "10038" },
+  { transitionId: "41", expectedBeforeStatus: "Revisar", targetStatus: "Remote DONE", targetStatusId: "10039" }
+];
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 
@@ -285,6 +290,51 @@ function missingEvidenceFields(context) {
   ].filter(([, value]) => !value).map(([field]) => field);
 }
 
+function matchingQueueTransition({ transitionId, targetStatus }) {
+  const normalizedTarget = normalizeString(targetStatus);
+  return QUEUE_TRANSITION_PLAN.find(
+    (transition) => transition.transitionId === normalizeString(transitionId) &&
+      transition.targetStatus === normalizedTarget
+  ) || null;
+}
+
+function approvalManifestForGuardedWrite(args) {
+  const manifestPath = normalizeString(args["approval-manifest"]);
+  if (!manifestPath) return null;
+
+  const transitionId = normalizeString(args["transition-id"] || args.transition);
+  const targetStatus = normalizeString(args.to);
+  const transition = matchingQueueTransition({ transitionId, targetStatus });
+
+  if (!transition) {
+    throw new Error("Approval manifest requires an exact supported queue transition.");
+  }
+
+  return validateApprovalManifest({
+    manifestPath,
+    expected: {
+      taskKey: normalizeString(args["task-key"]),
+      issueKey: normalizeString(args.issue),
+      expectedBeforeStatus: transition.expectedBeforeStatus,
+      transitionId,
+      targetStatus,
+      ownerApproved: args["owner-approved"] === true || normalizeString(args["owner-approval"]) !== "",
+      duplicateRiskAccepted: args["duplicate-risk-accepted"] === true,
+      transitionRiskAccepted: args["transition-risk-accepted"] === true
+    }
+  });
+}
+
+function isIssueAllowlistFinding(finding, issue) {
+  return finding === `Issue ${issue} is not explicitly allowlisted for guarded add_comment smoke.`;
+}
+
+function isTransitionAllowlistFinding(finding, issue, transitionId) {
+  return finding === `Issue ${issue || "<missing>"} is not explicitly allowlisted for guarded transition smoke.` ||
+    finding === `Transition id ${transitionId} is not explicitly allowlisted for guarded transition smoke.` ||
+    /^Requested target status .+ does not match the configured guarded transition target\.$/.test(finding);
+}
+
 function evidenceCommentPlan(args) {
   const action = normalizeAction(args.action);
   const issue = normalizeString(args.issue);
@@ -295,8 +345,12 @@ function evidenceCommentPlan(args) {
   const config = readJson(configPath);
   const issueError = validateIssueKey(issue);
   const { findings: configBlockers } = issueError ? { findings: [] } : configFindings({ config, issue, context });
+  const approvalManifest = realWriteRequested ? approvalManifestForGuardedWrite(args) : null;
+  const effectiveConfigBlockers = approvalManifest
+    ? configBlockers.filter((finding) => !isIssueAllowlistFinding(finding, issue))
+    : configBlockers;
   if (realWriteRequested && config.currentMode !== "GUARDED_COMMENT_ONLY") {
-    configBlockers.push("Real evidence comment write requires config currentMode GUARDED_COMMENT_ONLY.");
+    effectiveConfigBlockers.push("Real evidence comment write requires config currentMode GUARDED_COMMENT_ONLY.");
   }
   const markerFormat = config.evidenceComment?.idempotencyMarkerFormat || EVIDENCE_MARKER_FORMAT;
   const idempotencyMarker = markerValue(markerFormat, context, "add_evidence_comment");
@@ -342,6 +396,15 @@ function evidenceCommentPlan(args) {
       required: true,
       present: ownerApproved
     },
+    approval_manifest: approvalManifest
+      ? {
+          valid: true,
+          path: approvalManifest.approval_manifest_path
+        }
+      : {
+          valid: false,
+          path: null
+        },
     comment_safety: {
       passed: !unsafeComment,
       secrets_or_env_values_printed: false
@@ -363,12 +426,12 @@ function evidenceCommentPlan(args) {
     };
   }
 
-  if (configBlockers.length > 0 || missingFields.length > 0) {
+  if (effectiveConfigBlockers.length > 0 || missingFields.length > 0) {
     return {
       ...base,
       result: "BLOCKED_MISSING_CONFIG",
       blocked_reason: "Required Jira config or local evidence fields are missing.",
-      config_blockers: configBlockers,
+      config_blockers: effectiveConfigBlockers,
       missing_evidence_fields: missingFields
     };
   }
@@ -490,6 +553,22 @@ function transitionSmokePlan(args) {
   const { smoke, transition, findings: configBlockers } = issueError
     ? { smoke: config.guardedTransitionSmoke || {}, transition: null, findings: [] }
     : transitionSmokeFindings({ config, issue, transitionId, requestedTo });
+  const approvalManifest = realWriteRequested ? approvalManifestForGuardedWrite(args) : null;
+  const manifestPlan = approvalManifest
+    ? matchingQueueTransition({ transitionId: approvalManifest.transition_id, targetStatus: approvalManifest.target_status })
+    : null;
+  const effectiveTransition = transition || (approvalManifest
+    ? {
+        allowedIssueKey: approvalManifest.issue_key,
+        transitionId: approvalManifest.transition_id,
+        transitionName: approvalManifest.target_status,
+        targetStatusId: manifestPlan?.targetStatusId || null,
+        targetStatusName: approvalManifest.target_status
+      }
+    : null);
+  const effectiveConfigBlockers = approvalManifest
+    ? configBlockers.filter((finding) => !isTransitionAllowlistFinding(finding, issue, transitionId))
+    : configBlockers;
   const missingEnv = realWriteRequested ? missingEnvironment(process.env) : [];
   const taskId = normalizeString(args["task-key"]) || defaultTaskId(action);
 
@@ -500,13 +579,13 @@ function transitionSmokePlan(args) {
     result: "DRY_RUN_TRANSITION_READY",
     guarded_transition_smoke: {
       scope: smoke.scope || null,
-      allowed_issue_key: transition?.allowedIssueKey || smoke.allowedIssueKey || null,
+      allowed_issue_key: effectiveTransition?.allowedIssueKey || smoke.allowedIssueKey || null,
       allowed_operation: smoke.allowedOperation || null,
       transition_id: transitionId || null,
-      configured_transition_id: transition?.transitionId || smoke.transitionId || null,
-      transition_name: transition?.transitionName || smoke.transitionName || null,
-      target_status_id: transition?.targetStatusId || smoke.targetStatusId || null,
-      target_status_name: transition?.targetStatusName || smoke.targetStatusName || null
+      configured_transition_id: effectiveTransition?.transitionId || smoke.transitionId || null,
+      transition_name: effectiveTransition?.transitionName || smoke.transitionName || null,
+      target_status_id: effectiveTransition?.targetStatusId || smoke.targetStatusId || null,
+      target_status_name: effectiveTransition?.targetStatusName || smoke.targetStatusName || null
     },
     owner_approval: {
       required: true,
@@ -516,11 +595,20 @@ function transitionSmokePlan(args) {
       required: true,
       present: riskAccepted
     },
+    approval_manifest: approvalManifest
+      ? {
+          valid: true,
+          path: approvalManifest.approval_manifest_path
+        }
+      : {
+          valid: false,
+          path: null
+        },
     planned_jira_operation: {
       type: "transition_issue",
       issue_key: issue || null,
       transition_id: transitionId || null,
-      target_status_name: transition?.targetStatusName || smoke.targetStatusName || null
+      target_status_name: effectiveTransition?.targetStatusName || smoke.targetStatusName || null
     },
     no_write_confirmation: realWriteRequested ? "NO_WRITE until all guarded transition gates pass" : "NO_WRITE"
   };
@@ -533,12 +621,12 @@ function transitionSmokePlan(args) {
     };
   }
 
-  if (configBlockers.length > 0) {
+  if (effectiveConfigBlockers.length > 0) {
     return {
       ...base,
       result: "BLOCKED_MISSING_CONFIG",
       blocked_reason: "Required guarded transition smoke config is missing or mismatched.",
-      config_blockers: configBlockers
+      config_blockers: effectiveConfigBlockers
     };
   }
 

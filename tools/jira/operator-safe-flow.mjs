@@ -13,8 +13,8 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..", "..");
 const guardedWrite = path.join(repoRoot, "tools", "jira", "guarded-write.mjs");
 const sampleConfig = "docs/config/jira-sync-config.sample.json";
-const operatorFlowIssue = "DAY-11";
-const operatorFlowTransitions = [
+const defaultOperatorFlowIssue = "DAY-11";
+const operatorTransitionPlan = [
   { transitionId: "31", expectedBeforeStatus: "Backlog / Ready", targetStatus: "Revisar" },
   { transitionId: "41", expectedBeforeStatus: "Revisar", targetStatus: "Remote DONE" }
 ];
@@ -161,9 +161,13 @@ function missingEnvironment(env) {
 function matchingOperatorTransition(args) {
   const transitionId = normalizeString(args["transition-id"]);
   const targetStatus = normalizeString(args.to);
-  return operatorFlowTransitions.find(
+  return operatorTransitionPlan.find(
     (transition) => transition.transitionId === transitionId && transition.targetStatus === targetStatus
   );
+}
+
+function isExactDayIssue(value) {
+  return /^DAY-\d+$/.test(normalizeString(value));
 }
 
 function canonicalApprovedCommand(args) {
@@ -243,11 +247,19 @@ function commentArgs(args, realWrite) {
     "--task-key", normalizeString(args["task-key"]),
     "--local-status", "REVIEW",
     "--protocol-level", "LEAN_LEVEL_2",
-    "--validation-summary", normalizeString(args["validation-summary"] || "Operator-safe guarded Jira comment plus transition flow")
+    "--validation-summary", normalizeString(args["validation-summary"] || "Operator-safe guarded Jira comment plus transition flow"),
+    "--transition-id", normalizeString(args["transition-id"]),
+    "--to", normalizeString(args.to)
   ];
 
   if (realWrite) {
-    command.push("--owner-approved", "--duplicate-risk-accepted", "--real-write");
+    command.push(
+      "--approval-manifest", normalizeString(args["approval-manifest"]),
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--real-write"
+    );
   } else {
     command.push("--dry-run");
   }
@@ -266,7 +278,13 @@ function transitionArgs(args, realWrite) {
   ];
 
   if (realWrite) {
-    command.push("--owner-approved", "--transition-risk-accepted", "--real-write");
+    command.push(
+      "--approval-manifest", normalizeString(args["approval-manifest"]),
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--real-write"
+    );
   } else {
     command.push("--dry-run");
   }
@@ -281,14 +299,16 @@ function validateRealWritePreflight(args, env) {
   if (args["owner-approved"] !== true) findings.push("Missing required --owner-approved.");
   if (args["duplicate-risk-accepted"] !== true) findings.push("Missing required --duplicate-risk-accepted.");
   if (args["transition-risk-accepted"] !== true) findings.push("Missing required --transition-risk-accepted.");
-  if (normalizeString(args.issue) !== operatorFlowIssue) findings.push(`Real flow requires exact --issue ${operatorFlowIssue}.`);
   const operatorTransition = matchingOperatorTransition(args);
   if (!operatorTransition) {
     findings.push(
-      `Real flow requires an exact configured transition for ${operatorFlowIssue}: ` +
-      operatorFlowTransitions.map((transition) => `--transition-id ${transition.transitionId} --to ${transition.targetStatus}`).join(" or ")
+      "Real flow requires an exact configured queue transition: " +
+      operatorTransitionPlan
+        .map((transition) => `--transition-id ${transition.transitionId} --to ${transition.targetStatus}`)
+        .join(" or ")
     );
   }
+  if (!isExactDayIssue(args.issue)) findings.push("Real flow requires exact DAY issue key.");
   if (!normalizeString(args["task-key"])) findings.push("Real flow requires exact --task-key.");
 
   if (!normalizeString(args["approval-manifest"])) {
@@ -393,9 +413,9 @@ function main() {
   const args = parsed.args;
   const realWrite = args["real-write"] === true;
   const env = flowEnv(realWrite, process.env);
-  const defaultTransition = operatorFlowTransitions[0];
+  const defaultTransition = operatorTransitionPlan[0];
 
-  if (!normalizeString(args.issue)) args.issue = operatorFlowIssue;
+  if (!normalizeString(args.issue)) args.issue = defaultOperatorFlowIssue;
   if (!normalizeString(args["transition-id"])) args["transition-id"] = defaultTransition.transitionId;
   if (!normalizeString(args.to)) args.to = defaultTransition.targetStatus;
 

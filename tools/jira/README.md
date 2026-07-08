@@ -168,7 +168,7 @@ The validator rejects manifests outside the allowed directory, secret-like value
 `queue-execute-approved.mjs` is the approved queue execution wrapper. It accepts exactly one issue and requires a matching approval manifest, owner approval, duplicate-risk acceptance, transition-risk acceptance, and `--real-write` before it can call the existing operator-safe flow.
 
 ```powershell
-node tools/jira/queue-execute-approved.mjs --issue DAY-11 --task-key RIC-STUDIO-102A --transition-id 31 --to Revisar --approval-manifest docs/validation/jira-operator-approvals/<approval>.json --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write
+node tools/jira/queue-execute-approved.mjs --issue DAY-12 --task-key RIC-STUDIO-103A --transition-id 31 --to Revisar --approval-manifest docs/validation/jira-operator-approvals/<approval>.json --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write
 ```
 
 Before delegating, the command reads the current Jira issue status and blocks with `BLOCKED_STATUS_CHANGED_SINCE_APPROVAL` if it no longer matches the manifest `expected_before_status`. Project-wide execution, full sync, issue creation, bulk operations, and multi-issue input are blocked.

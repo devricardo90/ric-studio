@@ -12,7 +12,7 @@ const repoRoot = path.resolve(here, "..", "..");
 const queueExecute = path.join(repoRoot, "tools", "jira", "queue-execute-approved.mjs");
 const approvalDir = path.join(repoRoot, "docs", "validation", "jira-operator-approvals");
 const taskKey = "RIC-STUDIO-102A";
-const issueKey = "DAY-11";
+const issueKey = "DAY-12";
 const transitionId = "31";
 const targetStatus = "Revisar";
 const operatorCommand = `node tools/jira/operator-safe-flow.mjs --issue ${issueKey} --task-key ${taskKey} --transition-id ${transitionId} --to ${targetStatus} --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write`;
@@ -95,7 +95,7 @@ function writeMockFetch({ beforeStatus = "Backlog / Ready", verifyStatus = "Revi
       : "    return new Response(JSON.stringify({ comments: [] }), { status: 200, headers: { \"Content-Type\": \"application/json\" } });",
     "  }",
     "  if (method === 'POST' && href.includes('/comment')) {",
-    "    return new Response(JSON.stringify({ id: \"mock-comment-102A\", self: \"https://example.invalid/rest/api/3/issue/DAY-11/comment/mock-comment-102A\" }), { status: 201, headers: { \"Content-Type\": \"application/json\" } });",
+    `    return new Response(JSON.stringify({ id: "mock-comment-102A", self: "https://example.invalid/rest/api/3/issue/${issueKey}/comment/mock-comment-102A" }), { status: 201, headers: { "Content-Type": "application/json" } });`,
     "  }",
     "  if (method === 'POST' && href.includes('/transitions')) {",
     "    return new Response(null, { status: 204 });",
@@ -104,7 +104,7 @@ function writeMockFetch({ beforeStatus = "Backlog / Ready", verifyStatus = "Revi
     "    const isQueueCommand = process.argv.some((arg) => String(arg).includes('queue-execute-approved.mjs'));",
     `    const statusName = isQueueCommand ? ${JSON.stringify(beforeStatus)} : ${JSON.stringify(verifyStatus)};`,
     "    const statusId = statusName === 'Backlog / Ready' ? '10036' : statusName === 'Revisar' ? '10038' : '10037';",
-    "    return new Response(JSON.stringify({ key: \"DAY-11\", fields: { status: { id: statusId, name: statusName } } }), { status: 200, headers: { \"Content-Type\": \"application/json\" } });",
+    `    return new Response(JSON.stringify({ key: ${JSON.stringify(issueKey)}, fields: { status: { id: statusId, name: statusName } } }), { status: 200, headers: { "Content-Type": "application/json" } });`,
     "  }",
     "  return new Response(JSON.stringify({ error: 'unhandled mock fetch route' }), { status: 500, headers: { \"Content-Type\": \"application/json\" } });",
     "};",
