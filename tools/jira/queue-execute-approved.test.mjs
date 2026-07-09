@@ -119,14 +119,15 @@ function writeMockFetch({ beforeStatus = "Backlog / Ready", verifyStatus = "Revi
 
 function runQueue(args, { mock = {}, env = {} } = {}) {
   const fetchMock = writeMockFetch(mock);
+  const { NODE_OPTIONS: extraNodeOptions, ...restEnv } = env;
   try {
     const result = spawnSync(process.execPath, [queueExecute, ...args], {
       cwd: repoRoot,
       env: {
         ...sanitizedEnv(),
         ...syntheticEnv,
-        NODE_OPTIONS: fetchMock.nodeOptions,
-        ...env
+        ...restEnv,
+        NODE_OPTIONS: [fetchMock.nodeOptions, extraNodeOptions].filter(Boolean).join(" ")
       },
       encoding: "utf8",
       windowsHide: true
@@ -144,6 +145,31 @@ function runQueue(args, { mock = {}, env = {} } = {}) {
   } finally {
     rmSync(fetchMock.tempDir, { recursive: true, force: true });
   }
+}
+
+function writeAuditReadMock(auditPath) {
+  const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-audit-read-"));
+  const mockRead = path.join(tempDir, "mock-audit-read.mjs");
+  const resolvedAuditPath = path.resolve(repoRoot, auditPath).replace(/\\/g, "\\\\");
+
+  writeFileSync(mockRead, [
+    "import fs from 'node:fs';",
+    "import { syncBuiltinESMExports } from 'node:module';",
+    "const originalReadFileSync = fs.readFileSync;",
+    `const auditPath = ${JSON.stringify(resolvedAuditPath)};`,
+    "fs.readFileSync = function patchedReadFileSync(file, ...args) {",
+    "  const normalized = String(file).replace(/\\\\/g, '\\\\\\\\');",
+    "  if (normalized === auditPath) return '';",
+    "  return originalReadFileSync.call(this, file, ...args);",
+    "};",
+    "syncBuiltinESMExports();",
+    ""
+  ].join("\n"), "utf8");
+
+  return {
+    tempDir,
+    nodeOptions: `--import ${pathToFileURL(mockRead).href}`
+  };
 }
 
 function assertNoWrite(output) {
@@ -424,6 +450,7 @@ test("audit log writes sanitized record when requested", () => {
 
     assert.equal(status, 0);
     assert.equal(output.audit_log_written, true);
+    assert.equal(output.audit_log_verified, true);
     assert.equal(auditRecord.task_key, taskKey);
     assert.equal(auditRecord.issue_key, issueKey);
     assert.equal(auditRecord.before_status, "Backlog / Ready");
@@ -434,6 +461,42 @@ test("audit log writes sanitized record when requested", () => {
   } finally {
     cleanup(manifestPath);
     rmSync(path.resolve(repoRoot, auditPath), { force: true });
+  }
+});
+
+test("audit persistence verification failure blocks success while preserving write flags", () => {
+  const manifestPath = writeManifest("audit-persistence-fail");
+  const auditPath = `docs/validation/jira-operator-runs/queue-execute-approved-persistence-fail-${process.pid}.jsonl`;
+  const auditReadMock = writeAuditReadMock(auditPath);
+  rmSync(path.resolve(repoRoot, auditPath), { force: true });
+
+  try {
+    const { status, output } = runQueue([...baseArgs(manifestPath), "--audit-log", auditPath], {
+      env: {
+        NODE_OPTIONS: auditReadMock.nodeOptions
+      }
+    });
+
+    assert.equal(status, 2);
+    assert.equal(output.queue_execute_result, "BLOCKED_AUDIT_PERSISTENCE_VERIFY_FAILED");
+    assert.equal(output.flow_result, "GUARDED_FLOW_WRITE_DONE");
+    assert.equal(output.jira_write_performed, true);
+    assert.equal(output.partial_write_performed, false);
+    assert.equal(output.status_verified, true);
+    assert.equal(output.full_sync_performed, false);
+    assert.equal(output.create_issue_performed, false);
+    assert.equal(output.bulk_operation_performed, false);
+    assert.equal(output.secrets_printed, false);
+    assert.equal(output.audit_log_written, false);
+    assert.equal(output.audit_log_verified, false);
+    assert.equal(output.audit_log_path, auditPath);
+    assert.equal(output.write_confirmation, undefined);
+    assert.match(output.blocked_reason, /expected sanitized record was not found/);
+    assert.match(output.blocked_reason, /queue-execute-approved-persistence-fail/);
+  } finally {
+    cleanup(manifestPath);
+    rmSync(path.resolve(repoRoot, auditPath), { force: true });
+    rmSync(auditReadMock.tempDir, { recursive: true, force: true });
   }
 });
 

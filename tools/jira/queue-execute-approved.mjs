@@ -373,11 +373,18 @@ function outputWithOptionalAudit(args, output) {
     return {
       ...output,
       audit_log_written: audit.audit_log_written,
+      audit_log_verified: audit.audit_log_verified,
       audit_log_path: audit.audit_log_path
     };
   } catch (error) {
-    return blocked(args, error.code || "BLOCKED_AUDIT_LOG_WRITE", error.message, {
-      audit_log_written: false
+    return safeOutput(args, {
+      ...output,
+      queue_execute_result: error.code || "BLOCKED_AUDIT_LOG_WRITE",
+      blocked_reason: error.message,
+      audit_log_written: false,
+      audit_log_verified: false,
+      audit_log_path: normalizeString(args["audit-log"]) || null,
+      write_confirmation: undefined
     });
   }
 }

@@ -3,7 +3,7 @@ import { readFileSync, rmSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { appendAuditRecord, buildAuditRecord, resolveAuditPath } from "./audit-log.mjs";
+import { appendAuditRecord, buildAuditRecord, resolveAuditPath, verifyAuditRecordPersistence } from "./audit-log.mjs";
 import { planQueue } from "./queue-plan.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -51,6 +51,7 @@ test("writes sanitized audit JSONL", () => {
   const record = JSON.parse(line);
 
   assert.equal(result.audit_log_written, true);
+  assert.equal(result.audit_log_verified, true);
   assert.equal(result.audit_log_path, target);
   assert.equal(record.task_key, "RIC-STUDIO-100A");
   assert.equal(record.phase, "dry_run_plan");
@@ -63,6 +64,56 @@ test("writes sanitized audit JSONL", () => {
   assert.equal(Object.hasOwn(record, "token"), false);
 
   cleanup(target);
+});
+
+test("verified audit append reports success", () => {
+  const target = auditPath("verified-append");
+  cleanup(target);
+
+  try {
+    const result = appendAuditRecord({
+      auditPath: target,
+      record: baseRecord({ phase: "approved_execution", queue_result: "QUEUE_APPROVED_WRITE_DONE" })
+    });
+
+    assert.equal(result.audit_log_written, true);
+    assert.equal(result.audit_log_verified, true);
+    assert.equal(result.audit_log_path, target);
+  } finally {
+    cleanup(target);
+  }
+});
+
+test("missing persisted audit record fails closed", () => {
+  const target = auditPath("missing-record");
+  cleanup(target);
+
+  try {
+    appendAuditRecord({
+      auditPath: target,
+      record: baseRecord({ phase: "blocked", queue_result: "BLOCKED_OPERATOR_SAFE_FLOW" })
+    });
+
+    assert.throws(
+      () => verifyAuditRecordPersistence({
+        auditPath: target,
+        record: baseRecord({
+          phase: "approved_execution",
+          queue_result: "QUEUE_APPROVED_WRITE_DONE",
+          jira_write_performed: true,
+          status_verified: true
+        })
+      }),
+      (error) => {
+        assert.equal(error.code, "BLOCKED_AUDIT_PERSISTENCE_VERIFY_FAILED");
+        assert.match(error.message, /expected sanitized record was not found/);
+        assert.match(error.message, /DAY-12/);
+        return true;
+      }
+    );
+  } finally {
+    cleanup(target);
+  }
 });
 
 test("rejects unsafe path traversal", () => {

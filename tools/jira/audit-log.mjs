@@ -1,4 +1,4 @@
-import { appendFileSync, mkdirSync } from "node:fs";
+import { appendFileSync, mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -97,17 +97,57 @@ export function buildAuditRecord(input = {}) {
   return record;
 }
 
+function auditRecordLine(record) {
+  return JSON.stringify(record);
+}
+
+export function verifyAuditRecordPersistence({ auditPath, record }) {
+  const resolvedPath = resolveAuditPath(auditPath);
+  const auditRecord = buildAuditRecord(record);
+  const expectedLine = auditRecordLine(auditRecord);
+  let fileText;
+
+  try {
+    fileText = readFileSync(resolvedPath, "utf8");
+  } catch (error) {
+    throw new AuditLogError(
+      "BLOCKED_AUDIT_PERSISTENCE_VERIFY_FAILED",
+      `Audit persistence verification failed for ${path.relative(repoRoot, resolvedPath).replace(/\\/g, "/")}: ${error.message}`
+    );
+  }
+
+  const persisted = fileText.split(/\r?\n/).some((line) => line === expectedLine);
+  if (!persisted) {
+    throw new AuditLogError(
+      "BLOCKED_AUDIT_PERSISTENCE_VERIFY_FAILED",
+      "Audit persistence verification failed: expected sanitized record was not found in " +
+      `${path.relative(repoRoot, resolvedPath).replace(/\\/g, "/")} ` +
+      `(task_key=${auditRecord.task_key || "null"}, issue_key=${auditRecord.issue_key || "null"}, ` +
+      `transition_id=${auditRecord.transition_id || "null"}, queue_result=${auditRecord.queue_result || "null"}, ` +
+      `flow_result=${auditRecord.flow_result || "null"}).`
+    );
+  }
+
+  return {
+    audit_log_verified: true,
+    audit_log_path: path.relative(repoRoot, resolvedPath).replace(/\\/g, "/"),
+    audit_record: auditRecord
+  };
+}
+
 export function appendAuditRecord({ auditPath, record }) {
   const resolvedPath = resolveAuditPath(auditPath);
   const auditRecord = buildAuditRecord(record);
 
   mkdirSync(path.dirname(resolvedPath), { recursive: true });
-  appendFileSync(resolvedPath, `${JSON.stringify(auditRecord)}\n`, "utf8");
+  appendFileSync(resolvedPath, `${auditRecordLine(auditRecord)}\n`, "utf8");
+  const verification = verifyAuditRecordPersistence({ auditPath, record: auditRecord });
 
   return {
     audit_log_written: true,
-    audit_log_path: path.relative(repoRoot, resolvedPath).replace(/\\/g, "/"),
-    audit_record: auditRecord
+    audit_log_verified: verification.audit_log_verified,
+    audit_log_path: verification.audit_log_path,
+    audit_record: verification.audit_record
   };
 }
 

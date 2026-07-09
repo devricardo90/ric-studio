@@ -161,6 +161,7 @@ function outputWithOptionalAudit(args, output) {
     return {
       ...output,
       audit_log_written: audit.audit_log_written,
+      audit_log_verified: audit.audit_log_verified,
       audit_log_path: audit.audit_log_path
     };
   } catch (error) {
