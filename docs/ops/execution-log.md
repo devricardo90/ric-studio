@@ -1,5 +1,35 @@
 # Execution Log
 
+## RIC-4 / RIC-STUDIO-105A - Add automatic read-only Jira project synchronization
+
+State: REVIEW
+
+Summary:
+
+- Implemented automatic read-only Jira synchronization for the Operator Dashboard.
+- Registered project keys are fixed to `RT`, `DAY`, and `RIC`.
+- Runtime synchronization runs once when the dashboard starts and then every 30 seconds while the dashboard server is running.
+- Jira requests are GET-only and retrieve only dashboard visibility fields.
+- Normalization maps `Backlog / Ready` and `Ready` to `READY`, `In Progress` to `IN_PROGRESS`, `Review` to `REVIEW`, and `Done` / `Remote DONE` to `DONE`.
+- Unknown Jira statuses remain `UNKNOWN` / unmapped and are not silently treated as DONE.
+- Duplicate Jira issues are prevented by Jira issue key.
+- The dashboard groups synchronized issues by project and exposes sync metadata, sanitized errors, stale warnings, cache status, and write-operation false flags through `/api/state`.
+- Runtime cache is local only at `var/jira-live-state.json`, covered by `.gitignore`.
+- Manual project registry visibility remains available as fallback context.
+- No Jira write, transition, comment, issue creation, full sync, bulk operation, automatic Codex execution, automatic commit, automatic push, or deployment was performed.
+
+Validation:
+
+- `node --test tools/jira/read-sync.test.mjs`
+- `node --test tools/operator-ui/server.test.mjs`
+- `node tools/operator-ui/server.mjs smoke`
+- `git diff --check`
+
+Next gate:
+
+- Stop at REVIEW for owner evidence review.
+- Commit and push remain blocked until explicit owner approval.
+
 ## RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP
 
 State: REVIEW

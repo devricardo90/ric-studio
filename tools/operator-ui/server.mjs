@@ -1,7 +1,8 @@
 import { createServer, request } from "node:http";
 import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { createJiraReadSyncManager } from "../jira/read-sync.mjs";
 
 const HOST = "127.0.0.1";
 const DEFAULT_PORT = 4310;
@@ -13,6 +14,7 @@ const repoRoot = path.resolve(here, "..", "..");
 const externalExecutionContextPath = "docs/ops/external-execution-context.md";
 const projectRegistryPath = "docs/ops/project-registry.md";
 const sprintTaskRegistryPath = "docs/ops/sprint-task-registry.json";
+const defaultJiraReadSync = createJiraReadSyncManager();
 
 const allowedFilePrefixes = [
   "README.md",
@@ -22,6 +24,7 @@ const allowedFilePrefixes = [
   "docs/validation/",
   "docs/architecture/",
   "tools/auditor/",
+  "tools/jira/read-sync.mjs",
   "tools/operator-ui/README.md",
   "tools/sprint/",
 ];
@@ -192,7 +195,7 @@ async function listValidationEvidence() {
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
     .map((entry) => `docs/validation/${entry.name}`)
     .filter((file) =>
-      /operator-dashboard|local-operator|local-auditor|sprint-automation|readme-portfolio-positioning|external-reviewer/i.test(file),
+      /operator-dashboard|local-operator|local-auditor|sprint-automation|jira-read-sync|readme-portfolio-positioning|external-reviewer/i.test(file),
     );
 
   const dashboardEvidence = "docs/validation/local-operator-dashboard-069a.md";
@@ -436,7 +439,7 @@ async function collectSprintTaskRegistry() {
   };
 }
 
-async function collectState() {
+async function collectState({ jiraReadSync = defaultJiraReadSync } = {}) {
   const [statusText, backlogText, opsBacklogText, sessionHandoffText] =
     await Promise.all([
       readText("STATUS.md"),
@@ -462,6 +465,7 @@ async function collectState() {
   const externalExecutionContext = await collectExternalExecutionContext();
   const projectRegistry = await collectProjectRegistry();
   const sprintTaskRegistry = await collectSprintTaskRegistry();
+  const jiraReadSyncSnapshot = jiraReadSync.getSnapshot();
 
   return {
     generated_at: new Date().toISOString(),
@@ -480,6 +484,7 @@ async function collectState() {
     external_execution_context: externalExecutionContext,
     project_registry: projectRegistry,
     sprint_task_registry: sprintTaskRegistry,
+    jira_read_sync: jiraReadSyncSnapshot,
     auditor_visibility: auditorVisibility,
     auditor_package: {
       name: auditorVisibility.package_metadata?.name || null,
@@ -489,6 +494,7 @@ async function collectState() {
     commands: auditorCommands,
     allowed_actions: [
       "Read local operational docs.",
+      "Read synchronized Jira issue visibility for RT, DAY, and RIC when Jira credentials are present.",
       "Run local auditor smoke commands.",
       "Run this local dashboard on localhost.",
       "Inspect validation evidence before the next gate.",
@@ -496,7 +502,8 @@ async function collectState() {
     blocked_actions: [
       "No file writes from the dashboard.",
       "No Git stage, commit, push, or automation.",
-      "No deploy, hosting setup, CI, or external network action.",
+      "No Jira writes, issue creation, comments, transitions, full sync, or bulk operations.",
+      "No deploy, hosting setup, CI, or non-Jira external network action.",
       "No package.json, dependency, lockfile, UI framework, runtime, Ollama, model, prompt, evaluator, or fixture changes.",
       "No successor task opening from this dashboard.",
     ],
@@ -512,6 +519,7 @@ async function collectState() {
       externalExecutionContextPath,
       projectRegistryPath,
       sprintTaskRegistryPath,
+      "tools/jira/read-sync.mjs",
       "docs/ops/sprint-task-intake.daybudget-web-027a.json",
       "tools/auditor/package.json",
       "tools/sprint/intake.mjs",
@@ -739,6 +747,56 @@ function renderSprintTaskRegistry(registry) {
   )}</p>`;
 }
 
+function renderJiraIssueTable(issues) {
+  if (!issues.length) return `<p class="muted">No synchronized Jira issues available for this project.</p>`;
+  return `<table>
+    <thead><tr><th>Issue</th><th>Summary</th><th>Jira status</th><th>Lifecycle</th><th>Type</th><th>Parent/Epic</th><th>Assignee</th><th>Updated</th></tr></thead>
+    <tbody>
+      ${issues
+        .map(
+          (issue) => `<tr>
+            <td>${escapeHtml(issue.issue_key)}</td>
+            <td>${escapeHtml(issue.summary || "No summary.")}</td>
+            <td>${escapeHtml(issue.jira_status || "Unknown")}</td>
+            <td>${escapeHtml(issue.lifecycle_status)}${issue.status_mapping_known ? "" : ' <span class="warn">(unmapped)</span>'}</td>
+            <td>${escapeHtml(issue.issue_type || "Unknown")}</td>
+            <td>${escapeHtml(issue.parent_or_epic || "None")}</td>
+            <td>${escapeHtml(issue.assignee_display_name || "Unassigned")}</td>
+            <td>${escapeHtml(issue.updated || "Not recorded.")}</td>
+          </tr>`,
+        )
+        .join("")}
+    </tbody>
+  </table>`;
+}
+
+function renderJiraReadSync(sync) {
+  if (!sync) return `<p class="muted">Jira read synchronization state is not available.</p>`;
+  const error = sync.last_synchronization_error || "None";
+  return `<div class="sprint-task-summary">
+    <span class="metric">Source: <span class="state">${escapeHtml(sync.source)}</span></span>
+    <span class="metric">Last attempt: ${escapeHtml(sync.last_attempt_at || "Not attempted")}</span>
+    <span class="metric">Last success: ${escapeHtml(sync.last_successful_synchronization_at || "No successful sync yet")}</span>
+    <span class="metric">Cached data: ${sync.cached_data_shown ? "shown" : "not shown"}</span>
+    <span class="metric">Stale: ${sync.stale_state_warning ? "yes" : "no"}</span>
+    <span class="metric">Issues: ${escapeHtml(sync.issue_count || 0)}</span>
+  </div>
+  ${sync.last_synchronization_error ? `<p class="warn">Sanitized sync error: ${escapeHtml(error)}</p>` : `<p class="muted">Sanitized sync error: ${escapeHtml(error)}</p>`}
+  <p class="muted">Cache path: ${escapeHtml(sync.cache_path)}. HTTP methods used: ${escapeHtml((sync.http_methods_used || []).join(", ") || "GET")}.</p>
+  <div class="project-registry-list">
+    ${(sync.grouped_by_project || [])
+      .map(
+        (group) => `<section class="project-entry">
+          <div class="project-entry-header">
+            <h3>${escapeHtml(group.project_name)} (${escapeHtml(group.project_key)})</h3>
+          </div>
+          ${renderJiraIssueTable(group.issues || [])}
+        </section>`,
+      )
+      .join("")}
+  </div>`;
+}
+
 function renderHtml(state) {
   return `<!doctype html>
 <html lang="en">
@@ -919,8 +977,8 @@ function renderHtml(state) {
   <header>
     <h1>RIC Studio Operator Dashboard</h1>
     <div class="notice">
-      <p><strong>Local-only and read-only.</strong> This dashboard reads repository docs and serves them on localhost. It does not write files, automate Git, deploy, call external services, install dependencies, or alter runtime/model assets.</p>
-      <p class="muted">Generated from local files at ${escapeHtml(state.generated_at)}.</p>
+      <p><strong>Local-only and read-only.</strong> This dashboard reads repository docs, serves them on localhost, and performs GET-only Jira visibility sync for registered projects when credentials are present. It does not write files, automate Git, deploy, install dependencies, or alter runtime/model assets.</p>
+      <p class="muted">Generated from local files and read-only runtime state at ${escapeHtml(state.generated_at)}.</p>
     </div>
   </header>
   <main>
@@ -952,7 +1010,7 @@ function renderHtml(state) {
 
       <article class="card wide">
         <h2>External Execution Context</h2>
-        <p class="warn">Manual operator context only. This dashboard does not sync with Jira, GitHub, DayBudget, or the running agent.</p>
+        <p class="warn">Manual operator context only. Jira synchronized issues are shown in the separate read-only sync panel.</p>
         ${renderExternalExecutionContext(state.external_execution_context)}
       </article>
 
@@ -960,6 +1018,12 @@ function renderHtml(state) {
         <h2>Project Registry</h2>
         <p class="warn">Local read-only registry only. This dashboard does not call GitHub or inspect external repositories.</p>
         ${renderProjectRegistry(state.project_registry)}
+      </article>
+
+      <article class="card wide">
+        <h2>Jira Read Synchronization</h2>
+        <p class="warn">GET-only Jira visibility for RT, DAY, and RIC. No Jira write, issue creation, comment, transition, full sync, or bulk operation is available here.</p>
+        ${renderJiraReadSync(state.jira_read_sync)}
       </article>
 
       <article class="card wide">
@@ -1070,7 +1134,7 @@ function safeRelativePath(requestedPath) {
   return { relativePath, absolutePath };
 }
 
-async function handleRequest(incoming, response) {
+async function handleRequest(incoming, response, jiraReadSync = defaultJiraReadSync) {
   try {
     const currentUrl = new URL(incoming.url || "/", `http://${incoming.headers.host || "localhost"}`);
 
@@ -1080,13 +1144,13 @@ async function handleRequest(incoming, response) {
     }
 
     if (currentUrl.pathname === "/") {
-      const state = await collectState();
+      const state = await collectState({ jiraReadSync });
       send(response, 200, renderHtml(state), "text/html; charset=utf-8");
       return;
     }
 
     if (currentUrl.pathname === "/api/state") {
-      const state = await collectState();
+      const state = await collectState({ jiraReadSync });
       send(response, 200, `${JSON.stringify(state, null, 2)}\n`, "application/json; charset=utf-8");
       return;
     }
@@ -1111,6 +1175,10 @@ async function handleRequest(incoming, response) {
   } catch (error) {
     send(response, 500, `Operator dashboard error: ${error.message}`, "text/plain; charset=utf-8");
   }
+}
+
+export function createDashboardServer({ jiraReadSync = defaultJiraReadSync } = {}) {
+  return createServer((incoming, response) => handleRequest(incoming, response, jiraReadSync));
 }
 
 function fetchLocal(pathname) {
@@ -1152,6 +1220,8 @@ async function runSmoke(server) {
   const ricStudioRegistryProject = registryProjects.find((project) => project.name === "RIC Studio");
   const sprintTaskRegistry = state.sprint_task_registry || {};
   const sprintTasks = sprintTaskRegistry.tasks || [];
+  const jiraReadSync = state.jira_read_sync || {};
+  const jiraProjectKeys = (jiraReadSync.registered_projects || []).map((project) => project.key).join(",");
   const pilotTask = sprintTasks.find(
     (task) => task.project === "DayBudget" && task.sprint === "DAY-9" && task.taskKey === "WEB-027A",
   );
@@ -1187,6 +1257,18 @@ async function runSmoke(server) {
     ["api_project_registry_has_required_projects", /RIC Studio/.test(registryProjectNames) && /DayBudget/.test(registryProjectNames) && /Rick Travel/.test(registryProjectNames)],
     ["api_project_registry_is_local_read_only", /local read-only/i.test(state.project_registry?.source_note || "")],
     ["api_project_registry_records_current_ric_studio_state", /RIC-STUDIO-082A.*REVIEW/i.test(ricStudioRegistryProject?.current_operational_state || "")],
+    ["home_mentions_jira_read_sync", home.body.includes("Jira Read Synchronization")],
+    ["api_has_jira_read_sync", jiraReadSync.source === "jira_read_only_api"],
+    ["api_jira_sync_uses_registered_projects", jiraProjectKeys === "RT,DAY,RIC"],
+    ["api_jira_sync_is_get_only", Array.isArray(jiraReadSync.http_methods_used) && jiraReadSync.http_methods_used.every((method) => method === "GET")],
+    ["api_jira_sync_cache_path_is_var", jiraReadSync.cache_path === "var/jira-live-state.json"],
+    [
+      "api_jira_sync_has_no_write_flags",
+      jiraReadSync.jira_write_performed === false &&
+        jiraReadSync.full_sync_performed === false &&
+        jiraReadSync.create_issue_performed === false &&
+        jiraReadSync.bulk_operation_performed === false,
+    ],
     ["home_mentions_sprint_automation_registry", home.body.includes("Sprint Automation Registry")],
     ["home_mentions_daybudget_pilot_task", /DayBudget[\s\S]*DAY-9[\s\S]*WEB-027A/.test(home.body)],
     ["api_has_sprint_task_registry", sprintTaskRegistry.exists === true],
@@ -1218,6 +1300,7 @@ async function runSmoke(server) {
     external_execution_context: state.external_execution_context,
     project_registry: state.project_registry,
     sprint_task_registry: state.sprint_task_registry,
+    jira_read_sync: jiraReadSync,
     dashboard_mode: state.mode,
   };
   console.log(JSON.stringify(result, null, 2));
@@ -1225,20 +1308,36 @@ async function runSmoke(server) {
   if (failed.length > 0) process.exitCode = 1;
 }
 
-const server = createServer(handleRequest);
+async function startDashboard() {
+  const server = createDashboardServer();
 
-server.listen(port, HOST, async () => {
-  if (isSmoke) {
+  server.listen(port, HOST, async () => {
     try {
-      await runSmoke(server);
-    } catch (error) {
-      console.error(JSON.stringify({ smoke_result: "FAIL", error: error.message }, null, 2));
-      await new Promise((resolve) => server.close(resolve));
-      process.exitCode = 1;
+      await defaultJiraReadSync.start();
+    } catch {
+      // The sync manager stores sanitized failures in its snapshot.
     }
-    return;
-  }
 
-  console.log(`RIC Studio Operator Dashboard: http://localhost:${port}`);
-  console.log("Local-only and read-only. Press Ctrl+C to stop.");
-});
+    if (isSmoke) {
+      try {
+        await runSmoke(server);
+      } catch (error) {
+        console.error(JSON.stringify({ smoke_result: "FAIL", error: error.message }, null, 2));
+        await new Promise((resolve) => server.close(resolve));
+        process.exitCode = 1;
+      } finally {
+        await defaultJiraReadSync.stop();
+      }
+      return;
+    }
+
+    console.log(`RIC Studio Operator Dashboard: http://localhost:${port}`);
+    console.log("Local-only, GET-only Jira visibility, and read-only. Press Ctrl+C to stop.");
+  });
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  startDashboard();
+}
+
+export { collectState, renderHtml, handleRequest };

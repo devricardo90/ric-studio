@@ -2,13 +2,41 @@
 
 ## Current handoff state
 
-Current owner direction: implement RIC-STUDIO-082A controlled Jira + RIC Studio sprint automation MVP and stop at REVIEW.
+Current owner direction: implement RIC-4 / RIC-STUDIO-105A automatic read-only Jira project synchronization and stop at REVIEW.
 
-RIC-STUDIO-082A is in REVIEW after local implementation and validation; no commit or push has been performed.
+RIC-4 / RIC-STUDIO-105A is in REVIEW after local implementation and mocked validation; no commit or push has been performed.
 
-Latest completed task: RIC-STUDIO-081A - improve project registry readability and completed state accuracy.
+Latest completed pushed task before this work: RIC-STUDIO-104B audit-log persistence verification fix at commit `5d916d630543c300632f76a2cfc335b98837a8a1`.
 
-Current objective: register a DayBudget sprint/task intention in RIC Studio, expose it in the Operator Dashboard, keep RIC Studio as source of truth, and keep Jira in manual dry-run/reference mode unless a safe sync path is explicitly approved.
+Current objective: make the Operator Dashboard automatically show Jira tasks from Rick Travel, DayBudget, and RIC Studio through read-only synchronization.
+
+RIC-4 / RIC-STUDIO-105A result:
+
+- Added `tools/jira/read-sync.mjs` for GET-only Jira read synchronization.
+- Added `tools/jira/read-sync.test.mjs` with mocked Jira responses for project filtering, request construction, normalization, unknown status handling, duplicate prevention, cache behavior, stale fallback, redaction, startup sync, periodic sync, and no write methods.
+- Added `tools/operator-ui/server.test.mjs` for mocked `/api/state` dashboard integration.
+- Updated `tools/operator-ui/server.mjs` to run initial sync on startup, repeat every 30 seconds, expose sync state through `/api/state`, and render synchronized issues grouped by project.
+- Updated `tools/operator-ui/README.md` with the runtime cache and read-only Jira visibility boundary.
+- Added `.gitignore` entry for `var/`; runtime cache path is `var/jira-live-state.json`.
+- Added validation evidence at `docs/validation/jira-read-sync-105a.md`.
+- Updated operational docs for REVIEW.
+- No Jira write, transition, comment creation, issue creation, full sync, bulk operation, automatic Codex execution, commit, push, deployment, package change, or lockfile change occurred.
+
+RIC-4 / RIC-STUDIO-105A validation commands:
+
+- `node --test tools/jira/read-sync.test.mjs`
+- `node --test tools/operator-ui/server.test.mjs`
+- `node --test tools/jira/guarded-write-gates.test.mjs`
+- `node --test tools/jira/operator-safe-flow.test.mjs`
+- `node --test tools/jira/queue-execute-approved.test.mjs`
+- `node --test tools/jira/queue-plan.test.mjs`
+- `node tools/jira/validate-config.mjs --config docs/config/jira-sync-config.sample.json`
+- `node tools/operator-ui/server.mjs smoke`
+- `git diff --check`
+
+Next gate: owner reviews RIC-4 evidence. Do not commit, push, move RIC-4 to DONE/Remote DONE, start another Jira issue, or implement RIC-STUDIO-106A without explicit direction.
+
+Previous handoff context follows.
 
 RIC-STUDIO-082A result:
 

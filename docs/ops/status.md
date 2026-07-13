@@ -6,11 +6,13 @@ REVIEW
 
 ## Task
 
-RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP.
+RIC-4 / RIC-STUDIO-105A - Add automatic read-only Jira project synchronization.
 
-Status: REVIEW after implementation and validation; no commit or push has been performed.
+Status: REVIEW after implementation and local mocked validation; no commit or push has been performed.
 
-RIC Studio remains the source of truth. Jira is represented as manual dry-run/reference data for the pilot DayBudget task because no safe Jira issue key or approved create/transition synchronization contract is available for this task.
+RIC Studio Operator Dashboard now performs automatic Jira read synchronization for registered projects `RT`, `DAY`, and `RIC` only. Synchronization is visibility-only and uses GET-only Jira API requests when Jira environment variables are present.
+
+Runtime cache is limited to the gitignored local path `var/jira-live-state.json`. The dashboard preserves the last successful cached read when Jira is temporarily unavailable.
 
 RIC-STUDIO-081A implementation is Remote DONE at commit `9f820a02fe71c1a8e5bb0e108f94fc902e5bbd5d`.
 RIC-STUDIO-080A implementation is Remote DONE at commit `7d92f2a23eebc2e9b858731c55ca01b80fb00a49`.
@@ -19,33 +21,73 @@ RIC-STUDIO-078A READY registration is Remote DONE; Jira implementation is paused
 
 ## Current task execution
 
-RIC-STUDIO-082A implemented a controlled local sprint/task registry and dashboard visibility for the DayBudget DAY-9 / WEB-027A pilot task.
+RIC-4 / RIC-STUDIO-105A implemented automatic read-only Jira synchronization for Operator Dashboard visibility.
 
 Objective:
 
-- Register a sprint/task intention in RIC Studio, expose it in the Operator Dashboard, preserve strict lifecycle/protocol fields, prevent duplicate task records by project + task key, and include Jira reference/dry-run fields plus short validation evidence.
+- Query only registered Jira project keys `RT`, `DAY`, and `RIC`.
+- Retrieve only dashboard fields: issue key, project key/name, summary, Jira status, issue type, parent/epic, sprint, assignee display name, labels, created timestamp, and updated timestamp.
+- Normalize Jira statuses to RIC Studio lifecycle statuses without mapping unknown statuses to DONE.
+- Prevent duplicates by Jira issue key.
+- Display synchronized issues grouped by project.
+- Show sync metadata, stale warning, sanitized errors, and cached-data state.
 
 Implementation facts:
 
-- Added `docs/ops/sprint-task-registry.json` as the local RIC Studio source-of-truth registry.
-- Added the DayBudget DAY-9 / WEB-027A pilot task with status `READY`, protocol level `LEAN_LEVEL_2`, allowed scope, blocked scope, Jira reference fields, manual dry-run Jira payload/comment, and short evidence model.
-- Added `docs/ops/sprint-task-intake.daybudget-web-027a.json` as the local intake configuration.
-- Added `tools/sprint/intake.mjs`, a dependency-free idempotent upsert helper that reuses the existing record when project + task key already exists.
-- Updated `tools/operator-ui/server.mjs` so `/api/state` and the dashboard show the Sprint Automation Registry.
-- Updated `tools/operator-ui/README.md` to document the registry and intake boundary.
-- No DayBudget repository files were edited.
-- No Jira API call, Jira CLI call, or real Jira write was made.
-- No database migration, authentication, Docker, package, or lockfile change was made.
-- RIC-STUDIO-079A implementation is Remote DONE at commit `494d16d58387d9f51aa90a30796e1224be32259f`.
-- No GitHub API call was made.
-- No network call was made.
-- No dependency install, package change, or lockfile change was made.
-- No DayBudget or Rick Travel repository was edited.
-- No Docker action was used.
-- No Jira action was used.
-- `stash@{0}` was not touched.
+- Added `tools/jira/read-sync.mjs` for dependency-free Jira read synchronization, normalization, cache persistence, stale detection, and sanitized failure fallback.
+- Added mocked tests for registered-project filtering, request construction, response normalization, lifecycle mapping, unknown status behavior, duplicate prevention, cache persistence, fallback, stale warning, redaction, startup sync, periodic sync, and no write methods.
+- Updated `tools/operator-ui/server.mjs` so startup runs initial Jira read sync, periodic sync runs every 30 seconds, `/api/state` exposes sanitized sync state, and the browser groups synchronized issues by project.
+- Added `.gitignore` entry for `var/` so runtime cache files are not committed.
+- Updated `tools/operator-ui/README.md` to document the read-only Jira visibility boundary.
+- No Jira write, transition, comment, issue creation, full sync, or bulk operation was performed.
+- No commit or push has been performed.
 
 Allowed implementation files:
+
+- `.gitignore`
+- `tools/jira/read-sync.mjs`
+- `tools/jira/read-sync.test.mjs`
+- `tools/operator-ui/server.mjs`
+- `tools/operator-ui/server.test.mjs`
+- `tools/operator-ui/README.md`
+- `docs/validation/jira-read-sync-105a.md`
+- `STATUS.md`
+- `backlog.md`
+- `docs/ops/status.md`
+- `docs/ops/backlog.md`
+- `docs/ops/execution-log.md`
+- `docs/ops/session-handoff.md`
+
+Forbidden during this implementation:
+
+- Jira writes, transitions, comments, issue creation, full sync, and bulk operations.
+- Automatic Codex execution, automatic commit, automatic push, automatic deployment, and starting another Jira issue.
+- Printing or storing Jira credentials.
+- Modifying runtime Jira cache outside gitignored `var/`.
+- Package or lockfile changes.
+- Commit or push without explicit owner approval.
+
+Validation criteria:
+
+- Mocked read-sync tests pass.
+- Mocked dashboard `/api/state` integration test passes.
+- Existing guarded Jira write, operator-safe flow, queue execute-approved, queue-plan, and config validations still pass.
+- Dashboard smoke passes with Jira env cleared in the smoke process to avoid accidental real Jira API calls.
+- `git diff --check` passes.
+- `/api/state` shows Jira write/full sync/create/bulk flags as false.
+
+Rollback plan:
+
+- Revert only the RIC-4 / RIC-STUDIO-105A read-sync helper, dashboard integration, tests, validation evidence, `.gitignore` cache rule, and operational doc updates.
+- Preserve existing guarded Jira write/operator flow code and existing DAY-12 evidence.
+
+Next operational gate:
+
+- Review RIC-4 / RIC-STUDIO-105A evidence, then owner decides whether corrections are needed. Commit and push remain blocked until separate owner approval after REVIEW.
+
+## Previous task context
+
+Previous RIC-STUDIO-082A allowed implementation files:
 
 - `tools/operator-ui/server.mjs`
 - `tools/operator-ui/README.md`
@@ -60,36 +102,6 @@ Allowed implementation files:
 - `docs/ops/backlog.md`
 - `docs/ops/execution-log.md`
 - `docs/ops/session-handoff.md`
-
-Forbidden during this implementation:
-
-- GitHub API calls or any network-backed repository discovery.
-- Network calls.
-- Dependency installation.
-- Package or lockfile changes.
-- DayBudget or Rick Travel repository edits.
-- Docker.
-- Jira call, Jira API call, or Jira CLI call.
-- Applying, popping, or restoring from `stash@{0}`.
-- Commit or push without explicit owner approval for a new task.
-
-Validation criteria:
-
-- `node tools/sprint/intake.mjs --config docs/ops/sprint-task-intake.daybudget-web-027a.json` reuses the existing WEB-027A record without duplication.
-- `node tools/operator-ui/server.mjs smoke` passes and confirms the DayBudget pilot task appears in the Sprint Automation Registry.
-- `/api/state` exposes valid lifecycle/protocol data, Jira reference fields, and the short evidence model.
-- No package, lockfile, Jira, GitHub API, Docker, DayBudget repository, Rick Travel repository, or stash changes occur.
-- `git diff --check` passes.
-
-Rollback plan:
-
-- Revert only the RIC-STUDIO-082A sprint registry, intake helper, dashboard sprint registry rendering, validation evidence, and operational doc updates.
-- Preserve the RIC-STUDIO-080A Project Registry implementation and RIC-STUDIO-079A dashboard smoke/context reconciliation.
-- Do not stop or restart the running dashboard server unless explicitly requested.
-
-Next operational gate:
-
-- Review RIC-STUDIO-082A evidence, then owner decides whether to authorize commit. Push remains blocked until separate owner approval after commit evidence.
 
 ## Current state reconciliation
 

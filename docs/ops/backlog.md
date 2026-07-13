@@ -2,6 +2,7 @@
 
 ## REVIEW
 
+- RIC-4 / RIC-STUDIO-105A - Add automatic read-only Jira project synchronization. REVIEW - Operator Dashboard now runs GET-only Jira visibility sync for RT, DAY, and RIC at startup and every 30 seconds, caches last successful read in gitignored `var/jira-live-state.json`, preserves manual project registry fallback, and performs no Jira write/full sync/create/bulk operation; no commit or push.
 - RIC-STUDIO-082A - Controlled Jira + RIC Studio Sprint Automation MVP. REVIEW - local sprint/task registry, idempotent intake helper, dashboard visibility, DayBudget DAY-9 / WEB-027A pilot record, and manual dry-run Jira reference implemented; no commit or push.
 - RIC-STUDIO-009B - Record Local Orchestrator Errors From CBM-004.
 - RIC-STUDIO-014A - Rebuild And Promote Official Runtime From Refined Prompt. BLOCKED / ROLLED BACK.
@@ -31,7 +32,7 @@ RIC-STUDIO-078A READY registration is Remote DONE at commit `de237471b418789859a
 
 ## Next safe step
 
-Review RIC-STUDIO-082A evidence, then owner decides whether to authorize commit. Push remains blocked until separate owner approval after commit evidence. The running dashboard remains at `http://localhost:4310`.
+Review RIC-4 / RIC-STUDIO-105A read-only Jira synchronization evidence, then owner decides whether corrections are needed. Commit and push remain blocked until separate owner approval after REVIEW.
 
 Do not apply or pop `stash@{0}`. It contains implementation candidates (`tools/jira/guarded-write.mjs`, `tools/jira/README.md`, `docs/validation/jira-real-write-078a.md`) plus stale operational docs (`STATUS.md`, `backlog.md`, `docs/ops/backlog.md`, `docs/ops/execution-log.md`, `docs/ops/session-handoff.md`, `docs/ops/status.md`) that must not be restored.
 
