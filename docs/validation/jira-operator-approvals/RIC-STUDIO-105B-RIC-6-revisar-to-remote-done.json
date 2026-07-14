@@ -1,0 +1,78 @@
+{
+  "task_key": "RIC-STUDIO-105B",
+  "project_key": "RIC",
+  "issue_key": "RIC-6",
+  "expected_before_status": "Revisar",
+  "expected_before_status_id": "10074",
+  "transition_id": "41",
+  "transition_name": "REMOTE DONE",
+  "target_status": "REMOTE DONE",
+  "target_status_id": "10075",
+  "owner_approved": true,
+  "duplicate_risk_accepted": true,
+  "transition_risk_accepted": true,
+  "unique_evidence_marker": "RIC-STUDIO-JIRA-EVIDENCE::RIC Studio::RIC-STUDIO-105B::add_evidence_comment::revisar->remote-done::transition-41",
+  "approved_audit_log_path": "docs/validation/jira-operator-runs/RIC-STUDIO-105B-RIC-6-revisar-to-remote-done.jsonl",
+  "approved_command": "node tools/jira/operator-safe-flow.mjs --issue RIC-6 --task-key RIC-STUDIO-105B --transition-id 41 --to REMOTE DONE --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_command_hash": "6c5d48ad8b8ef03cc4bdfeeb27e87eb726705854b3e5fadd6ebc3dc879225c3f",
+  "approval_timestamp": "2026-07-14T17:24:43.796Z",
+  "created_at": "2026-07-14T17:24:43.796Z",
+  "execution_task": {
+    "task_id": "RIC-6",
+    "task_key": "RIC-STUDIO-105B",
+    "published_commit": "cf0c5f7058d03e4fb8269966fa4c8084c14cb497"
+  },
+  "direct_transition_available": true,
+  "exact_transition_path": [
+    {
+      "step": 1,
+      "from_status": "Revisar",
+      "from_status_id": "10074",
+      "transition_id": "41",
+      "transition_name": "REMOTE DONE",
+      "target_status": "REMOTE DONE",
+      "target_status_id": "10075"
+    }
+  ],
+  "single_execution_only": true,
+  "required_risk_flags": {
+    "owner_approved": true,
+    "duplicate_risk_accepted": true,
+    "transition_risk_accepted": true,
+    "single_issue_only": true,
+    "full_sync_performed": false,
+    "create_issue_performed": false,
+    "bulk_operation_performed": false,
+    "separate_comment_performed": false,
+    "jira_comment_performed": false,
+    "jira_transition_performed": false
+  },
+  "approved_queue_execute_command": "node tools/jira/queue-execute-approved.mjs --issue RIC-6 --task-key RIC-STUDIO-105B --transition-id 41 --to REMOTE DONE --approval-manifest docs/validation/jira-operator-approvals/RIC-STUDIO-105B-RIC-6-revisar-to-remote-done.json --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_queue_execute_command_hash": "54b6509adc749c3db3bea8140a2e496b538c5445049623d07d66523214b22aa8",
+  "approved_queue_execute_with_audit_command": "node tools/jira/queue-execute-approved.mjs --issue RIC-6 --task-key RIC-STUDIO-105B --transition-id 41 --to REMOTE DONE --approval-manifest docs/validation/jira-operator-approvals/RIC-STUDIO-105B-RIC-6-revisar-to-remote-done.json --audit-log docs/validation/jira-operator-runs/RIC-STUDIO-105B-RIC-6-revisar-to-remote-done.jsonl --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_queue_execute_with_audit_command_hash": "049f731996d4224dac7ac8f4ba03b5427fbc19cd040111751c922614a7a1f635",
+  "source_discovery": {
+    "source": "real_jira_get_only_discovery",
+    "http_methods_used": [
+      "GET"
+    ],
+    "project_key": "RIC",
+    "issue_key": "RIC-6",
+    "current_status": "Revisar",
+    "current_status_id": "10074",
+    "already_remote_done": false,
+    "transition_id": "41",
+    "transition_name": "REMOTE DONE",
+    "target_status": "REMOTE DONE",
+    "target_status_id": "10075",
+    "jira_write_performed": false,
+    "jira_transition_performed": false,
+    "jira_comment_performed": false,
+    "full_sync_performed": false,
+    "create_issue_performed": false,
+    "bulk_operation_performed": false,
+    "secrets_printed": false
+  },
+  "manifest_candidate_only": true,
+  "execution_performed": false
+}
