@@ -15,7 +15,6 @@ const taskKey = "RIC-STUDIO-102A";
 const issueKey = "DAY-12";
 const transitionId = "31";
 const targetStatus = "Revisar";
-const operatorCommand = `node tools/jira/operator-safe-flow.mjs --issue ${issueKey} --task-key ${taskKey} --transition-id ${transitionId} --to ${targetStatus} --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write`;
 const duplicateMarker = `RIC-STUDIO-JIRA-EVIDENCE::DayBudget::${taskKey}::add_evidence_comment::backlog-ready->revisar::transition-${transitionId}`;
 const syntheticEnv = {
   JIRA_BASE_URL: "https://example.invalid",
@@ -37,11 +36,20 @@ function approvalManifestPath(name) {
   return `docs/validation/jira-operator-approvals/${name}-${process.pid}.json`;
 }
 
+function projectKeyFromIssue(issue) {
+  return String(issue).split("-")[0];
+}
+
+function operatorCommandFor({ issue, task, transition, target }) {
+  return `node tools/jira/operator-safe-flow.mjs --issue ${issue} --task-key ${task} --transition-id ${transition} --to ${target} --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write`;
+}
+
 function writeManifest(name, overrides = {}) {
   mkdirSync(approvalDir, { recursive: true });
   const relativePath = approvalManifestPath(name);
   const manifest = {
     task_key: taskKey,
+    project_key: projectKeyFromIssue(overrides.issue_key || issueKey),
     issue_key: issueKey,
     expected_before_status: "Backlog / Ready",
     transition_id: transitionId,
@@ -49,10 +57,18 @@ function writeManifest(name, overrides = {}) {
     owner_approved: true,
     duplicate_risk_accepted: true,
     transition_risk_accepted: true,
-    approved_command_hash: approvedCommandHash(operatorCommand),
     created_at: "2026-07-07T00:00:00.000Z",
     ...overrides
   };
+  if (!manifest.project_key) manifest.project_key = projectKeyFromIssue(manifest.issue_key);
+  if (!overrides.approved_command_hash && !overrides.approved_command) {
+    manifest.approved_command_hash = approvedCommandHash(operatorCommandFor({
+      issue: manifest.issue_key,
+      task: manifest.task_key,
+      transition: manifest.transition_id,
+      target: manifest.target_status
+    }));
+  }
   writeFileSync(path.resolve(repoRoot, relativePath), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
   return relativePath;
 }
@@ -69,11 +85,15 @@ function cleanup(relativePath) {
 }
 
 function baseArgs(manifestPath) {
+  return baseArgsFor({ manifestPath });
+}
+
+function baseArgsFor({ manifestPath, issue = issueKey, task = taskKey, transition = transitionId, target = targetStatus }) {
   return [
-    "--issue", issueKey,
-    "--task-key", taskKey,
-    "--transition-id", transitionId,
-    "--to", targetStatus,
+    "--issue", issue,
+    "--task-key", task,
+    "--transition-id", transition,
+    "--to", target,
     "--approval-manifest", manifestPath,
     "--owner-approved",
     "--duplicate-risk-accepted",
@@ -82,7 +102,19 @@ function baseArgs(manifestPath) {
   ];
 }
 
-function writeMockFetch({ beforeStatus = "Backlog / Ready", verifyStatus = "Revisar", duplicate = false } = {}) {
+function writeMockFetch({
+  issue = issueKey,
+  projectKey = projectKeyFromIssue(issue),
+  beforeStatus = "Backlog / Ready",
+  beforeStatusId = "10036",
+  verifyStatus = "Revisar",
+  verifyStatusId = "10038",
+  availableTransitionId = transitionId,
+  availableTransitionName = targetStatus,
+  availableTransitionTarget = targetStatus,
+  availableTransitionTargetId = "10038",
+  duplicate = false
+} = {}) {
   const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-queue-execute-"));
   const mockFetch = path.join(tempDir, "mock-fetch.mjs");
   writeFileSync(mockFetch, [
@@ -95,16 +127,19 @@ function writeMockFetch({ beforeStatus = "Backlog / Ready", verifyStatus = "Revi
       : "    return new Response(JSON.stringify({ comments: [] }), { status: 200, headers: { \"Content-Type\": \"application/json\" } });",
     "  }",
     "  if (method === 'POST' && href.includes('/comment')) {",
-    `    return new Response(JSON.stringify({ id: "mock-comment-102A", self: "https://example.invalid/rest/api/3/issue/${issueKey}/comment/mock-comment-102A" }), { status: 201, headers: { "Content-Type": "application/json" } });`,
+    `    return new Response(JSON.stringify({ id: "mock-comment-102A", self: "https://example.invalid/rest/api/3/issue/${issue}/comment/mock-comment-102A" }), { status: 201, headers: { "Content-Type": "application/json" } });`,
     "  }",
     "  if (method === 'POST' && href.includes('/transitions')) {",
     "    return new Response(null, { status: 204 });",
     "  }",
+    "  if (method === 'GET' && href.includes('/transitions')) {",
+    `    return new Response(JSON.stringify({ transitions: [{ id: ${JSON.stringify(availableTransitionId)}, name: ${JSON.stringify(availableTransitionName)}, to: { id: ${JSON.stringify(availableTransitionTargetId)}, name: ${JSON.stringify(availableTransitionTarget)} } }] }), { status: 200, headers: { "Content-Type": "application/json" } });`,
+    "  }",
     "  if (method === 'GET' && href.includes('/issue/') && !href.includes('/comment') && !href.includes('/transitions')) {",
     "    const isQueueCommand = process.argv.some((arg) => String(arg).includes('queue-execute-approved.mjs'));",
     `    const statusName = isQueueCommand ? ${JSON.stringify(beforeStatus)} : ${JSON.stringify(verifyStatus)};`,
-    "    const statusId = statusName === 'Backlog / Ready' ? '10036' : statusName === 'Revisar' ? '10038' : '10037';",
-    `    return new Response(JSON.stringify({ key: ${JSON.stringify(issueKey)}, fields: { status: { id: statusId, name: statusName } } }), { status: 200, headers: { "Content-Type": "application/json" } });`,
+    `    const statusId = isQueueCommand ? ${JSON.stringify(beforeStatusId)} : ${JSON.stringify(verifyStatusId)};`,
+    `    return new Response(JSON.stringify({ key: ${JSON.stringify(issue)}, fields: { project: { key: ${JSON.stringify(projectKey)} }, status: { id: statusId, name: statusName } } }), { status: 200, headers: { "Content-Type": "application/json" } });`,
     "  }",
     "  return new Response(JSON.stringify({ error: 'unhandled mock fetch route' }), { status: 500, headers: { \"Content-Type\": \"application/json\" } });",
     "};",
@@ -209,12 +244,120 @@ test("valid manifest and exact args reach mocked queue approved write path", () 
   }
 });
 
+test("RT approval manifest reaches mocked queue approved write path", () => {
+  const manifestPath = writeManifest("rt-valid", {
+    task_key: "RIC-STUDIO-105B",
+    project_key: "RT",
+    issue_key: "RT-7",
+    expected_before_status: "Queued",
+    transition_id: "77",
+    target_status: "Review"
+  });
+
+  try {
+    const { status, output } = runQueue(baseArgsFor({
+      manifestPath,
+      issue: "RT-7",
+      task: "RIC-STUDIO-105B",
+      transition: "77",
+      target: "Review"
+    }), {
+      mock: {
+        issue: "RT-7",
+        projectKey: "RT",
+        beforeStatus: "Queued",
+        beforeStatusId: "20010",
+        verifyStatus: "Review",
+        verifyStatusId: "20011",
+        availableTransitionId: "77",
+        availableTransitionName: "Review",
+        availableTransitionTarget: "Review",
+        availableTransitionTargetId: "20011"
+      }
+    });
+
+    assert.equal(status, 0);
+    assert.equal(output.queue_execute_result, "QUEUE_APPROVED_WRITE_DONE");
+    assert.equal(output.issue_key, "RT-7");
+    assert.equal(output.before_status, "Queued");
+    assert.equal(output.after_status, "Review");
+    assert.equal(output.status_verified, true);
+    assert.equal(output.full_sync_performed, false);
+    assert.equal(output.create_issue_performed, false);
+    assert.equal(output.bulk_operation_performed, false);
+    assert.equal(output.secrets_printed, false);
+  } finally {
+    cleanup(manifestPath);
+  }
+});
+
+test("RIC approval manifest reaches mocked queue approved write path", () => {
+  const manifestPath = writeManifest("ric-valid", {
+    task_key: "RIC-STUDIO-105B",
+    project_key: "RIC",
+    issue_key: "RIC-4",
+    expected_before_status: "Review",
+    transition_id: "81",
+    target_status: "REMOTE DONE"
+  });
+
+  try {
+    const { status, output } = runQueue(baseArgsFor({
+      manifestPath,
+      issue: "RIC-4",
+      task: "RIC-STUDIO-105B",
+      transition: "81",
+      target: "REMOTE DONE"
+    }), {
+      mock: {
+        issue: "RIC-4",
+        projectKey: "RIC",
+        beforeStatus: "Review",
+        beforeStatusId: "30010",
+        verifyStatus: "REMOTE DONE",
+        verifyStatusId: "30011",
+        availableTransitionId: "81",
+        availableTransitionName: "REMOTE DONE",
+        availableTransitionTarget: "REMOTE DONE",
+        availableTransitionTargetId: "30011"
+      }
+    });
+
+    assert.equal(status, 0);
+    assert.equal(output.queue_execute_result, "QUEUE_APPROVED_WRITE_DONE");
+    assert.equal(output.issue_key, "RIC-4");
+    assert.equal(output.before_status, "Review");
+    assert.equal(output.after_status, "REMOTE DONE");
+    assert.equal(output.status_verified, true);
+    assert.equal(output.secrets_printed, false);
+  } finally {
+    cleanup(manifestPath);
+  }
+});
+
 test("missing approval manifest blocks", () => {
   const { status, output } = runQueue([
     "--issue", issueKey,
     "--task-key", taskKey,
     "--transition-id", transitionId,
     "--to", targetStatus,
+    "--owner-approved",
+    "--duplicate-risk-accepted",
+    "--transition-risk-accepted",
+    "--real-write"
+  ]);
+
+  assert.equal(status, 2);
+  assert.equal(output.queue_execute_result, "BLOCKED_APPROVAL_MANIFEST_REQUIRED");
+  assertNoWrite(output);
+});
+
+test("registered project without approval manifest blocks", () => {
+  const { status, output } = runQueue([
+    "--issue", "RIC-4",
+    "--task-key", "RIC-STUDIO-105B",
+    "--transition-id", "81",
+    "--to", "REMOTE DONE",
     "--owner-approved",
     "--duplicate-risk-accepted",
     "--transition-risk-accepted",
@@ -247,6 +390,20 @@ test("issue mismatch blocks", () => {
     assert.equal(status, 2);
     assert.equal(output.queue_execute_result, "BLOCKED_APPROVAL_MANIFEST_INVALID");
     assert.match(output.blocked_reason, /issue mismatch/);
+    assertNoWrite(output);
+  } finally {
+    cleanup(manifestPath);
+  }
+});
+
+test("manifest project mismatch blocks", () => {
+  const manifestPath = writeManifest("project-mismatch", { project_key: "RIC" });
+  try {
+    const { status, output } = runQueue(baseArgs(manifestPath));
+
+    assert.equal(status, 2);
+    assert.equal(output.queue_execute_result, "BLOCKED_APPROVAL_MANIFEST_INVALID");
+    assert.match(output.blocked_reason, /project mismatch|project_key must match/);
     assertNoWrite(output);
   } finally {
     cleanup(manifestPath);
@@ -304,6 +461,64 @@ test("expected_before_status mismatch blocks", () => {
     assert.equal(output.queue_execute_result, "BLOCKED_STATUS_CHANGED_SINCE_APPROVAL");
     assert.equal(output.before_status, "Backlog / Ready");
     assert.equal(output.approval_manifest_valid, true);
+    assertNoWrite(output);
+  } finally {
+    cleanup(manifestPath);
+  }
+});
+
+test("Jira issue project mismatch blocks before operator flow", () => {
+  const manifestPath = writeManifest("jira-project-mismatch");
+  try {
+    const { status, output } = runQueue(baseArgs(manifestPath), { mock: { projectKey: "RIC" } });
+
+    assert.equal(status, 2);
+    assert.equal(output.queue_execute_result, "BLOCKED_JIRA_ISSUE_PROJECT_MISMATCH");
+    assert.equal(output.jira_project_key, "RIC");
+    assert.equal(output.expected_project_key, "DAY");
+    assertNoWrite(output);
+  } finally {
+    cleanup(manifestPath);
+  }
+});
+
+test("available transition ID mismatch blocks before operator flow", () => {
+  const manifestPath = writeManifest("available-transition-mismatch");
+  try {
+    const { status, output } = runQueue(baseArgs(manifestPath), {
+      mock: {
+        availableTransitionId: "99",
+        availableTransitionName: "Other",
+        availableTransitionTarget: "Other",
+        availableTransitionTargetId: "10099"
+      }
+    });
+
+    assert.equal(status, 2);
+    assert.equal(output.queue_execute_result, "BLOCKED_INVALID_ARGS");
+    assert.match(output.blocked_reason, /exact approval manifest transition ID/);
+    assert.deepEqual(output.available_transition_ids, ["99"]);
+    assertNoWrite(output);
+  } finally {
+    cleanup(manifestPath);
+  }
+});
+
+test("available transition target mismatch blocks before operator flow", () => {
+  const manifestPath = writeManifest("available-target-mismatch");
+  try {
+    const { status, output } = runQueue(baseArgs(manifestPath), {
+      mock: {
+        availableTransitionTarget: "Remote DONE",
+        availableTransitionTargetId: "10039"
+      }
+    });
+
+    assert.equal(status, 2);
+    assert.equal(output.queue_execute_result, "BLOCKED_INVALID_ARGS");
+    assert.match(output.blocked_reason, /transition target/);
+    assert.equal(output.actual_transition_target_status, "Remote DONE");
+    assert.equal(output.expected_target_status, "Revisar");
     assertNoWrite(output);
   } finally {
     cleanup(manifestPath);
@@ -399,7 +614,7 @@ test("multi-issue input blocks", () => {
 
 test("unsupported project blocks", () => {
   const { status, output } = runQueue([
-    "--issue", "RIC-1",
+    "--issue", "ABC-1",
     "--task-key", taskKey,
     "--transition-id", transitionId,
     "--to", targetStatus,

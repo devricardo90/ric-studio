@@ -2,39 +2,51 @@
 
 ## Current handoff state
 
-Current owner direction: implement RIC-4 / RIC-STUDIO-105A automatic read-only Jira project synchronization and stop at REVIEW.
+Current owner direction: execute only local review and closure for RIC-6 / RIC-STUDIO-105B, do not perform additional Jira writes or network calls, do not transition RIC-6, and stop before commit for owner review.
 
-RIC-4 / RIC-STUDIO-105A is in REVIEW after local implementation and mocked validation; no commit or push has been performed.
+RIC-6 / RIC-STUDIO-105B is in REVIEW after local implementation and mocked validation; no commit or push has been performed.
 
 Latest completed pushed task before this work: RIC-STUDIO-104B audit-log persistence verification fix at commit `5d916d630543c300632f76a2cfc335b98837a8a1`.
 
-Current objective: make the Operator Dashboard automatically show Jira tasks from Rick Travel, DayBudget, and RIC Studio through read-only synchronization.
+Current objective: expand the safe manifest-gated Jira write operator from DAY-only support to registered projects `RT`, `DAY`, and `RIC` while preserving every write gate.
 
-RIC-4 / RIC-STUDIO-105A result:
+RIC-6 / RIC-STUDIO-105B result:
 
-- Added `tools/jira/read-sync.mjs` for GET-only Jira read synchronization.
-- Added `tools/jira/read-sync.test.mjs` with mocked Jira responses for project filtering, request construction, normalization, unknown status handling, duplicate prevention, cache behavior, stale fallback, redaction, startup sync, periodic sync, and no write methods.
-- Added `tools/operator-ui/server.test.mjs` for mocked `/api/state` dashboard integration.
-- Updated `tools/operator-ui/server.mjs` to run initial sync on startup, repeat every 30 seconds, expose sync state through `/api/state`, and render synchronized issues grouped by project.
-- Updated `tools/operator-ui/README.md` with the runtime cache and read-only Jira visibility boundary.
-- Added `.gitignore` entry for `var/`; runtime cache path is `var/jira-live-state.json`.
-- Added validation evidence at `docs/validation/jira-read-sync-105a.md`.
+- Reused `REGISTERED_JIRA_PROJECTS` from `tools/jira/read-sync.mjs` as the single registered-project source of truth.
+- Registered Jira project keys are exactly `RT`, `DAY`, and `RIC`.
+- Added registry helper exports for project-key validation and issue-key project extraction.
+- Required approval manifests to include `project_key`; manifests must match the requested issue key and expected project.
+- Generalized `queue-plan`, `queue-execute-approved`, and `operator-safe-flow` away from DAY-only issue restrictions.
+- Kept DAY default queue planning behavior intact; RT/RIC queue planning requires explicit project workflow transition config.
+- Added queue execution GET-only preflight for current Jira issue project/status and available transition ID/target before the operator flow can run.
+- Kept post-write status verification strict: no DONE/Remote DONE completion is reported when verification fails.
+- Required exact approval manifests for lower-level guarded real comment/transition writes.
+- Preserved duplicate evidence marker blocking, owner approval, transition-risk acceptance, JSONL audit persistence verification, idempotent queue planning/execution, secret redaction, and blocked create/bulk/full-sync operations.
+- Added mocked DAY, RT, and RIC coverage; default tests perform no real Jira write.
+- Execution task remains `RIC-6 / RIC-STUDIO-105B`; reconciliation target is `RIC-4 / RIC-STUDIO-105A` only.
+- RIC-4 live GET-only transition discovery succeeded: project `RIC`, current status `BACKLOG / READY`, current status ID `10072`, direct transition ID `41`, transition name `REMOTE DONE`, target status `REMOTE DONE`, target status ID `10075`.
+- Prepared the exact approval manifest at `docs/validation/jira-operator-approvals/RIC-STUDIO-105A-RIC-4-backlog-ready-to-remote-done.json`.
+- Owner-approved controlled real automation validation executed the manifest through `queue-execute-approved` for `RIC-4` only.
+- RIC-4 moved automatically from `BACKLOG / READY` (`10072`) to `REMOTE DONE` (`10075`) through transition `41`; post-write verification returned `VERIFIED_DONE`.
+- Audit JSONL was persisted and verified at `docs/validation/jira-operator-runs/RIC-STUDIO-105B-RIC-4-backlog-ready-to-remote-done.jsonl`.
 - Updated operational docs for REVIEW.
-- No Jira write, transition, comment creation, issue creation, full sync, bulk operation, automatic Codex execution, commit, push, deployment, package change, or lockfile change occurred.
+- No Jira issue creation, full sync, bulk operation, manual Jira change, RIC-6 transition, commit, push, deployment, package change, or lockfile change occurred; the only Jira write was the owner-approved RIC-4 automation validation described above.
 
-RIC-4 / RIC-STUDIO-105A validation commands:
+RIC-6 / RIC-STUDIO-105B validation commands:
 
-- `node --test tools/jira/read-sync.test.mjs`
-- `node --test tools/operator-ui/server.test.mjs`
 - `node --test tools/jira/guarded-write-gates.test.mjs`
 - `node --test tools/jira/operator-safe-flow.test.mjs`
 - `node --test tools/jira/queue-execute-approved.test.mjs`
 - `node --test tools/jira/queue-plan.test.mjs`
+- `node --test tools/jira/approval-manifest.test.mjs`
+- `node --test tools/jira/audit-log.test.mjs`
+- `node --test tools/jira/read-sync.test.mjs`
+- `node --test tools/operator-ui/server.test.mjs`
 - `node tools/jira/validate-config.mjs --config docs/config/jira-sync-config.sample.json`
 - `node tools/operator-ui/server.mjs smoke`
 - `git diff --check`
 
-Next gate: owner reviews RIC-4 evidence. Do not commit, push, move RIC-4 to DONE/Remote DONE, start another Jira issue, or implement RIC-STUDIO-106A without explicit direction.
+Next gate: owner reviews RIC-6 evidence and the RIC-4 / RIC-STUDIO-105A controlled automation evidence. Do not commit, push, transition RIC-6, execute any further real approval manifest, start another Jira issue, or implement RIC-STUDIO-106A without explicit direction.
 
 Previous handoff context follows.
 

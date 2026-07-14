@@ -186,6 +186,81 @@ test("one Revisar issue plans transition 41 to Remote DONE", () => {
   assertNoWrites(output);
 });
 
+test("RT registered project plans with explicit project workflow config", () => {
+  const output = planQueue({
+    args: baseArgs({ project: "RT" }),
+    config: {
+      queuePlanner: {
+        transitionPlans: {
+          RT: {
+            Queued: {
+              transitionId: "77",
+              targetStatus: "Review",
+              targetStatusId: "20011"
+            }
+          }
+        }
+      }
+    },
+    issues: [
+      issue({
+        key: "RT-7",
+        status: "Queued",
+        statusId: "20010",
+        transitions: [
+          transition({ id: "77", target: "Review", targetId: "20011" })
+        ]
+      })
+    ]
+  });
+
+  assert.equal(output.queue_result, "DRY_RUN_QUEUE_PLAN_READY");
+  assert.equal(output.project_key, "RT");
+  assert.equal(output.selected_issue, "RT-7");
+  assert.equal(output.current_status, "Queued");
+  assert.equal(output.planned_transition_id, "77");
+  assert.equal(output.planned_target_status, "Review");
+  assertNoWrites(output);
+});
+
+test("RIC registered project plans with explicit project workflow config", () => {
+  const output = planQueue({
+    args: baseArgs({ project: "RIC" }),
+    config: {
+      queuePlanner: {
+        transitionPlans: {
+          RIC: [
+            {
+              sourceStatus: "Review",
+              transitionId: "81",
+              targetStatus: "REMOTE DONE",
+              targetStatusId: "30011"
+            }
+          ]
+        }
+      }
+    },
+    issues: [
+      issue({
+        key: "RIC-4",
+        status: "Review",
+        statusId: "30010",
+        transitions: [
+          transition({ id: "81", target: "REMOTE DONE", targetId: "30011" })
+        ]
+      })
+    ]
+  });
+
+  assert.equal(output.queue_result, "DRY_RUN_QUEUE_PLAN_READY");
+  assert.equal(output.project_key, "RIC");
+  assert.equal(output.selected_issue, "RIC-4");
+  assert.equal(output.current_status, "Review");
+  assert.equal(output.planned_transition_id, "81");
+  assert.equal(output.planned_target_status, "REMOTE DONE");
+  assertNoWrites(output);
+});
+
 test("Remote DONE issues are ignored", () => {
   const output = planQueue({
     args: baseArgs(),
@@ -261,6 +336,22 @@ test("blocked issue keys from config are excluded", () => {
 
   assert.equal(output.queue_result, "BLOCKED_NO_ELIGIBLE_ISSUE");
   assertNoWrites(output);
+});
+
+test("queue planning is idempotent for the same inputs", () => {
+  const input = {
+    args: baseArgs(),
+    issues: [
+      issue({
+        key: "DAY-34",
+        status: "Backlog / Ready",
+        statusId: "10036",
+        transitions: [transition({ id: "31", target: "Revisar", targetId: "10038" })]
+      })
+    ]
+  };
+
+  assert.deepEqual(planQueue(input), planQueue(input));
 });
 
 test("secret-like output is blocked", () => {

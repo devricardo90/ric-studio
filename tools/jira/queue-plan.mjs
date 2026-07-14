@@ -4,24 +4,24 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { appendAuditRecord, resolveAuditPath } from "./audit-log.mjs";
+import { isRegisteredJiraProjectKey, registeredJiraProjectKeys } from "./read-sync.mjs";
 
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BOOLEAN_FLAGS = ["dry-run"];
 const VALUE_FLAGS = ["project", "limit", "task-key", "audit-log"];
-const SUPPORTED_PROJECT = "DAY";
 const DEFAULT_CONFIG = "docs/config/jira-sync-config.sample.json";
-const ELIGIBLE_STATUSES = new Set(["Backlog / Ready", "Revisar"]);
-const COMPLETED_STATUSES = new Set(["Remote DONE"]);
-const TRANSITION_PLAN = {
-  "Backlog / Ready": {
-    transitionId: "31",
-    targetStatus: "Revisar",
-    targetStatusId: "10038"
-  },
-  "Revisar": {
-    transitionId: "41",
-    targetStatus: "Remote DONE",
-    targetStatusId: "10039"
+const DEFAULT_TRANSITION_PLANS = {
+  DAY: {
+    "Backlog / Ready": {
+      transitionId: "31",
+      targetStatus: "Revisar",
+      targetStatusId: "10038"
+    },
+    "Revisar": {
+      transitionId: "41",
+      targetStatus: "Remote DONE",
+      targetStatusId: "10039"
+    }
   }
 };
 const SECRET_KEY_PATTERN = /(token|secret|password|authorization|cookie|credential|api[_-]?key|email)/i;
@@ -122,8 +122,12 @@ export function validateCliArgs(args) {
     return { result: "BLOCKED_DRY_RUN_REQUIRED", reason: "Queue planning requires --dry-run." };
   }
 
-  if (normalizeString(args.project) !== SUPPORTED_PROJECT) {
-    return { result: "BLOCKED_UNSUPPORTED_PROJECT", reason: "Queue planning currently supports exact --project DAY only." };
+  const project = normalizeString(args.project);
+  if (!isRegisteredJiraProjectKey(project)) {
+    return {
+      result: "BLOCKED_UNSUPPORTED_PROJECT",
+      reason: `Queue planning requires a registered Jira project (${registeredJiraProjectKeys().join(", ")}).`
+    };
   }
 
   if (normalizeString(args.limit) !== "1") {
@@ -182,14 +186,60 @@ function blockedIssueKeys(config) {
   ].map(normalizeString).filter(Boolean));
 }
 
-function candidateIssue(issue, blockedKeys) {
+function configuredTransitionPlan(project, config = {}) {
+  const configured = config.queuePlanner?.transitionPlans ||
+    config.queuePlanner?.projectTransitionPlans ||
+    config.jiraQueueTransitionPlans ||
+    null;
+  const configuredPlan = normalizeTransitionPlanSource(configured, project);
+  if (Object.keys(configuredPlan).length > 0) return configuredPlan;
+  return DEFAULT_TRANSITION_PLANS[project] || {};
+}
+
+function normalizeTransitionPlanSource(source, project) {
+  if (!source) return {};
+
+  if (Array.isArray(source)) {
+    return normalizeTransitionEntries(source.filter((entry) =>
+      normalizeString(entry.projectKey || entry.project || entry.jiraProjectKey) === project
+    ));
+  }
+
+  if (typeof source === "object") {
+    return normalizeTransitionEntries(source[project] || []);
+  }
+
+  return {};
+}
+
+function normalizeTransitionEntries(entries) {
+  if (!entries || typeof entries !== "object") return {};
+
+  if (Array.isArray(entries)) {
+    return Object.fromEntries(entries.map((entry) => {
+      const sourceStatus = normalizeString(entry.sourceStatus || entry.currentStatus || entry.currentStatusName || entry.expectedBeforeStatus);
+      return [sourceStatus, {
+        transitionId: normalizeString(entry.transitionId),
+        targetStatus: normalizeString(entry.targetStatus || entry.targetStatusName),
+        targetStatusId: normalizeString(entry.targetStatusId)
+      }];
+    }).filter(([sourceStatus, plan]) => sourceStatus && plan.transitionId && plan.targetStatus));
+  }
+
+  return Object.fromEntries(Object.entries(entries).map(([sourceStatus, entry]) => [normalizeString(sourceStatus), {
+    transitionId: normalizeString(entry.transitionId),
+    targetStatus: normalizeString(entry.targetStatus || entry.targetStatusName),
+    targetStatusId: normalizeString(entry.targetStatusId)
+  }]).filter(([sourceStatus, plan]) => sourceStatus && plan.transitionId && plan.targetStatus));
+}
+
+function candidateIssue(issue, blockedKeys, project, transitionPlan) {
   const key = normalizeString(issue.key);
   const status = normalizeString(issue.current_status_name || issue.status?.name || issue.fields?.status?.name);
 
-  if (projectKeyFromIssue(key) !== SUPPORTED_PROJECT) return null;
+  if (projectKeyFromIssue(key) !== project) return null;
   if (blockedKeys.has(key)) return null;
-  if (COMPLETED_STATUSES.has(status)) return null;
-  if (!ELIGIBLE_STATUSES.has(status)) return null;
+  if (!transitionPlan[status]) return null;
 
   return {
     key,
@@ -200,14 +250,15 @@ function candidateIssue(issue, blockedKeys) {
   };
 }
 
-function matchingTransition(issue) {
-  const plan = TRANSITION_PLAN[issue.current_status];
+function matchingTransition(issue, transitionPlan) {
+  const plan = transitionPlan[issue.current_status];
   if (!plan) return null;
 
   return issue.transitions.find((transition) => {
     const idMatches = normalizeString(transition.id) === plan.transitionId;
     const targetMatches = normalizeString(transition.target_status_name || transition.to?.name) === plan.targetStatus;
-    const targetIdMatches = normalizeString(transition.target_status_id || transition.to?.id) === plan.targetStatusId;
+    const targetIdMatches = !plan.targetStatusId ||
+      normalizeString(transition.target_status_id || transition.to?.id) === plan.targetStatusId;
     return idMatches && targetMatches && targetIdMatches;
   }) || null;
 }
@@ -239,9 +290,11 @@ export function planQueue({ args, issues, config = {} }) {
     return blockedOutput({ args, queueResult: cliBlocker.result, blockedReason: cliBlocker.reason });
   }
 
+  const project = normalizeString(args.project);
+  const transitionPlan = configuredTransitionPlan(project, config);
   const blockedKeys = blockedIssueKeys(config);
   const candidates = issues
-    .map((issue) => candidateIssue(issue, blockedKeys))
+    .map((issue) => candidateIssue(issue, blockedKeys, project, transitionPlan))
     .filter(Boolean)
     .sort((left, right) => left.key.localeCompare(right.key, undefined, { numeric: true }));
 
@@ -249,7 +302,7 @@ export function planQueue({ args, issues, config = {} }) {
     return blockedOutput({
       args,
       queueResult: "BLOCKED_NO_ELIGIBLE_ISSUE",
-      blockedReason: "No eligible DAY issue was found in Backlog / Ready or Revisar.",
+      blockedReason: `No eligible ${project} issue was found for the configured queue transition plan.`,
       details: {
         jira_api_called: true,
         network_call_performed: true
@@ -261,7 +314,7 @@ export function planQueue({ args, issues, config = {} }) {
     return blockedOutput({
       args,
       queueResult: "BLOCKED_MULTIPLE_CANDIDATES",
-      blockedReason: "Multiple eligible DAY issues were found; exact single-issue selection is required before execution.",
+      blockedReason: `Multiple eligible ${project} issues were found; exact single-issue selection is required before execution.`,
       details: {
         candidate_count: candidates.length,
         candidate_issue_keys: candidates.map((candidate) => candidate.key),
@@ -272,7 +325,7 @@ export function planQueue({ args, issues, config = {} }) {
   }
 
   const selected = candidates[0];
-  const nextPlan = TRANSITION_PLAN[selected.current_status];
+  const nextPlan = transitionPlan[selected.current_status];
   if (!nextPlan) {
     return blockedOutput({
       args,
@@ -287,7 +340,7 @@ export function planQueue({ args, issues, config = {} }) {
     });
   }
 
-  const transition = matchingTransition(selected);
+  const transition = matchingTransition(selected, transitionPlan);
   if (!transition) {
     return blockedOutput({
       args,
@@ -306,6 +359,7 @@ export function planQueue({ args, issues, config = {} }) {
 
   const output = {
     ...baseDryRunOutput(args),
+    project_key: project,
     selected_issue: selected.key,
     selected_issue_title: selected.title || null,
     current_status: selected.current_status,
@@ -373,7 +427,12 @@ async function fetchJiraJson(url, env) {
 
 async function discoverIssues({ project, env }) {
   const baseUrl = normalizeBaseUrl(env.JIRA_BASE_URL);
-  const jql = encodeURIComponent(`project = ${project} AND status in ("Backlog / Ready", "Revisar") ORDER BY key ASC`);
+  const config = readJson(DEFAULT_CONFIG);
+  const statuses = Object.keys(configuredTransitionPlan(project, config));
+  const statusFilter = statuses.length > 0
+    ? ` AND status in (${statuses.map((status) => `"${status.replace(/"/g, "\\\"")}"`).join(", ")})`
+    : "";
+  const jql = encodeURIComponent(`project = ${project}${statusFilter} ORDER BY key ASC`);
   const searchUrl = `${baseUrl}/rest/api/3/search/jql?jql=${jql}&maxResults=25&fields=summary,status`;
   const search = await fetchJiraJson(searchUrl, env);
   const issues = Array.isArray(search.issues) ? search.issues : [];

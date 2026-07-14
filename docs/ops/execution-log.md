@@ -1,5 +1,74 @@
 # Execution Log
 
+## RIC-6 / RIC-STUDIO-105B - Generalize manifest-gated Jira operator for registered projects
+
+State: REVIEW
+
+Summary:
+
+- Generalized the manifest-gated Jira write operator from DAY-only support to registered projects `RT`, `DAY`, and `RIC`.
+- Reused `REGISTERED_JIRA_PROJECTS` from `tools/jira/read-sync.mjs` as the single registered-project source of truth.
+- DAY-only assumptions found before edits:
+  - `tools/jira/queue-plan.mjs` hardcoded `SUPPORTED_PROJECT = "DAY"`, DAY-only eligible/completed statuses, DAY-only transition plan, and DAY wording in block reasons/JQL.
+  - `tools/jira/queue-execute-approved.mjs` blocked non-DAY issue keys and validated execution against a static DAY transition plan.
+  - `tools/jira/operator-safe-flow.mjs` required exact `DAY-\d+` issues and static DAY transitions.
+  - `tools/jira/guarded-write.mjs` derived evidence source statuses and manifest validation from the DAY queue transition plan.
+- `approval-manifest.mjs` now requires `project_key` and validates it against the issue key and expected project.
+- Queue execution now performs GET-only preflight for current Jira issue project/status and currently available transition ID/target before calling the operator flow.
+- Project registration alone does not authorize writes; exact valid approval manifests remain required.
+- Real guarded comment/transition writes require approval manifests and retain owner approval, duplicate-risk acceptance, transition-risk acceptance, duplicate marker detection, post-write status verification, JSONL audit persistence verification, and secret redaction.
+- Queue planning remains dry-run only and idempotent. DAY keeps the default plan; RT/RIC require explicit project workflow transition config.
+- Unknown/unregistered project keys are blocked before write attempts.
+- Existing DAY behavior remains covered by mocked tests.
+- RT and RIC support is covered by mocked manifest-gated queue and operator-flow tests.
+- Before the owner-approved RIC-4 automation validation, no issue creation, bulk operation, full sync, unrestricted write command, Jira comment, Jira transition, real approval-manifest execution, commit, or push was performed.
+
+RIC-4 discovery:
+
+- Execution task remains `RIC-6 / RIC-STUDIO-105B`.
+- Reconciliation target is `RIC-4 / RIC-STUDIO-105A` only.
+- A real GET-only RIC-4 discovery command succeeded with no write-capable action.
+- Jira read performed: true.
+- HTTP methods used: `GET` only.
+- Discovered project key: `RIC`.
+- Discovered current status: `BACKLOG / READY`.
+- Discovered current status ID: `10072`.
+- Discovered direct transition ID: `41`.
+- Discovered transition name: `REMOTE DONE`.
+- Discovered target status: `REMOTE DONE`.
+- Discovered target status ID: `10075`.
+- Prepared exact approval manifest at `docs/validation/jira-operator-approvals/RIC-STUDIO-105A-RIC-4-backlog-ready-to-remote-done.json`.
+- Owner-approved controlled real automation validation executed the manifest through `queue-execute-approved` for `RIC-4` only.
+- Queue result: `QUEUE_APPROVED_WRITE_DONE`.
+- Flow result: `GUARDED_FLOW_WRITE_DONE`.
+- Jira write performed: true.
+- Transition performed: true, transition `41`.
+- Post-write verification performed: true.
+- Post-write status: `REMOTE DONE`.
+- Verify result: `VERIFIED_DONE`.
+- Audit JSONL persisted and verified at `docs/validation/jira-operator-runs/RIC-STUDIO-105B-RIC-4-backlog-ready-to-remote-done.jsonl`.
+- RIC-6 was not transitioned or marked DONE.
+- Outside the owner-approved RIC-4 automation validation, no manual Jira change, issue creation, bulk operation, full sync, unrestricted write command, additional Jira transition, commit, or push was performed.
+
+Validation:
+
+- `node --test tools/jira/approval-manifest.test.mjs` - PASS.
+- `node --test tools/jira/queue-plan.test.mjs` - PASS.
+- `node --test tools/jira/queue-execute-approved.test.mjs` - PASS.
+- `node --test tools/jira/operator-safe-flow.test.mjs` - PASS.
+- `node --test tools/jira/guarded-write-gates.test.mjs` - PASS.
+- `node --test tools/jira/audit-log.test.mjs` - PASS.
+- `node --test tools/jira/read-sync.test.mjs` - PASS.
+- `node --test tools/operator-ui/server.test.mjs` - PASS.
+- `node tools/jira/validate-config.mjs --config docs/config/jira-sync-config.sample.json` - PASS.
+- `node tools/operator-ui/server.mjs smoke` - PASS after operational doc update.
+- `git diff --check` - PASS with Git line-ending warnings only.
+
+Next gate:
+
+- Stop at REVIEW for owner evidence review.
+- Commit, push, RIC-6 transition/completion, and any further Jira operation remain blocked until explicit owner approval.
+
 ## RIC-4 / RIC-STUDIO-105A - Add automatic read-only Jira project synchronization
 
 State: REVIEW

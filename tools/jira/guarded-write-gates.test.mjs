@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -11,6 +11,43 @@ const repoRoot = path.resolve(here, "..", "..");
 const guardedWrite = path.join(repoRoot, "tools", "jira", "guarded-write.mjs");
 const validateConfig = path.join(repoRoot, "tools", "jira", "validate-config.mjs");
 const sampleConfig = path.join(repoRoot, "docs", "config", "jira-sync-config.sample.json");
+const approvalDir = path.join(repoRoot, "docs", "validation", "jira-operator-approvals");
+
+function approvalManifestPath(name) {
+  return `docs/validation/jira-operator-approvals/guarded-${name}-${process.pid}.json`;
+}
+
+function writeGuardedManifest(name, {
+  issue = "DAY-8",
+  taskKey = "RIC-STUDIO-088A",
+  beforeStatus = "Backlog / Ready",
+  transitionId = "31",
+  targetStatus = "Revisar",
+  duplicateRiskAccepted = true,
+  transitionRiskAccepted = true
+} = {}) {
+  mkdirSync(approvalDir, { recursive: true });
+  const relativePath = approvalManifestPath(name);
+  const manifest = {
+    task_key: taskKey,
+    project_key: issue.split("-")[0],
+    issue_key: issue,
+    expected_before_status: beforeStatus,
+    transition_id: transitionId,
+    target_status: targetStatus,
+    owner_approved: true,
+    duplicate_risk_accepted: duplicateRiskAccepted,
+    transition_risk_accepted: transitionRiskAccepted,
+    approved_command_hash: `guarded-write-test-${name}`,
+    created_at: "2026-07-07T00:00:00.000Z"
+  };
+  writeFileSync(path.resolve(repoRoot, relativePath), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+  return relativePath;
+}
+
+function cleanupApproval(relativePath) {
+  if (relativePath) rmSync(path.resolve(repoRoot, relativePath), { force: true });
+}
 
 function sanitizedEnv() {
   const env = { ...process.env };
@@ -488,261 +525,400 @@ test("DAY-9 transition attempt is blocked before API or network calls", () => {
 });
 
 test("real evidence comment without owner approval blocks before API or network calls", () => {
-  const { status, output } = guarded([...baseEvidenceArgs("DAY-8"), "--real-write"]);
+  const manifestPath = writeGuardedManifest("comment-missing-owner", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-085A"
+  });
 
-  assert.equal(status, 2);
-  assert.equal(output.result, "BLOCKED_MISSING_OWNER_APPROVAL");
-  assert.equal(output.owner_approval.present, false);
-  assertNoJiraCall(output);
+  try {
+    const { status, output } = guarded([
+      ...baseEvidenceArgs("DAY-8"),
+      "--transition-id", "31",
+      "--to", "Revisar",
+      "--approval-manifest", manifestPath,
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--real-write"
+    ]);
+
+    assert.equal(status, 2);
+    assert.equal(output.result, "BLOCKED_MISSING_OWNER_APPROVAL");
+    assert.equal(output.owner_approval.present, false);
+    assertNoJiraCall(output);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("real evidence comment with approvals but missing env blocks before API or network calls", () => {
-  const { status, output } = guarded([
-    ...baseEvidenceArgs("DAY-8"),
-    "--owner-approved",
-    "--duplicate-risk-accepted",
-    "--real-write"
-  ]);
+  const manifestPath = writeGuardedManifest("comment-missing-env", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-085A"
+  });
 
-  assert.equal(status, 2);
-  assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
-  assert.equal(output.blocked_reason, "Missing required environment variables.");
-  assert.deepEqual(output.missing_environment_variables.sort(), [
-    "JIRA_API_TOKEN",
-    "JIRA_BASE_URL",
-    "JIRA_EMAIL"
-  ].sort());
-  assertNoJiraCall(output);
+  try {
+    const { status, output } = guarded([
+      ...baseEvidenceArgs("DAY-8"),
+      "--transition-id", "31",
+      "--to", "Revisar",
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--real-write"
+    ]);
+
+    assert.equal(status, 2);
+    assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
+    assert.equal(output.blocked_reason, "Missing required environment variables.");
+    assert.deepEqual(output.missing_environment_variables.sort(), [
+      "JIRA_API_TOKEN",
+      "JIRA_BASE_URL",
+      "JIRA_EMAIL"
+    ].sort());
+    assertNoJiraCall(output);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("duplicate evidence marker blocks real comment before creating another comment", () => {
-  const { status, outputs } = guardedWithDuplicateMarker([
-    ...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-098A"),
-    "--transition-id", "31",
-    "--to", "Revisar",
-    "--owner-approved",
-    "--duplicate-risk-accepted",
-    "--real-write"
-  ]);
-  const [plan, result] = outputs;
+  const manifestPath = writeGuardedManifest("duplicate-comment", {
+    issue: "DAY-11",
+    taskKey: "RIC-STUDIO-098A"
+  });
 
-  assert.equal(status, 2);
-  assert.equal(outputs.length, 2);
-  assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
-  assert.equal(result.result, "BLOCKED_DUPLICATE_EVIDENCE_COMMENT");
-  assert.equal(result.issue_key, "DAY-11");
-  assert.equal(result.operation, "add_comment");
-  assert.equal(result.jira_write_performed, false);
-  assert.equal(result.jira_api_called, true);
-  assert.equal(result.network_call_performed, true);
-  assert.equal(result.duplicate_check_performed, true);
-  assert.equal(result.duplicate_marker_found, true);
-  assert.equal(result.existing_comment_id, "existing-comment-098A");
-  assert.equal(result.comment_created, false);
-  assert.equal(Object.hasOwn(result, "planned_jira_operation"), false);
-  assert.equal(result.secrets_printed, false);
-  assert.equal(result.no_write_confirmation, "NO_WRITE");
+  try {
+    const { status, outputs } = guardedWithDuplicateMarker([
+      ...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-098A"),
+      "--transition-id", "31",
+      "--to", "Revisar",
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--real-write"
+    ]);
+    const [plan, result] = outputs;
+
+    assert.equal(status, 2);
+    assert.equal(outputs.length, 2);
+    assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
+    assert.equal(result.result, "BLOCKED_DUPLICATE_EVIDENCE_COMMENT");
+    assert.equal(result.issue_key, "DAY-11");
+    assert.equal(result.operation, "add_comment");
+    assert.equal(result.jira_write_performed, false);
+    assert.equal(result.jira_api_called, true);
+    assert.equal(result.network_call_performed, true);
+    assert.equal(result.duplicate_check_performed, true);
+    assert.equal(result.duplicate_marker_found, true);
+    assert.equal(result.existing_comment_id, "existing-comment-098A");
+    assert.equal(result.comment_created, false);
+    assert.equal(Object.hasOwn(result, "planned_jira_operation"), false);
+    assert.equal(result.secrets_printed, false);
+    assert.equal(result.no_write_confirmation, "NO_WRITE");
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("different transition evidence marker does not collide with existing task comment", () => {
-  const { status, outputs } = guardedWithDuplicateMarker([
-    ...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-098A"),
-    "--transition-id", "41",
-    "--to", "Remote DONE",
-    "--owner-approved",
-    "--duplicate-risk-accepted",
-    "--real-write"
-  ], {
-    marker: evidenceMarker("RIC-STUDIO-098A", "31", "Backlog / Ready", "Revisar"),
-    allowPost: true
+  const manifestPath = writeGuardedManifest("different-marker", {
+    issue: "DAY-11",
+    taskKey: "RIC-STUDIO-098A",
+    beforeStatus: "Revisar",
+    transitionId: "41",
+    targetStatus: "Remote DONE"
   });
-  const [plan, result] = outputs;
 
-  assert.equal(status, 0);
-  assert.equal(outputs.length, 2);
-  assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
-  assert.equal(plan.idempotency_marker, evidenceMarker("RIC-STUDIO-098A", "41", "Revisar", "Remote DONE"));
-  assert.equal(result.result, "GUARDED_COMMENT_WRITE_DONE");
-  assert.equal(result.duplicate_check_performed, true);
-  assert.equal(result.duplicate_marker_found, false);
-  assert.equal(result.comment_created, true);
-  assert.equal(result.comment_id, "new-comment-098A");
-  assert.equal(result.jira_write_performed, true);
-  assert.equal(result.secrets_printed, false);
+  try {
+    const { status, outputs } = guardedWithDuplicateMarker([
+      ...baseEvidenceArgs("DAY-11", "DAY-11", "RIC-STUDIO-098A"),
+      "--transition-id", "41",
+      "--to", "Remote DONE",
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--real-write"
+    ], {
+      marker: evidenceMarker("RIC-STUDIO-098A", "31", "Backlog / Ready", "Revisar"),
+      allowPost: true
+    });
+    const [plan, result] = outputs;
+
+    assert.equal(status, 0);
+    assert.equal(outputs.length, 2);
+    assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
+    assert.equal(plan.idempotency_marker, evidenceMarker("RIC-STUDIO-098A", "41", "Revisar", "Remote DONE"));
+    assert.equal(result.result, "GUARDED_COMMENT_WRITE_DONE");
+    assert.equal(result.duplicate_check_performed, true);
+    assert.equal(result.duplicate_marker_found, false);
+    assert.equal(result.comment_created, true);
+    assert.equal(result.comment_id, "new-comment-098A");
+    assert.equal(result.jira_write_performed, true);
+    assert.equal(result.secrets_printed, false);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("real transition without owner approval blocks before API or network calls", () => {
-  const { status, output } = guarded([...baseTransitionArgs("DAY-8"), "--real-write"]);
+  const manifestPath = writeGuardedManifest("transition-missing-owner", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-088A",
+    duplicateRiskAccepted: false
+  });
 
-  assert.equal(status, 2);
-  assert.equal(output.result, "BLOCKED_MISSING_OWNER_APPROVAL");
-  assert.equal(output.owner_approval.present, false);
-  assertNoJiraCall(output);
+  try {
+    const { status, output } = guarded([
+      ...baseTransitionArgs("DAY-8"),
+      "--approval-manifest", manifestPath,
+      "--transition-risk-accepted",
+      "--real-write"
+    ]);
+
+    assert.equal(status, 2);
+    assert.equal(output.result, "BLOCKED_MISSING_OWNER_APPROVAL");
+    assert.equal(output.owner_approval.present, false);
+    assertNoJiraCall(output);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("real transition with approvals but missing env blocks before API or network calls", () => {
-  const { status, output } = guarded([
-    ...baseTransitionArgs("DAY-8"),
-    "--owner-approved",
-    "--transition-risk-accepted",
-    "--real-write"
-  ]);
+  const manifestPath = writeGuardedManifest("transition-missing-env", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-088A",
+    duplicateRiskAccepted: false
+  });
 
-  assert.equal(status, 2);
-  assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
-  assert.equal(output.blocked_reason, "Missing required environment variables.");
-  assert.deepEqual(output.missing_environment_variables.sort(), [
-    "JIRA_API_TOKEN",
-    "JIRA_BASE_URL",
-    "JIRA_EMAIL"
-  ].sort());
-  assertNoJiraCall(output);
+  try {
+    const { status, output } = guarded([
+      ...baseTransitionArgs("DAY-8"),
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--transition-risk-accepted",
+      "--real-write"
+    ]);
+
+    assert.equal(status, 2);
+    assert.equal(output.result, "BLOCKED_MISSING_CONFIG");
+    assert.equal(output.blocked_reason, "Missing required environment variables.");
+    assert.deepEqual(output.missing_environment_variables.sort(), [
+      "JIRA_API_TOKEN",
+      "JIRA_BASE_URL",
+      "JIRA_EMAIL"
+    ].sort());
+    assertNoJiraCall(output);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("real transition without risk acceptance blocks before API or network calls", () => {
-  const { status, output } = guarded([
-    ...baseTransitionArgs("DAY-8"),
-    "--owner-approved",
-    "--real-write"
-  ]);
+  const manifestPath = writeGuardedManifest("transition-missing-risk", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-088A",
+    duplicateRiskAccepted: false,
+    transitionRiskAccepted: false
+  });
 
-  assert.equal(status, 2);
-  assert.equal(output.result, "BLOCKED_TRANSITION_RISK");
-  assert.equal(output.risk_acceptance.present, false);
-  assertNoJiraCall(output);
+  try {
+    const { status, output } = guarded([
+      ...baseTransitionArgs("DAY-8"),
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--real-write"
+    ]);
+
+    assert.equal(status, 2);
+    assert.equal(output.result, "BLOCKED_TRANSITION_RISK");
+    assert.equal(output.risk_acceptance.present, false);
+    assertNoJiraCall(output);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("mocked real evidence comment result uses task key and does not claim NO_WRITE", () => {
-  const { status, outputs } = guardedWithMockFetch([
-    ...baseEvidenceArgs("DAY-8", "DAY-8", "RIC-STUDIO-087A"),
-    "--owner-approved",
-    "--duplicate-risk-accepted",
-    "--real-write"
-  ]);
-  const [plan, result] = outputs;
+  const manifestPath = writeGuardedManifest("mocked-comment", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-087A"
+  });
 
-  assert.equal(status, 0);
-  assert.equal(outputs.length, 2);
-  assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
-  assert.equal(plan.task_id, "RIC-STUDIO-087A");
-  assert.equal(plan.no_write_confirmation, "REAL_WRITE_READY_NOT_EXECUTED_BY_PLAN");
-  assert.equal(result.result, "GUARDED_COMMENT_WRITE_DONE");
-  assert.equal(result.task_id, "RIC-STUDIO-087A");
-  assert.equal(result.issue_key, "DAY-8");
-  assert.equal(result.operation, "add_comment");
-  assert.equal(result.jira_write_performed, true);
-  assert.equal(result.jira_api_called, true);
-  assert.equal(result.network_call_performed, true);
-  assert.equal(result.duplicate_check_performed, true);
-  assert.equal(result.duplicate_marker_found, false);
-  assert.equal(result.existing_comment_id, null);
-  assert.equal(result.comment_created, true);
-  assert.equal(result.comment_id, "mock-comment-087A");
-  assert.equal(result.write_confirmation, "GUARDED_WRITE_COMPLETED");
-  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
-  assert.equal(result.secrets_printed, false);
+  try {
+    const { status, outputs } = guardedWithMockFetch([
+      ...baseEvidenceArgs("DAY-8", "DAY-8", "RIC-STUDIO-087A"),
+      "--transition-id", "31",
+      "--to", "Revisar",
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--real-write"
+    ]);
+    const [plan, result] = outputs;
+
+    assert.equal(status, 0);
+    assert.equal(outputs.length, 2);
+    assert.equal(plan.result, "GUARDED_COMMENT_WRITE_READY");
+    assert.equal(plan.task_id, "RIC-STUDIO-087A");
+    assert.equal(plan.no_write_confirmation, "REAL_WRITE_READY_NOT_EXECUTED_BY_PLAN");
+    assert.equal(result.result, "GUARDED_COMMENT_WRITE_DONE");
+    assert.equal(result.task_id, "RIC-STUDIO-087A");
+    assert.equal(result.issue_key, "DAY-8");
+    assert.equal(result.operation, "add_comment");
+    assert.equal(result.jira_write_performed, true);
+    assert.equal(result.jira_api_called, true);
+    assert.equal(result.network_call_performed, true);
+    assert.equal(result.duplicate_check_performed, true);
+    assert.equal(result.duplicate_marker_found, false);
+    assert.equal(result.existing_comment_id, null);
+    assert.equal(result.comment_created, true);
+    assert.equal(result.comment_id, "mock-comment-087A");
+    assert.equal(result.write_confirmation, "GUARDED_WRITE_COMPLETED");
+    assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+    assert.equal(result.secrets_printed, false);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("mocked real transition result uses exact task key and does not claim NO_WRITE", () => {
-  const { status, outputs } = guardedWithMockFetch([
-    ...baseTransitionArgs("DAY-8", "RIC-STUDIO-088A"),
-    "--owner-approved",
-    "--transition-risk-accepted",
-    "--real-write"
-  ]);
-  const [plan, result] = outputs;
+  const manifestPath = writeGuardedManifest("mocked-transition", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-088A",
+    duplicateRiskAccepted: false
+  });
 
-  assert.equal(status, 0);
-  assert.equal(outputs.length, 2);
-  assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
-  assert.equal(plan.task_id, "RIC-STUDIO-088A");
-  assert.equal(plan.no_write_confirmation, "REAL_TRANSITION_READY_NOT_EXECUTED_BY_PLAN");
-  assert.equal(result.result, "GUARDED_TRANSITION_WRITE_DONE");
-  assert.equal(result.task_id, "RIC-STUDIO-088A");
-  assert.equal(result.operation, "transition_issue");
-  assert.equal(result.issue_key, "DAY-8");
-  assert.equal(result.jira_write_performed, true);
-  assert.equal(result.jira_api_called, true);
-  assert.equal(result.network_call_performed, true);
-  assert.equal(result.transition_performed, true);
-  assert.equal(result.transition_id, "31");
-  assert.equal(result.target_status_name, "Revisar");
-  assert.equal(result.post_write_verify_performed, true);
-  assert.equal(result.verify_result, "VERIFIED_DONE");
-  assert.equal(result.status_verified, true);
-  assert.equal(result.verified_issue_key, "DAY-8");
-  assert.equal(result.expected_target_status, "Revisar");
-  assert.equal(result.actual_status, "Revisar");
-  assert.equal(result.partial_write_performed, false);
-  assert.equal(result.requires_manual_review, false);
-  assert.equal(result.write_confirmation, "GUARDED_TRANSITION_COMPLETED");
-  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
-  assert.equal(result.secrets_printed, false);
+  try {
+    const { status, outputs } = guardedWithMockFetch([
+      ...baseTransitionArgs("DAY-8", "RIC-STUDIO-088A"),
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--transition-risk-accepted",
+      "--real-write"
+    ]);
+    const [plan, result] = outputs;
+
+    assert.equal(status, 0);
+    assert.equal(outputs.length, 2);
+    assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
+    assert.equal(plan.task_id, "RIC-STUDIO-088A");
+    assert.equal(plan.no_write_confirmation, "REAL_TRANSITION_READY_NOT_EXECUTED_BY_PLAN");
+    assert.equal(result.result, "GUARDED_TRANSITION_WRITE_DONE");
+    assert.equal(result.task_id, "RIC-STUDIO-088A");
+    assert.equal(result.operation, "transition_issue");
+    assert.equal(result.issue_key, "DAY-8");
+    assert.equal(result.jira_write_performed, true);
+    assert.equal(result.jira_api_called, true);
+    assert.equal(result.network_call_performed, true);
+    assert.equal(result.transition_performed, true);
+    assert.equal(result.transition_id, "31");
+    assert.equal(result.target_status_name, "Revisar");
+    assert.equal(result.post_write_verify_performed, true);
+    assert.equal(result.verify_result, "VERIFIED_DONE");
+    assert.equal(result.status_verified, true);
+    assert.equal(result.verified_issue_key, "DAY-8");
+    assert.equal(result.expected_target_status, "Revisar");
+    assert.equal(result.actual_status, "Revisar");
+    assert.equal(result.partial_write_performed, false);
+    assert.equal(result.requires_manual_review, false);
+    assert.equal(result.write_confirmation, "GUARDED_TRANSITION_COMPLETED");
+    assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+    assert.equal(result.secrets_printed, false);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("successful transition followed by wrong status returns VERIFY_FAILED without claiming completion", () => {
-  const { status, outputs } = guardedWithTransitionVerification([
-    ...baseTransitionArgs("DAY-8", "RIC-STUDIO-099A"),
-    "--owner-approved",
-    "--transition-risk-accepted",
-    "--real-write"
-  ], {
-    statusName: "Em andamento",
-    statusId: "10037"
+  const manifestPath = writeGuardedManifest("verify-failed", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-099A",
+    duplicateRiskAccepted: false
   });
-  const [plan, result] = outputs;
 
-  assert.equal(status, 2);
-  assert.equal(outputs.length, 2);
-  assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
-  assert.equal(result.result, "GUARDED_TRANSITION_VERIFY_FAILED");
-  assert.equal(result.jira_write_performed, true);
-  assert.equal(result.jira_api_called, true);
-  assert.equal(result.network_call_performed, true);
-  assert.equal(result.transition_performed, true);
-  assert.equal(result.post_write_verify_performed, true);
-  assert.equal(result.verify_result, "VERIFY_FAILED");
-  assert.equal(result.status_verified, false);
-  assert.equal(result.verified_issue_key, "DAY-8");
-  assert.equal(result.expected_target_status, "Revisar");
-  assert.equal(result.actual_status, "Em andamento");
-  assert.equal(result.partial_write_performed, true);
-  assert.equal(result.requires_manual_review, true);
-  assert.equal(result.write_confirmation, "TRANSITION_WRITE_REQUIRES_MANUAL_REVIEW");
-  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
-  assert.equal(result.secrets_printed, false);
+  try {
+    const { status, outputs } = guardedWithTransitionVerification([
+      ...baseTransitionArgs("DAY-8", "RIC-STUDIO-099A"),
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--transition-risk-accepted",
+      "--real-write"
+    ], {
+      statusName: "Em andamento",
+      statusId: "10037"
+    });
+    const [plan, result] = outputs;
+
+    assert.equal(status, 2);
+    assert.equal(outputs.length, 2);
+    assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
+    assert.equal(result.result, "GUARDED_TRANSITION_VERIFY_FAILED");
+    assert.equal(result.jira_write_performed, true);
+    assert.equal(result.jira_api_called, true);
+    assert.equal(result.network_call_performed, true);
+    assert.equal(result.transition_performed, true);
+    assert.equal(result.post_write_verify_performed, true);
+    assert.equal(result.verify_result, "VERIFY_FAILED");
+    assert.equal(result.status_verified, false);
+    assert.equal(result.verified_issue_key, "DAY-8");
+    assert.equal(result.expected_target_status, "Revisar");
+    assert.equal(result.actual_status, "Em andamento");
+    assert.equal(result.partial_write_performed, true);
+    assert.equal(result.requires_manual_review, true);
+    assert.equal(result.write_confirmation, "TRANSITION_WRITE_REQUIRES_MANUAL_REVIEW");
+    assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+    assert.equal(result.secrets_printed, false);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("successful transition with failed verification read returns VERIFY_BLOCKED", () => {
-  const { status, outputs } = guardedWithTransitionVerification([
-    ...baseTransitionArgs("DAY-8", "RIC-STUDIO-099A"),
-    "--owner-approved",
-    "--transition-risk-accepted",
-    "--real-write"
-  ], {
-    status: 503
+  const manifestPath = writeGuardedManifest("verify-blocked", {
+    issue: "DAY-8",
+    taskKey: "RIC-STUDIO-099A",
+    duplicateRiskAccepted: false
   });
-  const [plan, result] = outputs;
 
-  assert.equal(status, 2);
-  assert.equal(outputs.length, 2);
-  assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
-  assert.equal(result.result, "GUARDED_TRANSITION_VERIFY_BLOCKED");
-  assert.equal(result.jira_write_performed, true);
-  assert.equal(result.jira_api_called, true);
-  assert.equal(result.network_call_performed, true);
-  assert.equal(result.transition_performed, true);
-  assert.equal(result.post_write_verify_performed, true);
-  assert.equal(result.verify_result, "VERIFY_BLOCKED");
-  assert.equal(result.status_verified, false);
-  assert.equal(result.verified_issue_key, null);
-  assert.equal(result.expected_target_status, "Revisar");
-  assert.equal(result.actual_status, null);
-  assert.equal(result.partial_write_performed, true);
-  assert.equal(result.requires_manual_review, true);
-  assert.equal(result.write_confirmation, "TRANSITION_WRITE_REQUIRES_MANUAL_REVIEW");
-  assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
-  assert.equal(result.secrets_printed, false);
+  try {
+    const { status, outputs } = guardedWithTransitionVerification([
+      ...baseTransitionArgs("DAY-8", "RIC-STUDIO-099A"),
+      "--approval-manifest", manifestPath,
+      "--owner-approved",
+      "--transition-risk-accepted",
+      "--real-write"
+    ], {
+      status: 503
+    });
+    const [plan, result] = outputs;
+
+    assert.equal(status, 2);
+    assert.equal(outputs.length, 2);
+    assert.equal(plan.result, "GUARDED_TRANSITION_WRITE_READY");
+    assert.equal(result.result, "GUARDED_TRANSITION_VERIFY_BLOCKED");
+    assert.equal(result.jira_write_performed, true);
+    assert.equal(result.jira_api_called, true);
+    assert.equal(result.network_call_performed, true);
+    assert.equal(result.transition_performed, true);
+    assert.equal(result.post_write_verify_performed, true);
+    assert.equal(result.verify_result, "VERIFY_BLOCKED");
+    assert.equal(result.status_verified, false);
+    assert.equal(result.verified_issue_key, null);
+    assert.equal(result.expected_target_status, "Revisar");
+    assert.equal(result.actual_status, null);
+    assert.equal(result.partial_write_performed, true);
+    assert.equal(result.requires_manual_review, true);
+    assert.equal(result.write_confirmation, "TRANSITION_WRITE_REQUIRES_MANUAL_REVIEW");
+    assert.equal(Object.hasOwn(result, "no_write_confirmation"), false);
+    assert.equal(result.secrets_printed, false);
+  } finally {
+    cleanupApproval(manifestPath);
+  }
 });
 
 test("validate-config keeps full Jira sync blocked", () => {

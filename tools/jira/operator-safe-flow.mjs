@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { appendAuditRecord, resolveAuditPath } from "./audit-log.mjs";
 import { approvedCommandHash, validateApprovalManifest } from "./approval-manifest.mjs";
+import { isRegisteredJiraProjectKey, jiraProjectKeyFromIssueKey, registeredJiraProject, registeredJiraProjectKeys } from "./read-sync.mjs";
 
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BOOLEAN_FLAGS = ["dry-run", "real-write", "owner-approved", "duplicate-risk-accepted", "transition-risk-accepted"];
@@ -14,7 +15,7 @@ const repoRoot = path.resolve(here, "..", "..");
 const guardedWrite = path.join(repoRoot, "tools", "jira", "guarded-write.mjs");
 const sampleConfig = "docs/config/jira-sync-config.sample.json";
 const defaultOperatorFlowIssue = "DAY-11";
-const operatorTransitionPlan = [
+const defaultOperatorTransitionPlan = [
   { transitionId: "31", expectedBeforeStatus: "Backlog / Ready", targetStatus: "Revisar" },
   { transitionId: "41", expectedBeforeStatus: "Revisar", targetStatus: "Remote DONE" }
 ];
@@ -158,16 +159,13 @@ function missingEnvironment(env) {
   return REQUIRED_ENV.filter((name) => !env[name] || String(env[name]).trim() === "");
 }
 
-function matchingOperatorTransition(args) {
-  const transitionId = normalizeString(args["transition-id"]);
-  const targetStatus = normalizeString(args.to);
-  return operatorTransitionPlan.find(
-    (transition) => transition.transitionId === transitionId && transition.targetStatus === targetStatus
-  );
+function issueProjectKey(value) {
+  return jiraProjectKeyFromIssueKey(value);
 }
 
-function isExactDayIssue(value) {
-  return /^DAY-\d+$/.test(normalizeString(value));
+function isRegisteredIssue(value) {
+  const projectKey = issueProjectKey(value);
+  return Boolean(projectKey) && isRegisteredJiraProjectKey(projectKey);
 }
 
 function canonicalApprovedCommand(args) {
@@ -238,11 +236,12 @@ function runGuardedWrite(args, env) {
 
 function commentArgs(args, realWrite) {
   const issue = normalizeString(args.issue);
+  const project = registeredJiraProject(issueProjectKey(issue));
   const command = [
     "--action", "add_evidence_comment",
     "--issue", issue,
     "--config", sampleConfig,
-    "--project", "DayBudget",
+    "--project", project?.name || issueProjectKey(issue),
     "--sprint", issue,
     "--task-key", normalizeString(args["task-key"]),
     "--local-status", "REVIEW",
@@ -295,20 +294,16 @@ function transitionArgs(args, realWrite) {
 function validateRealWritePreflight(args, env) {
   const findings = [];
   let approvalManifest = null;
+  const projectKey = issueProjectKey(args.issue);
 
   if (args["owner-approved"] !== true) findings.push("Missing required --owner-approved.");
   if (args["duplicate-risk-accepted"] !== true) findings.push("Missing required --duplicate-risk-accepted.");
   if (args["transition-risk-accepted"] !== true) findings.push("Missing required --transition-risk-accepted.");
-  const operatorTransition = matchingOperatorTransition(args);
-  if (!operatorTransition) {
-    findings.push(
-      "Real flow requires an exact configured queue transition: " +
-      operatorTransitionPlan
-        .map((transition) => `--transition-id ${transition.transitionId} --to ${transition.targetStatus}`)
-        .join(" or ")
-    );
+  if (!normalizeString(args["transition-id"])) findings.push("Real flow requires exact --transition-id.");
+  if (!normalizeString(args.to)) findings.push("Real flow requires exact --to target status.");
+  if (!isRegisteredIssue(args.issue)) {
+    findings.push(`Real flow requires an exact registered Jira issue key (${registeredJiraProjectKeys().join(", ")}).`);
   }
-  if (!isExactDayIssue(args.issue)) findings.push("Real flow requires exact DAY issue key.");
   if (!normalizeString(args["task-key"])) findings.push("Real flow requires exact --task-key.");
 
   if (!normalizeString(args["approval-manifest"])) {
@@ -320,8 +315,8 @@ function validateRealWritePreflight(args, env) {
         manifestPath: args["approval-manifest"],
         expected: {
           taskKey: normalizeString(args["task-key"]),
+          projectKey,
           issueKey: normalizeString(args.issue),
-          expectedBeforeStatus: operatorTransition?.expectedBeforeStatus || "",
           transitionId: normalizeString(args["transition-id"]),
           targetStatus: normalizeString(args.to),
           ownerApproved: args["owner-approved"] === true,
@@ -415,7 +410,7 @@ function main() {
   const args = parsed.args;
   const realWrite = args["real-write"] === true;
   const env = flowEnv(realWrite, process.env);
-  const defaultTransition = operatorTransitionPlan[0];
+  const defaultTransition = defaultOperatorTransitionPlan[0];
 
   if (!normalizeString(args.issue)) args.issue = defaultOperatorFlowIssue;
   if (!normalizeString(args["transition-id"])) args["transition-id"] = defaultTransition.transitionId;

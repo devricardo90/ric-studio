@@ -1,0 +1,80 @@
+{
+  "task_key": "RIC-STUDIO-105B",
+  "project_key": "RIC",
+  "issue_key": "RIC-4",
+  "expected_before_status": "BACKLOG / READY",
+  "expected_before_status_id": "10072",
+  "transition_id": "41",
+  "transition_name": "REMOTE DONE",
+  "target_status": "REMOTE DONE",
+  "target_status_id": "10075",
+  "owner_approved": true,
+  "duplicate_risk_accepted": true,
+  "transition_risk_accepted": true,
+  "unique_evidence_marker": "RIC-STUDIO-JIRA-EVIDENCE::RIC Studio::RIC-STUDIO-105B::add_evidence_comment::backlog-ready->remote-done::transition-41",
+  "approved_audit_log_path": "docs/validation/jira-operator-runs/RIC-STUDIO-105B-RIC-4-backlog-ready-to-remote-done.jsonl",
+  "approved_command": "node tools/jira/operator-safe-flow.mjs --issue RIC-4 --task-key RIC-STUDIO-105B --transition-id 41 --to REMOTE DONE --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_command_hash": "7130569b9ec304da285b6784f8cc7e15a3c36fe0fb2330209b42987863ed24ad",
+  "approval_timestamp": "2026-07-14T00:00:00.000Z",
+  "created_at": "2026-07-14T00:00:00.000Z",
+  "reconciliation_target": {
+    "task_key": "RIC-STUDIO-105A",
+    "issue_key": "RIC-4",
+    "project_key": "RIC"
+  },
+  "execution_task": {
+    "task_id": "RIC-6",
+    "task_key": "RIC-STUDIO-105B"
+  },
+  "direct_transition_available": true,
+  "exact_transition_path": [
+    {
+      "step": 1,
+      "from_status": "BACKLOG / READY",
+      "from_status_id": "10072",
+      "transition_id": "41",
+      "transition_name": "REMOTE DONE",
+      "target_status": "REMOTE DONE",
+      "target_status_id": "10075"
+    }
+  ],
+  "single_execution_only": true,
+  "required_risk_flags": {
+    "owner_approved": true,
+    "duplicate_risk_accepted": true,
+    "transition_risk_accepted": true,
+    "single_issue_only": true,
+    "full_sync_performed": false,
+    "create_issue_performed": false,
+    "bulk_operation_performed": false,
+    "jira_comment_performed": false,
+    "jira_transition_performed": false
+  },
+  "approved_queue_execute_command": "node tools/jira/queue-execute-approved.mjs --issue RIC-4 --task-key RIC-STUDIO-105B --transition-id 41 --to REMOTE DONE --approval-manifest docs/validation/jira-operator-approvals/RIC-STUDIO-105A-RIC-4-backlog-ready-to-remote-done.json --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_queue_execute_command_hash": "b2acad903499f83b794923784f5db25d2ff6ef35df5caad7c5579da3596ef343",
+  "approved_queue_execute_with_audit_command": "node tools/jira/queue-execute-approved.mjs --issue RIC-4 --task-key RIC-STUDIO-105B --transition-id 41 --to REMOTE DONE --approval-manifest docs/validation/jira-operator-approvals/RIC-STUDIO-105A-RIC-4-backlog-ready-to-remote-done.json --audit-log docs/validation/jira-operator-runs/RIC-STUDIO-105B-RIC-4-backlog-ready-to-remote-done.jsonl --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_queue_execute_with_audit_command_hash": "1ffcaf3dc6552b1806e9b6a065d42bb4d746501725fdfabf6ecc56f188f02f43",
+  "source_discovery": {
+    "source": "real_jira_get_only_discovery",
+    "http_methods_used": [
+      "GET"
+    ],
+    "project_key": "RIC",
+    "issue_key": "RIC-4",
+    "current_status": "BACKLOG / READY",
+    "current_status_id": "10072",
+    "transition_id": "41",
+    "transition_name": "REMOTE DONE",
+    "target_status": "REMOTE DONE",
+    "target_status_id": "10075",
+    "jira_write_performed": false,
+    "jira_transition_performed": false,
+    "jira_comment_performed": false,
+    "full_sync_performed": false,
+    "create_issue_performed": false,
+    "bulk_operation_performed": false,
+    "secrets_printed": false
+  },
+  "manifest_candidate_only": true,
+  "execution_performed": false
+}

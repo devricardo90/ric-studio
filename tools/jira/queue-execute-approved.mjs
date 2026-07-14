@@ -5,22 +5,12 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { appendAuditRecord, hasSecretLike, resolveAuditPath } from "./audit-log.mjs";
 import { approvedCommandHash, validateApprovalManifest } from "./approval-manifest.mjs";
+import { isRegisteredJiraProjectKey, registeredJiraProjectKeys } from "./read-sync.mjs";
 
 const REQUIRED_ENV = ["JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"];
 const BOOLEAN_FLAGS = ["owner-approved", "duplicate-risk-accepted", "transition-risk-accepted", "real-write"];
 const VALUE_FLAGS = ["issue", "task-key", "transition-id", "to", "approval-manifest", "audit-log"];
 const ISSUE_KEY_PATTERN = /^([A-Z][A-Z0-9]+)-\d+$/;
-const SUPPORTED_PROJECT = "DAY";
-const TRANSITION_PLAN = {
-  "Backlog / Ready": {
-    transitionId: "31",
-    targetStatus: "Revisar"
-  },
-  "Revisar": {
-    transitionId: "41",
-    targetStatus: "Remote DONE"
-  }
-};
 
 const BLOCKED_OPTION_RESULTS = new Map([
   ["issues", "BLOCKED_MULTI_ISSUE_EXECUTION"],
@@ -141,7 +131,12 @@ function validateCli(args) {
   if (!issue) return { result: "BLOCKED_INVALID_ARGS", reason: "Queue execute-approved requires exact --issue." };
   if (issue.includes(",") || issue.includes(" ")) return { result: "BLOCKED_MULTI_ISSUE_EXECUTION", reason: "Queue execution requires exactly one issue." };
   if (!ISSUE_KEY_PATTERN.test(issue)) return { result: "BLOCKED_INVALID_ARGS", reason: "Issue key must match Jira key format PROJECT-123." };
-  if (projectKey(issue) !== SUPPORTED_PROJECT) return { result: "BLOCKED_UNSUPPORTED_PROJECT", reason: "Queue execution currently supports exact DAY issues only." };
+  if (!isRegisteredJiraProjectKey(projectKey(issue))) {
+    return {
+      result: "BLOCKED_UNSUPPORTED_PROJECT",
+      reason: `Queue execution requires a registered Jira project (${registeredJiraProjectKeys().join(", ")}).`
+    };
+  }
   if (!taskKey) return { result: "BLOCKED_INVALID_ARGS", reason: "Queue execute-approved requires exact --task-key." };
   if (!transitionId) return { result: "BLOCKED_INVALID_ARGS", reason: "Queue execute-approved requires exact --transition-id." };
   if (!targetStatus) return { result: "BLOCKED_INVALID_ARGS", reason: "Queue execute-approved requires exact --to target status." };
@@ -174,10 +169,11 @@ function validateManifest(args) {
   const command = operatorApprovedCommand(args);
   return validateApprovalManifest({
     manifestPath: args["approval-manifest"],
-    expected: {
-      taskKey: normalizeString(args["task-key"]),
-      issueKey: normalizeString(args.issue),
-      transitionId: normalizeString(args["transition-id"]),
+      expected: {
+        taskKey: normalizeString(args["task-key"]),
+        projectKey: projectKey(args.issue),
+        issueKey: normalizeString(args.issue),
+        transitionId: normalizeString(args["transition-id"]),
       targetStatus: normalizeString(args.to),
       ownerApproved: args["owner-approved"] === true,
       duplicateRiskAccepted: args["duplicate-risk-accepted"] === true,
@@ -210,7 +206,7 @@ function normalizeBaseUrl(value) {
 
 async function readIssueStatus({ issue, env }) {
   const baseUrl = normalizeBaseUrl(env.JIRA_BASE_URL);
-  const endpoint = `${baseUrl}/rest/api/3/issue/${encodeURIComponent(issue)}?fields=status`;
+  const endpoint = `${baseUrl}/rest/api/3/issue/${encodeURIComponent(issue)}?fields=project,status`;
   const response = await fetch(endpoint, {
     method: "GET",
     headers: {
@@ -227,9 +223,37 @@ async function readIssueStatus({ issue, env }) {
 
   return {
     issue_key: typeof body?.key === "string" ? body.key : null,
+    project_key: typeof body?.fields?.project?.key === "string" ? body.fields.project.key : null,
     status_name: typeof body?.fields?.status?.name === "string" ? body.fields.status.name : null,
     status_id: typeof body?.fields?.status?.id === "string" ? body.fields.status.id : null
   };
+}
+
+async function readIssueTransitions({ issue, env }) {
+  const baseUrl = normalizeBaseUrl(env.JIRA_BASE_URL);
+  const endpoint = `${baseUrl}/rest/api/3/issue/${encodeURIComponent(issue)}/transitions`;
+  const response = await fetch(endpoint, {
+    method: "GET",
+    headers: {
+      "Accept": "application/json",
+      "Authorization": buildAuthHeader(env.JIRA_EMAIL, env.JIRA_API_TOKEN)
+    }
+  });
+
+  const text = await response.text();
+  const body = text ? JSON.parse(text) : null;
+  if (!response.ok) {
+    throw new Error(`Read-only issue transition check failed with HTTP ${response.status}.`);
+  }
+
+  return Array.isArray(body?.transitions)
+    ? body.transitions.map((transition) => ({
+        id: typeof transition.id === "string" ? transition.id : null,
+        name: typeof transition.name === "string" ? transition.name : null,
+        target_status_name: typeof transition.to?.name === "string" ? transition.to.name : null,
+        target_status_id: typeof transition.to?.id === "string" ? transition.to.id : null
+      }))
+    : [];
 }
 
 function parseJsonObjects(stdout) {
@@ -452,6 +476,21 @@ async function main() {
   }
 
   if (currentStatus.issue_key !== normalizeString(args.issue) ||
+    currentStatus.project_key !== projectKey(args.issue) ||
+    currentStatus.project_key !== approvalManifest.project_key) {
+    console.log(JSON.stringify(blocked(args, "BLOCKED_JIRA_ISSUE_PROJECT_MISMATCH", "Current Jira issue identity or project no longer matches the approval manifest.", {
+      approval_manifest_valid: true,
+      jira_issue_key: currentStatus.issue_key || null,
+      jira_project_key: currentStatus.project_key || null,
+      expected_project_key: approvalManifest.project_key,
+      jira_api_called: true,
+      network_call_performed: true
+    }), null, 2));
+    process.exitCode = 2;
+    return;
+  }
+
+  if (
     currentStatus.status_name !== approvalManifest.expected_before_status) {
     console.log(JSON.stringify(blocked(args, "BLOCKED_STATUS_CHANGED_SINCE_APPROVAL", "Current Jira status no longer matches approval manifest expected_before_status.", {
       approval_manifest_valid: true,
@@ -464,13 +503,43 @@ async function main() {
     return;
   }
 
-  const plannedTransition = TRANSITION_PLAN[currentStatus.status_name];
-  if (!plannedTransition ||
-    plannedTransition.transitionId !== normalizeString(args["transition-id"]) ||
-    plannedTransition.targetStatus !== normalizeString(args.to)) {
-    console.log(JSON.stringify(blocked(args, "BLOCKED_INVALID_ARGS", "Current Jira status does not match the exact queue transition plan.", {
+  let availableTransitions;
+  try {
+    availableTransitions = await readIssueTransitions({ issue: normalizeString(args.issue), env: process.env });
+  } catch (error) {
+    console.log(JSON.stringify(blocked(args, "BLOCKED_INVALID_ARGS", error.message, {
       approval_manifest_valid: true,
       before_status: currentStatus.status_name || null,
+      jira_api_called: true,
+      network_call_performed: true
+    }), null, 2));
+    process.exitCode = 2;
+    return;
+  }
+
+  const requestedTransition = availableTransitions.find((transition) =>
+    transition.id === normalizeString(args["transition-id"])
+  );
+  if (!requestedTransition) {
+    console.log(JSON.stringify(blocked(args, "BLOCKED_INVALID_ARGS", "Current Jira transitions do not include the exact approval manifest transition ID.", {
+      approval_manifest_valid: true,
+      before_status: currentStatus.status_name || null,
+      available_transition_ids: availableTransitions.map((transition) => transition.id).filter(Boolean),
+      jira_api_called: true,
+      network_call_performed: true
+    }), null, 2));
+    process.exitCode = 2;
+    return;
+  }
+
+  if (requestedTransition.target_status_name !== normalizeString(args.to) ||
+    requestedTransition.target_status_name !== approvalManifest.target_status) {
+    console.log(JSON.stringify(blocked(args, "BLOCKED_INVALID_ARGS", "Current Jira transition target does not match the approval manifest target status.", {
+      approval_manifest_valid: true,
+      before_status: currentStatus.status_name || null,
+      transition_id: requestedTransition.id,
+      actual_transition_target_status: requestedTransition.target_status_name || null,
+      expected_target_status: approvalManifest.target_status,
       jira_api_called: true,
       network_call_performed: true
     }), null, 2));

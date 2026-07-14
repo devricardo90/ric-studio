@@ -73,12 +73,14 @@ function writeApprovalManifest(name, overrides = {}) {
   mkdirSync(approvalDir, { recursive: true });
   const relativePath = approvalManifestPath(name);
   const issue = overrides.issue_key || "DAY-11";
+  const project = overrides.project_key || String(issue).split("-")[0];
   const task = overrides.task_key || "RIC-STUDIO-096B";
   const transitionId = overrides.transition_id || "31";
   const targetStatus = overrides.target_status || "Revisar";
   const approvedCommand = `node tools/jira/operator-safe-flow.mjs --issue ${issue} --task-key ${task} --transition-id ${transitionId} --to ${targetStatus} --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write`;
   const manifest = {
     task_key: task,
+    project_key: project,
     issue_key: issue,
     expected_before_status: "Backlog / Ready",
     transition_id: transitionId,
@@ -98,7 +100,7 @@ function cleanup(relativePath) {
   rmSync(path.resolve(repoRoot, relativePath), { force: true });
 }
 
-function writeOperatorMockFetch(issue = "DAY-12", statusName = "Revisar") {
+function writeOperatorMockFetch(issue = "DAY-12", statusName = "Revisar", statusId = "10038") {
   const tempDir = mkdtempSync(path.join(tmpdir(), "ric-studio-operator-flow-"));
   const mockFetch = path.join(tempDir, "mock-fetch.mjs");
   writeFileSync(mockFetch, [
@@ -109,13 +111,13 @@ function writeOperatorMockFetch(issue = "DAY-12", statusName = "Revisar") {
     "    return new Response(JSON.stringify({ comments: [] }), { status: 200, headers: { \"Content-Type\": \"application/json\" } });",
     "  }",
     "  if (method === 'POST' && href.includes('/comment')) {",
-    "    return new Response(JSON.stringify({ id: \"mock-comment-103B\", self: \"https://example.invalid/rest/api/3/issue/DAY-12/comment/mock-comment-103B\" }), { status: 201, headers: { \"Content-Type\": \"application/json\" } });",
+    `    return new Response(JSON.stringify({ id: "mock-comment-103B", self: "https://example.invalid/rest/api/3/issue/${issue}/comment/mock-comment-103B" }), { status: 201, headers: { "Content-Type": "application/json" } });`,
     "  }",
     "  if (method === 'POST' && href.includes('/transitions')) {",
     "    return new Response(null, { status: 204 });",
     "  }",
     "  if (method === 'GET' && href.includes('/issue/') && !href.includes('/comment') && !href.includes('/transitions')) {",
-    `    return new Response(JSON.stringify({ key: ${JSON.stringify(issue)}, fields: { status: { id: "10038", name: ${JSON.stringify(statusName)} } } }), { status: 200, headers: { "Content-Type": "application/json" } });`,
+    `    return new Response(JSON.stringify({ key: ${JSON.stringify(issue)}, fields: { status: { id: ${JSON.stringify(statusId)}, name: ${JSON.stringify(statusName)} } } }), { status: 200, headers: { "Content-Type": "application/json" } });`,
     "  }",
     "  return new Response(JSON.stringify({ error: 'unhandled mock fetch route' }), { status: 500, headers: { \"Content-Type\": \"application/json\" } });",
     "};",
@@ -296,7 +298,7 @@ test("missing approval manifest blocks real flow before Jira calls", () => {
 
 test("operator-safe-flow exposes sanitized preflight block reason", () => {
   const { status, output } = flow([
-    "--issue", "RIC-1",
+    "--issue", "ABC-1",
     "--task-key", "RIC-STUDIO-103B",
     "--transition-id", "31",
     "--to", "Revisar",
@@ -314,7 +316,7 @@ test("operator-safe-flow exposes sanitized preflight block reason", () => {
 
   assert.equal(status, 2);
   assert.equal(output.flow_result, "BLOCKED_PREFLIGHT");
-  assert.match(output.blocked_reason, /exact DAY issue key/);
+  assert.match(output.blocked_reason, /registered Jira issue key/);
   assert.match(output.blocked_reason, /--approval-manifest/);
   assert.doesNotMatch(JSON.stringify(output), /synthetic-token|synthetic@example/);
   assertNoJiraCall(output);
@@ -381,6 +383,96 @@ test("DAY-12 approval manifest passes operator preflight into mocked guarded flo
     assert.equal(output.target_status_name, "Revisar");
     assert.equal(output.comment_step.result, "GUARDED_COMMENT_WRITE_DONE");
     assert.equal(output.transition_step.result, "GUARDED_TRANSITION_WRITE_DONE");
+    assert.equal(output.transition_step.verify_result, "VERIFIED_DONE");
+    assert.equal(output.transition_step.status_verified, true);
+    assert.equal(output.secrets_printed, false);
+  } finally {
+    cleanup(manifestPath);
+    rmSync(mock.tempDir, { recursive: true, force: true });
+  }
+});
+
+test("RT approval manifest passes operator preflight into mocked guarded flow", () => {
+  const manifestPath = writeApprovalManifest("rt-approved", {
+    task_key: "RIC-STUDIO-105B",
+    project_key: "RT",
+    issue_key: "RT-7",
+    expected_before_status: "Queued",
+    transition_id: "77",
+    target_status: "Review"
+  });
+  const mock = writeOperatorMockFetch("RT-7", "Review", "20011");
+
+  try {
+    const { status, output } = flow([
+      "--issue", "RT-7",
+      "--task-key", "RIC-STUDIO-105B",
+      "--transition-id", "77",
+      "--to", "Review",
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--approval-manifest", manifestPath,
+      "--real-write"
+    ], {
+      env: {
+        JIRA_BASE_URL: "https://example.invalid",
+        JIRA_EMAIL: "synthetic@example.invalid",
+        JIRA_API_TOKEN: "synthetic-token",
+        NODE_OPTIONS: mock.nodeOptions
+      }
+    });
+
+    assert.equal(status, 0);
+    assert.equal(output.flow_result, "GUARDED_FLOW_WRITE_DONE");
+    assert.equal(output.issue_key, "RT-7");
+    assert.equal(output.transition_id, "77");
+    assert.equal(output.target_status_name, "Review");
+    assert.equal(output.transition_step.verify_result, "VERIFIED_DONE");
+    assert.equal(output.transition_step.status_verified, true);
+    assert.equal(output.secrets_printed, false);
+  } finally {
+    cleanup(manifestPath);
+    rmSync(mock.tempDir, { recursive: true, force: true });
+  }
+});
+
+test("RIC approval manifest passes operator preflight into mocked guarded flow", () => {
+  const manifestPath = writeApprovalManifest("ric-approved", {
+    task_key: "RIC-STUDIO-105B",
+    project_key: "RIC",
+    issue_key: "RIC-4",
+    expected_before_status: "Review",
+    transition_id: "81",
+    target_status: "REMOTE DONE"
+  });
+  const mock = writeOperatorMockFetch("RIC-4", "REMOTE DONE", "30011");
+
+  try {
+    const { status, output } = flow([
+      "--issue", "RIC-4",
+      "--task-key", "RIC-STUDIO-105B",
+      "--transition-id", "81",
+      "--to", "REMOTE DONE",
+      "--owner-approved",
+      "--duplicate-risk-accepted",
+      "--transition-risk-accepted",
+      "--approval-manifest", manifestPath,
+      "--real-write"
+    ], {
+      env: {
+        JIRA_BASE_URL: "https://example.invalid",
+        JIRA_EMAIL: "synthetic@example.invalid",
+        JIRA_API_TOKEN: "synthetic-token",
+        NODE_OPTIONS: mock.nodeOptions
+      }
+    });
+
+    assert.equal(status, 0);
+    assert.equal(output.flow_result, "GUARDED_FLOW_WRITE_DONE");
+    assert.equal(output.issue_key, "RIC-4");
+    assert.equal(output.transition_id, "81");
+    assert.equal(output.target_status_name, "REMOTE DONE");
     assert.equal(output.transition_step.verify_result, "VERIFIED_DONE");
     assert.equal(output.transition_step.status_verified, true);
     assert.equal(output.secrets_printed, false);

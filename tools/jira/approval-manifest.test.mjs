@@ -11,6 +11,7 @@ const approvalDir = path.join(repoRoot, "docs", "validation", "jira-operator-app
 const approvedCommand = "node tools/jira/operator-safe-flow.mjs --issue DAY-11 --task-key RIC-STUDIO-101A --transition-id 31 --to Revisar --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write";
 const expected = {
   taskKey: "RIC-STUDIO-101A",
+  projectKey: "DAY",
   issueKey: "DAY-11",
   expectedBeforeStatus: "Backlog / Ready",
   transitionId: "31",
@@ -31,6 +32,7 @@ function writeManifest(name, overrides = {}) {
   const relativePath = relativeManifestPath(name);
   const manifest = {
     task_key: "RIC-STUDIO-101A",
+    project_key: "DAY",
     issue_key: "DAY-11",
     expected_before_status: "Backlog / Ready",
     transition_id: "31",
@@ -69,6 +71,7 @@ test("valid approval manifest passes validation", () => {
 
     assert.equal(result.approval_manifest_valid, true);
     assert.equal(result.task_key, "RIC-STUDIO-101A");
+    assert.equal(result.project_key, "DAY");
     assert.equal(result.issue_key, "DAY-11");
     assert.equal(result.expected_before_status, "Backlog / Ready");
     assert.equal(result.transition_id, "31");
@@ -100,6 +103,10 @@ test("issue mismatch blocks", () => {
   assertBlocked(writeManifest("issue-mismatch", { issue_key: "DAY-12" }), /issue mismatch/);
 });
 
+test("project mismatch blocks", () => {
+  assertBlocked(writeManifest("project-mismatch", { project_key: "RIC" }), /project mismatch|project_key must match/);
+});
+
 test("task key mismatch blocks", () => {
   assertBlocked(writeManifest("task-key-mismatch", { task_key: "RIC-STUDIO-OTHER" }), /task key mismatch/);
 });
@@ -121,6 +128,7 @@ test("missing risk acceptance blocks", () => {
   const absolutePath = path.resolve(repoRoot, relativePath);
   const manifest = {
     task_key: "RIC-STUDIO-101A",
+    project_key: "DAY",
     issue_key: "DAY-11",
     expected_before_status: "Backlog / Ready",
     transition_id: "31",

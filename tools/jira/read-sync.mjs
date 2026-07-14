@@ -54,6 +54,23 @@ function projectConfig(projectKey) {
   return REGISTERED_JIRA_PROJECTS.find((project) => project.key === projectKey) || null;
 }
 
+export function registeredJiraProjectKeys() {
+  return REGISTERED_JIRA_PROJECTS.map((project) => project.key);
+}
+
+export function isRegisteredJiraProjectKey(projectKey) {
+  return Boolean(projectConfig(normalizeString(projectKey)));
+}
+
+export function registeredJiraProject(projectKey) {
+  return projectConfig(normalizeString(projectKey));
+}
+
+export function jiraProjectKeyFromIssueKey(issueKey) {
+  const match = normalizeString(issueKey).match(/^([A-Z][A-Z0-9]+)-\d+$/);
+  return match ? match[1] : "";
+}
+
 function resolveRepoPath(relativePath) {
   return path.isAbsolute(relativePath) ? relativePath : path.join(repoRoot, relativePath);
 }

@@ -9,6 +9,7 @@ const repoRoot = path.resolve(here, "..", "..");
 const allowedApprovalDir = path.resolve(repoRoot, "docs", "validation", "jira-operator-approvals");
 const REQUIRED_FIELDS = [
   "task_key",
+  "project_key",
   "issue_key",
   "expected_before_status",
   "transition_id",
@@ -30,6 +31,11 @@ class ApprovalManifestError extends Error {
 
 function normalizeString(value) {
   return String(value || "").trim();
+}
+
+function projectKeyFromIssue(issueKey) {
+  const match = normalizeString(issueKey).match(/^([A-Z][A-Z0-9]+)-\d+$/);
+  return match ? match[1] : "";
 }
 
 function cleanRelative(resolvedPath) {
@@ -151,7 +157,12 @@ export function validateApprovalManifest({ manifestPath, expected = {} }) {
   }
 
   requireStringMatch({ manifest, expected, manifestField: "task_key", expectedField: "taskKey", label: "task key", findings });
+  requireStringMatch({ manifest, expected, manifestField: "project_key", expectedField: "projectKey", label: "project", findings });
   requireStringMatch({ manifest, expected, manifestField: "issue_key", expectedField: "issueKey", label: "issue", findings });
+  if (normalizeString(manifest.project_key) && normalizeString(manifest.issue_key) &&
+    normalizeString(manifest.project_key) !== projectKeyFromIssue(manifest.issue_key)) {
+    findings.push("manifest project_key must match issue_key project.");
+  }
   requireStringMatch({
     manifest,
     expected,
@@ -211,6 +222,7 @@ export function validateApprovalManifest({ manifestPath, expected = {} }) {
     approval_manifest_valid: true,
     approval_manifest_path: cleanRelative(resolvedPath),
     task_key: normalizeString(manifest.task_key),
+    project_key: normalizeString(manifest.project_key),
     issue_key: normalizeString(manifest.issue_key),
     expected_before_status: normalizeString(manifest.expected_before_status),
     transition_id: normalizeString(manifest.transition_id),
