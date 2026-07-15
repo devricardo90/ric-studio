@@ -9,6 +9,7 @@ export const REGISTERED_JIRA_PROJECTS = [
   { key: "RT", name: "Rick Travel" },
   { key: "DAY", name: "DayBudget" },
   { key: "RIC", name: "RIC Studio" },
+  { key: "GOM", name: "Garden Operations MVP" },
 ];
 
 export const JIRA_READ_FIELDS = [
@@ -37,7 +38,7 @@ function normalizeString(value) {
 }
 
 function normalizeStatusToken(value) {
-  return normalizeString(value).toUpperCase().replace(/[\s/-]+/g, "_").replace(/^_+|_+$/g, "");
+  return normalizeString(value).toUpperCase().replace(/\./g, "").replace(/[\s/-]+/g, "_").replace(/^_+|_+$/g, "");
 }
 
 function projectOrder(key) {
@@ -100,10 +101,11 @@ function buildAuthHeader(email, token) {
 
 export function normalizeJiraStatus(statusName) {
   const normalized = normalizeStatusToken(statusName);
+  if (normalized === "BACKLOG") return "BACKLOG";
   if (normalized === "BACKLOG_READY" || normalized === "READY") return "READY";
-  if (normalized === "IN_PROGRESS") return "IN_PROGRESS";
-  if (normalized === "REVIEW") return "REVIEW";
-  if (normalized === "DONE" || normalized === "REMOTE_DONE") return "DONE";
+  if (normalized === "IN_PROGRESS" || normalized === "EM_ANDAMENTO") return "IN_PROGRESS";
+  if (normalized === "REVIEW" || normalized === "REVISAR") return "REVIEW";
+  if (normalized === "DONE" || normalized === "REMOTE_DONE") return "REMOTE_DONE";
   return "UNKNOWN";
 }
 

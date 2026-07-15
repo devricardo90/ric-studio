@@ -1,0 +1,77 @@
+{
+  "task_key": "RIC-7",
+  "project_key": "GOM",
+  "issue_key": "GOM-1",
+  "expected_before_status": "Em andamento",
+  "expected_before_status_id": "10145",
+  "transition_id": "41",
+  "transition_name": "Itens concluídos",
+  "target_status": "REMOTE DONE.",
+  "target_status_id": "10147",
+  "owner_approved": true,
+  "duplicate_risk_accepted": true,
+  "transition_risk_accepted": true,
+  "unique_evidence_marker": "RIC-STUDIO-JIRA-EVIDENCE::Garden Operations MVP::RIC-7::add_evidence_comment::em-andamento->remote-done::transition-41",
+  "approved_audit_log_path": "docs/validation/jira-operator-runs/RIC-7-GOM-1-em-andamento-to-remote-done.jsonl",
+  "approved_command": "node tools/jira/operator-safe-flow.mjs --issue GOM-1 --task-key RIC-7 --transition-id 41 --to REMOTE DONE. --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_command_hash": "a2d519c3d56dea09f026152c286fd9a3ed28f7d0b97079216f8940caa0cf2abf",
+  "approval_timestamp": "2026-07-15T00:00:00.000Z",
+  "created_at": "2026-07-15T00:00:00.000Z",
+  "execution_task": {
+    "task_id": "RIC-7",
+    "task_key": "RIC-7",
+    "approved_product_commit": "937f11c854e7e474831e44333ce2545d784d539b"
+  },
+  "direct_transition_available": true,
+  "exact_transition_path": [
+    {
+      "step": 1,
+      "from_status": "Em andamento",
+      "from_status_id": "10145",
+      "transition_id": "41",
+      "transition_name": "Itens concluídos",
+      "target_status": "REMOTE DONE.",
+      "target_status_id": "10147"
+    }
+  ],
+  "single_execution_only": true,
+  "required_risk_flags": {
+    "owner_approved": true,
+    "duplicate_risk_accepted": true,
+    "transition_risk_accepted": true,
+    "single_issue_only": true,
+    "full_sync_performed": false,
+    "create_issue_performed": false,
+    "bulk_operation_performed": false,
+    "separate_comment_performed": false,
+    "jira_comment_performed": false,
+    "jira_transition_performed": false
+  },
+  "approved_queue_execute_command": "node tools/jira/queue-execute-approved.mjs --issue GOM-1 --task-key RIC-7 --transition-id 41 --to REMOTE DONE. --approval-manifest docs/validation/jira-operator-approvals/GOM-1-em-andamento-to-remote-done.json --owner-approved --duplicate-risk-accepted --transition-risk-accepted --real-write",
+  "approved_queue_execute_command_hash": "7ce3473aa1e6796c878622c4701dddbd4cae3f188d82555706d7a3f8ec3e313d",
+  "source_discovery": {
+    "source": "real_jira_get_only_discovery",
+    "http_methods_used": [
+      "GET"
+    ],
+    "project_key": "GOM",
+    "project_id": "10132",
+    "project_name": "Garden Operations MVP",
+    "issue_key": "GOM-1",
+    "current_status": "Em andamento",
+    "current_status_id": "10145",
+    "transition_id": "41",
+    "transition_name": "Itens concluídos",
+    "target_status": "REMOTE DONE.",
+    "target_status_id": "10147",
+    "jira_write_performed": false,
+    "jira_transition_performed": false,
+    "jira_comment_performed": false,
+    "full_sync_performed": false,
+    "create_issue_performed": false,
+    "bulk_operation_performed": false,
+    "secrets_printed": false
+  },
+  "manifest_candidate_only": true,
+  "execution_performed": false
+}

@@ -68,18 +68,23 @@ test("builds a GET-only registered-project Jira search request with dashboard fi
   assert.equal(request.method, "GET");
   assert.equal(request.endpoint_path, "/rest/api/3/search/jql");
   assert.equal(url.pathname, "/rest/api/3/search/jql");
-  assert.equal(url.searchParams.get("jql"), "project in (RT, DAY, RIC) ORDER BY project ASC, key ASC");
+  assert.equal(url.searchParams.get("jql"), "project in (RT, DAY, RIC, GOM) ORDER BY project ASC, key ASC");
   assert.equal(url.searchParams.get("fields"), "project,summary,status,issuetype,parent,assignee,labels,created,updated,customfield_10014,customfield_10020");
   assert.doesNotMatch(request.url, /synthetic-token-value|operator@example.invalid|Authorization|Basic/i);
 });
 
 test("normalizes lifecycle statuses without mapping unknown statuses to DONE", () => {
   assert.equal(normalizeJiraStatus("Backlog / Ready"), "READY");
+  assert.equal(normalizeJiraStatus("BACKLOG"), "BACKLOG");
   assert.equal(normalizeJiraStatus("Ready"), "READY");
+  assert.equal(normalizeJiraStatus("READY."), "READY");
   assert.equal(normalizeJiraStatus("In Progress"), "IN_PROGRESS");
+  assert.equal(normalizeJiraStatus("Em andamento"), "IN_PROGRESS");
   assert.equal(normalizeJiraStatus("Review"), "REVIEW");
-  assert.equal(normalizeJiraStatus("DONE"), "DONE");
-  assert.equal(normalizeJiraStatus("Remote DONE"), "DONE");
+  assert.equal(normalizeJiraStatus("Revisar"), "REVIEW");
+  assert.equal(normalizeJiraStatus("DONE"), "REMOTE_DONE");
+  assert.equal(normalizeJiraStatus("Remote DONE"), "REMOTE_DONE");
+  assert.equal(normalizeJiraStatus("REMOTE DONE."), "REMOTE_DONE");
   assert.equal(normalizeJiraStatus("QA Accepted"), "UNKNOWN");
 });
 
@@ -89,14 +94,16 @@ test("normalizes Jira issues, filters unregistered projects, and prevents duplic
     issue({ key: "DAY-2", projectKey: "DAY", projectName: "DayBudget", status: "Review" }),
     issue({ key: "RT-1", projectKey: "RT", projectName: "Rick Travel", status: "In Progress" }),
     issue({ key: "RIC-4", projectKey: "RIC", projectName: "RIC Studio", status: "QA Accepted" }),
+    issue({ key: "GOM-1", projectKey: "GOM", projectName: "Garden Operations MVP", status: "Em andamento" }),
     issue({ key: "ABC-1", projectKey: "ABC", projectName: "Other", status: "DONE" }),
   ]);
 
-  assert.deepEqual(normalized.issues.map((entry) => entry.issue_key), ["RT-1", "DAY-2", "RIC-4"]);
+  assert.deepEqual(normalized.issues.map((entry) => entry.issue_key), ["RT-1", "DAY-2", "RIC-4", "GOM-1"]);
   assert.deepEqual(normalized.duplicate_issue_keys_prevented, ["DAY-2"]);
-  assert.equal(normalized.issues.find((entry) => entry.issue_key === "DAY-2").lifecycle_status, "DONE");
+  assert.equal(normalized.issues.find((entry) => entry.issue_key === "DAY-2").lifecycle_status, "REMOTE_DONE");
   assert.equal(normalized.issues.find((entry) => entry.issue_key === "RIC-4").lifecycle_status, "UNKNOWN");
   assert.equal(normalized.issues.find((entry) => entry.issue_key === "RIC-4").status_mapping_known, false);
+  assert.equal(normalized.issues.find((entry) => entry.issue_key === "GOM-1").lifecycle_status, "IN_PROGRESS");
 });
 
 test("successful synchronization writes and verifies runtime cache with read-only flags", async () => {
@@ -105,7 +112,7 @@ test("successful synchronization writes and verifies runtime cache with read-onl
   const methods = [];
   const fetchImpl = async (url, options) => {
     methods.push(options.method);
-    assert.match(url, /project\+in\+%28RT%2C\+DAY%2C\+RIC%29|project\+in\+%28RT%2C\+DAY%2C\+RIC%29/i);
+    assert.match(url, /project\+in\+%28RT%2C\+DAY%2C\+RIC%2C\+GOM%29|project\+in\+%28RT%2C\+DAY%2C\+RIC%2C\+GOM%29/i);
     assert.equal(options.method, "GET");
     assert.match(options.headers.Authorization, /^Basic /);
     return response({
@@ -113,6 +120,7 @@ test("successful synchronization writes and verifies runtime cache with read-onl
         issue({ key: "RT-1", projectKey: "RT", projectName: "Rick Travel", status: "Backlog / Ready" }),
         issue({ key: "DAY-12", projectKey: "DAY", projectName: "DayBudget", status: "Remote DONE" }),
         issue({ key: "RIC-4", projectKey: "RIC", projectName: "RIC Studio", status: "Review" }),
+        issue({ key: "GOM-1", projectKey: "GOM", projectName: "Garden Operations MVP", status: "Em andamento" }),
       ],
     });
   };
@@ -127,15 +135,15 @@ test("successful synchronization writes and verifies runtime cache with read-onl
 
   assert.deepEqual(methods, ["GET"]);
   assert.equal(snapshot.last_successful_synchronization_at, "2026-07-13T12:00:00.000Z");
-  assert.equal(snapshot.issue_count, 3);
+  assert.equal(snapshot.issue_count, 4);
   assert.equal(snapshot.cached_data_shown, false);
   assert.equal(snapshot.jira_write_performed, false);
   assert.equal(snapshot.full_sync_performed, false);
   assert.equal(snapshot.create_issue_performed, false);
   assert.equal(snapshot.bulk_operation_performed, false);
   assert.equal(snapshot.secrets_printed, false);
-  assert.equal(cache.issues.length, 3);
-  assert.deepEqual(snapshot.grouped_by_project.map((group) => group.project_key), ["RT", "DAY", "RIC"]);
+  assert.equal(cache.issues.length, 4);
+  assert.deepEqual(snapshot.grouped_by_project.map((group) => group.project_key), ["RT", "DAY", "RIC", "GOM"]);
 
   await rm(testCache, { force: true });
 });
